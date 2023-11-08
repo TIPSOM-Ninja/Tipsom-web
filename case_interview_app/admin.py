@@ -28,8 +28,8 @@ class IdTypeAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(DataEntryType)
-class DataEntryTypeAdmin(admin.ModelAdmin):
+@admin.register(DataEntryPurpose)
+class DataEntryPurposeAdmin(admin.ModelAdmin):
     pass
 
 
