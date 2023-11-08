@@ -19,5 +19,9 @@ from django.urls import include,path
 
 urlpatterns = [
     path('', include('case_interview_app.urls')),
-    path('admin/', admin.site.urls),
+    path('central/', admin.site.urls),
 ]
+
+admin.site.site_title = "Tipnet"
+admin.site.site_header = "Tipnet administration"
+admin.site.index_title = "Site administration"

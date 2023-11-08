@@ -98,8 +98,8 @@ class TransitRouteDestinationAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(SuspectedTraficker)
-class SuspectedTrafickerAdmin(admin.ModelAdmin):
+@admin.register(SuspectedTrafficker)
+class SuspectedTraffickerAdmin(admin.ModelAdmin):
     pass
 
 

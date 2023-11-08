@@ -5,65 +5,118 @@ from django.db import models
 class Country(models.Model):
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class Language(models.Model):
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class Gender(models.Model):
     name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class Race(models.Model):
     name = models.CharField(max_length=50)
 
 
+    def __str__(self):
+        return f"{self.name}"
+
+
 class IdType(models.Model):
     name = models.CharField(max_length=50)
+
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class DataEntryPurpose(models.Model):
     name = models.CharField(max_length=50)
 
 
+    def __str__(self):
+        return f"{self.name}"
+
+
 class InvestigationStatus(models.Model):
     name = models.CharField(max_length=50)
+
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class TraffickerOrg(models.Model):
     name = models.CharField(max_length=50)
 
 
+    def __str__(self):
+        return f"{self.name}"
+
+
 class RoleInTrafficking(models.Model):
     name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class CaseStatus(models.Model):
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class TrialCourt(models.Model):
     name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class GuiltyReason(models.Model):
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class ProsecutionOutcome(models.Model):
     name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class AquitalReason(models.Model):
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class SanctionPenalty(models.Model):
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class TransportMean(models.Model):
     name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class VictimProfile(models.Model):
@@ -76,8 +129,8 @@ class VictimProfile(models.Model):
     languages = models.ManyToManyField(Country, related_name = "victims_lang", null=True, blank=True)
     gender = models.ForeignKey(Gender, related_name = "victims", on_delete=models.CASCADE, null=True, blank=True)
     race = models.ForeignKey(Race, related_name = "victims", on_delete=models.CASCADE, null=True, blank=True)
-    identification_type = models.ForeignKey(
-        IdType, related_name = "victims", on_delete=models.CASCADE, null=True, blank=True
+    identification_type = models.ManyToManyField(
+        IdType, related_name = "victims", null=True, blank=True
     )
     place_of_birth = models.CharField(max_length=50, null=True, blank=True)
     last_place_of_residence = models.ForeignKey(
