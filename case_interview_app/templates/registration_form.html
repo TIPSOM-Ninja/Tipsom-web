@@ -49,7 +49,7 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label for="country" class="form-label">{% trans "Country:" %}</label>
-                        {{interviewer.country}}
+                        
                         <select class="form-select" name="country" id="country" aria-label="Default select example" required>
                             <option {% if interviewer.country_id == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
                             {% for country in countries %}
