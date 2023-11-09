@@ -132,15 +132,17 @@
                         </div>
                         
                     </div>
-                    <div class="col-md-6">
-                        <label for="emailAddress" class="form-label">{% trans "Email address:" %}</label>
-                        <input type="text" name = "email_address" value = "{{victim.email_address}}" autocomplete="username" class="form-control" id="emailAddress" aria-describedby="emailAddressHelp" required>
-                        
-                    </div>
-                    <div class="col-md-6">
-                        <label for="additionalRemarks" class="form-label">{% trans "Additional Remarks:" %}</label>
-                        <textarea type="text" name = "additional_remarks" value = "{{victim.additional_remarks}}" class="form-control" id="additionalRemarks" aria-describedby="additionalRemarksHelp" rows="3"></textarea>
-                        
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="emailAddress" class="form-label">{% trans "Email address:" %}</label>
+                            <input type="text" name = "email_address" value = "{{victim.email_address}}" autocomplete="username" class="form-control" id="emailAddress" aria-describedby="emailAddressHelp" required>
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <label for="additionalRemarks" class="form-label">{% trans "Additional Remarks:" %}</label>
+                            <textarea type="text" name = "additional_remarks" value = "{{victim.additional_remarks}}" class="form-control" id="additionalRemarks" aria-describedby="additionalRemarksHelp" rows="3"></textarea>
+                            
+                        </div>
                     </div>
                     
 
