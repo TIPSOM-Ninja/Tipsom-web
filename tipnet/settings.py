@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import environ
+import os
 from django.utils.translation import gettext_lazy as _
 
 env = environ.Env()
@@ -139,3 +140,5 @@ LANGUAGES = (
 )
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
+
+STATIC_ROOT = os.path.join(BASE_DIR,'static/')
