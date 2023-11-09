@@ -15,29 +15,31 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><a class="dropdown-item " href="?language=en-us">ENGLISH</a></li>
                       <li><a class="dropdown-item " href="?language=fr">FRENCH</a></li>
+                      <li><a class="dropdown-item " href="?language=fr">PORTUGUESE</a></li>
+
                     </ul>
                   </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="#">{% trans "CASES" %}</a>
+                    <a class="nav-link text-light" href="/cases">{% trans "ALL CASES" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="#">{% trans "INTERVIEWER" %}</a>
+                    <a class="nav-link text-light" href="/">{% trans "INTERVIEWER" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="#">{% trans "PROSECUTION" %}</a>
+                    <a class="nav-link text-light" href="/investigation_form">{% trans "INVESTIGATOR" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">{% trans "PROSECUTOR" %}</a>
                 </li>
                 {% if not user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="/investigation_form">{% translate "SIGN UP" %}</a>
+                    <a class="nav-link text-light" href="/">{% translate "SIGN UP" %}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-light" href="/login">{% translate "SIGN IN" %}</a>
                 </li>
                 {% elif user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link text-warning" href="/investigation_form">{% translate "INVESTIGATOR" %}</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link text-warning" href="/logout">{% translate "SIGN OUT" %}</a>
                 </li>

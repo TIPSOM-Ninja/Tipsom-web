@@ -49,6 +49,10 @@ def interviewer_registration(request):
                 user.save()
                 login(request,user)
                 messages.success(request,"Welcome "+interviewer.first_name+". Interviewer successfully created.")
+                if interviewer.data_entry_purpose_id==1:
+                    return redirect('/investigation_form')
+                else:
+                    return redirect('/investigation_form')
             elif(request.user.is_authenticated and (request.POST['password']!=None)):
                 user = request.user
                 user.set_password(request.POST['password'])
@@ -59,13 +63,22 @@ def interviewer_registration(request):
     return render(request,"registration_form.html",context)
 
 def investigation_form(request):
-    
+    if request.GET.get('language') is not None:
+        activate(request.GET.get('language'))
     if(request.user.is_authenticated):
         countries = Country.objects.all()
         purposes = DataEntryPurpose.objects.all()
+        languages = Language.objects.all()
+        genders = Gender.objects.all()
+        races = Race.objects.all()
+        idtypes = IdType.objects.all()
         context = {
             "countries":countries,
-            "purposes":purposes
+            "purposes":purposes,
+            "languages":languages,
+            "genders":genders,
+            "races":races,
+            "idtypes":idtypes
         }
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         context['interviewer']=interviewer
@@ -74,7 +87,17 @@ def investigation_form(request):
 
     return render(request,"investigation_form.html",context)
 
+def cases(request):
+    if request.GET.get('language') is not None:
+        activate(request.GET.get('language'))
+    victims = VictimProfile.objects.all()
+    context = {
+        "victims":victims
+    }
+    return render(request,"cases.html",context)
 def signin(request):
+    if request.GET.get('language') is not None:
+        activate(request.GET.get('language'))
     if request.method == "POST":
         user = authenticate(request, username=request.POST['username'],password=request.POST['password'])
         if user is not None:
