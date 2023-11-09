@@ -3,13 +3,21 @@ from django.contrib.auth.models import User
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.utils.translation import activate, get_language_info
+
+
+def change_language(request,language):
+    activate(language)
+    return redirect(request.META.get('HTTP_REFERER'))
 
 # Create your views here.
 def interviewer_registration(request):
 
-    
+    if request.GET['language']:
+        activate(request.GET['language'])
     countries = Country.objects.all()
     purposes = DataEntryPurpose.objects.all()
+
     context = {
         "countries":countries,
         "purposes":purposes

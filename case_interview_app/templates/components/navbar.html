@@ -2,11 +2,21 @@
 <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #134b99;">
     <div class="container-fluid">
       <a class="navbar-brand text-warning" href="#">TiPNET</a>
+      
       <button class="navbar-toggler text-warning" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon text-warning"></span>
       </button>
       <div class="collapse navbar-collapse w-100 order-1 dual-collapse2" id="navbarNav">
             <ul class="navbar-nav ms-auto gy-5">
+                <li class="nav-item  dropdown">
+                    <a class="nav-link text-light dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      {% trans "LANGUAGES" %}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item " href="?language=fr">ENGLISH</a></li>
+                      <li><a class="dropdown-item " href="?language=fr">FRENCH</a></li>
+                    </ul>
+                  </li>
                 <li class="nav-item">
                     <a class="nav-link text-light" href="#">{% trans "INTERVIEWER" %}</a>
                 </li>
