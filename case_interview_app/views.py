@@ -13,8 +13,8 @@ def change_language(request,language):
 # Create your views here.
 def interviewer_registration(request):
 
-    if request.GET['language']:
-        activate(request.GET['language'])
+    if request.GET.get('language') is not None:
+        activate(request.GET.get('language'))
     countries = Country.objects.all()
     purposes = DataEntryPurpose.objects.all()
 
