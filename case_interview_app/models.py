@@ -118,6 +118,17 @@ class TransportMean(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+class Verdict(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class ApprovalStatus(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
 
 class VictimProfile(models.Model):
     citizenship = models.ForeignKey(
@@ -146,10 +157,12 @@ class VictimProfile(models.Model):
         auto_now=False, auto_now_add=False, null=True, blank=True
     )
     additional_remarks = models.TextField(null=True, blank=True)
-
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "victimprofile", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
 
 class Interviewer(models.Model):
-    victim = models.ForeignKey(VictimProfile, on_delete=models.CASCADE, null=True, blank=True)
     country = models.ForeignKey(
         Country, related_name = "interviewers", on_delete=models.CASCADE, null=True, blank=True
     )
@@ -160,7 +173,13 @@ class Interviewer(models.Model):
     last_name = models.CharField(max_length=50, null=True, blank=True)
     position = models.CharField(max_length=50, null=True, blank=True)
     organization = models.CharField(max_length=50, null=True, blank=True)
+    address = models.CharField(max_length=50, null=True, blank=True)
     email_address = models.EmailField(max_length=254, null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "interviewers", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    victims = models.ManyToManyField(VictimProfile, null=True, blank=True)
 
 
 class TransitRouteDestination(models.Model):

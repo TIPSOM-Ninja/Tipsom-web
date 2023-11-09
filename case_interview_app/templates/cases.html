@@ -1,0 +1,20 @@
+{% extends "layouts/master.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container">
+    <button type="submit" class="btn btn-primary">{% translate "LOGIN" %}</button>
+    {% for victim in victims %}
+    <div class="card text-bg-light">
+        <h5 class="card-title">{{victim.first_name}}</h5>
+        <div class="row g-0">
+            <div class="col-md-4">
+              
+            </div>
+            <div class="col-md-8">
+            </div>
+        </div>    
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

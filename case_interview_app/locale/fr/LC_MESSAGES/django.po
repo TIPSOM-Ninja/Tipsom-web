@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-08 16:06+0300\n"
+"POT-Creation-Date: 2023-11-08 20:53+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,54 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-#: .\templates\registration_form.html:5
-msgid "Hello world"
-msgstr "Bonjour le monde"
+
+#: .\templates\components\navbar.html:12
+msgid "Interviewer"
+msgstr "Enquêteur"
+
+#: .\templates\components\navbar.html:15
+msgid "Prosecution"
+msgstr "Prosecution"
+
+#: .\templates\components\navbar.html:18
+msgid "Investigation"
+msgstr "Enquête"
+
+#: .\templates\registration_form.html:8
+msgid "First Name(s):"
+msgstr "Prénom(s):"
+
+#: .\templates\registration_form.html:13
+msgid "Family Name(s):"
+msgstr "Nom(s) de famille:"
+
+#: .\templates\registration_form.html:18
+msgid "Position:"
+msgstr "Poste:"
+
+#: .\templates\registration_form.html:23
+msgid "Authority/Organization:"
+msgstr "Autorité/Organisation:"
+
+#: .\templates\registration_form.html:28
+msgid "Address:"
+msgstr "Adresse:"
+
+#: .\templates\registration_form.html:33
+msgid "Email address:"
+msgstr "Adresse électronique:"
+
+#: .\templates\registration_form.html:38
+msgid "Country:"
+msgstr "Pays:"
+
+#: .\templates\registration_form.html:40
+msgid "roll down list for country"
+msgstr "liste déroulante des pays"
+
+#: .\templates\registration_form.html:47
+msgid "Purpose of data entry:"
+msgstr "Objet de la saisie des données:"
+
+#~ msgid "Hello world"
+#~ msgstr "Bonjour le monde"

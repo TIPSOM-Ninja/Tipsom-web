@@ -111,3 +111,7 @@ class ArrestInvestigationAdmin(admin.ModelAdmin):
 @admin.register(Prosecution)
 class ProsecutionAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(ApprovalStatus)
+class ApprovalStatusAdmin(admin.ModelAdmin):
+    pass

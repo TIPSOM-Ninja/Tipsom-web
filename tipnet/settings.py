@@ -137,3 +137,5 @@ LANGUAGES = (
     ('en-us', _('English')),
     ('fr', _('French')),
 )
+
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"

@@ -1,22 +1,36 @@
 {% load i18n %}
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #134b99;">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+      <a class="navbar-brand text-warning" href="#">TiPNET</a>
+      <button class="navbar-toggler text-warning" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon text-warning"></span>
       </button>
       <div class="collapse navbar-collapse w-100 order-1 dual-collapse2" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                
+            <ul class="navbar-nav ms-auto gy-5">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{% trans "Interviewer" %}</a>
+                    <a class="nav-link text-light" href="#">{% trans "INTERVIEWER" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{% trans "Prosecution" %}</a>
+                    <a class="nav-link text-light" href="#">{% trans "CASES" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="#">{% trans "Investigation" %}</a>
+                    <a class="nav-link text-light" href="#">{% trans "PROSECUTION" %}</a>
                 </li>
+                {% if not user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/investigation_form">{% translate "SIGN UP" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/login">{% translate "SIGN IN" %}</a>
+                </li>
+                {% elif user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link text-warning" href="/investigation_form">{% translate "INVESTIGATOR" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-warning" href="/logout">{% translate "SIGN OUT" %}</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>
