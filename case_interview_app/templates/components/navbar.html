@@ -1,5 +1,5 @@
 {% load i18n %}
-<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #134b99;">
+<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #1860c3;">
     <div class="container-fluid">
       <a class="navbar-brand text-warning" href="#">TiPNET</a>
       
@@ -13,24 +13,18 @@
                       {% trans "LANGUAGES" %}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item " href="?language=en-us">ENGLISH</a></li>
-                      <li><a class="dropdown-item " href="?language=fr">FRENCH</a></li>
-                      <li><a class="dropdown-item " href="?language=fr">PORTUGUESE</a></li>
+                      <li><a class="dropdown-item " href="{% if '?' in request.build_absolute_uri %}{{request.build_absolute_uri}}&language=en-us{% else %}{{request.build_absolute_uri}}?language=en-us{% endif %}">{% trans "ENGLISH" %}</a></li>
+                      <li><a class="dropdown-item " href="{% if '?' in request.build_absolute_uri %}{{request.build_absolute_uri}}&language=fr{% else %}{{request.build_absolute_uri}}?language=fr{% endif %}">{% trans "FRENCH" %}</a></li>
+                      <li><a class="dropdown-item " href="{% if '?' in request.build_absolute_uri %}{{request.build_absolute_uri}}&language=por{% else %}{{request.build_absolute_uri}}?language=por{% endif %}">{% trans "PORTUGUESE" %}</a></li>
 
                     </ul>
                   </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="/cases">{% trans "ALL CASES" %}</a>
+                    <a class="nav-link text-light" href="/cases">{% translate "ALL CASES" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="/">{% trans "INTERVIEWER" %}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="/investigation_form">{% trans "INVESTIGATOR" %}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#">{% trans "PROSECUTOR" %}</a>
+                    <a class="nav-link text-light" href="/">{% translate "PROFILE" %}</a>
                 </li>
                 {% if not user.is_authenticated %}
                 <li class="nav-item">

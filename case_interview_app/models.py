@@ -137,7 +137,7 @@ class VictimProfile(models.Model):
     countryOfBirth = models.ForeignKey(
         Country, related_name = "victims_country",  on_delete=models.CASCADE, null=True, blank=True
     )
-    languages = models.ManyToManyField(Country, related_name = "victims_lang", null=True, blank=True)
+    languages = models.ManyToManyField(Language, related_name = "victims_lang", null=True, blank=True)
     gender = models.ForeignKey(Gender, related_name = "victims", on_delete=models.CASCADE, null=True, blank=True)
     race = models.ForeignKey(Race, related_name = "victims", on_delete=models.CASCADE, null=True, blank=True)
     identification_type = models.ManyToManyField(
@@ -237,14 +237,16 @@ class SuspectedTrafficker(models.Model):
 
 class ArrestInvestigation(models.Model):
     victim = models.ForeignKey(VictimProfile, related_name = "investigations", on_delete=models.CASCADE, null=True, blank=True)
-    trafficker = models.ForeignKey(
-        SuspectedTrafficker, related_name = "investigations",  on_delete=models.CASCADE, null=True, blank=True
-    )
+    # clarify on trafficker
+    # trafficker = models.ForeignKey(
+    #     SuspectedTrafficker, related_name = "investigations",  on_delete=models.CASCADE, null=True, blank=True
+    # )
+    org_crime = models.BooleanField(null=True, blank=True)
     suspects_arrested = models.BooleanField(null=True, blank=True)
     why_no_arrest = models.TextField(null=True, blank=True)
     victim_smuggled = models.BooleanField(null=True, blank=True)
-    how_traffickers_org = models.ForeignKey(
-        TraffickerOrg,  related_name = "investigations", on_delete=models.CASCADE, null=True, blank=True
+    how_traffickers_org = models.ManyToManyField(
+        TraffickerOrg,  related_name = "investigations", null=True, blank=True
     )
     investigation_done = models.BooleanField(null=True, blank=True)
     why_no_investigation = models.TextField(null=True, blank=True)
@@ -253,6 +255,12 @@ class ArrestInvestigation(models.Model):
     )
     why_pending = models.TextField(null=True, blank=True)
     withdrawn_closed_reason = models.TextField(null=True, blank=True)
+    interviewer = models.ForeignKey(Interviewer, related_name = "investigations", on_delete=models.CASCADE, null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "investigations", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    
 
 
 class Prosecution(models.Model):
