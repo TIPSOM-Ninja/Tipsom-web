@@ -2,14 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-13 19:15+0300\n"
-"PO-Revision-Date: 2023-11-13 18:30+0000\n"
+"PO-Revision-Date: 2023-11-13 19:35+0000\n"
 "Last-Translator:   <jrarui.jr@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -21,100 +21,107 @@ msgstr ""
 
 #: .\case_interview_app\templates\cases.html:7
 msgid "ADD CASE"
-msgstr ""
+msgstr "AJOUTER UN CAS"
 
 #: .\case_interview_app\templates\components\navbar.html:13
 #: .\case_interview_app\templates\index.html:28
 msgid "LANGUAGES"
-msgstr ""
+msgstr "LANGAGES"
 
 #: .\case_interview_app\templates\components\navbar.html:16
 #: .\case_interview_app\templates\index.html:31
 msgid "ENGLISH"
-msgstr ""
+msgstr "ANGLAIS"
 
 #: .\case_interview_app\templates\components\navbar.html:17
 #: .\case_interview_app\templates\index.html:32
 msgid "FRENCH"
-msgstr ""
+msgstr "FRANÇAIS"
 
 #: .\case_interview_app\templates\components\navbar.html:18
 #: .\case_interview_app\templates\index.html:33
 msgid "PORTUGUESE"
-msgstr ""
+msgstr "PORTUGAIS"
 
 #: .\case_interview_app\templates\components\navbar.html:24
 #: .\case_interview_app\templates\index.html:47
 msgid "ALL CASES"
-msgstr ""
+msgstr "TOUS LES CAS"
 
 #: .\case_interview_app\templates\components\navbar.html:27
 msgid "PROFILE"
-msgstr ""
+msgstr "PROFIL"
 
 #: .\case_interview_app\templates\components\navbar.html:31
 #: .\case_interview_app\templates\index.html:44
 msgid "SIGN UP"
-msgstr ""
+msgstr "S'INSCRIRE"
 
 #: .\case_interview_app\templates\components\navbar.html:34
 #: .\case_interview_app\templates\index.html:45
 msgid "SIGN IN"
-msgstr ""
+msgstr "SE CONNECTER"
 
 #: .\case_interview_app\templates\components\navbar.html:38
 msgid "SIGN OUT"
-msgstr ""
+msgstr "SE DÉCONNECTER"
 
 #: .\case_interview_app\templates\index.html:37
 msgid "Home"
-msgstr ""
+msgstr "Accueil"
 
 #: .\case_interview_app\templates\index.html:38
 #: .\case_interview_app\templates\index.html:85
 msgid "About"
-msgstr ""
+msgstr "À propos"
 
 #: .\case_interview_app\templates\index.html:39
 #: .\case_interview_app\templates\index.html:141
 msgid "Features"
-msgstr ""
+msgstr "Caractéristiques"
 
 #: .\case_interview_app\templates\index.html:40
 msgid "Members"
-msgstr ""
+msgstr "Membres"
 
 #: .\case_interview_app\templates\index.html:41
 msgid "Faq"
-msgstr ""
+msgstr "FAQ"
 
 #: .\case_interview_app\templates\index.html:42
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #: .\case_interview_app\templates\index.html:62
 msgid "Trafficking Case Interview App"
-msgstr ""
+msgstr "Application d'entretien sur des cas de traite"
 
 #: .\case_interview_app\templates\index.html:63
 msgid "Conduct trafficking interviews easily on the go."
 msgstr ""
+"Menez facilement des entretiens sur la traite lors de vos déplacements."
 
 #: .\case_interview_app\templates\index.html:64
 msgid ""
 "Empower Insight, Liberate Data: Revolutionize Trafficking Awareness with "
 "with Precision and Privacy. Seamless Collection and Analysis made easy."
 msgstr ""
+"Renforcez la connaissance et libérez les données : révolutionnez la "
+"sensibilisation au trafic avec précision et confidentialité. Collecte et "
+"analyse transparentes simplifiées."
 
 #: .\case_interview_app\templates\index.html:66
 msgid "Get Started"
-msgstr ""
+msgstr "Commencer"
 
 #: .\case_interview_app\templates\index.html:87
 msgid ""
 "Unleash the power of our data collection app to combat trafficking. Your "
 "contribution makes a difference in the fight for a safer world."
 msgstr ""
+"Libérez la puissance de notre application de collecte de données pour lutter"
+" contre le trafic. Votre contribution fait la différence dans la lutte pour "
+"un monde plus sûr."
 
 #: .\case_interview_app\templates\index.html:99
 msgid "Cross Platform"
@@ -122,11 +129,11 @@ msgstr ""
 
 #: .\case_interview_app\templates\index.html:110
 msgid "Get started"
-msgstr ""
+msgstr "Commencer"
 
 #: .\case_interview_app\templates\index.html:121
 msgid "Want a tutorial? Watch Now"
-msgstr ""
+msgstr "Vous voulez un tutoriel ? Regarde maintenant"
 
 #: .\case_interview_app\templates\index.html:173
 msgid "Fast Processing"
@@ -134,21 +141,23 @@ msgstr ""
 
 #: .\case_interview_app\templates\index.html:234
 msgid "SADC Member Countries"
-msgstr ""
+msgstr "Pays membres de la SADC"
 
 #: .\case_interview_app\templates\index.html:236
 msgid ""
 "This project is an initiative of SADC to combat trafficking in the region. "
 "The member states are as follows."
 msgstr ""
+"Ce projet est une initiative de la SADC pour lutter contre le trafic dans la"
+" région. Les États membres sont les suivants."
 
 #: .\case_interview_app\templates\index.html:320
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Questions fréquemment posées"
 
 #: .\case_interview_app\templates\index.html:365
 msgid "Contact us"
-msgstr ""
+msgstr "Contactez-nous"
 
 #: .\case_interview_app\templates\investigation_form.html:23
 msgid "INVESTIGATION DATA"
@@ -289,7 +298,8 @@ msgstr "Le trafiquant a-t-il des liens avec le crime organisé?"
 msgid ""
 "Was the victim travelling with or using the services of migrant smugglers?:"
 msgstr ""
-"La victime voyageait-elle avec des passeurs ou utilisait-elle leurs services?"
+"La victime voyageait-elle avec des passeurs ou utilisait-elle leurs "
+"services?"
 
 #: .\case_interview_app\templates\investigation_form.html:274
 msgid "How is the trafficker(s) organized?:"
