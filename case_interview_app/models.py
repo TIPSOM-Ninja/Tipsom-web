@@ -4,6 +4,7 @@ from django.db import models
 # Create your models here.
 class Country(models.Model):
     name = models.CharField(max_length=50)
+    flag = models.CharField(max_length=150, null=True, blank=True)
 
     def __str__(self):
         return f"{self.name}"
@@ -233,7 +234,12 @@ class SuspectedTrafficker(models.Model):
         Country, related_name = "to_traffickers", on_delete=models.CASCADE, null=True, blank=True
     )
     traffick_to_place = models.CharField(null=True, blank=True, max_length=50)
-
+    interviewer = models.ForeignKey(Interviewer, related_name = "traffickers", on_delete=models.CASCADE, null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "traffickers", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    
 
 class ArrestInvestigation(models.Model):
     victim = models.ForeignKey(VictimProfile, related_name = "investigations", on_delete=models.CASCADE, null=True, blank=True)

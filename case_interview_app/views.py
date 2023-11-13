@@ -5,7 +5,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils.translation import activate, get_language_info
 
-
+def index(request):
+    countries = Country.objects.all().order_by('name').values()
+    context = {
+        "countries":countries,
+     
+    }
+    return render(request,"index.html",context)
 def change_language(request,language):
     activate(language)
     return redirect(request.META.get('HTTP_REFERER'))
@@ -95,7 +101,10 @@ def investigation_form(request):
             context['v_id'] = request.session['v_id']
             context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
             context['arrest'] = ArrestInvestigation.objects.filter(victim_id = request.session['v_id'],interviewer_id=interviewer.id).first()
-        
+            context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = request.session['v_id'],interviewer_id=interviewer.id)
+            context['suspect_count'] = len(context['suspects']) if len(context['suspects'])>0 else 1
+            context['suspect_add'] = 0
+
         context['interviewer']=interviewer
     else:
         return redirect("/login")

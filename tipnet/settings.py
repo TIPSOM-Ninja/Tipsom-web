@@ -43,18 +43,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'case_interview_app'
+    'case_interview_app',
+    'rosetta'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'tipnet.urls'
@@ -134,9 +136,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR,'locale/'),
+]
+
 LANGUAGES = (
-    ('en-us', _('English')),
+    ('en', _('English')),
     ('fr', _('French')),
+    ('pt',_('Portuguese'))
 )
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"

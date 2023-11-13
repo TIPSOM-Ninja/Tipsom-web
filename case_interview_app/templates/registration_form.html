@@ -10,67 +10,78 @@
         <div class="card-body">
             <form id="interviewer_form" method="post">
                 {% csrf_token %}
-                <div class="row g-3">
+                <div class="row g-3 my-0">
                     <div class="col-md-6">
-                        <label for="firstName" class="form-label">{% trans "First Name(s):" %}</label>
-                        <input type="text" name = "first_name" value = "{{interviewer.first_name}}"class="form-control" id="firstName"  required>
-                        
+                        <div class="px-2 py-2 h-100 bg-light border rounded">
+                            <label for="firstName" class="form-label">{% trans "First Name(s):" %}</label>
+                            <input type="text" name = "first_name" value = "{{interviewer.first_name}}"class="form-control" id="firstName"  required>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="familyName" class="form-label">{% trans "Family Name(s):" %}</label>
-                        <input type="text" name = "last_name" value = "{{interviewer.last_name}}" class="form-control" id="familyName" aria-describedby="familyNameHelp" required>
-                        
-                    </div>
-                </div>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label for="position" class="form-label">{% trans "Position:" %}</label>
-                        <input type="text" name = "position" value = "{{interviewer.position}}"class="form-control" id="position" aria-describedby="positionHelp" required>
-                        
-                    </div>
-                    <div class="col-md-6">
-                        <label for="organization" class="form-label">{% trans "Authority/Organization:" %}</label>
-                        <input type="text" name = "organization" value = "{{interviewer.organization}}" class="form-control" id="organization" aria-describedby="organizationHelp" required>
-                        
+                        <div class="px-2 py-2 h-100 bg-light border rounded">
+                            <label for="familyName" class="form-label">{% trans "Family Name(s):" %}</label>
+                            <input type="text" name = "last_name" value = "{{interviewer.last_name}}" class="form-control" id="familyName" aria-describedby="familyNameHelp" required>
+                        </div>
                     </div>
                 </div>
-                <div class="row g-3">
+                <div class="row g-3 my-0">
                     <div class="col-md-6">
-                        <label for="address" class="form-label">{% trans "Address:" %}</label>
-                        <input type="text" name = "address" value = "{{interviewer.address}}" class="form-control" id="address" aria-describedby="addressHelp" required>
-                        
+                        <div class="px-2 py-2 h-100 bg-light border rounded">
+                            <label for="position" class="form-label">{% trans "Position:" %}</label>
+                            <input type="text" name = "position" value = "{{interviewer.position}}"class="form-control" id="position" aria-describedby="positionHelp" required>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="emailAddress" class="form-label">{% trans "Email address:" %}</label>
-                        <input type="text" name = "email_address" value = "{{interviewer.email_address}}" autocomplete="username" class="form-control" id="emailAddress" aria-describedby="emailAddressHelp" required>
-                        
+                        <div class="px-2 py-2 h-100 bg-light border rounded">
+                            <label for="organization" class="form-label">{% trans "Authority/Organization:" %}</label>
+                            <input type="text" name = "organization" value = "{{interviewer.organization}}" class="form-control" id="organization" aria-describedby="organizationHelp" required>
+                        </div>
                     </div>
                 </div>
-                <div class="row g-3">
+                <div class="row g-3 my-0">
                     <div class="col-md-6">
-                        <label for="country" class="form-label">{% trans "Country:" %}</label>
-                        
-                        <select class="form-select" name="country" id="country" aria-label="Default select example" required>
-                            <option {% if interviewer.country_id == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
-                            {% for country in countries %}
-                                <option {% if interviewer.country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
-                            {% endfor %}
-                        </select>
+                        <div class="px-2 py-2 h-100 bg-light border rounded">
+                            <label for="address" class="form-label">{% trans "Address:" %}</label>
+                            <input type="text" name = "address" value = "{{interviewer.address}}" class="form-control" id="address" aria-describedby="addressHelp" required>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="purpose" class="form-label">{% trans "Purpose of data entry:" %}</label>
-                        <select class="form-select" name = "purpose" id="purpose" aria-label="Default select example" required>
-                            {% for purpose in purposes %}
-                                <option {% if interviewer.purpose_id == purpose.id%}selected{% endif %}  value="{{purpose.id}}">{% trans purpose.name %}</option>
-                            {% endfor %}
-                        </select>
+                        <div class="px-2 py-2 h-100 bg-light border rounded">
+                            <label for="emailAddress" class="form-label">{% trans "Email address:" %}</label>
+                            <input type="text" name = "email_address" value = "{{interviewer.email_address}}" autocomplete="username" class="form-control" id="emailAddress" aria-describedby="emailAddressHelp" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3 my-0">
+                    <div class="col-md-6">
+                        <div class="px-2 py-2 h-100 bg-light border rounded">
+                            <label for="country" class="form-label">{% trans "Country:" %}</label>
+                            
+                            <select class="form-select" name="country" id="country" aria-label="Default select example" required>
+                                <option {% if interviewer.country_id == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
+                                {% for country in countries %}
+                                    <option {% if interviewer.country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="px-2 py-2 h-100 bg-light border rounded">
+                            <label for="purpose" class="form-label">{% trans "Purpose of data entry:" %}</label>
+                            <select class="form-select" name = "purpose" id="purpose" aria-label="Default select example" required>
+                                {% for purpose in purposes %}
+                                    <option {% if interviewer.purpose_id == purpose.id%}selected{% endif %}  value="{{purpose.id}}">{% trans purpose.name %}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="mb-3">
-                    <label for="password" class="form-label">{% translate "Password:" %}</label>
-                    <input type="password" name="password" autocomplete="new-password" class="form-control" id="password" aria-describedby="passwordHelp" required>
-                    
+                <div class="my-3">
+                    <div class="px-2 py-2 h-100 bg-light border rounded">
+                        <label for="password" class="form-label">{% translate "Password:" %}</label>
+                        <input type="password" name="password" autocomplete="new-password" class="form-control" id="password" aria-describedby="passwordHelp" required>
+                    </div>
                 </div>
 
                 {% comment %} <div class="mb-3">
