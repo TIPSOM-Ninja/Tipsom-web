@@ -1,0 +1,14 @@
+{% extends "layouts/master.html" %}
+{% load i18n %}
+{% block content %}
+<div class="container p-3">
+    <div class="card ">
+        <div class="card-header text-center">
+            {% trans "VICTIM PROFILE" %}: {{victim.initials}}
+        </div>
+        <div class="card-body">
+            {% trans "VICTIM PROFILE" %}
+        </div>
+    </div>
+</div>
+{% endblock content%}

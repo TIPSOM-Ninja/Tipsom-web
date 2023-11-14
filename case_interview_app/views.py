@@ -82,6 +82,7 @@ def investigation_form(request):
         idtypes = IdType.objects.all()
         trafficker_orgs = TraffickerOrg.objects.all()
         investigation_statuses = InvestigationStatus.objects.all()
+        roles_in_trafficking = RoleInTrafficking.objects.all()
 
         context = {
             "countries":countries,
@@ -91,7 +92,9 @@ def investigation_form(request):
             "races":races,
             "idtypes":idtypes,
             'trafficker_orgs':trafficker_orgs,
-            'investigation_statuses':investigation_statuses
+            'investigation_statuses':investigation_statuses,
+            'roles_in_trafficking':roles_in_trafficking
+
         }
         if request.GET.get('step') is not None:
             context['step'] = request.GET.get('step')
@@ -111,6 +114,7 @@ def investigation_form(request):
 
     return render(request,"investigation_form.html",context)
 def save_victim(request):
+    
     if request.method == "POST":
         if request.POST.get('victim_id') is not None:
             # TODO: Add checks on who posted and who can edit
@@ -156,11 +160,12 @@ def save_victim(request):
 def save_arrest(request):
     #TODO: add check for who can post about a victim
     #TODO: combine victims
+    
     if request.method == "POST":
         arrest = ArrestInvestigation()
         arrest.victim_id =  request.POST['v_id']
         arrest.org_crime=request.POST['org_crime']
-        arrest.suspect_arrested = request.POST['suspect_arrested']
+        arrest.suspect_arrested = request.POST['suspects_arrested']
         arrest.why_no_arrest=request.POST['why_no_arrest']
         arrest.victim_smuggled=request.POST['victim_smuggled']
         arrest.investigation_done=request.POST['investigation_done']
@@ -171,9 +176,10 @@ def save_arrest(request):
         arrest.interviewer=Interviewer.objects.filter(email_address = request.user.email).first()
         arrest.approval_id=1
         arrest.save()
-    for org in request.POST['how_traffickers_org[]']:
-        arrest.how_traffickers_org.add(TraffickerOrg.objects.filter(id= org).first())
-        messages.success(request,"Arrest/investigation data successfully saved.")
+        print(request.POST)
+        for org in request.POST['how_traffickers_org[]']:
+            arrest.how_traffickers_org.add(TraffickerOrg.objects.filter(id= org).first())
+            messages.success(request,"Arrest/investigation data successfully saved.")
         
     if request.GET.get('language') is not None:
         formulate_get="?step=3&language="+request.GET.get('language')
@@ -182,12 +188,52 @@ def save_arrest(request):
     
     return redirect('/investigation_form'+formulate_get)
 
+def save_suspect(request):
+    if request.method == "POST":
+        suspect = SuspectedTrafficker()
+        suspect.victim_id = request.session['v_id']
+        suspect.first_name = request.POST['first_name']
+        suspect.last_name = request.POST['last_name']
+        suspect.dob = request.POST['dob']
+        suspect.gender_id = request.POST['gender']
+        suspect.age = request.POST['age']
+        suspect.country_of_birth_id = request.POST['country_of_birth']
+        suspect.citizenship_id = request.POST['citizenship']
+        suspect.nationality_id = request.POST['nationality']
+        suspect.id_number = request.POST['id_number']
+        suspect.last_residence = request.POST['last_place_of_residence']
+        suspect.address = request.POST['address']
+        suspect.date_of_arrest = request.POST['date_of_arrest']
+        suspect.traffick_from_country_id = request.POST['traffick_from_country']
+        suspect.traffick_from_place = request.POST['traffick_from_place']
+        suspect.traffick_to_country_id = request.POST['traffick_to_country']
+        suspect.traffick_to_place = request.POST['traffick_to_place']
+        suspect.interviewer=Interviewer.objects.filter(email_address = request.user.email).first()
+        suspect.approval_id=1
+        suspect.id_type_id = request.POST['idtypes[]']
+        suspect.save()
+
+        for lang in request.POST['languages[]']:
+            suspect.languages.add(Language.objects.filter(id= lang).first())
+
+        
+        for rl in request.POST['role_in_trafficking[]']:
+            suspect.role_in_trafficking.add(RoleInTrafficking.objects.filter(id = rl).first())
+
+    if request.GET.get('language') is not None:
+        formulate_get="?step=3&language="+request.GET.get('language')
+    else:
+        formulate_get="?step=3"
+    
+    return redirect('/investigation_form'+formulate_get)
     
 def cases(request):
     if request.GET.get('language') is not None:
         activate(request.GET.get('language'))
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     victims = interviewer.victims.all()
+    if request.session.get('v_id') != None:
+        del request.session['v_id']
     context = {
         "victims":victims
     }

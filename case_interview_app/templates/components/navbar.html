@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load case_extras %}
 <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #1860c3;">
     <div class="container-fluid">
       <a class="navbar-brand text-warning" href="/">TiPNET</a>
@@ -13,9 +14,9 @@
                       {% trans "LANGUAGES" %}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item " href="{% if '?' in request.build_absolute_uri %}{{request.build_absolute_uri}}&language=en-us{% else %}{{request.build_absolute_uri}}?language=en-us{% endif %}">{% trans "ENGLISH" %}</a></li>
-                      <li><a class="dropdown-item " href="{% if '?' in request.build_absolute_uri %}{{request.build_absolute_uri}}&language=fr{% else %}{{request.build_absolute_uri}}?language=fr{% endif %}">{% trans "FRENCH" %}</a></li>
-                      <li><a class="dropdown-item " href="{% if '?' in request.build_absolute_uri %}{{request.build_absolute_uri}}&language=por{% else %}{{request.build_absolute_uri}}?language=por{% endif %}">{% trans "PORTUGUESE" %}</a></li>
+                      <li><a class="dropdown-item dr" href="{% lang_url request.build_absolute_uri 'en' %}">{% trans "ENGLISH" %}</a></li>
+                      <li><a class="dropdown-item dr" href="{% lang_url request.build_absolute_uri 'fr' %}">{% trans "FRENCH" %}</a></li>
+                      <li><a class="dropdown-item dr" href="{% lang_url request.build_absolute_uri 'pt' %}">{% trans "PORTUGUESE" %}</a></li>
 
                     </ul>
                   </li>

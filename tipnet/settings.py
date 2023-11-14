@@ -162,3 +162,5 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static/')
 LOGIN_URL = 'two_factor:login'
 
 LOGIN_REDIRECT_URL = 'two_factor:profile'
+
+SOCIAL_AUTH_REQUIRE_POST = True
