@@ -2,12 +2,171 @@
 {% load i18n %}
 {% block content %}
 <div class="container p-3">
-    <div class="card ">
+    <div class=" ">
+        <a href="/{{request.LANGUAGE_CODE}}/cases"><< back to all cases</a>
         <div class="card-header text-center">
-            {% trans "VICTIM PROFILE" %}: {{victim.initials}}
+            <strong>{% trans "Case interview" %}: {{victim.initials}} - {{victim.interview_date}}</strong>
         </div>
         <div class="card-body">
-            {% trans "VICTIM PROFILE" %}
+            <div class="card-body">
+                <div class="row g-3 my-2">
+                    <div class="col-md-12">
+                        <div class="card-header bg-light py-3 border-top border-bottom border-primary">
+                            <h6>{% translate "VICTIM PROFILE" %}<small class="text-danger"> - {{victim.approval.name}}</small> </h6>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        
+                    <strong>{% trans "Initials:" %}</strong> {{victim.initials}}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>{% trans "Email address:" %}</strong> {{victim.email_address}}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>{% trans "Date of birth:" %}</strong> {{victim.dob}}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>{% trans "Age:" %}</strong> {{victim.age}}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>{% trans "Gender:" %}</strong> {{victim.gender.name}}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>{% trans "Race:" %}</strong>{{victim.race.name}}
+                        
+                    </div>
+                    <div class="col-md-6">
+                        <strong>{% trans "Languages:" %}</strong> {% for  lang in victim.languages.all  %}{{lang.name}} {% endfor %}
+                    </div>
+                    
+                
+                    
+                    <div class="col-md-6">
+                       <strong>{% trans "Citizenship:" %}</strong> {{victim.citizenship.name}}
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <strong>{% trans "ID Type:" %}</strong> {{victim.idtype.name }}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>{% trans "ID number:" %}</strong> {{victim.id_number}}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>{% trans "Address:" %}</strong> {{victim.address}}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>{% trans "Last place of residence:" %}</strong> {{victim.last_place_of_residence.name}}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>{% trans "Country of birth:" %}</strong> {{victim.countryOfBirth.name}}
+                    </div>
+
+                   
+                </div>
+                
+            </div>
+            <div class="card-header bg-light py-3 border-top border-bottom border-primary">
+                <h6>{%trans "ARRESTS/INVESTIGATION"%}<small class="text-danger"> - {{arrest.approval.name}}</small></h6>
+            </div>
+            <div class="my-2">
+                <div class="card-body">
+                    <div class="row g-3 my-2">
+                        
+                        <div class="col-md-12">
+                            
+                        <strong>{% trans "Have any suspects been arrested to date?:" %}</strong> {{arrest.suspects_arrested}}
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <strong>{% trans "If NO, please explain why there have been no arrests?" %}</strong> {{arrest.why_no_arrest}}
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="card-header bg-light py-3 border-top border-bottom border-primary">
+                <h6>{%trans "SUSPECTS"%}</h6>
+            </div>
+            
+            {% for suspect in suspects %}
+                    <div class="my-2">
+                        <div class="card-header ">
+                            <h6>Suspect: {{suspect.first_name}} {{suspect.last_name}}<small class="text-danger"> - {{suspect.approval.name}}</small></h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3 my-2">
+                                
+                                <div class="col-md-6">
+                                    
+                                <strong>{% trans "Name:" %}</strong> {{suspect.first_name}} {{suspect.last_name}}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <strong>{% trans "Date of birth:" %}</strong> {{suspect.dob}}
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "Age:" %}</strong> {{suspect.age}}
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "Gender:" %}</strong> {{suspect.gender.name}}
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "Race:" %}</strong> {{suspect.race.name}}
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "Languages:" %}</strong> {% for  lang in suspect.languages.all  %}{{lang.name}} {% endfor %}
+                                </div>
+                                
+                            
+                                
+                                <div class="col-md-6">
+                                   <strong>{% trans "Citizenship:" %}</strong> {{suspect.citizenship.name}}
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "Nationality:" %}</strong> {{suspect.nationality.name}}
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "ID Type:" %}</strong> {{suspect.idtype.name }}
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "ID number:" %}</strong> {{suspect.id_number}}
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "Address:" %}</strong> {{suspect.address}}
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "Last place of residence:" %}</strong> {{suspect.last_residence.name}}
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "Country of birth:" %}</strong> {{suspect.country_of_birth.name}}
+                                </div>
+    
+                               
+                           
+                                
+                                <div class="col-md-6">
+                                    <strong>{% trans "Date of arrest:" %}</strong> {{suspect.date_of_arrest}}
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "Role in trafficking:" %}</strong> {% for role_in_trafficking in suspect.role_in_trafficking.all %}{{role_in_trafficking.name }} {% endfor %}
+                                    
+                                </div>
+                                <div class="col-md-12">
+                                    <strong>{% translate "From:" %}</strong> {{suspect.traffick_from_country.name}},{{suspect.traffick_from_place}}
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <strong>{% translate "To:" %}</strong> {{suspect.traffick_to_country.name}},{{suspect.traffick_to_place}}
+                                </div>
+                                
+    
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    {% endfor %}
         </div>
     </div>
 </div>

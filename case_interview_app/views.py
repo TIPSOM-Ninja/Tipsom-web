@@ -67,6 +67,19 @@ def interviewer_registration(request):
     context['interviewer']=interviewer
 
     return render(request,"registration_form.html",context)
+def victim_view(request,id):
+    if(request.user.is_authenticated):
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+    victim = interviewer.victims.filter(id=id ).first()
+    context = {
+        "victim":victim,
+        # "suspects":suspects
+    }
+    context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = id,interviewer_id=interviewer.id)
+    context['arrest'] = ArrestInvestigation.objects.filter(victim_id = id,interviewer_id=interviewer.id).first()
+
+    return render(request,"victim-view.html",context)
+
 
 def investigation_form(request):
     if request.GET.get('language') is not None:

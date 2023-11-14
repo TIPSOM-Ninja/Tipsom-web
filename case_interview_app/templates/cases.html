@@ -8,16 +8,18 @@
 
     <hr/>
     {% for victim in victims %}
-    <div class="card text-bg-light mb-3">
-        <div class="card-header">
-            <h5 class="card-title">{{victim.initials}} - {{victim.interview_date}}</h5>
+    <a href="/{{request.LANGUAGE_CODE}}/victim/{{victim.id}}">
+        <div class="card text-bg-light mb-3">
+            <div class="card-header">
+                <h5 class="card-title">{{victim.initials}} - {{victim.interview_date}}</h5>
 
 
+            </div>
+            <div class="card-body">
+                <p><strong>STATUS:</strong> Pending Approval</p>
+            </div>
         </div>
-        <div class="card-body">
-            <p><strong>STATUS:</strong> Pending Approval</p>
-        </div>
-    </div>
+    </a>
     {% endfor %}
 </div>
 {% endblock content %}

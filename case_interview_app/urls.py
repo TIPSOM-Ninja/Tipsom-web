@@ -13,6 +13,8 @@ urlpatterns = [
     path("save_victim", views.save_victim, name="save_victim"),
     path("save_arrest", views.save_arrest, name="save_arrest"),
     path("save_suspect", views.save_suspect, name="save_suspect"),
+    path("victim/<id>", views.victim_view, name="victim_view"),
+    
 
 
     
