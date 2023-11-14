@@ -34,71 +34,24 @@
                 <div class="tab-pane fade {% if step is not None and step == '1' %} show active {% elif  step is None %}show active {% endif %}" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
                     <form id="victim_form" method="post" action="{% if request.GET.language %}/save_victim?language={{request.GET.language}}{% else %}/save_victim{% endif %}">
                         {% csrf_token %}
-                        <div class="row g-3 my-0">
-                            <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
-                                    <label for="countryOfBirth" class="form-label">{% trans "Country of birth:" %}</label>
-                                    <select class="form-select" name="country_of_birth" id="countryOfBirth" aria-label="Default select example" required>
-                                        <option {% if interviewer.country_id == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
-                                        {% for country in countries %}
-                                            <option {% if victim.country_of_birth == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
+                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+                            <div class="col-md-12">
+                                <h4 class="card-title">Bio-data</h4>
                             </div>
                             <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
+                                <div class="">
                                     <label for="initials" class="form-label">{% trans "Initials:" %}</label>
                                     <input type="text" name = "initials" value = "{{victim.initials}}" class="form-control" id="initials" aria-describedby="familyNameHelp" required>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row g-3 my-0">
                             <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
-                                    <label for="placeOfBirth" class="form-label">{% trans "Place of Birth:" %}</label>
-                                    <input type="text" name = "place_of_birth" value = "{{victim.placeOfBirth}}" class="form-control" id="placeOfBirth" aria-describedby="placeOfBirthHelp" required>
+                                <div class="">
+                                    <label for="age" class="form-label">{% trans "Age:" %}</label>
+                                    <input type="number" name = "age" value = "{{victim.age}}" class="form-control" id="age" aria-describedby="ageHelp" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
-                                    <label for="citizenship" class="form-label">{% trans "Citizenship:" %}</label>
-                                    <select class="form-select" name="citizenship" id="citizenship" aria-label="Default select example" required>
-                                        <option {% if victim.citizenship == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
-                                        {% for country in countries %}
-                                            <option {% if victim.citizenship == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row g-3 my-0">
-                            <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
-                                    <label for="languages" class="form-label">{% trans "Languages:" %}</label>
-                                    <select class="form-select" name="languages[]" id="languages" aria-label="Default select example" required multiple>
-                                        {% for language in languages %}
-                                            <option {% if language.id in victim.languages %}selected{% endif %} value="{{language.id}}">{% trans language.name %}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
-                                    <label for="lastPlaceOfResidence" class="form-label">{% trans "Last place of residence:" %}</label>
-                                    <select class="form-select" name="last_place_of_residence" id="lastPlaceOfResidence" aria-label="Default select example" required>
-                                        <option {% if victim.last_place_of_residence == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
-                                        {% for country in countries %}
-                                            <option {% if victim.last_place_of_residence == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                           
-                        </div>
-                        <div class="row g-3 my-0">
-                            <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
+                                <div class="">
                                     <label for="gender" class="form-label">{% trans "Gender:" %}</label>
                                     <div>
                                         {% for gender in genders %}
@@ -112,7 +65,7 @@
                                 
                             </div>
                             <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
+                                <div class="">
                                     <label for="race" class="form-label">{% trans "Race:" %}</label>
                                     <div>
                                         {% for race in races %}
@@ -124,10 +77,43 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row g-3 my-0">
                             <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
+                                <div class="">
+                                    <label for="languages" class="form-label">{% trans "Languages:" %}</label>
+                                    <select class="form-select" name="languages[]" id="languages" aria-label="Default select example" required multiple>
+                                        {% for language in languages %}
+                                            <option {% if language.id in victim.languages %}selected{% endif %} value="{{language.id}}">{% trans language.name %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="emailAddress" class="form-label">{% trans "Email address:" %}</label>
+                                    <input type="text" name = "email_address" value = "{{victim.email_address}}" autocomplete="username" class="form-control" id="emailAddress" aria-describedby="emailAddressHelp" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+                            <div class="col-md-12">
+                                <h4 class="card-title">Identifier data</h4>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="citizenship" class="form-label">{% trans "Citizenship:" %}</label>
+                                    <select class="form-select" name="citizenship" id="citizenship" aria-label="Default select example" required>
+                                        <option {% if victim.citizenship == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
+                                        {% for country in countries %}
+                                            <option {% if victim.citizenship == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
                                     <label for="idtypes" class="form-label">{% trans "ID Type:" %}</label>
                                     <select class="form-select" name="idtypes[]" id="idtypes" aria-label="Default select example" required multiple>
                                         {% for idtype in idtypes %}
@@ -137,51 +123,68 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
+                                <div class="">
                                     <label for="idNumber" class="form-label">{% trans "ID number:" %}</label>
                                     <input type="text" name = "id_number" value = "{{victim.id_number}}"class="form-control" id="idNumber" aria-describedby="IdNumberHelp" required>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row g-3 my-0">
                             <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
-                                    <label for="interviewDate" class="form-label">{% trans "Interview Date:" %}</label>
-                                    <input type="date" name = "interview_date" value = "{{victim.interview_date}}" class="form-control" id="interviewDate" aria-describedby="interviewDateHelp" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
-                                    <label for="age" class="form-label">{% trans "Age:" %}</label>
-                                    <input type="number" name = "age" value = "{{victim.age}}" class="form-control" id="age" aria-describedby="ageHelp" required>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row g-3 my-0">
-                            <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
-                                    <label for="interviewerLocation" class="form-label">{% trans "Interviewer Location:" %}</label>
-                                    <input type="text" name = "interviewer_location" value = "{{victim.interviewer_location}}" class="form-control" id="interviewerLocation" aria-describedby="interviewerLocationHelp" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
+                                <div class="">
                                     <label for="address" class="form-label">{% trans "Address:" %}</label>
                                     <input type="text" name = "address" value = "{{victim.address}}" class="form-control" id="address" aria-describedby="addressHelp" required>
                                 </div>
                             </div>
-                            
-                        </div>
-                        <div class="row g-3 my-0">
                             <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
-                                    <label for="emailAddress" class="form-label">{% trans "Email address:" %}</label>
-                                    <input type="text" name = "email_address" value = "{{victim.email_address}}" autocomplete="username" class="form-control" id="emailAddress" aria-describedby="emailAddressHelp" required>
+                                <div class="">
+                                    <label for="lastPlaceOfResidence" class="form-label">{% trans "Last place of residence:" %}</label>
+                                    <select class="form-select" name="last_place_of_residence" id="lastPlaceOfResidence" aria-label="Default select example" required>
+                                        <option {% if victim.last_place_of_residence == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
+                                        {% for country in countries %}
+                                            <option {% if victim.last_place_of_residence == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="px-2 py-2 h-100 bg-light border rounded">
+                                <div class="">
+                                    <label for="countryOfBirth" class="form-label">{% trans "Country of birth:" %}</label>
+                                    <select class="form-select" name="country_of_birth" id="countryOfBirth" aria-label="Default select example" required>
+                                        <option {% if interviewer.country_id == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
+                                        {% for country in countries %}
+                                            <option {% if victim.country_of_birth == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="placeOfBirth" class="form-label">{% trans "Place of Birth:" %}</label>
+                                    <input type="text" name = "place_of_birth" value = "{{victim.placeOfBirth}}" class="form-control" id="placeOfBirth" aria-describedby="placeOfBirthHelp" required>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+                            <div class="col-md-12">
+                                <h4 class="card-title">Interview data</h4>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="interviewDate" class="form-label">{% trans "Interview Date:" %}</label>
+                                    <input type="date" name = "interview_date" value = "{{victim.interview_date}}" class="form-control" id="interviewDate" aria-describedby="interviewDateHelp" required>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="interviewerLocation" class="form-label">{% trans "Interviewer Location:" %}</label>
+                                    <input type="text" name = "interviewer_location" value = "{{victim.interviewer_location}}" class="form-control" id="interviewerLocation" aria-describedby="interviewerLocationHelp" required>
+                                </div>
+                            </div>
+                        
+                            <div class="col-md-6">
+                                <div class="">
                                     <label for="additionalRemarks" class="form-label">{% trans "Additional Remarks:" %}</label>
                                     <textarea type="text" name = "additional_remarks" value = "{{victim.additional_remarks}}" class="form-control" id="additionalRemarks" aria-describedby="additionalRemarksHelp" rows="3"></textarea>
                                 </div>

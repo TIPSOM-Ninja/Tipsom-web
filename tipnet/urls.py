@@ -17,11 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include,path
 from django.conf.urls.i18n import i18n_patterns
+from two_factor.urls import urlpatterns as tf_urls
 
 urlpatterns = i18n_patterns(
     path('', include('case_interview_app.urls')),
     path('rosetta/', include('rosetta.urls')),
     path('central/', admin.site.urls),
+    path('', include(tf_urls)),
+    
 )
 
 admin.site.site_title = "Tipnet"

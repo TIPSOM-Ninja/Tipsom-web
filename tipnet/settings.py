@@ -44,7 +44,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'case_interview_app',
-    'rosetta'
+    'rosetta',
+    'django_otp',
+    'django_otp.plugins.otp_static',
+    'django_otp.plugins.otp_totp',
+    'django_otp.plugins.otp_email',  # <- if you want email capability.
+    'two_factor',
+    #'two_factor.plugins.phonenumber',  # <- if you want phone number capability.
+    'two_factor.plugins.email', 
 ]
 
 MIDDLEWARE = [
@@ -54,8 +61,10 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_otp.middleware.OTPMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
     
 ]
 
@@ -149,3 +158,7 @@ LANGUAGES = (
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
 STATIC_ROOT = os.path.join(BASE_DIR,'static/')
+
+LOGIN_URL = 'two_factor:login'
+
+LOGIN_REDIRECT_URL = 'two_factor:profile'
