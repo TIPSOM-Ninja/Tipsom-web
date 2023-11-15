@@ -131,6 +131,12 @@ class ApprovalStatus(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+class AccessPermission(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+    
 class VictimProfile(models.Model):
     citizenship = models.ForeignKey(
         Country, related_name = "victims_cit",  on_delete=models.CASCADE, null=True, blank=True
@@ -302,3 +308,18 @@ class Prosecution(models.Model):
         SanctionPenalty, related_name = "prosecutions", on_delete=models.CASCADE, null=True, blank=True
     )
     years_imposed = models.IntegerField(null=True, blank=True)
+
+class VictimPermissions(models.Model):
+    interviewer = models.ForeignKey(
+        Interviewer,  on_delete=models.CASCADE, null=True, blank=True
+    )
+    victim = models.ForeignKey(
+        Interviewer, related_name = "victim_permission", on_delete=models.CASCADE, null=True, blank=True
+    )
+    permissions_requested = models.ManyToManyField(
+        AccessPermission,  related_name = "permissions_request", null=True, blank=True
+    )
+
+    permissions_granted = models.ManyToManyField(
+        AccessPermission,  related_name = "permissions_granted", null=True, blank=True
+    )

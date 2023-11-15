@@ -32,181 +32,7 @@
             </nav>
             <div class="tab-content">
                 <div class="tab-pane fade {% if step is not None and step == '1' %} show active {% elif  step is None %}show active {% endif %}" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-                    <form id="victim_form" method="post" action="/{{request.LANGUAGE_CODE}}/save_victim">
-                        {% csrf_token %}
-                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
-                            <div class="col-md-12">
-                                <h4 class="card-title">Bio-data</h4>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="initials" class="form-label">{% trans "Initials:" %}</label>
-                                    <input type="text" name = "initials" value = "{{victim.initials}}" class="form-control" id="initials" aria-describedby="familyNameHelp" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="age" class="form-label">{% trans "Age:" %}</label>
-                                    <input type="number" name = "age" value = "{{victim.age}}" class="form-control" id="age" aria-describedby="ageHelp" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="gender" class="form-label">{% trans "Gender:" %}</label>
-                                    <div>
-                                        {% for gender in genders %}
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="gender_{{gender.id}}" value="{{gender.id}}">
-                                                <label class="form-check-label" for="gender_{{gender.id}}">{{gender.name}}</label>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="race" class="form-label">{% trans "Race:" %}</label>
-                                    <div>
-                                        {% for race in races %}
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="race" id="race_{{race.id}}" value="{{race.id}}">
-                                                <label class="form-check-label" for="race_{{race.id}}">{{race.name}}</label>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="languages" class="form-label">{% trans "Languages:" %}</label>
-                                    <select class="form-select" name="languages[]" id="languages" aria-label="Default select example" required multiple>
-                                        {% for language in languages %}
-                                            <option {% if language.id in victim.languages %}selected{% endif %} value="{{language.id}}">{% trans language.name %}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="emailAddress" class="form-label">{% trans "Email address:" %}</label>
-                                    <input type="text" name = "email_address" value = "{{victim.email_address}}" autocomplete="username" class="form-control" id="emailAddress" aria-describedby="emailAddressHelp" required>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
-                            <div class="col-md-12">
-                                <h4 class="card-title">Identifier data</h4>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="citizenship" class="form-label">{% trans "Citizenship:" %}</label>
-                                    <select class="form-select" name="citizenship" id="citizenship" aria-label="Default select example" required>
-                                        <option {% if victim.citizenship == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
-                                        {% for country in countries %}
-                                            <option {% if victim.citizenship == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="idtypes" class="form-label">{% trans "ID Type:" %}</label>
-                                    <select class="form-select" name="idtypes[]" id="idtypes" aria-label="Default select example" required multiple>
-                                        {% for idtype in idtypes %}
-                                            <option {% if idtype.id in victim.idtypes %}selected{% endif %} value="{{idtype.id}}">{% trans idtype.name %}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="idNumber" class="form-label">{% trans "ID number:" %}</label>
-                                    <input type="text" name = "id_number" value = "{{victim.id_number}}"class="form-control" id="idNumber" aria-describedby="IdNumberHelp" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="address" class="form-label">{% trans "Address:" %}</label>
-                                    <input type="text" name = "address" value = "{{victim.address}}" class="form-control" id="address" aria-describedby="addressHelp" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="lastPlaceOfResidence" class="form-label">{% trans "Last place of residence:" %}</label>
-                                    <select class="form-select" name="last_place_of_residence" id="lastPlaceOfResidence" aria-label="Default select example" required>
-                                        <option {% if victim.last_place_of_residence == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
-                                        {% for country in countries %}
-                                            <option {% if victim.last_place_of_residence == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="countryOfBirth" class="form-label">{% trans "Country of birth:" %}</label>
-                                    <select class="form-select" name="country_of_birth" id="countryOfBirth" aria-label="Default select example" required>
-                                        <option {% if interviewer.country_id == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
-                                        {% for country in countries %}
-                                            <option {% if victim.country_of_birth == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="placeOfBirth" class="form-label">{% trans "Place of Birth:" %}</label>
-                                    <input type="text" name = "place_of_birth" value = "{{victim.placeOfBirth}}" class="form-control" id="placeOfBirth" aria-describedby="placeOfBirthHelp" required>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
-                            <div class="col-md-12">
-                                <h4 class="card-title">Interview data</h4>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="interviewDate" class="form-label">{% trans "Interview Date:" %}</label>
-                                    <input type="date" name = "interview_date" value = "{{victim.interview_date}}" class="form-control" id="interviewDate" aria-describedby="interviewDateHelp" required>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="interviewerLocation" class="form-label">{% trans "Interviewer Location:" %}</label>
-                                    <input type="text" name = "interviewer_location" value = "{{victim.interviewer_location}}" class="form-control" id="interviewerLocation" aria-describedby="interviewerLocationHelp" required>
-                                </div>
-                            </div>
-                        
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="additionalRemarks" class="form-label">{% trans "Additional Remarks:" %}</label>
-                                    <textarea type="text" name = "additional_remarks" value = "{{victim.additional_remarks}}" class="form-control" id="additionalRemarks" aria-describedby="additionalRemarksHelp" rows="3"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        
-    
-                        {% comment %} <div class="mb-3">
-                            <label for="confirmPassword" class="form-label">{% translate "Confirm password:" %}</label>
-                            <input type="password" autocomplete="new-password" class="form-control" id="confirmPassword" aria-describedby="confirmPasswordHelp" required>
-                            <div class="invalid-feedback">
-                                Password not a match.
-                            </div>
-                        </div> {% endcomment %}
-    
-                        <div class="row text-center m-3 ">
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE AND PROCEED" %}</button>
-                            </div>
-                        
-                        </div>
-                    </form>
+                    {% include "components/victim_form.html"%}
                 </div>
                 <div class="tab-pane fade {% if step is not None and step == '2' %} show active {% endif %}" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
                     <form id="arrests_form" method="POST" action="/{{request.LANGUAGE_CODE}}/save_arrest">
@@ -346,13 +172,13 @@
                             <h3>Suspect: {{suspect.first_name}} {{suspect.last_name}}</h3>
                         </div>
                         <div class="card-body">
-                            <div class="row g-3 my-2">
-                                <div class="col-md-12">
+                            <div class="row g-3 mb-1">
+                                <div class="col-md-12 py-2 border-top border-bottom border-primary bg-light">
                                     <h6>Bio-data</h6>
                                 </div>
-                                <hr/>
+                                
                                 <div class="col-md-6">
-                                {% trans "Name:" %} {{suspect.first_name}} {{suspect.last_name}}
+                                <p>{% trans "Name:" %} {{suspect.first_name}} {{suspect.last_name}}</p>
                                 </div>
                                 
                                 <div class="col-md-6">
@@ -371,9 +197,6 @@
                                 <div class="col-md-6">
                                     {% trans "Languages:" %} {% for  lang in suspect.languages.all  %}{{lang.name}} {% endfor %}
                                 </div>
-                                
-                            
-                                
                                 <div class="col-md-6">
                                    {% trans "Citizenship:" %} {{suspect.citizenship.name}}
                                 </div>
@@ -400,9 +223,10 @@
                             </div>
                             
                             <div class="row g-3">
-                                <div class="col-md-12">
+                                <div class="col-md-12 py-2 border-top border-bottom border-primary bg-light">
                                     <h6>Case data</h6>
                                 </div>
+                                
                                 <div class="col-md-6">
                                     {% trans "Date of arrest:" %} {{suspect.date_of_arrest}}
                                 </div>
@@ -446,17 +270,13 @@
                                     <input type="date" name = "dob" value = "{{suspect.dob}}" class="form-control" id="dob" aria-describedby="dobHelp" required>
                                     
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="age" class="form-label">{% trans "Age:" %}</label>
-                                    <input type="number" name = "age" value = "{{suspect.age}}" class="form-control" id="age" aria-describedby="ageHelp" required>
-                                    
-                                </div>
+                                
                                 <div class="col-md-6">
                                     <label for="gender" class="form-label">{% trans "Gender:" %}</label>
                                     <div>
                                         {% for gender in genders %}
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="gender_{{gender.id}}" value="{{gender.id}}">
+                                                <input class="form-check-input" type="radio" name="gender" id="gender_{{gender.id}}" value="{{gender.id}}" required>
                                                 <label class="form-check-label" for="gender_{{gender.id}}">{{gender.name}}</label>
                                             </div>
                                         {% endfor %}
@@ -468,7 +288,7 @@
                                     <div>
                                         {% for race in races %}
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="race" id="race_{{race.id}}" value="{{race.id}}">
+                                                <input class="form-check-input" type="radio" name="race" id="race_{{race.id}}" value="{{race.id}}" required>
                                                 <label class="form-check-label" for="race_{{race.id}}">{{race.name}}</label>
                                             </div>
                                         {% endfor %}
@@ -489,7 +309,6 @@
                                 <div class="col-md-6">
                                     <label for="citizenship" class="form-label">{% trans "Citizenship:" %}</label>
                                     <select class="form-select" name="citizenship" id="citizenship" aria-label="Default select example" required>
-                                        <option {% if suspect.citizenship == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
                                         {% for country in countries %}
                                             <option {% if suspect.citizenship_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
                                         {% endfor %}
@@ -498,7 +317,6 @@
                                 <div class="col-md-6">
                                     <label for="nationality" class="form-label">{% trans "Nationality:" %}</label>
                                     <select class="form-select" name="nationality" id="nationality" aria-label="Default select example" required>
-                                        <option {% if suspect.nationality_id == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
                                         {% for country in countries %}
                                             <option {% if suspect.nationality_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
                                         {% endfor %}
@@ -523,18 +341,13 @@
                                     
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="lastPlaceOfResidence" class="form-label">{% trans "Last place of residence:" %}</label>
-                                    <select class="form-select" name="last_place_of_residence" id="lastPlaceOfResidence" aria-label="Default select example" required>
-                                        <option {% if suspect.last_place_of_residence == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
-                                        {% for country in countries %}
-                                            <option {% if suspect.last_place_of_residence == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
-                                        {% endfor %}
-                                    </select>
+                                    <label for="lastResidence" class="form-label">{% trans "Last place of residence:" %}</label>
+                                    <input type="text" name = "last_residence" value = "{{suspect.last_residence}}" class="form-control" id="lastResidence" aria-describedby="lastResidenceHelp" required>
+                                    
                                 </div>
                                 <div class="col-md-6">
                                     <label for="countryOfBirth" class="form-label">{% trans "Country of birth:" %}</label>
                                     <select class="form-select" name="country_of_birth" id="countryOfBirth" aria-label="Default select example" required>
-                                        <option {% if interviewer.country_id == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
                                         {% for country in countries %}
                                             <option {% if suspect.country_of_birth == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
                                         {% endfor %}
@@ -568,7 +381,6 @@
                                 <div class="col-md-6">
                                     <label for="traffick_from_country" class="form-label">{% trans "Country:" %}</label>
                                     <select class="form-select" name="traffick_from_country" id="traffick_from_country" aria-label="Default select example" required>
-                                        <option {% if suspect.traffick_from_country == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
                                         {% for country in countries %}
                                             <option {% if suspect.traffick_from_country == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
                                         {% endfor %}
@@ -585,7 +397,6 @@
                                 <div class="col-md-6">
                                     <label for="traffick_to_country" class="form-label">{% trans "Country:" %}</label>
                                     <select class="form-select" name="traffick_to_country" id="traffick_to_country" aria-label="Default select example" required>
-                                        <option {% if suspect.traffick_to_country == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
                                         {% for country in countries %}
                                             <option {% if suspect.traffick_to_country == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
                                         {% endfor %}
@@ -612,7 +423,7 @@
         
                             <div class="row text-center m-3 ">
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE AND PROCEED" %}</button>
+                                    <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE SUSPECT" %}</button>
                                 </div>
                             
                             </div>
@@ -623,7 +434,7 @@
                     <hr/>
                     <div class="row text-center m-3 ">
                         <div class="text-center">
-                            <a href="/{{request.LANGUAGE_CODE}}/cases" class="btn btn-primary text-warning">{% translate "SUBMIT AND RETURN" %}</a>
+                            <a href="/{{request.LANGUAGE_CODE}}/cases" class="btn btn-primary text-warning">{% translate "RETURN TO HOME" %}</a>
                         </div>
                     
                     </div>

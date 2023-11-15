@@ -48,7 +48,7 @@
                     <div class="col-md-6">
                         <div class="px-2 py-2 h-100 bg-light border rounded">
                             <label for="emailAddress" class="form-label">{% trans "Email address:" %}</label>
-                            <input type="text" name = "email_address" value = "{{interviewer.email_address}}" autocomplete="username" class="form-control" id="emailAddress" aria-describedby="emailAddressHelp" required>
+                            <input type="text" name = "email_address" value = "{{interviewer.email_address}}" autocomplete="username" class="form-control" id="emailAddress" aria-describedby="emailAddressHelp"  {% if  user.is_authenticated %}readonly{% endif %} required>
                         </div>
                     </div>
                 </div>
@@ -57,8 +57,7 @@
                         <div class="px-2 py-2 h-100 bg-light border rounded">
                             <label for="country" class="form-label">{% trans "Country:" %}</label>
                             
-                            <select class="form-select" name="country" id="country" aria-label="Default select example" required>
-                                <option {% if interviewer.country_id == None%}selected{% endif %}>{% trans "roll down list for country" %}</option>
+                            <select class="form-select" name="country" id="country" value="{{interviewer.country_id}}" aria-label="Default select example" required>
                                 {% for country in countries %}
                                     <option {% if interviewer.country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
                                 {% endfor %}
@@ -68,9 +67,9 @@
                     <div class="col-md-6">
                         <div class="px-2 py-2 h-100 bg-light border rounded">
                             <label for="purpose" class="form-label">{% trans "Purpose of data entry:" %}</label>
-                            <select class="form-select" name = "purpose" id="purpose" aria-label="Default select example" required>
+                            <select class="form-select" name = "purpose" id="purpose" value="{{interviewer.data_entry_purpose_id}}" aria-label="Default select example" required>
                                 {% for purpose in purposes %}
-                                    <option {% if interviewer.purpose_id == purpose.id%}selected{% endif %}  value="{{purpose.id}}">{% trans purpose.name %}</option>
+                                    <option {% if interviewer.data_entry_purpose_id == purpose.id%}selected{% endif %}  value="{{purpose.id}}">{% trans purpose.name %}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -80,7 +79,7 @@
                 <div class="my-3">
                     <div class="px-2 py-2 h-100 bg-light border rounded">
                         <label for="password" class="form-label">{% translate "Password:" %}</label>
-                        <input type="password" name="password" autocomplete="new-password" class="form-control" id="password" aria-describedby="passwordHelp" required>
+                        <input type="password" name="password" autocomplete="new-password" class="form-control" id="password" aria-describedby="passwordHelp" {% if not user.is_authenticated %} required {% else %} placeholder = "Leave blank to retain current password" {% endif %} value>
                     </div>
                 </div>
 

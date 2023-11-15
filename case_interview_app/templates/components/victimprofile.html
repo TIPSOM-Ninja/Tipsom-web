@@ -1,0 +1,59 @@
+{% load i18n %}
+<div class="card-body">
+    <div class="row g-3 my-2">
+        <div class="col-md-12">
+            <div class="card-header bg-light py-3 border-top border-bottom border-primary">
+                <h6>{% translate "VICTIM PROFILE" %}<small class="text-danger"> - {{victim.approval.name}}</small> </h6>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            
+        <strong>{% trans "Initials:" %}</strong> {{victim.initials}}
+        </div>
+        <div class="col-md-6">
+            <strong>{% trans "Email address:" %}</strong> {{victim.email_address}}
+        </div>
+        <div class="col-md-6">
+            <strong>{% trans "Date of birth:" %}</strong> {{victim.dob}}
+        </div>
+        <div class="col-md-6">
+            <strong>{% trans "Age:" %}</strong> {{victim.age}}
+        </div>
+        <div class="col-md-6">
+            <strong>{% trans "Gender:" %}</strong> {{victim.gender.name}}
+        </div>
+        <div class="col-md-6">
+            <strong>{% trans "Race:" %}</strong>{{victim.race.name}}
+            
+        </div>
+        <div class="col-md-6">
+            <strong>{% trans "Languages:" %}</strong> {% for  lang in victim.languages.all  %}{{lang.name}} {% endfor %}
+        </div>
+        
+    
+        
+        <div class="col-md-6">
+           <strong>{% trans "Citizenship:" %}</strong> {{victim.citizenship.name}}
+        </div>
+        
+        <div class="col-md-6">
+            <strong>{% trans "ID Type:" %}</strong> {{victim.idtype.name }}
+        </div>
+        <div class="col-md-6">
+            <strong>{% trans "ID number:" %}</strong> {{victim.id_number}}
+        </div>
+        <div class="col-md-6">
+            <strong>{% trans "Address:" %}</strong> {{victim.address}}
+        </div>
+        <div class="col-md-6">
+            <strong>{% trans "Last place of residence:" %}</strong> {{victim.last_place_of_residence.name}}
+        </div>
+        <div class="col-md-6">
+            <strong>{% trans "Country of birth:" %}</strong> {{victim.countryOfBirth.name}}
+        </div>
+
+       
+    </div>
+    
+</div>

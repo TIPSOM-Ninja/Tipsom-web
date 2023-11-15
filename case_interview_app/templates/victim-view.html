@@ -8,64 +8,7 @@
             <strong>{% trans "Case interview" %}: {{victim.initials}} - {{victim.interview_date}}</strong>
         </div>
         <div class="card-body">
-            <div class="card-body">
-                <div class="row g-3 my-2">
-                    <div class="col-md-12">
-                        <div class="card-header bg-light py-3 border-top border-bottom border-primary">
-                            <h6>{% translate "VICTIM PROFILE" %}<small class="text-danger"> - {{victim.approval.name}}</small> </h6>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        
-                    <strong>{% trans "Initials:" %}</strong> {{victim.initials}}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>{% trans "Email address:" %}</strong> {{victim.email_address}}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>{% trans "Date of birth:" %}</strong> {{victim.dob}}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>{% trans "Age:" %}</strong> {{victim.age}}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>{% trans "Gender:" %}</strong> {{victim.gender.name}}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>{% trans "Race:" %}</strong>{{victim.race.name}}
-                        
-                    </div>
-                    <div class="col-md-6">
-                        <strong>{% trans "Languages:" %}</strong> {% for  lang in victim.languages.all  %}{{lang.name}} {% endfor %}
-                    </div>
-                    
-                
-                    
-                    <div class="col-md-6">
-                       <strong>{% trans "Citizenship:" %}</strong> {{victim.citizenship.name}}
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <strong>{% trans "ID Type:" %}</strong> {{victim.idtype.name }}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>{% trans "ID number:" %}</strong> {{victim.id_number}}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>{% trans "Address:" %}</strong> {{victim.address}}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>{% trans "Last place of residence:" %}</strong> {{victim.last_place_of_residence.name}}
-                    </div>
-                    <div class="col-md-6">
-                        <strong>{% trans "Country of birth:" %}</strong> {{victim.countryOfBirth.name}}
-                    </div>
-
-                   
-                </div>
-                
-            </div>
+            {% include "components/victimprofile.html" %}
             <div class="card-header bg-light py-3 border-top border-bottom border-primary">
                 <h6>{%trans "ARRESTS/INVESTIGATION"%}<small class="text-danger"> - {{arrest.approval.name}}</small></h6>
             </div>
@@ -128,7 +71,7 @@
                                     <strong>{% trans "Nationality:" %}</strong> {{suspect.nationality.name}}
                                 </div>
                                 <div class="col-md-6">
-                                    <strong>{% trans "ID Type:" %}</strong> {{suspect.idtype.name }}
+                                    <strong>{% trans "ID Type:" %}</strong> {{suspect.id_type.name }}
                                 </div>
                                 <div class="col-md-6">
                                     <strong>{% trans "ID number:" %}</strong> {{suspect.id_number}}
@@ -137,7 +80,7 @@
                                     <strong>{% trans "Address:" %}</strong> {{suspect.address}}
                                 </div>
                                 <div class="col-md-6">
-                                    <strong>{% trans "Last place of residence:" %}</strong> {{suspect.last_residence.name}}
+                                    <strong>{% trans "Last place of residence:" %}</strong> {{suspect.last_residence}}
                                 </div>
                                 <div class="col-md-6">
                                     <strong>{% trans "Country of birth:" %}</strong> {{suspect.country_of_birth.name}}

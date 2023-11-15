@@ -115,3 +115,13 @@ class ProsecutionAdmin(admin.ModelAdmin):
 @admin.register(ApprovalStatus)
 class ApprovalStatusAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(AccessPermission)
+class AccessPermissionAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(VictimPermissions)
+class VictimPermissionsAdmin(admin.ModelAdmin):
+    pass
+
+

@@ -4,6 +4,7 @@ from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils.translation import activate, get_language_info
+from datetime import date, datetime
 
 def index(request):
     countries = Country.objects.all().order_by('name').values()
@@ -33,6 +34,7 @@ def interviewer_registration(request):
     else:
         interviewer=None
     if request.method == "POST":
+        
         if (not request.user.is_authenticated) and (Interviewer.objects.filter(email_address = request.POST['email_address']).first()!=None):
             messages.error(request,"Please login first to complete the action.")
         else:
@@ -59,11 +61,16 @@ def interviewer_registration(request):
                     return redirect('/cases')
                 else:
                     return redirect('/cases')
-            elif(request.user.is_authenticated and (request.POST['password']!=None)):
-                user = request.user
-                user.set_password(request.POST['password'])
-                user.save()
+            elif request.user.is_authenticated:
+                if (request.POST['password'] is not None and not request.POST['password'] == ""):
+                    user = request.user
+                    user.set_password(request.POST['password'])
+                    user.save()
+                    login(request,user)
+                    messages.success(request,"Credentials successfully modified.")
                 messages.success(request,"Interviewer data successfully modified.")
+            interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+
     context['interviewer']=interviewer
 
     return render(request,"registration_form.html",context)
@@ -202,6 +209,9 @@ def save_arrest(request):
     return redirect('/investigation_form'+formulate_get)
 
 def save_suspect(request):
+    today = date.today()
+    born = datetime.strptime(request.POST['dob'], '%Y-%m-%d')
+    age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
     if request.method == "POST":
         suspect = SuspectedTrafficker()
         suspect.victim_id = request.session['v_id']
@@ -209,12 +219,13 @@ def save_suspect(request):
         suspect.last_name = request.POST['last_name']
         suspect.dob = request.POST['dob']
         suspect.gender_id = request.POST['gender']
-        suspect.age = request.POST['age']
+        suspect.race_id = request.POST['race']
+        suspect.age = age
         suspect.country_of_birth_id = request.POST['country_of_birth']
         suspect.citizenship_id = request.POST['citizenship']
         suspect.nationality_id = request.POST['nationality']
         suspect.id_number = request.POST['id_number']
-        suspect.last_residence = request.POST['last_place_of_residence']
+        suspect.last_residence = request.POST['last_residence']
         suspect.address = request.POST['address']
         suspect.date_of_arrest = request.POST['date_of_arrest']
         suspect.traffick_from_country_id = request.POST['traffick_from_country']
@@ -223,7 +234,7 @@ def save_suspect(request):
         suspect.traffick_to_place = request.POST['traffick_to_place']
         suspect.interviewer=Interviewer.objects.filter(email_address = request.user.email).first()
         suspect.approval_id=1
-        suspect.id_type_id = request.POST['idtypes[]']
+        suspect.id_type_id = request.POST['idtypes']
         suspect.save()
 
         for lang in request.POST['languages[]']:
@@ -239,7 +250,68 @@ def save_suspect(request):
         formulate_get="?step=3"
     
     return redirect('/investigation_form'+formulate_get)
+
+def prosecution_form(request):
+    if request.GET.get('language') is not None:
+        activate(request.GET.get('language'))
     
+    
+
+    if(request.user.is_authenticated):
+        countries = Country.objects.all()
+        purposes = DataEntryPurpose.objects.all()
+        languages = Language.objects.all()
+        genders = Gender.objects.all()
+        races = Race.objects.all()
+        idtypes = IdType.objects.all()
+        
+        context = {
+            "countries":countries,
+            "purposes":purposes,
+            "languages":languages,
+            "genders":genders,
+            "races":races,
+            "idtypes":idtypes,
+           
+        }
+        if request.GET.get('step') is not None:
+            context['step'] = request.GET.get('step')
+        
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+
+        if request.GET.get("v_id") is not None:
+            victim = VictimProfile.objects.filter(id = request.GET.get("v_id")).first()
+            if victim is None:
+                messages.error('Victim does not exist. Please create a new victim.')
+            else:
+                if victim.interviewer_id == interviewer.id:
+                    request.session['v_id'] = victim.id
+                else:
+                    permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
+                    if permission is None:
+                        messages.error("You do not have access to this record. Please create a request.")
+                    else:
+                        # TODO: check if permision is granted
+                        # TODO: remove autopermission below
+                        request.session['v_id'] = victim.id
+             
+        if request.GET.get('step') and 'v_id' in request.session:
+            context['v_id'] = request.session['v_id']
+            context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
+            context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = request.session['v_id'],interviewer_id=interviewer.id)
+            context['prosecution'] = Prosecution.objects.filter(interviewer_id = interviewer.id, victim_id = request.session['v_id']).first()
+
+
+        context['interviewer']=interviewer
+    else:
+        return redirect("/login")
+
+    return render(request,"prosecution_form.html",context)
+
+
+
+
+
 def cases(request):
     if request.GET.get('language') is not None:
         activate(request.GET.get('language'))
@@ -248,7 +320,8 @@ def cases(request):
     if request.session.get('v_id') != None:
         del request.session['v_id']
     context = {
-        "victims":victims
+        "victims":victims,
+        "interviewer":interviewer
     }
     return render(request,"cases.html",context)
 def signin(request):
