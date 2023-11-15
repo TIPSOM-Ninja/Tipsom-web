@@ -124,4 +124,11 @@ class AccessPermissionAdmin(admin.ModelAdmin):
 class VictimPermissionsAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(Verdict)
+class VerdictAdmin(admin.ModelAdmin):
+    pass
+
+
+
+
 

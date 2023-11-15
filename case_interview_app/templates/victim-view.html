@@ -109,7 +109,37 @@
                         </div>
                     </div>
                     <hr/>
-                    {% endfor %}
+            {% endfor %}
+            <div class="card-header bg-light py-3 border-top border-bottom border-primary">
+                <h6>{%trans "PROSECUTIONS"%}</h6>
+            </div>
+            
+            {% for prosecution in prosecutions %}
+                    <div class="my-2">
+                        <div class="card-header ">
+                            <h6>Suspect: {{prosecution.trafficker.first_name}} {{prosecution.trafficker.last_name}}<small class="text-danger"> - {{prosecution.approval.name}}</small></h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3 my-2">
+                                
+                                <div class="col-md-6">
+                                    
+                                <strong>{% trans "Name:" %}</strong> {{prosecution.trafficker.first_name}} {{prosecution.trafficker.last_name}}
+                                </div>
+                                
+                                
+                            
+                               
+                               
+                           
+                                
+                                
+    
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+            {% endfor %}
         </div>
     </div>
 </div>

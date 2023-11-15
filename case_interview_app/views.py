@@ -84,7 +84,7 @@ def victim_view(request,id):
     }
     context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = id,interviewer_id=interviewer.id)
     context['arrest'] = ArrestInvestigation.objects.filter(victim_id = id,interviewer_id=interviewer.id).first()
-
+    context['prosecutions'] = Prosecution.objects.filter(victim_id = id)
     return render(request,"victim-view.html",context)
 
 
@@ -176,11 +176,19 @@ def save_victim(request):
     else:
         formulate_get="?step=2"
     
-    return redirect('/investigation_form'+formulate_get)
+    if interviewer.data_entry_purpose_id == 1:
+        url = '/investigation_form'+formulate_get
+    elif interviewer.data_entry_purpose_id == 2:
+        url = '/investigation_form'+formulate_get
+    elif interviewer.data_entry_purpose_id == 3:
+        url = '/prosecution_form'+formulate_get
+    else:
+        url = '/investigation_form'+formulate_get
+    return redirect(url)
 def save_arrest(request):
     #TODO: add check for who can post about a victim
     #TODO: combine victims
-    
+    interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     if request.method == "POST":
         arrest = ArrestInvestigation()
         arrest.victim_id =  request.POST['v_id']
@@ -193,7 +201,7 @@ def save_arrest(request):
         arrest.investigation_status_id=request.POST['investigation_status']
         arrest.why_pending=request.POST['why_pending']
         arrest.withdrawn_closed_reason=request.POST['withdrawn_closed_reason']
-        arrest.interviewer=Interviewer.objects.filter(email_address = request.user.email).first()
+        arrest.interviewer=interviewer.id
         arrest.approval_id=1
         arrest.save()
         print(request.POST)
@@ -206,6 +214,8 @@ def save_arrest(request):
     else:
         formulate_get="?step=3"
     
+    
+
     return redirect('/investigation_form'+formulate_get)
 
 def save_suspect(request):
@@ -284,7 +294,7 @@ def prosecution_form(request):
             if victim is None:
                 messages.error('Victim does not exist. Please create a new victim.')
             else:
-                if victim.interviewer_id == interviewer.id:
+                if interviewer.victims.filter(id = victim.id).first() is not None:
                     request.session['v_id'] = victim.id
                 else:
                     permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
@@ -295,11 +305,19 @@ def prosecution_form(request):
                         # TODO: remove autopermission below
                         request.session['v_id'] = victim.id
              
-        if request.GET.get('step') and 'v_id' in request.session:
+        if 'v_id' in request.session:
             context['v_id'] = request.session['v_id']
             context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
-            context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = request.session['v_id'],interviewer_id=interviewer.id)
+            context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = request.session['v_id'])
             context['prosecution'] = Prosecution.objects.filter(interviewer_id = interviewer.id, victim_id = request.session['v_id']).first()
+            context['case_statuses'] = CaseStatus.objects.all()
+            context['trial_courts'] = TrialCourt.objects.all()
+            context['verdicts'] = Verdict.objects.all()
+            context['guilty_reasons'] = GuiltyReason.objects.all()
+            context['prosecution_outcomes'] = ProsecutionOutcome.objects.all()
+            context['aquital_reasons'] = AquitalReason.objects.all()
+            context['sanction_penalties'] = SanctionPenalty.objects.all()
+
 
 
         context['interviewer']=interviewer
@@ -309,6 +327,32 @@ def prosecution_form(request):
     return render(request,"prosecution_form.html",context)
 
 
+
+def save_prosecution(request):
+    interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+
+    if request.method == "POST":
+        prosecution = Prosecution()
+        prosecution.victim_id = request.session['v_id']
+        prosecution.interviewer_id = interviewer.id
+        prosecution.trafficker_id = request.POST['trafficker_id']
+        prosecution.status_of_case_id = request.POST['status_of_case_id']
+        prosecution.trial_court_id = request.POST['trial_court_id']
+        prosecution.trial_court_country_id = request.POST['trial_court_country_id']
+        prosecution.court_case_no = request.POST['court_case_no']
+        prosecution.verdict_id = request.POST['verdict_id']
+        prosecution.guilty_verdict_reason_id = request.POST['guilty_verdict_reason_id']
+        prosecution.prosecution_outcome_id = request.POST['prosecution_outcome_id']
+        prosecution.aquital_reason_id = request.POST['aquital_reason_id']
+        prosecution.review_appeal_outcome = request.POST['review_appeal_outcome']
+        prosecution.sanction_penalty_id = request.POST['sanction_penalty_id']
+        prosecution.years_imposed = request.POST['years_imposed'] if not request.POST['years_imposed'] == "" else None
+        prosecution.save()
+
+        messages.success(request,'Prosecution details saved')
+        
+    return redirect('/cases')
+    
 
 
 

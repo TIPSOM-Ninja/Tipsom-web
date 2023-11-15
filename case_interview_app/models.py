@@ -294,6 +294,9 @@ class Prosecution(models.Model):
     )
     court_case_no = models.CharField(max_length=50, null=True, blank=True)
     guilty_verdict = models.BooleanField(null=True, blank=True)
+    verdict = models.ForeignKey(
+        Verdict, related_name = "prosecutions", on_delete=models.CASCADE, null=True, blank=True
+    )
     guilty_verdict_reason = models.ForeignKey(
         GuiltyReason, related_name = "prosecutions", on_delete=models.CASCADE, null=True, blank=True
     )
@@ -308,6 +311,11 @@ class Prosecution(models.Model):
         SanctionPenalty, related_name = "prosecutions", on_delete=models.CASCADE, null=True, blank=True
     )
     years_imposed = models.IntegerField(null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "prosecutions", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    
 
 class VictimPermissions(models.Model):
     interviewer = models.ForeignKey(
