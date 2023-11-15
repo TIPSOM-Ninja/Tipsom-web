@@ -322,7 +322,7 @@ class VictimPermissions(models.Model):
         Interviewer,  on_delete=models.CASCADE, null=True, blank=True
     )
     victim = models.ForeignKey(
-        Interviewer, related_name = "victim_permission", on_delete=models.CASCADE, null=True, blank=True
+        VictimProfile, related_name = "victim_permission", on_delete=models.CASCADE, null=True, blank=True
     )
     permissions_requested = models.ManyToManyField(
         AccessPermission,  related_name = "permissions_request", null=True, blank=True
@@ -330,4 +330,9 @@ class VictimPermissions(models.Model):
 
     permissions_granted = models.ManyToManyField(
         AccessPermission,  related_name = "permissions_granted", null=True, blank=True
+    )
+
+class Exploitation(models.Model):
+    victim = models.ForeignKey(
+        VictimProfile, related_name = "exploitation", on_delete=models.CASCADE, null=True, blank=True
     )
