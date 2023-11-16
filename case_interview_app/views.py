@@ -259,7 +259,7 @@ def save_suspect(request):
     else:
         url = '/investigation_form'+formulate_get
     
-    return redirect('/investigation_form'+formulate_get)
+    return redirect(url)
 
 def prosecution_form(request):
     if request.GET.get('language') is not None:
