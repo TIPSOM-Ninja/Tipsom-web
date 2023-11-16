@@ -445,7 +445,7 @@ class Exploitation(models.Model):
         ExploitationAge, related_name="exploitation", on_delete=models.CASCADE, null=True, blank=True
     )
     pay_debt = models.BooleanField(null=True,blank=True)
-    debt_amount = models.FloatField(null=True,blank=True)
+    debt_amount = models.CharField(max_length=50,null=True,blank=True)
     freed_method = models.ForeignKey(FreedMethod, related_name="exploitation", on_delete=models.CASCADE,null=True,blank=True)
     event_description = models.TextField(null=True,blank=True)
     e_prostitution = models.BooleanField(null=True,blank=True)
