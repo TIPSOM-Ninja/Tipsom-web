@@ -148,10 +148,10 @@ def save_victim(request):
         victim.additional_remarks = request.POST['additional_remarks']
         victim.approval_id = 1
         victim.save()
-        for lang in request.POST['languages[]']:
+        for lang in request.POST.getlist('languages[]'):
             victim.languages.add(Language.objects.filter(id= lang).first())
         
-        for idt in request.POST['idtypes[]']:
+        for idt in request.POST.getlist('idtypes[]'):
             victim.identification_type.add(IdType.objects.filter(id = idt).first())
 
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
@@ -195,7 +195,7 @@ def save_arrest(request):
         arrest.approval_id=1
         arrest.save()
         print(request.POST)
-        for org in request.POST['how_traffickers_org[]']:
+        for org in request.POST.getlist('how_traffickers_org[]'):
             arrest.how_traffickers_org.add(TraffickerOrg.objects.filter(id= org).first())
             messages.success(request,"Arrest/investigation data successfully saved.")
         
@@ -238,11 +238,11 @@ def save_suspect(request):
         suspect.id_type_id = request.POST['idtypes']
         suspect.save()
 
-        for lang in request.POST['languages[]']:
+        for lang in request.POST.getlist('languages[]'):
             suspect.languages.add(Language.objects.filter(id= lang).first())
 
         
-        for rl in request.POST['role_in_trafficking[]']:
+        for rl in request.POST.getlist('role_in_trafficking[]'):
             suspect.role_in_trafficking.add(RoleInTrafficking.objects.filter(id = rl).first())
 
     if request.GET.get('language') is not None:
@@ -476,35 +476,35 @@ def save_exploitation(request):
         exploitation.save()
 
         if request.POST.get('e_criminal_activity_type[]'):
-            for ca in request.POST['e_criminal_activity_type[]']:
+            for ca in request.POST.getlist('e_criminal_activity_type[]'):
                 exploitation.e_criminal_activity_type.add(ca)
 
         if request.POST.get('e_forced_labour_industry[]'):
-            for ca in request.POST['e_forced_labour_industry[]']:
+            for ca in request.POST.getlist('e_forced_labour_industry[]'):
                 exploitation.e_forced_labour_industry.add(ca)
 
         if request.POST.get('e_brice_recipient[]'):
-            for ca in request.POST['e_brice_recipient[]']:
+            for ca in request.POST.getlist('e_brice_recipient[]'):
                 exploitation.e_brice_recipient.add(ca)
 
         if request.POST.get('e_child_marriage_reason[]'):
-            for ca in request.POST['e_child_marriage_reason[]']:
+            for ca in request.POST.getlist('e_child_marriage_reason[]'):
                 exploitation.e_child_marriage_reason.add(ca)
 
         if request.POST.get('e_marriage_violence_type[]'):
-            for ca in request.POST['e_marriage_violence_type[]']:
+            for ca in request.POST.getlist('e_marriage_violence_type[]'):
                 exploitation.e_marriage_violence_type.add(ca)
         
         if request.POST.get('e_victim_military_activities[]'):
-            for ca in request.POST['e_victim_military_activities[]']:
+            for ca in request.POST.getlist('e_victim_military_activities[]'):
                 exploitation.e_victim_military_activities.add(ca)
         
         if request.POST.get('e_body_part_removed[]'):
-            for ca in request.POST['e_body_part_removed[]']:
+            for ca in request.POST.getlist('e_body_part_removed[]'):
                 exploitation.e_body_part_removed.add(ca)
         
         if request.POST.get('e_trafficking_means[]'):
-            for ca in request.POST['e_trafficking_means[]']:
+            for ca in request.POST.getlist('e_trafficking_means[]'):
                 exploitation.e_trafficking_means.add(ca)
         
         messages.success(request,"Exploitation data successfully saved")
@@ -527,7 +527,7 @@ def save_transit(request):
         transit.save()
 
         if request.POST.get('means_of_transport[]') is not None:
-            for item in request.POST.get('means_of_transport[]'):
+            for item in request.POST.getlist('means_of_transport[]'):
                 transit.transport_means.add(int(item))
 
         messages.success(request,'Transit route successfully saved')
