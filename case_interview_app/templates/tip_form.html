@@ -556,7 +556,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="">
-                                    <label for="e_trafficking_means" class="form-label">{% trans "Which body parts were removed?:" %}</label>
+                                    <label for="e_trafficking_means" class="form-label">{% trans "What were the means employed in the process of trafficking?:" %}</label>
                                     <select class="form-select" name="e_trafficking_means[]" id="e_trafficking_means" aria-label="Default select example"  value="{{exploitation.e_trafficking_means}}" multiple>
                                         <option></option>
                                         {% for mean in trafficking_means%}
@@ -569,7 +569,7 @@
                         </div>
                         <div class="row text-center m-3 ">
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE AND RETURN" %}</button>
+                                <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE AND PROCEED" %}</button>
                             </div>
                         
                         </div>
@@ -579,7 +579,72 @@
                     {% endif %}
                 </div>
                 <div class="tab-pane fade {% if step is not None and step == '3' %} show active  {% endif %}" id="nav-transit" role="tabpanel" aria-labelledby="nav-transit-tab" tabindex="2">
-                   
+                    {% if victim %}
+                    <form id="transit_form" method="post" action="/{{request.LANGUAGE_CODE}}/save_transit">
+                        {% csrf_token %}
+                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="country_of_origin" class="form-label">{% trans "Country of origin/recruitment:" %}</label>
+                                    <select class="form-select" name="country_of_origin_id" id="country_of_origin" aria-label="Default select example"  value="{{transit.country_of_origin}}">
+                                        <option></option>
+                                        {% for country in countries %}
+                                            <option {% if country.id == transit.country_of_origin_id %}selected{% endif %} value="{{country.id}}"> {{country.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="city_village_of_origin" class="form-label">{% trans "Community of recruitment (village/city):" %}</label>
+                                    <input type="text" name = "city_village_of_origin" value = "{{transit.city_village_of_origin}}" class="form-control" id="city_village_of_origin" aria-describedby="city_village_of_originHelp">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="country_of_dest" class="form-label">{% trans "Country of destination/exploitation:" %}</label>
+                                    <select class="form-select" name="country_of_dest_id" id="country_of_dest" aria-label="Default select example"  value="{{transit.country_of_dest}}">
+                                        <option></option>
+                                        {% for country in countries %}
+                                            <option {% if country.id == transit.country_of_origin_id %}selected{% endif %} value="{{country.id}}"> {{country.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="city_village_of_dest" class="form-label">{% trans " Place of exploitation (village/city:" %}</label>
+                                    <input type="text" name = "city_village_of_dest" value = "{{transit.city_village_of_dest}}" class="form-control" id="city_village_of_dest" aria-describedby="city_village_of_destHelp">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="means_of_transport" class="form-label">{% trans "Country of destination/exploitation:" %}</label>
+                                    <select class="form-select" name="means_of_transport[]" id="means_of_transport" aria-label="Default select example"  value="{{transit.means_of_transport_id}}" multiple>
+                                        <option></option>
+                                        {% for mean in transport_means %}
+                                            <option {% if mean in transit.means_of_transport %}selected{% endif %} value="{{mean.id}}"> {{mean.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="remarks" class="form-label">{% trans "Additional remarks:" %}</label>
+                                    <textarea type="text" name = "remarks"  class="form-control" id="remarks" aria-describedby="remarksHelp">{{transit.remarks}}</textarea>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="row text-center m-3 ">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE AND RETURN" %}</button>
+                            </div>
+                        
+                        </div>
+                    </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -653,6 +718,13 @@ const choices6 = new Choices(e_body_part_removed,{
 
 const e_trafficking_means = document.querySelector('#e_trafficking_means');
 const choices7 = new Choices(e_trafficking_means,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+
+const means_of_transport = document.querySelector('#means_of_transport');
+const choices8 = new Choices(means_of_transport,{
     classNames: {
         containerInner: 'choices_inner',
     }

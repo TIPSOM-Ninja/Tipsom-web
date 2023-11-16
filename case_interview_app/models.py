@@ -296,6 +296,7 @@ class TransitRouteDestination(models.Model):
     country_of_origin = models.ForeignKey(
         Country, related_name = "origin_destinations", on_delete=models.CASCADE, null=True, blank=True
     )
+    city_village_of_dest = models.CharField(max_length=50, null=True, blank=True)
     city_village_of_origin = models.CharField(max_length=50, null=True, blank=True)
     country_of_dest = models.ForeignKey(
         Country, related_name = "dest_destinations", on_delete=models.CASCADE, null=True, blank=True
@@ -304,6 +305,11 @@ class TransitRouteDestination(models.Model):
         TransportMean, related_name = "destinations", on_delete=models.CASCADE, null=True, blank=True
     )
     remarks = models.TextField(null=True, blank=True)
+    interviewer = models.ForeignKey(Interviewer, related_name = "destinations", on_delete=models.CASCADE, null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "destinations", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
 
 
 class SuspectedTrafficker(models.Model):
@@ -493,7 +499,7 @@ class Exploitation(models.Model):
     )
     e_operation_location = models.ForeignKey(OperationLocation, related_name="exploitation", on_delete=models.CASCADE,null=True,blank=True)
     e_operation_country = models.ForeignKey(Country, related_name="exploitation_operation_country", on_delete=models.CASCADE,null=True,blank=True)
-    e_organ_sale_price = models.FloatField(null=True,blank=True)
+    e_organ_sale_price = models.CharField(max_length=50,null=True,blank=True)
     e_organ_paid_to = models.ForeignKey(OrganPaidTo, related_name="exploitation", on_delete=models.CASCADE,null=True,blank=True)
     e_remarks = models.TextField(null=True,blank=True)
     e_recruitment_type = models.ForeignKey(RecruitmentType, related_name="exploitation", on_delete=models.CASCADE,null=True,blank=True)

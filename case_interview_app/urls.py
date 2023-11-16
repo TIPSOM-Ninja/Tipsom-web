@@ -18,6 +18,7 @@ urlpatterns = [
     path("save_suspect", views.save_suspect, name="save_suspect"),
     path("save_prosecution", views.save_prosecution, name="save_prosecution"),
     path("save_exploitation", views.save_exploitation, name="save_exploitation"),
+    path("save_transit", views.save_transit, name="save_transit"),
 
     path("victim/<id>", views.victim_view, name="victim_view"),
     

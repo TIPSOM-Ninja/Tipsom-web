@@ -400,6 +400,7 @@ def tip_form(request):
             context['v_id'] = request.session['v_id']
             context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
             context['exploitations'] = Exploitation.objects.filter(victim_id = request.session['v_id'])
+            context['transit'] = TransitRouteDestination.objects.filter(victim_id = request.session['v_id'])
             context['exploitation_ages'] = ExploitationAge.objects.all()
             context['freed_methods'] = FreedMethod.objects.all()
             context['criminal_activity_types'] = CriminalActivityType.objects.all()
@@ -505,11 +506,33 @@ def save_exploitation(request):
             for ca in request.POST['e_trafficking_means[]']:
                 exploitation.e_trafficking_means.add(ca)
         
+        messages.success(request,"Exploitation data successfully saved")
         
         formulate_get="?step=3"
         return redirect('/tip_form'+formulate_get)
 
+def save_transit(request):
+    interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+    
+    if request.method == "POST":
+        transit = TransitRouteDestination()
+        transit.victim_id = request.session['v_id']
+        transit.country_of_origin_id = request.POST['country_of_origin_id']
+        transit.country_of_dest_id = request.POST['country_of_dest_id']
+        transit.city_village_of_dest = request.POST['city_village_of_dest']
+        transit.city_village_of_origin = request.POST['city_village_of_origin']
+        transit.remarks = request.POST['remarks']
+        transit.approval_id = 1
+        transit.save()
 
+        if request.POST.get('means_of_transport[]') is not None:
+            for means in request.POST['means_of_transport']:
+                transit.means_of_transport.add(means)
+
+        messages.success(request,'Transit route successfully saved')
+        
+        formulate_get="?step=3"
+        return redirect('/cases')
 
 
 
