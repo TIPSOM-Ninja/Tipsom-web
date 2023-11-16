@@ -410,6 +410,7 @@ def tip_form(request):
             context['affirm_options'] = AffirmOption.objects.all()
             context['marriage_violence_types'] = MarriageViolenceType.objects.all()
             context['military_activities'] = MilitaryActivity.objects.all()
+            context['military_types'] = MilitaryType.objects.all()
             context['body_parts'] = BodyPart.objects.all()
             context['operation_locations'] = OperationLocation.objects.all()
             context['organ_paid_to'] = OrganPaidTo.objects.all()

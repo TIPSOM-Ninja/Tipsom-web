@@ -73,7 +73,9 @@
                             <div class="col-md-6">
                                 <div class="">
                                     <label for="exploitation_age" class="form-label">{% trans "If YES, what was the age(s) of the victim during the period of exploitation?:" %}</label>
+                                    
                                     <select class="form-select" name="exploitation_age" id="exploitation_age_id" aria-label="Default select example"  value="{{exploitation.exploitation_age}}">
+                                        <option></option>
                                         {% for age in exploitation_ages %}
                                             <option {% if age.id == exploitation.exploitation_age_id %}selected{% endif %} value="{{age.id}}"> {{age.name}}</option>
                                         {% endfor %}
@@ -106,6 +108,7 @@
                                 <div class="">
                                     <label for="freed_method" class="form-label">{% trans "How was the victim freed?:" %}</label>
                                     <select class="form-select" name="freed_method_id" id="freed_method" aria-label="Default select example"  value="{{exploitation.freed_method_id}}">
+                                        <option></option>
                                         {% for method in freed_methods %}
                                             <option {% if method.id == exploitation.freed_method_id %}selected{% endif %} value="{{method.id}}"> {{method.name}}</option>
                                         {% endfor %}
@@ -208,6 +211,7 @@
                                 <div class="">
                                     <label for="e_criminal_activity_type" class="form-label">{% trans "If yes, what crime?:" %}</label>
                                     <select class="form-select" name="e_criminal_activity_type[]" id="e_criminal_activity_type" aria-label="Default select example"  value="{{exploitation.e_criminal_activity_type}}" multiple>
+                                        <option></option>
                                         {% for type in criminal_activity_types %}
                                             <option {% if type.id in exploitation.e_criminal_activity_type %}selected{% endif %} value="{{type.id}}"> {{type.name}}</option>
                                         {% endfor %}
@@ -234,6 +238,7 @@
                                 <div class="">
                                     <label for="e_forced_labour_industry" class="form-label">{% trans "If yes, what industry?:" %}</label>
                                     <select class="form-select" name="e_forced_labour_industry[]" id="e_forced_labour_industry" aria-label="Default select example"  value="{{exploitation.e_forced_labour_industry}}" multiple>
+                                        <option></option>
                                         {% for industry in forced_labour_industries %}
                                             <option {% if industry.id in exploitation.e_forced_labour_industry %}selected{% endif %} value="{{industry.id}}"> {{industry.name}}</option>
                                         {% endfor %}
@@ -276,6 +281,7 @@
                                 <div class="">
                                     <label for="e_spouse_nationality" class="form-label">{% trans "What is the spouse’s nationality?:" %}</label>
                                     <select class="form-select" name="e_spouse_nationality_id" id="e_spouse_nationality" aria-label="Default select example"  value="{{exploitation.e_spouse_nationality_id}}">
+                                        <option></option>
                                         {% for country in countries %}
                                             <option {% if country.id == exploitation.e_spouse_nationality_id %}selected{% endif %} value="{{country.id}}"> {{country.name}}</option>
                                         {% endfor %}
@@ -286,6 +292,7 @@
                                 <div class="">
                                     <label for="e_bprice_paid" class="form-label">{% trans "Was a bride price, dowry or dower paid?:" %}</label>
                                     <select class="form-select" name="e_bprice_paid_id" id="e_bprice_paid" aria-label="Default select example"  value="{{exploitation.e_bprice_paid_id}}">
+                                        <option></option>
                                         {% for price in bride_prices %}
                                             <option {% if price.id == exploitation.e_bprice_paid_id %}selected{% endif %} value="{{price.id}}"> {{price.name}}</option>
                                         {% endfor %}
@@ -302,6 +309,7 @@
                                 <div class="">
                                     <label for="e_brice_recipient" class="form-label">{% trans "If YES to bride price, which individual(s) received the bride price?:" %}</label>
                                     <select class="form-select" name="e_brice_recipient[]" id="e_brice_recipient" aria-label="Default select example"  value="{{exploitation.e_brice_recipient}}" multiple>
+                                        <option></option>
                                         {% for recipient in bride_price_recipients%}
                                             <option {% if recipient.id in exploitation.e_brice_recipient %}selected{% endif %} value="{{recipient.id}}"> {{recipient.name}}</option>
                                         {% endfor %}
@@ -328,6 +336,7 @@
                                 <div class="">
                                     <label for="e_child_marriage_reason" class="form-label">{% trans "What was the reason for the child marriage?:" %}</label>
                                     <select class="form-select" name="e_child_marriage_reason[]" id="e_child_marriage_reason" aria-label="Default select example"  value="{{exploitation.e_child_marriage_reason}}" multiple>
+                                        <option></option>
                                         {% for reason in child_marriage_reasons%}
                                             <option {% if reason.id in exploitation.e_child_marriage_reason %}selected{% endif %} value="{{reason.id}}"> {{reason.name}}</option>
                                         {% endfor %}
@@ -382,6 +391,7 @@
                                 <div class="">
                                     <label for="e_marriage_violence" class="form-label">{% trans "During the marriage, was the victim subject to any form of violence?:" %}</label>
                                     <select class="form-select" name="e_marriage_violence_id" id="e_marriage_violence" aria-label="Default select example"  value="{{exploitation.e_marriage_violence_id}}">
+                                        <option></option>
                                         {% for option in affirm_options %}
                                             <option {% if option.id == exploitation.e_marriage_violence_id %}selected{% endif %} value="{{option.id}}"> {{option.name}}</option>
                                         {% endfor %}
@@ -392,6 +402,7 @@
                                 <div class="">
                                     <label for="e_marriage_violence_type" class="form-label">{% trans "If YES, please specify what the violence was through?:" %}</label>
                                     <select class="form-select" name="e_marriage_violence_type[]" id="e_marriage_violence_type" aria-label="Default select example"  value="{{exploitation.e_marriage_violence_type}}" multiple>
+                                        <option></option>
                                         {% for type in marriage_violence_types%}
                                             <option {% if type in exploitation.e_marriage_violence_type %}selected{% endif %} value="{{type.id}}">{{type.name}}</option>
                                         {% endfor %}
@@ -420,6 +431,7 @@
                                 <div class="">
                                     <label for="e_victim_military_activities" class="form-label">{% trans "What type of activities did the victim perform?:" %}</label>
                                     <select class="form-select" name="e_victim_military_activities[]" id="e_victim_military_activities" aria-label="Default select example"  value="{{exploitation.e_victim_military_activities}}" multiple>
+                                        <option></option>
                                         {% for activity in military_activities%}
                                             <option {% if activity in exploitation.e_victim_military_activities %}selected{% endif %} value="{{activity.id}}"> {{activity.name}}</option>
                                         {% endfor %}
@@ -468,6 +480,7 @@
                                 <div class="">
                                     <label for="e_body_part_removed" class="form-label">{% trans "Which body parts were removed?:" %}</label>
                                     <select class="form-select" name="e_body_part_removed[]" id="e_body_part_removed" aria-label="Default select example"  value="{{exploitation.e_body_part_removed}}" multiple>
+                                        <option></option>
                                         {% for part in body_parts%}
                                             <option {% if part.id in exploitation.e_body_part_removed %}selected{% endif %} value="{{part.id}}"> {{part.name}}</option>
                                         {% endfor %}
@@ -478,6 +491,7 @@
                                 <div class="">
                                     <label for="e_operation_location" class="form-label">{% trans "Where was the operation performed?:" %}</label>
                                     <select class="form-select" name="e_operation_location_id" id="e_operation_location" aria-label="Default select example"  value="{{exploitation.e_operation_location_id}}">
+                                        <option></option>
                                         {% for location in operation_locations %}
                                             <option {% if location.id == exploitation.e_operation_location_id %}selected{% endif %} value="{{location.id}}"> {{location.name}}</option>
                                         {% endfor %}
@@ -488,6 +502,7 @@
                                 <div class="">
                                     <label for="e_operation_country" class="form-label">{% trans "In which country was the operation performed?:" %}</label>
                                     <select class="form-select" name="e_operation_country_id" id="e_operation_country" aria-label="Default select example"  value="{{exploitation.e_operation_country_id}}">
+                                        <option></option>
                                         {% for country in countries %}
                                             <option {% if country.id == exploitation.e_operation_country_id %}selected{% endif %} value="{{country.id}}"> {{country.name}}</option>
                                         {% endfor %}
@@ -504,6 +519,7 @@
                                 <div class="">
                                     <label for="e_organ_paid_to" class="form-label">{% trans "If applicable, to whom was the money paid?:" %}</label>
                                     <select class="form-select" name="e_organ_paid_to_id" id="e_organ_paid_to" aria-label="Default select example"  value="{{exploitation.e_organ_paid_to_id}}" >
+                                        <option></option>
                                         {% for to in organ_paid_to%}
                                             <option {% if to.id == exploitation.e_organ_paid_to_id %}selected{% endif %} value="{{to.id}}"> {{to.name}}</option>
                                         {% endfor %}
@@ -520,6 +536,7 @@
                                 <div class="">
                                     <label for="e_recruitment_type" class="form-label">{% trans "If recruitment, how was the victim recruited?:" %}</label>
                                     <select class="form-select" name="e_recruitment_type_id" id="e_recruitment_type" aria-label="Default select example"  value="{{exploitation.e_recruitment_type_id}}">
+                                        <option></option>
                                         {% for type in recruitment_types %}
                                             <option {% if type.id == exploitation.e_recruitment_type_id %}selected{% endif %} value="{{type.id}}"> {{type.name}}</option>
                                         {% endfor %}
@@ -530,6 +547,7 @@
                                 <div class="">
                                     <label for="e_recruiter_relationship" class="form-label">{% trans "If recruitment, how was the victim recruited?:" %}</label>
                                     <select class="form-select" name="e_recruiter_relationship_id" id="e_recruiter_relationship" aria-label="Default select example"  value="{{exploitation.e_recruiter_relationship_id}}">
+                                        <option></option>
                                         {% for relationship in recruitment_relationships %}
                                             <option {% if relationship.id == exploitation.e_recruiter_relationship_id %}selected{% endif %} value="{{relationship.id}}"> {{relationship.name}}</option>
                                         {% endfor %}
@@ -540,6 +558,7 @@
                                 <div class="">
                                     <label for="e_trafficking_means" class="form-label">{% trans "Which body parts were removed?:" %}</label>
                                     <select class="form-select" name="e_trafficking_means[]" id="e_trafficking_means" aria-label="Default select example"  value="{{exploitation.e_trafficking_means}}" multiple>
+                                        <option></option>
                                         {% for mean in trafficking_means%}
                                             <option {% if mean.id in exploitation.e_trafficking_means %}selected{% endif %} value="{{mean.id}}"> {{mean.name}}</option>
                                         {% endfor %}
