@@ -527,7 +527,7 @@ def save_transit(request):
         transit.save()
 
         if request.POST.get('means_of_transport[]') is not None:
-            for means in request.POST['means_of_transport']:
+            for means in request.POST['means_of_transport[]']:
                 transit.means_of_transport.add(means)
 
         messages.success(request,'Transit route successfully saved')
