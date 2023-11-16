@@ -20,7 +20,7 @@
                     {% if request.session.v_id %}
                     {% include "components/victimprofile.html"%}
                     <div class="container text-center">
-                        <a href="/{{request.LANGUAGE_CODE}}/exploitation_form?step=2" class="btn btn-primary mt-3 text-warning">{% translate "NEXT" %}</a>
+                        <a href="/{{request.LANGUAGE_CODE}}/tip_form?step=2" class="btn btn-primary mt-3 text-warning">{% translate "NEXT" %}</a>
 
                     </div>
                     {% else %}
@@ -29,7 +29,7 @@
                 </div>
                 <div class="tab-pane fade {% if step is not None and step == '2' %} show active  {% endif %}" id="nav-exploitation" role="tabpanel" aria-labelledby="nav-exploitation-tab" tabindex="1">
                     {% if victim %}
-                    <form id="exploitation_form" method="post" action="/{{request.LANGUAGE_CODE}}/save_exploitation">
+                    <form id="tip_form" method="post" action="/{{request.LANGUAGE_CODE}}/save_exploitation">
                         {% csrf_token %}
                         <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
                             <div class="col-md-6">

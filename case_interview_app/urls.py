@@ -7,7 +7,7 @@ urlpatterns = [
     path("interviewer_registration", views.interviewer_registration, name="interviewer_registration"),
     path("investigation_form", views.investigation_form, name="investigation_form"),
     path("prosecution_form", views.prosecution_form, name="prosecution_form"),
-    path("exploitation_form", views.exploitation_form, name="exploitation_form"),
+    path("tip_form", views.tip_form, name="tip_form"),
 
     path("cases", views.cases, name="cases"),
     path("login", views.signin, name="signin"),

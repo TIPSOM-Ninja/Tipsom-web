@@ -166,7 +166,7 @@ def save_victim(request):
         formulate_get="?step=2"
     
     if interviewer.data_entry_purpose_id == 1:
-        url = '/exploitation_form'+formulate_get
+        url = '/tip_form'+formulate_get
     elif interviewer.data_entry_purpose_id == 2:
         url = '/investigation_form'+formulate_get
     elif interviewer.data_entry_purpose_id == 3:
@@ -251,7 +251,7 @@ def save_suspect(request):
         formulate_get="?step=3"
     
     if interviewer.data_entry_purpose_id == 1:
-        url = '/exploitation_form'+formulate_get
+        url = '/tip_form'+formulate_get
     elif interviewer.data_entry_purpose_id == 2:
         url = '/investigation_form'+formulate_get
     elif interviewer.data_entry_purpose_id == 3:
@@ -357,7 +357,7 @@ def save_prosecution(request):
         
     return redirect('/cases')
 
-def exploitation_form(request):
+def tip_form(request):
     if(request.user.is_authenticated):
         countries = Country.objects.all()
         purposes = DataEntryPurpose.objects.all()
@@ -423,7 +423,7 @@ def exploitation_form(request):
     else:
         return redirect("/login")
 
-    return render(request,"exploitation_form.html",context)
+    return render(request,"tip_form.html",context)
 
 def save_exploitation(request):
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
@@ -506,7 +506,7 @@ def save_exploitation(request):
         
         
         formulate_get="?step=3"
-        return redirect('/exploitation_form'+formulate_get)
+        return redirect('/tip_form'+formulate_get)
 
 
 
