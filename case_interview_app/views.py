@@ -468,7 +468,7 @@ def save_exploitation(request):
 
         if request.POST.get('e_criminal_activity_type[]'):
             for ca in request.POST['e_criminal_activity_type[]']:
-                exploitation.e_criminal_activity_type.add(CriminalActivityType.objects.filter(id=ca))
+                exploitation.e_criminal_activity_type.add(ca)
 
         if request.POST.get('e_forced_labour_industry[]'):
             for ca in request.POST['e_forced_labour_industry[]']:
