@@ -418,6 +418,7 @@ def tip_form(request):
             context['recruitment_types'] = RecruitmentType.objects.all()
             context['recruiter_relationships'] = RecruiterRelationship.objects.all()
             context['trafficking_means'] = TraffickingMean.objects.all()
+            context['transport_means'] = TransportMean.objects.all()
 
 
 
