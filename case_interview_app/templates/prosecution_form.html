@@ -10,7 +10,8 @@
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                     <button class="nav-link {% if step is not None and step == '1' %}active {% elif  step is None %}active{% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Victim Profile</button>
-                    <button class="nav-link {% if step is not None and step == '2' %} active {% endif %}" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-prosecution" type="button" role="tab" aria-controls="nav-prosecution" aria-selected="false">Prosecution</button>  
+                    <button class="nav-link {% if step is not None and step == '2' %} active {% endif %}" id="nav-suspect-tab" data-bs-toggle="tab" data-bs-target="#nav-suspect" type="button" role="tab" aria-controls="nav-suspect" aria-selected="false">Suspect</button>  
+                    <button class="nav-link {% if step is not None and step == '3' %} active {% endif %}" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-prosecution" type="button" role="tab" aria-controls="nav-prosecution" aria-selected="false">Prosecution</button>  
                 </div>
             </nav>
             <div class="tab-content">
@@ -25,7 +26,96 @@
                     {% include "components/victim_form.html"%}
                     {% endif %}
                 </div>
-                <div class="tab-pane fade {% if step is not None and step == '2' %} show active  {% endif %}" id="nav-prosecution" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                <div class="tab-pane fade {% if step is not None and step == '2' %} show active  {% endif %}" id="nav-suspect" role="tabpanel" aria-labelledby="nav-suspect-tab" tabindex="0">
+                    {% if victim %}
+                    {% if suspects|length > 0 %}
+                    {% for suspect in suspects %}
+                    <div class="card my-2">
+                        <div class="card-header">
+                            <h3>Suspect: {{suspect.first_name}} {{suspect.last_name}}</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3 mb-1">
+                                <div class="col-md-12 py-2 border-top border-bottom border-primary bg-light">
+                                    <h6>Bio-data</h6>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                <p>{% trans "Name:" %} {{suspect.first_name}} {{suspect.last_name}}</p>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    {% trans "Date of birth:" %} {{suspect.dob}}
+                                </div>
+                                <div class="col-md-6">
+                                    {% trans "Age:" %} {{suspect.age}}
+                                </div>
+                                <div class="col-md-6">
+                                    {% trans "Gender:" %} {{suspect.gender.name}}
+                                </div>
+                                <div class="col-md-6">
+                                    {% trans "Race:" %}{{suspect.race.name}}
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    {% trans "Languages:" %} {% for  lang in suspect.languages.all  %}{{lang.name}} {% endfor %}
+                                </div>
+                                <div class="col-md-6">
+                                   {% trans "Citizenship:" %} {{suspect.citizenship.name}}
+                                </div>
+                                <div class="col-md-6">
+                                    {% trans "Nationality:" %} {{suspect.nationality.name}}
+                                </div>
+                                <div class="col-md-6">
+                                    {% trans "ID Type:" %} {{suspect.idtype.name }}
+                                </div>
+                                <div class="col-md-6">
+                                    {% trans "ID number:" %} {{suspect.id_number}}
+                                </div>
+                                <div class="col-md-6">
+                                    {% trans "Address:" %} {{suspect.address}}
+                                </div>
+                                <div class="col-md-6">
+                                    {% trans "Last place of residence:" %} {{suspect.last_residence.name}}
+                                </div>
+                                <div class="col-md-6">
+                                    {% trans "Country of birth:" %} {{suspect.country_of_birth.name}}
+                                </div>
+    
+                               
+                            </div>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-12 py-2 border-top border-bottom border-primary bg-light">
+                                    <h6>Case data</h6>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    {% trans "Date of arrest:" %} {{suspect.date_of_arrest}}
+                                </div>
+                                <div class="col-md-6">
+                                    {% trans "Role in trafficking:" %} {% for role_in_trafficking in suspect.role_in_trafficking.all %}{{role_in_trafficking.name }} {% endfor %}
+                                    
+                                </div>
+                                <div class="col-md-12">
+                                    {% translate "From:" %} {{suspect.traffick_from_country.name}},{{suspect.traffick_from_place}}
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    {% translate "To:" %} {{suspect.traffick_to_country.name}},{{suspect.traffick_to_place}}
+                                </div>
+                                
+    
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    {% include "components/suspect_form.html" %}
+                    {% endif %}
+                    {% endif %}
+                </div>
+                <div class="tab-pane fade {% if step is not None and step == '3' %} show active  {% endif %}" id="nav-prosecution" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
                     {% if victim %}
                     <form id="prosecution_form" method="post" action="/{{request.LANGUAGE_CODE}}/save_prosecution">
                         {% csrf_token %}

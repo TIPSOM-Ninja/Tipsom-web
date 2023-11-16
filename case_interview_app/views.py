@@ -212,6 +212,7 @@ def save_suspect(request):
     today = date.today()
     born = datetime.strptime(request.POST['dob'], '%Y-%m-%d')
     age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+    interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     if request.method == "POST":
         suspect = SuspectedTrafficker()
         suspect.victim_id = request.session['v_id']
@@ -232,7 +233,7 @@ def save_suspect(request):
         suspect.traffick_from_place = request.POST['traffick_from_place']
         suspect.traffick_to_country_id = request.POST['traffick_to_country']
         suspect.traffick_to_place = request.POST['traffick_to_place']
-        suspect.interviewer=Interviewer.objects.filter(email_address = request.user.email).first()
+        suspect.interviewer=interviewer.id
         suspect.approval_id=1
         suspect.id_type_id = request.POST['idtypes']
         suspect.save()
@@ -248,6 +249,15 @@ def save_suspect(request):
         formulate_get="?step=3&language="+request.GET.get('language')
     else:
         formulate_get="?step=3"
+    
+    if interviewer.data_entry_purpose_id == 1:
+        url = '/exploitation_form'+formulate_get
+    elif interviewer.data_entry_purpose_id == 2:
+        url = '/investigation_form'+formulate_get
+    elif interviewer.data_entry_purpose_id == 3:
+        url = '/prosecution_form?step=3'
+    else:
+        url = '/investigation_form'+formulate_get
     
     return redirect('/investigation_form'+formulate_get)
 
