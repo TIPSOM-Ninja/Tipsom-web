@@ -38,7 +38,7 @@
         </div>
         
         <div class="col-md-6">
-            <strong>{% trans "ID Type:" %}</strong> {{victim.idtype.name }}
+            <strong>{% trans "ID Type:" %}</strong> {% for type in victim .idtypes  %}{{type.name}} {% endfor %}
         </div>
         <div class="col-md-6">
             <strong>{% trans "ID number:" %}</strong> {{victim.identification_number}}
