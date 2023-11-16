@@ -233,7 +233,7 @@ def save_suspect(request):
         suspect.traffick_from_place = request.POST['traffick_from_place']
         suspect.traffick_to_country_id = request.POST['traffick_to_country']
         suspect.traffick_to_place = request.POST['traffick_to_place']
-        suspect.interviewer=interviewer.id
+        suspect.interviewer_id=interviewer.id
         suspect.approval_id=1
         suspect.id_type_id = request.POST['idtypes']
         suspect.save()
