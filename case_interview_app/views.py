@@ -274,6 +274,8 @@ def prosecution_form(request):
         genders = Gender.objects.all()
         races = Race.objects.all()
         idtypes = IdType.objects.all()
+        roles_in_trafficking = RoleInTrafficking.objects.all()
+
         
         context = {
             "countries":countries,
@@ -282,6 +284,7 @@ def prosecution_form(request):
             "genders":genders,
             "races":races,
             "idtypes":idtypes,
+            'roles_in_trafficking':roles_in_trafficking
            
         }
         if request.GET.get('step') is not None:
