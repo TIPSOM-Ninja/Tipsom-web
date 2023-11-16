@@ -563,6 +563,7 @@ def victim_view(request,id):
     context['arrest'] = ArrestInvestigation.objects.filter(victim_id = id,interviewer_id=interviewer.id).first()
     context['prosecutions'] = Prosecution.objects.filter(victim_id = id)
     context['exploitation'] = Exploitation.objects.filter(victim_id = id).first()
+    context['destination'] = TransitRouteDestination.objects.filter(victim_id = id).first()
 
     return render(request,"victim-view.html",context)
 
