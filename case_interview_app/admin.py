@@ -82,6 +82,99 @@ class SanctionPenaltyAdmin(admin.ModelAdmin):
 class TransportMeanAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(Verdict)
+class VerdictAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(ApprovalStatus)
+class ApprovalStatusAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(AccessPermission)
+class AccessPermissionAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(ExploitationAge)
+class ExploitationAgeAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(FreedMethod)
+class FreedMethodAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(CriminalActivityType)
+class CriminalActivityTypeAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(ForcedLabourIndustry)
+class ForcedLabourIndustryAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(BridePrice)
+class BridePriceAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(BridePriceRecipient)
+class BridePriceRecipientAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(ChildMarriageReason)
+class ChildMarriageReasonAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(AffirmOption)
+class AffirmOptionAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(MarriageViolenceType)
+class MarriageViolenceTypeAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(MilitaryType)
+class MilitaryTypeAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(MilitaryActivity)
+class MilitaryActivityAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(BodyPart)
+class BodyPartAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(OperationLocation)
+class OperationLocationAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(OrganPaidTo)
+class OrganPaidToAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(RecruitmentType)
+class RecruitmentTypeAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(RecruiterRelationship)
+class RecruiterRelationshipAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(TraffickingMean)
+class TraffickingMeanAdmin(admin.ModelAdmin):
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @admin.register(VictimProfile)
 class VictimProfileAdmin(admin.ModelAdmin):
@@ -112,20 +205,12 @@ class ArrestInvestigationAdmin(admin.ModelAdmin):
 class ProsecutionAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(ApprovalStatus)
-class ApprovalStatusAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(AccessPermission)
-class AccessPermissionAdmin(admin.ModelAdmin):
+@admin.register(Exploitation)
+class ExploitationAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(VictimPermissions)
 class VictimPermissionsAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(Verdict)
-class VerdictAdmin(admin.ModelAdmin):
     pass
 
 

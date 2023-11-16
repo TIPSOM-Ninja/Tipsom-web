@@ -136,7 +136,109 @@ class AccessPermission(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+class ExploitationAge(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class FreedMethod(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class CriminalActivityType(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class ForcedLabourIndustry(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class BridePrice(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
     
+class BridePriceRecipient(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+    
+class ChildMarriageReason(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class AffirmOption(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class MarriageViolenceType(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class MilitaryType(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class MilitaryActivity(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+    
+class BodyPart(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class OperationLocation(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class OrganPaidTo(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+    
+class RecruitmentType(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class RecruiterRelationship(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class TraffickingMean(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
 class VictimProfile(models.Model):
     citizenship = models.ForeignKey(
         Country, related_name = "victims_cit",  on_delete=models.CASCADE, null=True, blank=True
@@ -335,4 +437,67 @@ class VictimPermissions(models.Model):
 class Exploitation(models.Model):
     victim = models.ForeignKey(
         VictimProfile, related_name = "exploitation", on_delete=models.CASCADE, null=True, blank=True
+    )
+    subject_to_exploitation  = models.BooleanField(null=True,blank=True)
+    intent_to_exploit = models.BooleanField(null=True,blank=True)
+    exploitation_length = models.CharField(max_length=50,null=True,blank=True)
+    exploitation_age = models.ForeignKey(
+        ExploitationAge, related_name="exploitation", on_delete=models.CASCADE, null=True, blank=True
+    )
+    pay_debt = models.BooleanField(null=True,blank=True)
+    debt_amount = models.FloatField(null=True,blank=True)
+    freed_method = models.ForeignKey(FreedMethod, related_name="exploitation", on_delete=models.CASCADE,null=True,blank=True)
+    event_description = models.TextField(null=True,blank=True)
+    e_prostitution = models.BooleanField(null=True,blank=True)
+    e_other_sexual = models.BooleanField(null=True,blank=True)
+    e_other_sexual_online = models.BooleanField(null=True,blank=True)
+    e_online_porno = models.BooleanField(null=True,blank=True)
+    e_criminal_activity = models.BooleanField(null=True,blank=True)
+    e_criminal_activity_type = models.ManyToManyField(
+        CriminalActivityType,  related_name = "exploitation", null=True, blank=True
+    )
+    e_forced_labour = models.BooleanField(null=True,blank=True)
+    e_forced_labour_industry = models.ManyToManyField(
+        ForcedLabourIndustry,  related_name = "exploitation", null=True, blank=True
+    )
+    e_forced_marriage = models.BooleanField(null=True,blank=True)
+    e_victim_knew_spouse = models.BooleanField(null=True,blank=True)
+    e_spouse_nationality = models.ForeignKey(Country, related_name="exploitation_spouse_nationality", on_delete=models.CASCADE,null=True,blank=True)
+    e_bprice_paid = models.ForeignKey(BridePrice, related_name="exploitation", on_delete=models.CASCADE,null=True,blank=True)
+    e_bprice_amount_kind = models.CharField(max_length=250,null=True,blank=True)
+    e_brice_recipient = models.ManyToManyField(
+        BridePriceRecipient,  related_name = "exploitation", null=True, blank=True
+    )
+    e_child_marriage = models.BooleanField(null=True,blank=True)
+    e_child_marriage_reason = models.ManyToManyField(
+        ChildMarriageReason,  related_name = "exploitation", null=True, blank=True
+    )
+    e_victim_pregnancy = models.BooleanField(null=True,blank=True)
+    e_children_from_marriage = models.IntegerField(null=True, blank=True)
+    e_maternal_health_issues = models.BooleanField(null=True,blank=True)
+    e_m_health_issues_description = models.TextField(null=True,blank=True)
+    e_marriage_violence = models.ForeignKey(AffirmOption, related_name="exploitation", on_delete=models.CASCADE,null=True,blank=True)
+    e_marriage_violence_type = models.ManyToManyField(
+        MarriageViolenceType,  related_name = "exploitation", null=True, blank=True
+    )
+    e_forced_military_type = models.ForeignKey(MilitaryType, related_name="exploitation", on_delete=models.CASCADE,null=True,blank=True)
+    e_armed_group_name = models.CharField(max_length=250,null=True,blank=True)
+    e_victim_military_activities = models.ManyToManyField(
+        MilitaryActivity,  related_name = "exploitation", null=True, blank=True
+    )
+    e_child_soldier = models.BooleanField(null=True,blank=True)
+    e_child_soldier_age = models.IntegerField(null=True, blank=True)
+    e_organ_removed = models.BooleanField(null=True,blank=True)
+    e_body_part_removed = models.ManyToManyField(
+        BodyPart,  related_name = "exploitation", null=True, blank=True
+    )
+    e_operation_location = models.ForeignKey(OperationLocation, related_name="exploitation", on_delete=models.CASCADE,null=True,blank=True)
+    e_operation_country = models.ForeignKey(Country, related_name="exploitation_operation_country", on_delete=models.CASCADE,null=True,blank=True)
+    e_organ_sale_price = models.FloatField(null=True,blank=True)
+    e_organ_paid_to = models.ForeignKey(OrganPaidTo, related_name="exploitation", on_delete=models.CASCADE,null=True,blank=True)
+    e_remarks = models.TextField(null=True,blank=True)
+    e_recruitment_type = models.ForeignKey(RecruitmentType, related_name="exploitation", on_delete=models.CASCADE,null=True,blank=True)
+    e_recruiter_relationship = models.ForeignKey(RecruiterRelationship, related_name="exploitation", on_delete=models.CASCADE,null=True,blank=True)
+    e_trafficking_means = models.ManyToManyField(
+        TraffickingMean,  related_name = "exploitation", null=True, blank=True
     )

@@ -177,7 +177,7 @@ def save_victim(request):
         formulate_get="?step=2"
     
     if interviewer.data_entry_purpose_id == 1:
-        url = '/investigation_form'+formulate_get
+        url = '/exploitation_form'+formulate_get
     elif interviewer.data_entry_purpose_id == 2:
         url = '/investigation_form'+formulate_get
     elif interviewer.data_entry_purpose_id == 3:
@@ -185,6 +185,7 @@ def save_victim(request):
     else:
         url = '/investigation_form'+formulate_get
     return redirect(url)
+
 def save_arrest(request):
     #TODO: add check for who can post about a victim
     #TODO: combine victims
@@ -352,7 +353,157 @@ def save_prosecution(request):
         messages.success(request,'Prosecution details saved')
         
     return redirect('/cases')
+
+def exploitation_form(request):
+    if(request.user.is_authenticated):
+        countries = Country.objects.all()
+        purposes = DataEntryPurpose.objects.all()
+        languages = Language.objects.all()
+        genders = Gender.objects.all()
+        races = Race.objects.all()
+        idtypes = IdType.objects.all()
+        
+        context = {
+            "countries":countries,
+            "purposes":purposes,
+            "languages":languages,
+            "genders":genders,
+            "races":races,
+            "idtypes":idtypes,
+           
+        }
+        if request.GET.get('step') is not None:
+            context['step'] = request.GET.get('step')
+        
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+
+        if request.GET.get("v_id") is not None:
+            victim = VictimProfile.objects.filter(id = request.GET.get("v_id")).first()
+            if victim is None:
+                messages.error('Victim does not exist. Please create a new victim.')
+            else:
+                if interviewer.victims.filter(id = victim.id).first() is not None:
+                    request.session['v_id'] = victim.id
+                else:
+                    permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
+                    if permission is None:
+                        messages.error("You do not have access to this record. Please create a request.")
+                    else:
+                        # TODO: check if permision is granted
+                        # TODO: remove autopermission below
+                        request.session['v_id'] = victim.id
+             
+        if 'v_id' in request.session:
+            context['v_id'] = request.session['v_id']
+            context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
+            context['exploitations'] = Exploitation.objects.filter(victim_id = request.session['v_id'])
+            context['exploitation_ages'] = ExploitationAge.objects.all()
+            context['freed_methods'] = FreedMethod.objects.all()
+            context['criminal_activity_types'] = CriminalActivityType.objects.all()
+            context['forced_labour_industries'] = ForcedLabourIndustry.objects.all()
+            context['bride_prices'] = BridePrice.objects.all()
+            context['bride_price_recipients'] = BridePriceRecipient.objects.all()
+            context['child_marriage_reasons'] = ChildMarriageReason.objects.all()
+            context['affirm_options'] = AffirmOption.objects.all()
+            context['marriage_violence_types'] = MarriageViolenceType.objects.all()
+            context['military_activities'] = MilitaryActivity.objects.all()
+            context['body_parts'] = BodyPart.objects.all()
+            context['operation_locations'] = OperationLocation.objects.all()
+            context['organ_paid_to'] = OrganPaidTo.objects.all()
+            context['recruitment_types'] = RecruitmentType.objects.all()
+            context['recruiter_relationships'] = RecruiterRelationship.objects.all()
+            context['trafficking_means'] = TraffickingMean.objects.all()
+
+
+
+        context['interviewer']=interviewer
+    else:
+        return redirect("/login")
+
+    return render(request,"exploitation_form.html",context)
+
+def save_exploitation(request):
     
+    if request.method == "POST":
+        exploitation = Exploitation()
+        exploitation.victim_id = request.session['v_id']
+        exploitation.subject_to_exploitation = request.POST['subject_to_exploitation']
+        exploitation.intent_to_exploit = request.POST['intent_to_exploit']
+        exploitation.exploitation_length = request.POST['exploitation_length']
+        exploitation.exploitation_age_id = request.POST['exploitation_age_id']
+        exploitation.pay_debt = request.POST['pay_debt']
+        exploitation.debt_amount = request.POST['debt_amount']
+        exploitation.freed_method_id = request.POST['freed_method_id']
+        exploitation.event_description = request.POST['event_description']
+        exploitation.e_prostitution = request.POST['e_prostitution']
+        exploitation.e_other_sexual = request.POST['e_other_sexual']
+        exploitation.e_other_sexual_online = request.POST['e_other_sexual_online']
+        exploitation.e_online_porno = request.POST['e_online_porno']
+        exploitation.e_criminal_activity = request.POST['e_criminal_activity']
+        exploitation.e_forced_labour = request.POST['e_forced_labour']
+        exploitation.e_forced_marriage = request.POST['e_forced_marriage']
+        exploitation.e_victim_knew_spouse = request.POST['e_victim_knew_spouse']
+        exploitation.e_spouse_nationality_id = request.POST['e_spouse_nationality_id']
+        exploitation.e_bprice_paid_id = request.POST['e_bprice_paid_id']
+        exploitation.e_bprice_amount_kind = request.POST['e_bprice_amount_kind']
+        exploitation.e_child_marriage = request.POST['e_child_marriage']
+        exploitation.e_victim_pregnancy = request.POST['e_victim_pregnancy']
+        exploitation.e_children_from_marriage = request.POST['e_children_from_marriage']
+        exploitation.e_maternal_health_issues = request.POST['e_maternal_health_issues']
+        exploitation.e_m_health_issues_description = request.POST['e_m_health_issues_description']
+        exploitation.e_marriage_violence_id = request.POST['e_marriage_violence_id']
+        exploitation.e_forced_military_type_id = request.POST['e_forced_military_type_id']
+        exploitation.e_armed_group_name = request.POST['e_armed_group_name']
+        exploitation.e_child_soldier = request.POST['e_child_soldier']
+        exploitation.e_child_soldier_age = request.POST['e_child_soldier_age']
+        exploitation.e_organ_removed = request.POST['e_organ_removed']
+        exploitation.e_operation_location_id = request.POST['e_operation_location_id']
+        exploitation.e_operation_country_id = request.POST['e_operation_country_id']
+        exploitation.e_organ_sale_price = request.POST['e_organ_sale_price']
+        exploitation.e_organ_paid_to_id = request.POST['e_organ_paid_to_id']
+        exploitation.e_remarks = request.POST['e_remarks']
+        exploitation.e_recruitment_type_id = request.POST['e_recruitment_type_id']
+        exploitation.e_recruiter_relationship_id = request.POST['e_recruiter_relationship_id']
+        exploitation.save()
+
+        if request.POST.get('e_criminal_activity_type[]'):
+            for ca in request.POST['e_criminal_activity_type[]']:
+                exploitation.e_criminal_activity_type.add(CriminalActivityType.objects.filter(id=ca))
+
+        if request.POST.get('e_forced_labour_industry[]'):
+            for ca in request.POST['e_forced_labour_industry[]']:
+                exploitation.e_forced_labour_industry.add(ForcedLabourIndustry.objects.filter(id=ca))
+
+        if request.POST.get('e_brice_recipient[]'):
+            for ca in request.POST['e_brice_recipient[]']:
+                exploitation.e_brice_recipient.add(BridePriceRecipient.objects.filter(id=ca))
+
+        if request.POST.get('e_child_marriage_reason[]'):
+            for ca in request.POST['e_child_marriage_reason[]']:
+                exploitation.e_child_marriage_reason.add(ChildMarriageReason.objects.filter(id=ca))
+
+        if request.POST.get('e_marriage_violence_type[]'):
+            for ca in request.POST['e_marriage_violence_type[]']:
+                exploitation.e_marriage_violence_type.add(AffirmOption.objects.filter(id=ca))
+        
+        if request.POST.get('e_victim_military_activities[]'):
+            for ca in request.POST['e_victim_military_activities[]']:
+                exploitation.e_victim_military_activities.add(MilitaryActivity.objects.filter(id=ca))
+        
+        if request.POST.get('e_body_part_removed[]'):
+            for ca in request.POST['e_body_part_removed[]']:
+                exploitation.e_body_part_removed.add(BodyPart.objects.filter(id=ca))
+        
+        if request.POST.get('e_trafficking_means[]'):
+            for ca in request.POST['e_trafficking_means[]']:
+                exploitation.e_trafficking_means.add(TransportMean.objects.filter(id=ca))
+        
+        
+        formulate_get="?step=3"
+        return redirect('/exploitation_form'+formulate_get)
+
+
+
 
 
 

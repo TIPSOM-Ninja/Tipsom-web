@@ -5,7 +5,7 @@
 <div class="container">
     {% if interviewer %}
     {% if interviewer.data_entry_purpose_id == 1 %}
-    <a href="/investigation_form" class="btn btn-primary mt-3 text-warning">{% translate "NEW VICTIM CASE" %}</a>
+    <a href="/exploitation_form" class="btn btn-primary mt-3 text-warning">{% translate "NEW VICTIM CASE" %}</a>
     {% elif interviewer.data_entry_purpose_id == 2 %}
     <a href="/investigation_form" class="btn btn-primary mt-3 text-warning">{% translate "NEW VICTIM CASE" %}</a>
     {% elif interviewer.data_entry_purpose_id == 3 %}
@@ -34,7 +34,7 @@
                         <div class="col">
                             {% if interviewer %}
                                 {% if interviewer.data_entry_purpose_id == 1 %}
-                                    <a href="/{{request.LANGUAGE_CODE}}/investigation_form?v_id={{victim.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
+                                    <a href="/{{request.LANGUAGE_CODE}}/exploitation_form?v_id={{victim.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
                                 {% elif interviewer.data_entry_purpose_id == 2 %}
                                     <a href="/{{request.LANGUAGE_CODE}}/investigation_form?v_id={{victim.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
                                 {% elif interviewer.data_entry_purpose_id == 3 %}
