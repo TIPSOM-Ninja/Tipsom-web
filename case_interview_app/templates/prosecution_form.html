@@ -260,18 +260,20 @@
 
 {% block scripts %}
 <script>
+{% if not request.session.v_id %}
     const languages = document.querySelector('#languages');
-const choices = new Choices(languages,{
-    classNames: {
-        containerInner: 'choices_inner',
-    }
-});
-const idtypes = document.querySelector('#idtypes');
-const choices1 = new Choices(idtypes,{
-    classNames: {
-        containerInner: 'choices_inner',
-    }
-});
+    const choices_0 = new Choices(languages,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+    const idtypes = document.querySelector('#idtypes');
+    const choices_1 = new Choices(idtypes,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+{% endif %}
 const role_in_trafficking = document.querySelector('#role_in_trafficking');
 const choices4 = new Choices(role_in_trafficking,{
     classNames: {
