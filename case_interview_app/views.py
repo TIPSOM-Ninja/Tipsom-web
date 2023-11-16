@@ -74,18 +74,7 @@ def interviewer_registration(request):
     context['interviewer']=interviewer
 
     return render(request,"registration_form.html",context)
-def victim_view(request,id):
-    if(request.user.is_authenticated):
-        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
-    victim = interviewer.victims.filter(id=id ).first()
-    context = {
-        "victim":victim,
-        # "suspects":suspects
-    }
-    context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = id,interviewer_id=interviewer.id)
-    context['arrest'] = ArrestInvestigation.objects.filter(victim_id = id,interviewer_id=interviewer.id).first()
-    context['prosecutions'] = Prosecution.objects.filter(victim_id = id)
-    return render(request,"victim-view.html",context)
+
 
 
 def investigation_form(request):
@@ -348,6 +337,7 @@ def save_prosecution(request):
         prosecution.review_appeal_outcome = request.POST['review_appeal_outcome']
         prosecution.sanction_penalty_id = request.POST['sanction_penalty_id']
         prosecution.years_imposed = request.POST['years_imposed'] if not request.POST['years_imposed'] == "" else None
+        prosecution.approval_id=1
         prosecution.save()
 
         messages.success(request,'Prosecution details saved')
@@ -423,10 +413,12 @@ def exploitation_form(request):
     return render(request,"exploitation_form.html",context)
 
 def save_exploitation(request):
+    interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     
     if request.method == "POST":
         exploitation = Exploitation()
         exploitation.victim_id = request.session['v_id']
+        exploitation.interviewer_id = interviewer.id
         exploitation.subject_to_exploitation = request.POST['subject_to_exploitation'] if request.POST.get('subject_to_exploitation') is not None and not request.POST.get('subject_to_exploitation') == '' else None
         exploitation.intent_to_exploit = request.POST['intent_to_exploit'] if request.POST.get('intent_to_exploit') is not None and not request.POST.get('intent_to_exploit') == '' else None
         exploitation.exploitation_length = request.POST['exploitation_length'] if request.POST.get('exploitation_length') is not None and not request.POST.get('exploitation_length') == '' else None
@@ -464,6 +456,7 @@ def save_exploitation(request):
         exploitation.e_remarks = request.POST['e_remarks'] if request.POST.get('e_remarks') is not None and not request.POST.get('e_remarks') == '' else None
         exploitation.e_recruitment_type_id = request.POST['e_recruitment_type_id'] if request.POST.get('e_recruitment_type_id') is not None and not request.POST.get('e_recruitment_type_id') == '' else None
         exploitation.e_recruiter_relationship_id = request.POST['e_recruiter_relationship_id'] if request.POST.get('e_recruiter_relationship_id') is not None and not request.POST.get('e_recruiter_relationship_id') == '' else None
+        exploitation.approval_id=1
         exploitation.save()
 
         if request.POST.get('e_criminal_activity_type[]'):
@@ -472,31 +465,31 @@ def save_exploitation(request):
 
         if request.POST.get('e_forced_labour_industry[]'):
             for ca in request.POST['e_forced_labour_industry[]']:
-                exploitation.e_forced_labour_industry.add(ForcedLabourIndustry.objects.filter(id=ca))
+                exploitation.e_forced_labour_industry.add(ca)
 
         if request.POST.get('e_brice_recipient[]'):
             for ca in request.POST['e_brice_recipient[]']:
-                exploitation.e_brice_recipient.add(BridePriceRecipient.objects.filter(id=ca))
+                exploitation.e_brice_recipient.add(ca)
 
         if request.POST.get('e_child_marriage_reason[]'):
             for ca in request.POST['e_child_marriage_reason[]']:
-                exploitation.e_child_marriage_reason.add(ChildMarriageReason.objects.filter(id=ca))
+                exploitation.e_child_marriage_reason.add(ca)
 
         if request.POST.get('e_marriage_violence_type[]'):
             for ca in request.POST['e_marriage_violence_type[]']:
-                exploitation.e_marriage_violence_type.add(AffirmOption.objects.filter(id=ca))
+                exploitation.e_marriage_violence_type.add(ca)
         
         if request.POST.get('e_victim_military_activities[]'):
             for ca in request.POST['e_victim_military_activities[]']:
-                exploitation.e_victim_military_activities.add(MilitaryActivity.objects.filter(id=ca))
+                exploitation.e_victim_military_activities.add(ca)
         
         if request.POST.get('e_body_part_removed[]'):
             for ca in request.POST['e_body_part_removed[]']:
-                exploitation.e_body_part_removed.add(BodyPart.objects.filter(id=ca))
+                exploitation.e_body_part_removed.add(ca)
         
         if request.POST.get('e_trafficking_means[]'):
             for ca in request.POST['e_trafficking_means[]']:
-                exploitation.e_trafficking_means.add(TransportMean.objects.filter(id=ca))
+                exploitation.e_trafficking_means.add(ca)
         
         
         formulate_get="?step=3"
@@ -519,6 +512,23 @@ def cases(request):
         "interviewer":interviewer
     }
     return render(request,"cases.html",context)
+
+def victim_view(request,id):
+    if(request.user.is_authenticated):
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+    victim = interviewer.victims.filter(id=id ).first()
+    context = {
+        "victim":victim,
+        # "suspects":suspects
+    }
+    context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = id,interviewer_id=interviewer.id)
+    context['arrest'] = ArrestInvestigation.objects.filter(victim_id = id,interviewer_id=interviewer.id).first()
+    context['prosecutions'] = Prosecution.objects.filter(victim_id = id)
+    context['exploitation'] = Exploitation.objects.filter(victim_id = id).first()
+
+    return render(request,"victim-view.html",context)
+
+
 def signin(request):
     if request.GET.get('language') is not None:
         activate(request.GET.get('language'))

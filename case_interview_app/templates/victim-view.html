@@ -126,20 +126,28 @@
                                     
                                 <strong>{% trans "Name:" %}</strong> {{prosecution.trafficker.first_name}} {{prosecution.trafficker.last_name}}
                                 </div>
-                                
-                                
-                            
-                               
-                               
-                           
-                                
-                                
     
                             </div>
                         </div>
                     </div>
                     <hr/>
             {% endfor %}
+            <div class="card-header bg-light py-3 border-top border-bottom border-primary">
+                <h6>{%trans "EXPLOITATION"%}<small class="text-danger"> - {{exploitation.approval.name}}</small></h6>
+            </div>
+            <div class="my-2">
+                <div class="card-body">
+                    <div class="row g-3 my-2">
+                        
+                        <div class="col-md-12">
+                            
+                        <strong>{% trans "Has the victim been subject to exploitation:" %}</strong> {% if exploitation.subject_to_exploitation == 1 %}Yes{% else %}No{% endif %}
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

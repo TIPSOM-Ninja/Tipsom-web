@@ -501,3 +501,9 @@ class Exploitation(models.Model):
     e_trafficking_means = models.ManyToManyField(
         TraffickingMean,  related_name = "exploitation", null=True, blank=True
     )
+    interviewer = models.ForeignKey(Interviewer, related_name = "exploitation", on_delete=models.CASCADE, null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "exploitation", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    
