@@ -301,8 +301,8 @@ class TransitRouteDestination(models.Model):
     country_of_dest = models.ForeignKey(
         Country, related_name = "dest_destinations", on_delete=models.CASCADE, null=True, blank=True
     )
-    means_of_transport = models.ForeignKey(
-        TransportMean, related_name = "destinations", on_delete=models.CASCADE, null=True, blank=True
+    means_of_transport = models.ManyToManyField(
+        TransportMean, related_name = "destinations", null=True, blank=True
     )
     remarks = models.TextField(null=True, blank=True)
     interviewer = models.ForeignKey(Interviewer, related_name = "destinations", on_delete=models.CASCADE, null=True, blank=True)
