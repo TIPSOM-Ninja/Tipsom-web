@@ -26,7 +26,7 @@
                     {% include "components/victim_form.html"%}
                     {% endif %}
                 </div>
-                <div class="tab-pane fade {% if step is not None and step == '2' %} show active  {% endif %}" id="nav-suspect" role="tabpanel" aria-labelledby="nav-suspect-tab" tabindex="0">
+                <div class="tab-pane fade {% if step is not None and step == '2' %} show active  {% endif %}" id="nav-suspect" role="tabpanel" aria-labelledby="nav-suspect-tab" tabindex="1">
                     {% if victim %}
                     {% if suspects|length > 0 %}
                     {% for suspect in suspects %}
@@ -115,7 +115,7 @@
                     {% endif %}
                     {% endif %}
                 </div>
-                <div class="tab-pane fade {% if step is not None and step == '3' %} show active  {% endif %}" id="nav-prosecution" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                <div class="tab-pane fade {% if step is not None and step == '3' %} show active  {% endif %}" id="nav-prosecution" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="2">
                     {% if victim %}
                     <form id="prosecution_form" method="post" action="/{{request.LANGUAGE_CODE}}/save_prosecution">
                         {% csrf_token %}

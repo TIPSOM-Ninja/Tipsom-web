@@ -172,7 +172,7 @@ def save_victim(request):
     elif interviewer.data_entry_purpose_id == 3:
         url = '/prosecution_form'+formulate_get
     else:
-        url = '/investigation_form'+formulate_get
+        url = '/assistance_form'+formulate_get
     return redirect(url)
 
 def save_arrest(request):
@@ -257,7 +257,7 @@ def save_suspect(request):
     elif interviewer.data_entry_purpose_id == 3:
         url = '/prosecution_form?step=3'
     else:
-        url = '/investigation_form'+formulate_get
+        url = '/assistance_form?step=2'
     
     return redirect(url)
 
@@ -295,14 +295,14 @@ def prosecution_form(request):
         if request.GET.get("v_id") is not None:
             victim = VictimProfile.objects.filter(id = request.GET.get("v_id")).first()
             if victim is None:
-                messages.error('Victim does not exist. Please create a new victim.')
+                messages.error(request,'Victim does not exist. Please create a new victim.')
             else:
                 if interviewer.victims.filter(id = victim.id).first() is not None:
                     request.session['v_id'] = victim.id
                 else:
                     permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
                     if permission is None:
-                        messages.error("You do not have access to this record. Please create a request.")
+                        messages.error(request,"You do not have access to this record. Please create a request.")
                     else:
                         # TODO: check if permision is granted
                         # TODO: remove autopermission below
@@ -383,14 +383,14 @@ def tip_form(request):
         if request.GET.get("v_id") is not None:
             victim = VictimProfile.objects.filter(id = request.GET.get("v_id")).first()
             if victim is None:
-                messages.error('Victim does not exist. Please create a new victim.')
+                messages.error(request,'Victim does not exist. Please create a new victim.')
             else:
                 if interviewer.victims.filter(id = victim.id).first() is not None:
                     request.session['v_id'] = victim.id
                 else:
                     permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
                     if permission is None:
-                        messages.error("You do not have access to this record. Please create a request.")
+                        messages.error(request,"You do not have access to this record. Please create a request.")
                     else:
                         # TODO: check if permision is granted
                         # TODO: remove autopermission below
@@ -523,6 +523,7 @@ def save_transit(request):
         transit.city_village_of_dest = request.POST['city_village_of_dest']
         transit.city_village_of_origin = request.POST['city_village_of_origin']
         transit.remarks = request.POST['remarks']
+        transit.interviewer_id = interviewer.id
         transit.approval_id = 1
         transit.save()
 
@@ -535,7 +536,217 @@ def save_transit(request):
         formulate_get="?step=3"
         return redirect('/cases')
 
+def assistance_form(request):
+    if(request.user.is_authenticated):
+        countries = Country.objects.all()
+        purposes = DataEntryPurpose.objects.all()
+        languages = Language.objects.all()
+        genders = Gender.objects.all()
+        races = Race.objects.all()
+        idtypes = IdType.objects.all()
+        providers = Provider.objects.all()
+        community_assistance_types = CommunityAssistanceType.objects.all()
+        education_levels = EducationLevel.objects.all()
+        im_emmigration_statuses = ImEmmigrationStatus.objects.all()
+        data_suppliers = DataSupplier.objects.all()
+        family_structures = FamilyStructure.objects.all()
+        living_withs = LivingWith.objects.all()
+        occupations = Occupation.objects.all()
+        income_project_types = IncomeProjectType.objects.all()
 
+        
+        context = {
+            "countries":countries,
+            "purposes":purposes,
+            "languages":languages,
+            "genders":genders,
+            "races":races,
+            "idtypes":idtypes,
+            "providers":providers,
+            "community_assistance_types":community_assistance_types,
+            "education_levels" : education_levels,
+            "im_emmigration_statuses" : im_emmigration_statuses,
+            "data_suppliers" : data_suppliers,
+            "family_structures" : family_structures,
+            "living_withs" : living_withs,
+            "occupations" : occupations,
+            "income_project_types" : income_project_types,
+           
+        }
+        if request.GET.get('step') is not None:
+            context['step'] = request.GET.get('step')
+        
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+
+        if request.GET.get("v_id") is not None:
+            victim = VictimProfile.objects.filter(id = request.GET.get("v_id")).first()
+            if victim is None:
+                messages.error(request,'Victim does not exist. Please create a new victim.')
+            else:
+                if interviewer.victims.filter(id = victim.id).first() is not None:
+                    request.session['v_id'] = victim.id
+                else:
+                    permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
+                    if permission is None:
+                        messages.error(request,"You do not have access to this record. Please create a request.")
+                    else:
+                        # TODO: check if permision is granted
+                        # TODO: remove autopermission below
+                        request.session['v_id'] = victim.id
+             
+        if 'v_id' in request.session:
+            context['v_id'] = request.session['v_id']
+            context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
+            
+
+        context['interviewer']=interviewer
+    else:
+        return redirect("/login")
+
+    return render(request,"assistance_form.html",context)
+
+def save_assistance_types(request):
+    interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+    
+    if request.method == "POST":
+        assistance = Assistance()
+        assistance.victim_id = request.session['v_id']
+        assistance.interviewer_id = interviewer.id
+        if request.POST.get('social_assistance_d_type') == 1:
+            assistance.social_assistance_days = request.POST.get("social_assistance_duration") if request.POST.get('social_assistance_duration') is not None and not request.POST.get('social_assistance_duration') == '' else None
+        elif request.POST.get('social_assistance_d_type') == 0:
+            assistance.social_assistance_months = request.POST.get("social_assistance_duration") if request.POST.get('social_assistance_duration') is not None and not request.POST.get('social_assistance_duration') == '' else None
+        if request.POST.get('med_rehab_d_type') == 1:
+            assistance.med_rehab_days = request.POST.get("med_rehab_duration") if request.POST.get('med_rehab_duration') is not None and not request.POST.get('med_rehab_duration') == '' else None
+        elif request.POST.get('med_rehab_d_type') == 0:
+            assistance.med_rehab_months = request.POST.get("med_rehab_duration") if request.POST.get('med_rehab_duration') is not None and not request.POST.get('med_rehab_duration') == '' else None
+        if request.POST.get('housing_allowance_d_type') == 1:
+            assistance.housing_allowance_days = request.POST.get("housing_allowance_duration") if request.POST.get('housing_allowance_duration') is not None and not request.POST.get('housing_allowance_duration') == '' else None
+        elif request.POST.get('housing_allowance_d_type') == 0:
+            assistance.housing_allowance_months = request.POST.get("housing_allowance_duration") if request.POST.get('housing_allowance_duration') is not None and not request.POST.get('housing_allowance_duration') == '' else None
+        if request.POST.get('shelter_d_type') == 1:
+            assistance.shelter_days = request.POST.get("shelter_duration") if request.POST.get('shelter_duration') is not None and not request.POST.get('shelter_duration') == '' else None
+        elif request.POST.get('shelter_d_type') == 0:
+            assistance.shelter_months = request.POST.get("shelter_duration") if request.POST.get('shelter_duration') is not None and not request.POST.get('shelter_duration') == '' else None
+        if request.POST.get('vocational_training_d_type') == 1:
+            assistance.vocational_training_days = request.POST.get("vocational_training_duration") if request.POST.get('vocational_training_duration') is not None and not request.POST.get('vocational_training_duration') == '' else None
+        elif request.POST.get('vocational_training_d_type') == 0:
+            assistance.vocational_training_months = request.POST.get("vocational_training_duration") if request.POST.get('vocational_training_duration') is not None and not request.POST.get('vocational_training_duration') == '' else None
+        if request.POST.get('micro_ent_income_d_type') == 1:
+            assistance.micro_ent_income_days = request.POST.get("micro_ent_income_duration") if request.POST.get('micro_ent_income_duration') is not None and not request.POST.get('micro_ent_income_duration') == '' else None
+        elif request.POST.get('micro_ent_income_d_type') == 0:
+            assistance.micro_ent_income_months = request.POST.get("micro_ent_income_duration") if request.POST.get('micro_ent_income_duration') is not None and not request.POST.get('micro_ent_income_duration') == '' else None
+        if request.POST.get('legal_assistance_d_type') == 1:
+            assistance.legal_assistance_days = request.POST.get("legal_assistance_duration") if request.POST.get('legal_assistance_duration') is not None and not request.POST.get('legal_assistance_duration') == '' else None
+        elif request.POST.get('legal_assistance_d_type') == 0:
+            assistance.legal_assistance_months = request.POST.get("legal_assistance_duration") if request.POST.get('legal_assistance_duration') is not None and not request.POST.get('legal_assistance_duration') == '' else None
+        if request.POST.get('medical_assistance_d_type') == 1:
+            assistance.medical_assistance_days = request.POST.get("medical_assistance_duration") if request.POST.get('medical_assistance_duration') is not None and not request.POST.get('medical_assistance_duration') == '' else None
+        elif request.POST.get('medical_assistance_d_type') == 0:
+            assistance.medical_assistance_months = request.POST.get("medical_assistance_duration") if request.POST.get('medical_assistance_duration') is not None and not request.POST.get('medical_assistance_duration') == '' else None
+        if request.POST.get('financial_assistance_d_type') == 1:
+            assistance.financial_assistance_days = request.POST.get("financial_assistance_duration") if request.POST.get('financial_assistance_duration') is not None and not request.POST.get('financial_assistance_duration') == '' else None
+        elif request.POST.get('financial_assistance_d_type') == 0:
+            assistance.financial_assistance_months = request.POST.get("financial_assistance_duration") if request.POST.get('financial_assistance_duration') is not None and not request.POST.get('financial_assistance_duration') == '' else None
+        if request.POST.get('education_assistance_d_type') == 1:
+            assistance.education_assistance_days = request.POST.get("education_assistance_duration") if request.POST.get('education_assistance_duration') is not None and not request.POST.get('education_assistance_duration') == '' else None
+        elif request.POST.get('education_assistance_d_type') == 0:
+            assistance.education_assistance_months = request.POST.get("education_assistance_duration") if request.POST.get('education_assistance_duration') is not None and not request.POST.get('education_assistance_duration') == '' else None
+        if request.POST.get('im_emmigration_assistance_d_type') == 1:
+            assistance.im_emmigration_assistance_days = request.POST.get("im_emmigration_assistance_duration") if request.POST.get('im_emmigration_assistance_duration') is not None and not request.POST.get('im_emmigration_assistance_duration') == '' else None
+        elif request.POST.get('im_emmigration_assistance_d_type') == 0:
+            assistance.im_emmigration_assistance_months = request.POST.get("im_emmigration_assistance_duration") if request.POST.get('im_emmigration_assistance_duration') is not None and not request.POST.get('im_emmigration_assistance_duration') == '' else None
+        if request.POST.get('other_community_assistance_d_type') == 1:
+            assistance.other_community_assistance_days = request.POST.get("other_community_assistance_duration") if request.POST.get('other_community_assistance_duration') is not None and not request.POST.get('other_community_assistance_duration') == '' else None
+        elif request.POST.get('other_community_assistance_d_type') == 0:
+            assistance.other_community_assistance_months = request.POST.get("other_community_assistance_duration") if request.POST.get('other_community_assistance_duration') is not None and not request.POST.get('other_community_assistance_duration') == '' else None
+        assistance.micro_ent_income_project_id = request.POST.get('micro_ent_income_project')
+        assistance.education_assistance_level_id = request.POST.get('education_assistance_level')
+        assistance.im_emmigration_assistance_status_id = request.POST.get('im_emmigration_assistance_status')
+        assistance.other_community_assistance_type_id = request.POST.get('other_community_assistance_type')
+        assistance.approval_id = 1
+        assistance.save()
+
+        for it in request.POST.getlist('social_assistance_provider'):
+            assistance.social_assistance_provider.add(it)
+
+        for it in request.POST.getlist('med_rehab_provider'):
+            assistance.med_rehab_provider.add(it)
+
+        for it in request.POST.getlist('housing_allowance_provider'):
+            assistance.housing_allowance_provider.add(it)
+
+        for it in request.POST.getlist('shelter_provider'):
+            assistance.shelter_provider.add(it)
+
+        for it in request.POST.getlist('vocational_training_provider'):
+            assistance.vocational_training_provider.add(it)
+
+        for it in request.POST.getlist('micro_ent_income_provider'):
+            assistance.micro_ent_income_provider.add(it)
+
+        for it in request.POST.getlist('legal_assistance_provider'):
+            assistance.legal_assistance_provider.add(it)
+
+        for it in request.POST.getlist('medical_assistance_provider'):
+            assistance.medical_assistance_provider.add(it)
+
+        for it in request.POST.getlist('financial_assistance_provider'):
+            assistance.financial_assistance_provider.add(it)
+
+        for it in request.POST.getlist('education_assistance_provider'):
+            assistance.education_assistance_provider.add(it)
+
+        for it in request.POST.getlist('im_emmigration_assistance_provider'):
+            assistance.im_emmigration_assistance_provider.add(it)
+
+        for it in request.POST.getlist('other_community_assistance_provider'):
+            assistance.other_community_assistance_provider.add(it)
+
+        messages.success(request,'Assistance data saved successfully')
+
+        formulate_get="?step=3"
+        return redirect('/assistance_form'+formulate_get)
+        
+def save_socio_economic(request):
+    interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+    
+    if request.method == "POST":
+        socio = SocioEconomic()
+        socio.victim_id = request.session["v_id"]
+        socio.family_structure_id = request.POST.get('family_structure') if request.POST.get('family_structure') is not None and not request.POST.get('family_structure') == None else None
+        socio.living_with_id = request.POST.get('living_with') if request.POST.get('living_with') is not None and not request.POST.get('living_with') == None else None
+        socio.violence_prior = request.POST.get('violence_prior') if request.POST.get('violence_prior') is not None and not request.POST.get('violence_prior') == None else None
+        socio.violence_type = request.POST.get('violence_type') if request.POST.get('violence_type') is not None and not request.POST.get('violence_type') == None else None
+        socio.education_level_id = request.POST.get('education_level') if request.POST.get('education_level') is not None and not request.POST.get('education_level') == None else None
+        socio.interviewer_id = interviewer.id
+        socio.approval_id = 1
+        socio.save()
+
+        for it in request.POST.getlist('last_occupation'):
+            socio.last_occupation.add(it)
+
+        messages.success(request,"Socio-economic situation saved")
+
+        return redirect('/cases')
+
+def save_assistance_aggregate(request):
+    interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+    
+    if request.method == "POST":
+        assistance_aggregate = AssistanceAggregateData()
+        assistance_aggregate.data_supplier_id = request.POST.get('data_supplier') if request.POST.get('data_supplier') is not None and not request.POST.get('data_supplier') == '' else None
+        assistance_aggregate.total_tip_annually = request.POST.get('total_tip_annually') if request.POST.get('total_tip_annually') is not None and not request.POST.get('total_tip_annually') == '' else None
+        assistance_aggregate.total_service = request.POST.get('total_service') if request.POST.get('total_service') is not None and not request.POST.get('total_service') == '' else None
+        assistance_aggregate.eligible_family_service = request.POST.get('eligible_family_service') if request.POST.get('eligible_family_service') is not None and not request.POST.get('eligible_family_service') == '' else None
+        assistance_aggregate.total_anon_contacts = request.POST.get('total_anon_contacts') if request.POST.get('total_anon_contacts') is not None and not request.POST.get('total_anon_contacts') == '' else None
+        assistance_aggregate.interviewer_id = interviewer.id
+        assistance_aggregate.approval_id = 1
+        assistance_aggregate.save()
+
+        messages.success(request,"Assistance aggregates saved.")
+
+        return redirect('/cases')
 
 
 def cases(request):
@@ -564,6 +775,8 @@ def victim_view(request,id):
     context['prosecutions'] = Prosecution.objects.filter(victim_id = id)
     context['exploitation'] = Exploitation.objects.filter(victim_id = id).first()
     context['destination'] = TransitRouteDestination.objects.filter(victim_id = id).first()
+    context['assistance'] = Assistance.objects.filter(victim_id = id).first()
+    context['socio_economic'] = SocioEconomic.objects.filter(victim_id = id).first()
 
     return render(request,"victim-view.html",context)
 

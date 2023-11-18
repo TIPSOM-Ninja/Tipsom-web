@@ -162,6 +162,50 @@ class RecruiterRelationshipAdmin(admin.ModelAdmin):
 class TraffickingMeanAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(Provider)
+class ProviderAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(IncomeProjectType)
+class IncomeProjectTypeAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(EducationLevel)
+class EducationLevelAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(ImEmmigrationStatus)
+class ImEmmigrationStatusAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(CommunityAssistanceType)
+class CommunityAssistanceTypeAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(DataSupplier)
+class DataSupplierAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(FamilyStructure)
+class FamilyStructureAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(LivingWith)
+class LivingWithAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Occupation)
+class OccupationAdmin(admin.ModelAdmin):
+    pass
+
+
+
+
+
+
+
+
+
 
 
 

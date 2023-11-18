@@ -1,0 +1,671 @@
+{% extends "layouts/master.html" %}
+{% load i18n %}
+{% block content %}
+<div class="container p-3">
+    <div class="card ">
+        <div class="card-header text-center">
+            {% trans "ASSISTANCE DATA" %}
+        </div>
+        <div class="card-body">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link {% if step is not None and step == '1' %}active {% elif  step is None %}active{% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Victim Profile</button>
+                    <button class="nav-link {% if step is not None and step == '2' %} active {% endif %}" id="nav-assistance-tab" data-bs-toggle="tab" data-bs-target="#nav-assistance" type="button" role="tab" aria-controls="nav-assistance" aria-selected="false">Assistance Types</button>  
+                    <button class="nav-link {% if step is not None and step == '3' %} active {% endif %}" id="nav-socio-tab" data-bs-toggle="tab" data-bs-target="#nav-socio" type="button" role="tab" aria-controls="nav-socio" aria-selected="false">Socio Economic Before Trafficking</button>  
+                </div>
+            </nav>
+            <div class="tab-content">
+                <div class="tab-pane fade {% if step is not None and step == '1' %} show active {% elif  step is None %}show active {% endif %}" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                    {% if request.session.v_id %}
+                        {% include "components/victimprofile.html"%}
+                        <div class="container text-center">
+                            <a href="/{{request.LANGUAGE_CODE}}/assistance_form?step=2" class="btn btn-primary mt-3 text-warning">{% translate "NEXT" %}</a>
+                        </div>
+                    {% else %}
+                        {% include "components/victim_form.html"%}
+                    {% endif %}
+                </div>
+                <div class="tab-pane fade {% if step is not None and step == '2' %} show active  {% endif %}" id="nav-assistance" role="tabpanel" aria-labelledby="nav-assistance-tab" tabindex="1">
+                    {% if victim %}
+                    <form id="socio-economic-form" method="post" action="/{{request.LANGUAGE_CODE}}/save_assistance_types">
+                        {% csrf_token %}
+                        <div class="container  my-2 p-0 ">
+
+                            <div class="row g-1 px-2 py-2 bg-light border rounded">
+                                <div class="col-md-12">
+                                    <p>{% trans "Social assistance" %}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="social_assistance_duration" class="form-label">{% trans "Duration:" %}</label>
+                                        <input type="number" name = "social_assistance_duration" value = "{% if assistance.social_assistance_days %}{{assistance.social_assistance_days}}{% elif assistance.social_assistance_months %}{{assistance.social_assistance_months}}{% endif %}" class="form-control" id="social_assistance_duration" aria-describedby="social_assistance_durationHelp">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="social_assistance_d_type" id="social_assistance_days" value="1" {% if assistance.social_assistance_days %}checked selected{% elif assistance.social_assistance_months %} {% else %} checked selected {% endif %}>
+                                            <label class="form-check-label" for="social_assistance_days">Days</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="social_assistance_d_type" id="social_assistance_months" value="0" {% if assistance.social_assistance_months %}checked selected {% endif %} >
+                                            <label class="form-check-label" for="social_assistance_months">Months</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="social_assistance_provider" class="form-label">{% trans "Provided by:" %}</label>
+                                        <select class="form-select" name="social_assistance_provider" id="social_assistance_provider" aria-label="Default select example"  multiple>
+                                            {% for provider in providers %}
+                                                <option {% if provider in assistance.social_assistance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-1 mt-3 px-2 py-2 bg-light border rounded">
+                                <div class="col-md-12">
+                                    <p>{% trans "Medical rehabilitation assistance" %}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="med_rehab_duration" class="form-label">{% trans "Duration:" %}</label>
+                                        <input type="number" name = "med_rehab_duration" value = "{% if assistance.med_rehab_days %}{{assistance.med_rehab_days}}{% elif assistance.med_rehab_months %}{{assistance.med_rehab_months}}{% endif %}" class="form-control" id="med_rehab_duration" aria-describedby="med_rehab_durationHelp">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="med_rehab_d_type" id="med_rehab_days" value="1" {% if assistance.med_rehab_days %}checked selected{% elif assistance.med_rehab_months %} {% else %} checked selected {% endif %}checked selected>
+                                            <label class="form-check-label" for="med_rehab_days">Days</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="med_rehab_d_type" id="med_rehab_months" value="0" {% if assistance.med_rehab_months %}checked selected {% endif %} >
+                                            <label class="form-check-label" for="med_rehab_months">Months</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="med_rehab_provider" class="form-label">{% trans "Provided by:" %}</label>
+                                        <select class="form-select" name="med_rehab_provider" id="med_rehab_provider" aria-label="Default select example"  multiple>
+                                            {% for provider in providers %}
+                                                <option {% if provider in assistance.med_rehab_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-1 mt-3 px-2 py-2 bg-light border rounded">
+                                <div class="col-md-12">
+                                    <p>{% trans "Housing allowance" %}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="housing_allowance_duration" class="form-label">{% trans "Duration:" %}</label>
+                                        <input type="number" name = "housing_allowance_duration" value = "{% if assistance.housing_allowance_days %}{{assistance.housing_allowance_days}}{% elif assistance.housing_allowance_months %}{{assistance.housing_allowance_months}}{% endif %}" class="form-control" id="housing_allowance_duration" aria-describedby="housing_allowance_durationHelp">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="housing_allowance_d_type" id="housing_allowance_days" value="1" {% if assistance.housing_allowance_days %}checked selected{% elif assistance.housing_allowance_months %} {% else %} checked selected {% endif %}checked selected>
+                                            <label class="form-check-label" for="housing_allowance_days">Days</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="housing_allowance_d_type" id="housing_allowance_months" value="0" {% if assistance.housing_allowance_months %}checked selected {% endif %} >
+                                            <label class="form-check-label" for="housing_allowance_months">Months</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="housing_allowance_provider" class="form-label">{% trans "Provided by:" %}</label>
+                                        <select class="form-select" name="housing_allowance_provider" id="housing_allowance_provider" aria-label="Default select example"  multiple>
+                                            {% for provider in providers %}
+                                                <option {% if provider in assistance.housing_allowance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-1 mt-3 px-2 py-2 bg-light border rounded">
+                                <div class="col-md-12">
+                                    <p>{% trans "Halfway house" %}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="halfway_house_duration" class="form-label">{% trans "Duration:" %}</label>
+                                        <input type="number" name = "halfway_house_duration" value = "{% if assistance.halfway_house_days %}{{assistance.halfway_house_days}}{% elif assistance.halfway_house_months %}{{assistance.halfway_house_months}}{% endif %}" class="form-control" id="halfway_house_duration" aria-describedby="halfway_house_durationHelp">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="halfway_house_d_type" id="halfway_house_days" value="1" {% if assistance.halfway_house_days %}checked selected{% elif assistance.halfway_house_months %} {% else %} checked selected {% endif %}checked selected>
+                                            <label class="form-check-label" for="halfway_house_days">Days</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="halfway_house_d_type" id="halfway_house_months" value="0" {% if assistance.halfway_house_months %}checked selected {% endif %} >
+                                            <label class="form-check-label" for="halfway_house_months">Months</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="halfway_house_provider" class="form-label">{% trans "Provided by:" %}</label>
+                                        <select class="form-select" name="halfway_house_provider" id="halfway_house_provider" aria-label="Default select example" multiple>
+                                            {% for provider in providers %}
+                                                <option {% if provider in assistance.halfway_house_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-1 mt-3 px-2 py-2 bg-light border rounded">
+                                <div class="col-md-12">
+                                    <p>{% trans "Shelter" %}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="shelter_duration" class="form-label">{% trans "Duration:" %}</label>
+                                        <input type="number" name = "shelter_duration" value = "{% if assistance.shelter_days %}{{assistance.shelter_days}}{% elif assistance.shelter_months %}{{assistance.shelter_months}}{% endif %}" class="form-control" id="shelter_duration" aria-describedby="shelter_durationHelp">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="shelter_d_type" id="shelter_days" value="1" {% if assistance.shelter_days %}checked selected{% elif assistance.shelter_months %} {% else %} checked selected {% endif %}checked selected>
+                                            <label class="form-check-label" for="shelter_days">Days</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="shelter_d_type" id="shelter_months" value="0" {% if assistance.shelter_months %}checked selected {% endif %} >
+                                            <label class="form-check-label" for="shelter_months">Months</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="shelter_provider" class="form-label">{% trans "Provided by:" %}</label>
+                                        <select class="form-select" name="shelter_provider" id="shelter_provider" aria-label="Default select example"  multiple>
+                                            {% for provider in providers %}
+                                                <option {% if provider.id in assistance.shelter_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-1 mt-3 px-2 py-2 bg-light border rounded">
+                                <div class="col-md-12">
+                                    <p>{% trans "Vocational training" %}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="vocational_training_duration" class="form-label">{% trans "Duration:" %}</label>
+                                        <input type="number" name = "vocational_training_duration" value = "{% if assistance.vocational_training_days %}{{assistance.vocational_training_days}}{% elif assistance.vocational_training_months %}{{assistance.vocational_training_months}}{% endif %}" class="form-control" id="vocational_training_duration" aria-describedby="vocational_training_durationHelp">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="vocational_training_d_type" id="vocational_training_days" value="1" {% if assistance.vocational_training_days %}checked selected{% elif assistance.vocational_training_months %} {% else %} checked selected {% endif %}checked selected>
+                                            <label class="form-check-label" for="vocational_training_days">Days</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="vocational_training_d_type" id="vocational_training_months" value="0" {% if assistance.vocational_training_months %}checked selected {% endif %} >
+                                            <label class="form-check-label" for="vocational_training_months">Months</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="vocational_training_provider" class="form-label">{% trans "Provided by:" %}</label>
+                                        <select class="form-select" name="vocational_training_provider" id="vocational_training_provider" aria-label="Default select example"  multiple>
+                                            {% for provider in providers %}
+                                                <option {% if provider.id in assistance.vocational_training_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-1 mt-3 px-2 py-2 bg-light border rounded">
+                                <div class="col-md-12">
+                                    <p>{% trans "Micro-enterprise or income generating project" %}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="micro_ent_income_duration" class="form-label">{% trans "Duration:" %}</label>
+                                        <input type="number" name = "micro_ent_income_duration" value = "{% if assistance.micro_ent_income_days %}{{assistance.micro_ent_income_days}}{% elif assistance.micro_ent_income_months %}{{assistance.micro_ent_income_months}}{% endif %}" class="form-control" id="micro_ent_income_duration" aria-describedby="micro_ent_income_durationHelp">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="micro_ent_income_d_type" id="micro_ent_income_days" value="1" {% if assistance.micro_ent_income_days %}checked selected{% elif assistance.micro_ent_income_months %} {% else %} checked selected {% endif %}checked selected>
+                                            <label class="form-check-label" for="micro_ent_income_days">Days</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="micro_ent_income_d_type" id="micro_ent_income_months" value="0" {% if assistance.micro_ent_income_months %}checked selected {% endif %} >
+                                            <label class="form-check-label" for="micro_ent_income_months">Months</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="micro_ent_income_provider" class="form-label">{% trans "Provided by:" %}</label>
+                                        <select class="form-select" name="micro_ent_income_provider" id="micro_ent_income_provider" aria-label="Default select example"  multiple>
+                                            {% for provider in providers %}
+                                                <option {% if provider in assistance.micro_ent_income_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="micro_ent_income_project" class="form-label">{% trans "What kind of business project is being developed?:" %}</label>
+                                        <select class="form-select" name="micro_ent_income_project" id="micro_ent_income_project" aria-label="Default select example" >
+                                            {% for project in income_project_types %}
+                                                <option {% if project.id == assistance.micro_ent_income_project_id %}selected{% endif %} value="{{project.id}}">{% trans project.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-1 mt-3 px-2 py-2 bg-light border rounded">
+                                <div class="col-md-12">
+                                    <p>{% trans "Legal assistance" %}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="legal_assistance_duration" class="form-label">{% trans "Duration:" %}</label>
+                                        <input type="number" name = "legal_assistance_duration" value = "{% if assistance.legal_assistance_days %}{{assistance.legal_assistance_days}}{% elif assistance.legal_assistance_months %}{{assistance.legal_assistance_months}}{% endif %}" class="form-control" id="legal_assistance_duration" aria-describedby="legal_assistance_durationHelp">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="legal_assistance_d_type" id="legal_assistance_days" value="1" {% if assistance.legal_assistance_days %}checked selected{% elif assistance.legal_assistance_months %} {% else %} checked selected {% endif %}checked selected>
+                                            <label class="form-check-label" for="legal_assistance_days">Days</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="legal_assistance_d_type" id="legal_assistance_months" value="0" {% if assistance.legal_assistance_months %}checked selected {% endif %} >
+                                            <label class="form-check-label" for="legal_assistance_months">Months</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="legal_assistance_provider" class="form-label">{% trans "Provided by:" %}</label>
+                                        <select class="form-select" name="legal_assistance_provider" id="legal_assistance_provider" aria-label="Default select example"  multiple>
+                                            {% for provider in providers %}
+                                                <option {% if provider in assistance.legal_assistance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-1 mt-3 px-2 py-2 bg-light border rounded">
+                                <div class="col-md-12">
+                                    <p>{% trans "Medical assistance" %}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="medical_assistance_duration" class="form-label">{% trans "Duration:" %}</label>
+                                        <input type="number" name = "medical_assistance_duration" value = "{% if assistance.medical_assistance_days %}{{assistance.medical_assistance_days}}{% elif assistance.medical_assistance_months %}{{assistance.medical_assistance_months}}{% endif %}" class="form-control" id="medical_assistance_duration" aria-describedby="medical_assistance_durationHelp">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="medical_assistance_d_type" id="medical_assistance_days" value="1" {% if assistance.medical_assistance_days %}checked selected{% elif assistance.medical_assistance_months %} {% else %} checked selected {% endif %}checked selected>
+                                            <label class="form-check-label" for="medical_assistance_days">Days</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="medical_assistance_d_type" id="medical_assistance_months" value="0" {% if assistance.medical_assistance_months %}checked selected {% endif %} >
+                                            <label class="form-check-label" for="medical_assistance_months">Months</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="medical_assistance_provider" class="form-label">{% trans "Provided by:" %}</label>
+                                        <select class="form-select" name="medical_assistance_provider" id="medical_assistance_provider" aria-label="Default select example"  multiple>
+                                            {% for provider in providers %}
+                                                <option {% if provider in assistance.medical_assistance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-1 mt-3 px-2 py-2 bg-light border rounded">
+                                <div class="col-md-12">
+                                    <p>{% trans "Financial assistance" %}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="financial_assistance_duration" class="form-label">{% trans "Duration:" %}</label>
+                                        <input type="number" name = "financial_assistance_duration" value = "{% if assistance.financial_assistance_days %}{{assistance.financial_assistance_days}}{% elif assistance.financial_assistance_months %}{{assistance.financial_assistance_months}}{% endif %}" class="form-control" id="financial_assistance_duration" aria-describedby="financial_assistance_durationHelp">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="financial_assistance_d_type" id="financial_assistance_days" value="1" {% if assistance.financial_assistance_days %}checked selected{% elif assistance.financial_assistance_months %} {% else %} checked selected {% endif %}checked selected>
+                                            <label class="form-check-label" for="financial_assistance_days">Days</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="financial_assistance_d_type" id="financial_assistance_months" value="0" {% if assistance.financial_assistance_months %}checked selected {% endif %} >
+                                            <label class="form-check-label" for="financial_assistance_months">Months</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="financial_assistance_provider" class="form-label">{% trans "Provided by:" %}</label>
+                                        <select class="form-select" name="financial_assistance_provider" id="financial_assistance_provider" aria-label="Default select example"  multiple>
+                                            {% for provider in providers %}
+                                                <option {% if provider in assistance.financial_assistance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-1 mt-3 px-2 py-2 bg-light border rounded">
+                                <div class="col-md-12">
+                                    <p>{% trans "Educational assistance" %}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="education_assistance_duration" class="form-label">{% trans "Duration:" %}</label>
+                                        <input type="number" name = "education_assistance_duration" value = "{% if assistance.education_assistance_days %}{{assistance.education_assistance_days}}{% elif assistance.education_assistance_months %}{{assistance.education_assistance_months}}{% endif %}" class="form-control" id="education_assistance_duration" aria-describedby="education_assistance_durationHelp">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="education_assistance_d_type" id="education_assistance_days" value="1" {% if assistance.education_assistance_days %}checked selected{% elif assistance.education_assistance_months %} {% else %} checked selected {% endif %}checked selected>
+                                            <label class="form-check-label" for="education_assistance_days">Days</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="education_assistance_d_type" id="education_assistance_months" value="0" {% if assistance.education_assistance_months %}checked selected {% endif %} >
+                                            <label class="form-check-label" for="education_assistance_months">Months</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="education_assistance_provider" class="form-label">{% trans "Provided by:" %}</label>
+                                        <select class="form-select" name="education_assistance_provider" id="education_assistance_provider" aria-label="Default select example"  multiple>
+                                            {% for provider in providers %}
+                                                <option {% if provider in assistance.education_assistance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="education_assistance_level" class="form-label">{% trans "please specify the education level to be commenced:" %}</label>
+                                        <select class="form-select" name="education_assistance_level" id="education_assistance_level" aria-label="Default select example" >
+                                            {% for level in educational_levels %}
+                                                <option {% if level.id == assistance.education_assistance_level_id %}selected{% endif %} value="{{level.id}}">{% trans level.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-1 mt-3 px-2 py-2 bg-light border rounded">
+                                <div class="col-md-12">
+                                    <p>{% trans "Immigration/Emigration  assistance" %}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="im_emmigration_assistance_duration" class="form-label">{% trans "Duration:" %}</label>
+                                        <input type="number" name = "im_emmigration_assistance_duration" value = "{% if assistance.im_emmigration_assistance_days %}{{assistance.im_emmigration_assistance_days}}{% elif assistance.im_emmigration_assistance_months %}{{assistance.im_emmigration_assistance_months}}{% endif %}" class="form-control" id="im_emmigration_assistance_duration" aria-describedby="im_emmigration_assistance_durationHelp">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="im_emmigration_assistance_d_type" id="im_emmigration_assistance_days" value="1" {% if assistance.im_emmigration_assistance_days %}checked selected{% elif assistance.im_emmigration_assistance_months %} {% else %} checked selected {% endif %}checked selected>
+                                            <label class="form-check-label" for="im_emmigration_assistance_days">Days</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="im_emmigration_assistance_d_type" id="im_emmigration_assistance_months" value="0" {% if assistance.im_emmigration_assistance_months %}checked selected {% endif %} >
+                                            <label class="form-check-label" for="im_emmigration_assistance_months">Months</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="im_emmigration_assistance_provider" class="form-label">{% trans "Provided by:" %}</label>
+                                        <select class="form-select" name="im_emmigration_assistance_provider" id="im_emmigration_assistance_provider" aria-label="Default select example"  multiple>
+                                            {% for provider in providers %}
+                                                <option {% if provider in assistance.im_emmigration_assistance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="im_emmigration_assistance_status" class="form-label">{% trans "please specify the education level to be commenced:" %}</label>
+                                        <select class="form-select" name="im_emmigration_assistance_status" id="im_emmigration_assistance_status" aria-label="Default select example" >
+                                            {% for status in im_emmigration_statuses %}
+                                                <option {% if status.id == assistance.im_emmigration_assistance_status_id %}selected{% endif %} value="{{status.id}}">{% trans status.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-1 mt-3 px-2 py-2 bg-light border rounded">
+                                <div class="col-md-12">
+                                    <p>{% trans "Other community-based assistance" %}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="other_community_assistance_duration" class="form-label">{% trans "Duration:" %}</label>
+                                        <input type="number" name = "other_community_assistance_duration" value = "{% if assistance.other_community_assistance_days %}{{assistance.other_community_assistance_days}}{% elif assistance.other_community_assistance_months %}{{assistance.other_community_assistance_months}}{% endif %}" class="form-control" id="other_community_assistance_duration" aria-describedby="other_community_assistance_durationHelp">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="other_community_assistance_d_type" id="other_community_assistance_days" value="1" {% if assistance.other_community_assistance_days %}checked selected{% elif assistance.other_community_assistance_months %} {% else %} checked selected {% endif %}checked selected>
+                                            <label class="form-check-label" for="other_community_assistance_days">Days</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="other_community_assistance_d_type" id="other_community_assistance_months" value="0" {% if assistance.other_community_assistance_months %}checked selected {% endif %} >
+                                            <label class="form-check-label" for="other_community_assistance_months">Months</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="other_community_assistance_provider" class="form-label">{% trans "Provided by:" %}</label>
+                                        <select class="form-select" name="other_community_assistance_provider" id="other_community_assistance_provider" aria-label="Default select example"  multiple>
+                                            {% for provider in providers %}
+                                                <option {% if provider in assistance.other_community_assistance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="">
+                                        <label for="other_community_assistance_type" class="form-label">{% trans "please specify:" %}</label>
+                                        <select class="form-select" name="other_community_assistance_type" id="other_community_assistance_type" aria-label="Default select example" >
+                                            {% for type in community_assistance_types %}
+                                                <option {% if type.id == assistance.other_community_assistance_type_id %}selected{% endif %} value="{{type.id}}">{% trans type.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row text-center m-3 ">
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE AND PROCEED" %}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+                <div class="tab-pane fade {% if step is not None and step == '3' %} show active  {% endif %}" id="nav-socio" role="tabpanel" aria-labelledby="nav-socio-tab" tabindex="2">
+                    {% if victim %}
+                    <form id="socio-economic-form" method="post" action="/{{request.LANGUAGE_CODE}}/save_socio_economic">
+                        {% csrf_token %}
+                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="family_structure" class="form-label">{% trans "What was the structure of the family of origin at the time of the trafficking incident?:" %}</label>
+                                    <select class="form-select" name="family_structure" id="family_structure" aria-label="Default select example" value = "socio.family_structure_id">
+                                        {% for structure in family_structures %}
+                                            <option {% if structure.id == socio.family_structure_id %}selected{% endif %} value="{{structure.id}}">{% trans structure.name %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="living_with" class="form-label">{% trans "If the victim was not living with his/her family prior to entry into the trafficking process, who was he/she living with prior to departure?:" %}</label>
+                                    <select class="form-select" name="living_with" id="living_with" aria-label="Default select example" value="{{socio.living_with_id}}">
+                                        {% for living in living_withs %}
+                                            <option {% if living.id == socio.living_with_id %}selected{% endif %} value="{{living.id}}">{% trans living.name %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="violence_prior" class="form-label">{% trans "Did any violence take place in the social or family setting where the victim was living prior to departure?:" %}</label>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_1" value="1" {% if socio.violence_prior == 1 %}selected{% endif %}>
+                                            <label class="form-check-label" for="violence_prior_1">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_0" value="0" {% if socio.violence_prior == 0 %}selected{% endif %}>
+                                            <label class="form-check-label" for="violence_prior_0">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="violence_type">
+                                <div class="">
+                                    <label for="violence_type" class="form-label">{% trans "If YES, please specify:" %}</label>
+                                    <input type="text" name = "violence_type" value = "{{socio.violence_type}}" class="form-control" id="violence_type" aria-describedby="violence_typeHelp" >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="education_level" class="form-label">{% trans "What was the last level of education received? :" %}</label>
+                                    <select class="form-select" name="education_level" id="education_level" aria-label="Default select example" value = "{{socio.education_level_id}}">
+                                        {% for level in education_levels %}
+                                            <option {% if level.id ==  socio.education_level_id %}selected{% endif %} value="{{level.id}}">{% trans level.name %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="last_occupation" class="form-label">{% trans "What was the last activity/occupation the victim was engaged in prior to departure from the place of origin?:" %}</label>
+                                    <select class="form-select" name="last_occupation" id="last_occupation" aria-label="Default select example" value = "{{socio.last_occupation}}" multiple>
+                                        {% for occupation in occupations %}
+                                            <option {% if occupation in socio.last_occupation %}selected{% endif %} value="{{occupation.id}}">{% trans occupation.name %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row text-center m-3 ">
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE AND RETURN" %}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            
+{% endblock content %}
+{% block scripts %}
+<script>
+{% if not request.session.v_id %}
+    const languages = document.querySelector('#languages');
+    const choices_0 = new Choices(languages,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+    const idtypes = document.querySelector('#idtypes');
+    const choices_1 = new Choices(idtypes,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+{% endif %}
+const last_occupation = document.querySelector('#last_occupation');
+const choices = new Choices(last_occupation,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const social_assistance_provider = document.querySelector('#social_assistance_provider');
+const choices1 = new Choices(social_assistance_provider,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const med_rehab_provider = document.querySelector('#med_rehab_provider');
+const choices2 = new Choices(med_rehab_provider,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const housing_allowance_provider = document.querySelector('#housing_allowance_provider');
+const choices3 = new Choices(housing_allowance_provider,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const shelter_provider = document.querySelector('#shelter_provider');
+const choices4 = new Choices(shelter_provider,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const vocational_training_provider = document.querySelector('#vocational_training_provider');
+const choices5 = new Choices(vocational_training_provider,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const micro_ent_income_provider = document.querySelector('#micro_ent_income_provider');
+const choices6 = new Choices(micro_ent_income_provider,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const medical_assistance_provider = document.querySelector('#medical_assistance_provider');
+const choices7 = new Choices(medical_assistance_provider,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const financial_assistance_provider = document.querySelector('#financial_assistance_provider');
+const choices8 = new Choices(financial_assistance_provider,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const education_assistance_provider = document.querySelector('#education_assistance_provider');
+const choices9 = new Choices(education_assistance_provider,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const im_emmigration_assistance_provider = document.querySelector('#im_emmigration_assistance_provider');
+const choices10 = new Choices(im_emmigration_assistance_provider,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const other_community_assistance_provider = document.querySelector('#other_community_assistance_provider');
+const choices11 = new Choices(other_community_assistance_provider,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const halfway_house_provider = document.querySelector('#halfway_house_provider');
+const choices12 = new Choices(halfway_house_provider,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const legal_assistance_provider = document.querySelector('#legal_assistance_provider');
+const choices13 = new Choices(legal_assistance_provider,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+
+</script>
+{% endblock scripts %}

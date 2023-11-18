@@ -239,6 +239,60 @@ class TraffickingMean(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+class Provider(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+    
+class IncomeProjectType(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+    
+class EducationLevel(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class ImEmmigrationStatus(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class CommunityAssistanceType(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class DataSupplier(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+    
+class FamilyStructure(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+    
+class LivingWith(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+    
+class Occupation(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
+     
 class VictimProfile(models.Model):
     citizenship = models.ForeignKey(
         Country, related_name = "victims_cit",  on_delete=models.CASCADE, null=True, blank=True
@@ -511,6 +565,112 @@ class Exploitation(models.Model):
     interviewer = models.ForeignKey(Interviewer, related_name = "exploitation", on_delete=models.CASCADE, null=True, blank=True)
     approval = models.ForeignKey(
         ApprovalStatus, related_name = "exploitation", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    
+class Assistance(models.Model):
+    victim = models.ForeignKey(VictimProfile, related_name = "assistance", on_delete=models.CASCADE, null=True, blank=True)
+    social_assistance_days = models.IntegerField(null=True, blank=True)
+    social_assistance_months = models.IntegerField(null=True, blank=True)
+    social_assistance_provider = models.ManyToManyField(
+        Provider,  related_name = "social_assistance", null=True, blank=True
+    )
+    med_rehab_days = models.IntegerField(null=True, blank=True)
+    med_rehab_months = models.IntegerField(null=True, blank=True)
+    med_rehab_provider = models.ManyToManyField(
+        Provider,  related_name = "med_rehab", null=True, blank=True
+    )
+    housing_allowance_days = models.IntegerField(null=True, blank=True)
+    housing_allowance_months = models.IntegerField(null=True, blank=True)
+    housing_allowance_provider = models.ManyToManyField(
+        Provider,  related_name = "housing_allowance", null=True, blank=True
+    )
+    halfway_house_days = models.IntegerField(null=True, blank=True)
+    halfway_house_months = models.IntegerField(null=True, blank=True)
+    halfway_house_providers = models.ManyToManyField(
+        Provider,  related_name = "halfway_house", null=True, blank=True
+    )
+    shelter_days = models.IntegerField(null=True, blank=True)
+    shelter_months = models.IntegerField(null=True, blank=True)
+    shelter_provider = models.ManyToManyField(
+        Provider,  related_name = "shelter", null=True, blank=True
+    )
+    vocational_training_days = models.IntegerField(null=True, blank=True)
+    vocational_training_months = models.IntegerField(null=True, blank=True)
+    vocational_training_provider = models.ManyToManyField(
+        Provider,  related_name = "vocational_training", null=True, blank=True
+    )
+    micro_ent_income_days = models.IntegerField(null=True, blank=True)
+    micro_ent_income_months = models.IntegerField(null=True, blank=True)
+    micro_ent_income_provider = models.ManyToManyField(
+        Provider,  related_name = "micro_ent_income", null=True, blank=True
+    )
+    micro_ent_income_project= models.ForeignKey(IncomeProjectType,  related_name = "micro_ent_income", on_delete=models.CASCADE, null=True, blank=True) 
+    legal_assistance_days = models.IntegerField(null=True, blank=True)
+    legal_assistance_months = models.IntegerField(null=True, blank=True)
+    legal_assistance_provider = models.ManyToManyField(
+        Provider,  related_name = "legal_assistance", null=True, blank=True
+    )
+    medical_assistance_days = models.IntegerField(null=True, blank=True)
+    medical_assistance_months = models.IntegerField(null=True, blank=True)
+    medical_assistance_provider = models.ManyToManyField(
+        Provider,  related_name = "medical_assistance", null=True, blank=True
+    )
+    financial_assistance_days = models.IntegerField(null=True, blank=True)
+    financial_assistance_months = models.IntegerField(null=True, blank=True)
+    financial_assistance_provider = models.ManyToManyField(
+        Provider,  related_name = "financial_assistance", null=True, blank=True
+    )
+    education_assistance_days = models.IntegerField(null=True, blank=True)
+    education_assistance_months = models.IntegerField(null=True, blank=True)
+    education_assistance_provider = models.ManyToManyField(
+        Provider,  related_name = "education_assistance", null=True, blank=True
+    )
+    education_assistance_level= models.ForeignKey(EducationLevel,  related_name = "education_assistance", on_delete=models.CASCADE, null=True, blank=True)
+    im_emmigration_assistance_days = models.IntegerField(null=True, blank=True)
+    im_emmigration_assistance_months = models.IntegerField(null=True, blank=True)
+    im_emmigration_assistance_provider = models.ManyToManyField(
+        Provider,  related_name = "im_emmigration_assistance", null=True, blank=True
+    )
+    im_emmigration_assistance_status= models.ForeignKey(ImEmmigrationStatus,  related_name = "im_emmigration_assistance", on_delete=models.CASCADE, null=True, blank=True)
+    other_community_assistance_days = models.IntegerField(null=True, blank=True)
+    other_community_assistance_months = models.IntegerField(null=True, blank=True)
+    other_community_assistance_provider = models.ManyToManyField(
+        Provider,  related_name = "other_community_assistance", null=True, blank=True
+    )
+    other_community_assistance_type= models.ForeignKey(CommunityAssistanceType,  related_name = "other_community_assistance", on_delete=models.CASCADE, null=True, blank=True)
+    interviewer = models.ForeignKey(Interviewer, related_name = "assistance", on_delete=models.CASCADE, null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "assistance", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    
+class AssistanceAggregateData(models.Model):
+    data_supplier = models.ForeignKey(DataSupplier,  related_name = "aggregate_data_supplier", on_delete=models.CASCADE, null=True, blank=True)
+    total_tip_annually = models.IntegerField(null=True,blank=True)
+    total_service = models.IntegerField(null=True,blank=True)
+    eligible_family_service = models.IntegerField(null=True,blank=True)
+    total_anon_contacts = models.IntegerField(null=True,blank=True)
+    interviewer = models.ForeignKey(Interviewer, related_name = "assistance_aggregate", on_delete=models.CASCADE, null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "assistance_aggregate", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    
+
+class SocioEconomic(models.Model):
+    victim = models.ForeignKey(VictimProfile, related_name = "socio_economic", on_delete=models.CASCADE, null=True, blank=True)
+    family_structure = models.ForeignKey(FamilyStructure,  related_name = "socio_economic", on_delete=models.CASCADE, null=True, blank=True)
+    living_with = models.ForeignKey(LivingWith,  related_name = "socio_economic", on_delete=models.CASCADE, null=True, blank=True)
+    violence_prior = models.BooleanField(null=True,blank=True)
+    violence_type = models.CharField(max_length=50, null=True, blank=True)
+    education_level = models.ForeignKey(EducationLevel,  related_name = "socio_economic", on_delete=models.CASCADE, null=True, blank=True)
+    last_occupation = models.ManyToManyField(
+        Occupation,  related_name = "socio_economic", null=True, blank=True
+    )
+    interviewer = models.ForeignKey(Interviewer, related_name = "socio_economic", on_delete=models.CASCADE, null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "socio_economic", on_delete=models.CASCADE, null=True, blank=True
     )
     approval_comments = models.TextField( null=True, blank=True)
     
