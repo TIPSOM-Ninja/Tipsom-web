@@ -257,6 +257,20 @@ class ExploitationAdmin(admin.ModelAdmin):
 class VictimPermissionsAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(Assistance)
+class AssistanceAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(AssistanceAggregateData)
+class AssistanceAggregateDataAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(SocioEconomic)
+class SocioEconomicAdmin(admin.ModelAdmin):
+    pass
+
+
+
 
 
 

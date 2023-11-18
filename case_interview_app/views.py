@@ -612,53 +612,53 @@ def save_assistance_types(request):
         assistance = Assistance()
         assistance.victim_id = request.session['v_id']
         assistance.interviewer_id = interviewer.id
-        if request.POST.get('social_assistance_d_type') == 1:
+        if request.POST.get('social_assistance_d_type') == '1':
             assistance.social_assistance_days = request.POST.get("social_assistance_duration") if request.POST.get('social_assistance_duration') is not None and not request.POST.get('social_assistance_duration') == '' else None
-        elif request.POST.get('social_assistance_d_type') == 0:
+        elif request.POST.get('social_assistance_d_type') == '0':
             assistance.social_assistance_months = request.POST.get("social_assistance_duration") if request.POST.get('social_assistance_duration') is not None and not request.POST.get('social_assistance_duration') == '' else None
-        if request.POST.get('med_rehab_d_type') == 1:
+        if request.POST.get('med_rehab_d_type') == '1':
             assistance.med_rehab_days = request.POST.get("med_rehab_duration") if request.POST.get('med_rehab_duration') is not None and not request.POST.get('med_rehab_duration') == '' else None
-        elif request.POST.get('med_rehab_d_type') == 0:
+        elif request.POST.get('med_rehab_d_type') == '0':
             assistance.med_rehab_months = request.POST.get("med_rehab_duration") if request.POST.get('med_rehab_duration') is not None and not request.POST.get('med_rehab_duration') == '' else None
-        if request.POST.get('housing_allowance_d_type') == 1:
+        if request.POST.get('housing_allowance_d_type') == '1':
             assistance.housing_allowance_days = request.POST.get("housing_allowance_duration") if request.POST.get('housing_allowance_duration') is not None and not request.POST.get('housing_allowance_duration') == '' else None
-        elif request.POST.get('housing_allowance_d_type') == 0:
+        elif request.POST.get('housing_allowance_d_type') == '0':
             assistance.housing_allowance_months = request.POST.get("housing_allowance_duration") if request.POST.get('housing_allowance_duration') is not None and not request.POST.get('housing_allowance_duration') == '' else None
-        if request.POST.get('shelter_d_type') == 1:
+        if request.POST.get('shelter_d_type') == '1':
             assistance.shelter_days = request.POST.get("shelter_duration") if request.POST.get('shelter_duration') is not None and not request.POST.get('shelter_duration') == '' else None
-        elif request.POST.get('shelter_d_type') == 0:
+        elif request.POST.get('shelter_d_type') == '0':
             assistance.shelter_months = request.POST.get("shelter_duration") if request.POST.get('shelter_duration') is not None and not request.POST.get('shelter_duration') == '' else None
-        if request.POST.get('vocational_training_d_type') == 1:
+        if request.POST.get('vocational_training_d_type') == '1':
             assistance.vocational_training_days = request.POST.get("vocational_training_duration") if request.POST.get('vocational_training_duration') is not None and not request.POST.get('vocational_training_duration') == '' else None
-        elif request.POST.get('vocational_training_d_type') == 0:
+        elif request.POST.get('vocational_training_d_type') == '0':
             assistance.vocational_training_months = request.POST.get("vocational_training_duration") if request.POST.get('vocational_training_duration') is not None and not request.POST.get('vocational_training_duration') == '' else None
-        if request.POST.get('micro_ent_income_d_type') == 1:
+        if request.POST.get('micro_ent_income_d_type') == '1':
             assistance.micro_ent_income_days = request.POST.get("micro_ent_income_duration") if request.POST.get('micro_ent_income_duration') is not None and not request.POST.get('micro_ent_income_duration') == '' else None
-        elif request.POST.get('micro_ent_income_d_type') == 0:
+        elif request.POST.get('micro_ent_income_d_type') == '0':
             assistance.micro_ent_income_months = request.POST.get("micro_ent_income_duration") if request.POST.get('micro_ent_income_duration') is not None and not request.POST.get('micro_ent_income_duration') == '' else None
-        if request.POST.get('legal_assistance_d_type') == 1:
+        if request.POST.get('legal_assistance_d_type') == '1':
             assistance.legal_assistance_days = request.POST.get("legal_assistance_duration") if request.POST.get('legal_assistance_duration') is not None and not request.POST.get('legal_assistance_duration') == '' else None
-        elif request.POST.get('legal_assistance_d_type') == 0:
+        elif request.POST.get('legal_assistance_d_type') == '0':
             assistance.legal_assistance_months = request.POST.get("legal_assistance_duration") if request.POST.get('legal_assistance_duration') is not None and not request.POST.get('legal_assistance_duration') == '' else None
-        if request.POST.get('medical_assistance_d_type') == 1:
+        if request.POST.get('medical_assistance_d_type') == '1':
             assistance.medical_assistance_days = request.POST.get("medical_assistance_duration") if request.POST.get('medical_assistance_duration') is not None and not request.POST.get('medical_assistance_duration') == '' else None
-        elif request.POST.get('medical_assistance_d_type') == 0:
+        elif request.POST.get('medical_assistance_d_type') == '0':
             assistance.medical_assistance_months = request.POST.get("medical_assistance_duration") if request.POST.get('medical_assistance_duration') is not None and not request.POST.get('medical_assistance_duration') == '' else None
-        if request.POST.get('financial_assistance_d_type') == 1:
+        if request.POST.get('financial_assistance_d_type') == '1':
             assistance.financial_assistance_days = request.POST.get("financial_assistance_duration") if request.POST.get('financial_assistance_duration') is not None and not request.POST.get('financial_assistance_duration') == '' else None
-        elif request.POST.get('financial_assistance_d_type') == 0:
+        elif request.POST.get('financial_assistance_d_type') == '0':
             assistance.financial_assistance_months = request.POST.get("financial_assistance_duration") if request.POST.get('financial_assistance_duration') is not None and not request.POST.get('financial_assistance_duration') == '' else None
-        if request.POST.get('education_assistance_d_type') == 1:
+        if request.POST.get('education_assistance_d_type') == '1':
             assistance.education_assistance_days = request.POST.get("education_assistance_duration") if request.POST.get('education_assistance_duration') is not None and not request.POST.get('education_assistance_duration') == '' else None
-        elif request.POST.get('education_assistance_d_type') == 0:
+        elif request.POST.get('education_assistance_d_type') == '0':
             assistance.education_assistance_months = request.POST.get("education_assistance_duration") if request.POST.get('education_assistance_duration') is not None and not request.POST.get('education_assistance_duration') == '' else None
-        if request.POST.get('im_emmigration_assistance_d_type') == 1:
+        if request.POST.get('im_emmigration_assistance_d_type') == '1':
             assistance.im_emmigration_assistance_days = request.POST.get("im_emmigration_assistance_duration") if request.POST.get('im_emmigration_assistance_duration') is not None and not request.POST.get('im_emmigration_assistance_duration') == '' else None
-        elif request.POST.get('im_emmigration_assistance_d_type') == 0:
+        elif request.POST.get('im_emmigration_assistance_d_type') == '0':
             assistance.im_emmigration_assistance_months = request.POST.get("im_emmigration_assistance_duration") if request.POST.get('im_emmigration_assistance_duration') is not None and not request.POST.get('im_emmigration_assistance_duration') == '' else None
-        if request.POST.get('other_community_assistance_d_type') == 1:
+        if request.POST.get('other_community_assistance_d_type') == '1':
             assistance.other_community_assistance_days = request.POST.get("other_community_assistance_duration") if request.POST.get('other_community_assistance_duration') is not None and not request.POST.get('other_community_assistance_duration') == '' else None
-        elif request.POST.get('other_community_assistance_d_type') == 0:
+        elif request.POST.get('other_community_assistance_d_type') == '0':
             assistance.other_community_assistance_months = request.POST.get("other_community_assistance_duration") if request.POST.get('other_community_assistance_duration') is not None and not request.POST.get('other_community_assistance_duration') == '' else None
         assistance.micro_ent_income_project_id = request.POST.get('micro_ent_income_project')
         assistance.education_assistance_level_id = request.POST.get('education_assistance_level')
@@ -728,7 +728,8 @@ def save_socio_economic(request):
 
         messages.success(request,"Socio-economic situation saved")
 
-        return redirect('/cases')
+        formulate_get="?step=4"
+        return redirect('/assistance_form'+formulate_get)
 
 def save_assistance_aggregate(request):
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
