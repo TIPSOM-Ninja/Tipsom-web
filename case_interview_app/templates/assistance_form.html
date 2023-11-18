@@ -9,9 +9,10 @@
         <div class="card-body">
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link {% if step is not None and step == '1' %}active {% elif  step is None %}active{% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Victim Profile</button>
-                    <button class="nav-link {% if step is not None and step == '2' %} active {% endif %}" id="nav-assistance-tab" data-bs-toggle="tab" data-bs-target="#nav-assistance" type="button" role="tab" aria-controls="nav-assistance" aria-selected="false">Assistance Types</button>  
-                    <button class="nav-link {% if step is not None and step == '3' %} active {% endif %}" id="nav-socio-tab" data-bs-toggle="tab" data-bs-target="#nav-socio" type="button" role="tab" aria-controls="nav-socio" aria-selected="false">Socio Economic Before Trafficking</button>  
+                    <button class="nav-link {% if step is not None and step == '1' %}active {% elif  step is None %}active{% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "Victim Profile" %}</button>
+                    <button class="nav-link {% if step is not None and step == '2' %} active {% endif %}" id="nav-assistance-tab" data-bs-toggle="tab" data-bs-target="#nav-assistance" type="button" role="tab" aria-controls="nav-assistance" aria-selected="false">{% trans "Assistance Types" %}</button>  
+                    <button class="nav-link {% if step is not None and step == '3' %} active {% endif %}" id="nav-socio-tab" data-bs-toggle="tab" data-bs-target="#nav-socio" type="button" role="tab" aria-controls="nav-socio" aria-selected="false">{% trans "Socio Economic Before Trafficking" %}</button>
+                    <button class="nav-link {% if step is not None and step == '4' %} active {% endif %}" id="nav-aggregate-tab" data-bs-toggle="tab" data-bs-target="#nav-aggregate" type="button" role="tab" aria-controls="nav-aggregate" aria-selected="false">{% trans "Aggregate data on assistance" %}</button>  
                 </div>
             </nav>
             <div class="tab-content">
@@ -551,6 +552,55 @@
                                 </div>
                             </div>
 
+                            <div class="row text-center m-3 ">
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE AND PROCEED" %}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+                <div class="tab-pane fade {% if step is not None and step == '4' %} show active  {% endif %}" id="nav-aggregate" role="tabpanel" aria-labelledby="nav-aggregate-tab" tabindex="3">
+                    {% if victim %}
+                    <form id="socio-economic-form" method="post" action="/{{request.LANGUAGE_CODE}}/save_assistance_aggregate">
+                        {% csrf_token %}
+                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="data_supplier" class="form-label">{% trans "Data supplied by:" %}</label>
+                                    <select class="form-select" name="data_supplier" id="data_supplier" aria-label="Default select example" value = "aggregate.data_supplier_id">
+                                        {% for supplier in data_suppliers %}
+                                            <option {% if supplier.id == aggregate.data_supplier_id %}selected{% endif %} value="{{supplier.id}}">{% trans supplier.name %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="total_tip_annually" class="form-label">{% trans "Estimated total numbers of TIP assistance cases during the last calendar year:" %}</label>
+                                    <input type="number" name = "total_tip_annually" value = "{{aggregate.total_tip_annually}}" class="form-control" id="total_tip_annually" aria-describedby="total_tip_annuallyHelp" >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="total_service" class="form-label">{% trans "Total number of confirmed and/or potential victims who received services:" %}</label>
+                                    <input type="number" name = "total_service" value = "{{aggregate.total_service}}" class="form-control" id="total_service" aria-describedby="total_serviceHelp" >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="eligible_family_service" class="form-label">{% trans "Total number of eligible family members who received services:" %}</label>
+                                    <input type="number" name = "eligible_family_service" value = "{{aggregate.eligible_family_service}}" class="form-control" id="eligible_family_service" aria-describedby="eligible_family_serviceHelp" >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="total_anon_contacts" class="form-label">{% trans "Total number of anonymous contacts received through a hotline, online chat, through unions or labour inspectors, or through private companies’ value chains" %}</label>
+                                    <input type="number" name = "total_anon_contacts" value = "{{aggregate.total_anon_contacts}}" class="form-control" id="total_anon_contacts" aria-describedby="total_anon_contactsHelp" >
+                                </div>
+                            </div>
+                            
                             <div class="row text-center m-3 ">
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE AND RETURN" %}</button>
