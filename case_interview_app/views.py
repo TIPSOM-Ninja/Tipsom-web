@@ -209,7 +209,7 @@ def save_arrest(request):
         arrest.investigation_status_id=request.POST['investigation_status']
         arrest.why_pending=request.POST['why_pending']
         arrest.withdrawn_closed_reason=request.POST['withdrawn_closed_reason']
-        arrest.interviewer=interviewer.id
+        arrest.interviewer_id=interviewer.id
         arrest.approval_id=1
         arrest.save()
         print(request.POST)
@@ -234,23 +234,23 @@ def save_suspect(request):
     if request.method == "POST":
         suspect = SuspectedTrafficker()
         suspect.victim_id = request.session['v_id']
-        suspect.first_name = request.POST['first_name']
-        suspect.last_name = request.POST['last_name']
-        suspect.dob = request.POST['dob']
-        suspect.gender_id = request.POST['gender']
-        suspect.race_id = request.POST['race']
+        suspect.first_name = request.POST['first_name'] if request.POST.get('first_name') is not None and not request.POST.get('first_name') == '' else None
+        suspect.last_name = request.POST['last_name'] if request.POST.get('last_name') is not None and not request.POST.get('last_name') == '' else None
+        suspect.dob = request.POST['dob'] if request.POST.get('dob') is not None and not request.POST.get('dob') == '' else None
+        suspect.gender_id = request.POST['gender'] if request.POST.get('gender') is not None and not request.POST.get('gender') == '' else None
+        suspect.race_id = request.POST['race'] if request.POST.get('race') is not None and not request.POST.get('race') == '' else None
         suspect.age = age
-        suspect.country_of_birth_id = request.POST['country_of_birth']
-        suspect.citizenship_id = request.POST['citizenship']
-        suspect.nationality_id = request.POST['nationality']
-        suspect.id_number = request.POST['id_number']
-        suspect.last_residence = request.POST['last_residence']
-        suspect.address = request.POST['address']
-        suspect.date_of_arrest = request.POST['date_of_arrest']
-        suspect.traffick_from_country_id = request.POST['traffick_from_country']
-        suspect.traffick_from_place = request.POST['traffick_from_place']
-        suspect.traffick_to_country_id = request.POST['traffick_to_country']
-        suspect.traffick_to_place = request.POST['traffick_to_place']
+        suspect.country_of_birth_id = request.POST['country_of_birth'] if request.POST.get('country_of_birth') is not None and not request.POST.get('country_of_birth') == '' else None
+        suspect.citizenship_id = request.POST['citizenship'] if request.POST.get('citizenship') is not None and not request.POST.get('citizenship') == '' else None
+        suspect.nationality_id = request.POST['nationality'] if request.POST.get('nationality') is not None and not request.POST.get('nationality') == '' else None
+        suspect.id_number = request.POST['id_number'] if request.POST.get('id_number') is not None and not request.POST.get('id_number') == '' else None
+        suspect.last_residence = request.POST['last_residence'] if request.POST.get('last_residence') is not None and not request.POST.get('last_residence') == '' else None
+        suspect.address = request.POST['address'] if request.POST.get('address') is not None and not request.POST.get('address') == '' else None
+        suspect.date_of_arrest = request.POST['date_of_arrest'] if request.POST.get('date_of_arrest') is not None and not request.POST.get('date_of_arrest') == '' else None
+        suspect.traffick_from_country_id = request.POST['traffick_from_country'] if request.POST.get('traffick_from_country') is not None and not request.POST.get('traffick_from_country') == '' else None
+        suspect.traffick_from_place = request.POST['traffick_from_place'] if request.POST.get('traffick_from_place') is not None and not request.POST.get('traffick_from_place') == '' else None
+        suspect.traffick_to_country_id = request.POST['traffick_to_country'] if request.POST.get('traffick_to_country') is not None and not request.POST.get('traffick_to_country') == '' else None
+        suspect.traffick_to_place = request.POST['traffick_to_place'] if request.POST.get('traffick_to_place') is not None and not request.POST.get('traffick_to_place') == '' else None
         suspect.interviewer_id=interviewer.id
         suspect.approval_id=1
         suspect.id_type_id = request.POST['idtypes']

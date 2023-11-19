@@ -384,7 +384,7 @@ class SuspectedTrafficker(models.Model):
     nationality = models.ForeignKey(
         Country,  related_name = "nat_traffickers", on_delete=models.CASCADE, null=True, blank=True
     )
-    id_number = models.IntegerField(null=True, blank=True)
+    id_number = models.CharField(max_length=50,null=True, blank=True)
     id_type = models.ForeignKey(IdType,  related_name = "traffickers",  on_delete=models.CASCADE, null=True, blank=True)
     languages = models.ManyToManyField(Language, null=True, blank=True)
     last_residence = models.CharField(max_length=50, null=True, blank=True)
