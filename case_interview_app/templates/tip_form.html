@@ -37,18 +37,18 @@
                                 <div>
                                     
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="subject_to_exploitation" id="subject_to_exploitation_1" value="1" >
+                                        <input class="form-check-input" type="radio" name="subject_to_exploitation" id="subject_to_exploitation_1" value="1" onclick="togglesection_radio(['exploitation_length_sec','block'],['exploitation_age_sec','block'],['pay_debt_sec','block'],['intent_to_exploit_sec','none'])">
                                         <label class="form-check-label" for="subject_to_exploitation_1">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="subject_to_exploitation" id="subject_to_exploitation_0" value="0" >
+                                        <input class="form-check-input" type="radio" name="subject_to_exploitation" id="subject_to_exploitation_0" value="0" onclick="togglesection_radio(['exploitation_length_sec','none'],['exploitation_age_sec','none'],['pay_debt_sec','none'],['debt_amount_sec','none'],['intent_to_exploit_sec','block'])">
                                         <label class="form-check-label" for="subject_to_exploitation_0">No</label>
                                     </div>
                                    
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="intent_to_exploit_sec" style="display:none">
                                 <label for="intent_to_exploit" class="form-label">{% trans "If NO, was there an intention to exploit the victim?" %}</label>
                                 <div>
                                     
@@ -64,13 +64,13 @@
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="exploitation_length_sec"  style="display:none">
                                 <div class="">
                                     <label for="exploitation_length" class="form-label">{% trans "If YES, For how long did the victim experience exploitation?:" %}</label>
                                     <input type="text" name = "exploitation_length" value = "{{exploitation.exploitation_length}}" class="form-control" id="exploitation_length" aria-describedby="exploitation_lengthHelp" >
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="exploitation_age_sec"  style="display:none">
                                 <div class="">
                                     <label for="exploitation_age" class="form-label">{% trans "If YES, what was the age(s) of the victim during the period of exploitation?:" %}</label>
                                     
@@ -82,23 +82,23 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id = "pay_debt_sec"  style="display:none">
                                 <label for="pay_debt" class="form-label">{% trans "Did the victim have to pay a debt to his/her exploiters?" %}</label>
                                 <div>
                                     
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="pay_debt" id="pay_debt_1" value="1" >
+                                        <input class="form-check-input" type="radio" name="pay_debt" id="pay_debt_1" value="1" onclick="togglesection_radio(['debt_amount_sec','block'])">
                                         <label class="form-check-label" for="pay_debt_1">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="pay_debt" id="pay_debt_0" value="0" >
+                                        <input class="form-check-input" type="radio" name="pay_debt" id="pay_debt_0" value="0" onclick="togglesection_radio(['debt_amount_sec','none'])">
                                         <label class="form-check-label" for="pay_debt_0">No</label>
                                     </div>
                                    
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="debt_amount_sec"  style="display:none">
                                 <div class="">
                                     <label for="debt_amount" class="form-label">{% trans "If YES, please specify - Total amount?:" %}</label>
                                     <input type="text" name = "debt_amount" value = "{{exploitation.debt_amount}}" class="form-control" id="debt_amount" aria-describedby="debt_amountHelp" >
@@ -143,23 +143,23 @@
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_other_sexual_sec">
                                 <label for="e_other_sexual" class="form-label">{% trans "Other sexual exploitation" %}</label>
                                 <div>
                                     
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_other_sexual" id="e_other_sexual_1" value="1" >
+                                        <input class="form-check-input" type="radio" name="e_other_sexual" id="e_other_sexual_1" value="1" onclick="togglesection_radio(['e_other_sexual_online_sec','block'],['e_online_porno_sec','block'])">
                                         <label class="form-check-label" for="e_other_sexual_1">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_other_sexual" id="e_other_sexual_0" value="0" >
+                                        <input class="form-check-input" type="radio" name="e_other_sexual" id="e_other_sexual_0" value="0" onclick="togglesection_radio(['e_other_sexual_online_sec','none'],['e_online_porno_sec','none'])">
                                         <label class="form-check-label" for="e_other_sexual_0">No</label>
                                     </div>
                                    
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_other_sexual_online_sec" style="display:none">
                                 <label for="e_other_sexual_online" class="form-label">{% trans "Sexual exploitation online" %}</label>
                                 <div>
                                     
@@ -175,7 +175,7 @@
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_online_porno_sec" style="display:none">
                                 <label for="e_online_porno" class="form-label">{% trans "Production of online pornographic material" %}</label>
                                 <div>
                                     
@@ -196,18 +196,18 @@
                                 <div>
                                     
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_criminal_activity" id="e_criminal_activity_1" value="1" >
+                                        <input class="form-check-input" type="radio" name="e_criminal_activity" id="e_criminal_activity_1" value="1" onclick="togglesection_radio(['e_criminal_activity_type_sec','block'])">
                                         <label class="form-check-label" for="e_criminal_activity_1">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_criminal_activity" id="e_criminal_activity_0" value="0" >
+                                        <input class="form-check-input" type="radio" name="e_criminal_activity" id="e_criminal_activity_0" value="0" onclick="togglesection_radio(['e_criminal_activity_type_sec','none'])">
                                         <label class="form-check-label" for="e_criminal_activity_0">No</label>
                                     </div>
                                    
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id = "e_criminal_activity_type_sec" style="display:none">
                                 <div class="">
                                     <label for="e_criminal_activity_type" class="form-label">{% trans "If yes, what crime?:" %}</label>
                                     <select class="form-select" name="e_criminal_activity_type[]" id="e_criminal_activity_type" aria-label="Default select example"  value="{{exploitation.e_criminal_activity_type}}" multiple>
@@ -223,18 +223,18 @@
                                 <div>
                                     
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_forced_labour" id="e_forced_labour_1" value="1" >
+                                        <input class="form-check-input" type="radio" name="e_forced_labour" id="e_forced_labour_1" value="1" onclick="togglesection_radio(['e_forced_labour_industry_sec','block'])">
                                         <label class="form-check-label" for="e_forced_labour_1">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_forced_labour" id="e_forced_labour_0" value="0" >
+                                        <input class="form-check-input" type="radio" name="e_forced_labour" id="e_forced_labour_0" value="0" onclick="togglesection_radio(['e_forced_labour_industry_sec','none'])">
                                         <label class="form-check-label" for="e_forced_labour_0">No</label>
                                     </div>
                                    
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_forced_labour_industry_sec" style="display:none">
                                 <div class="">
                                     <label for="e_forced_labour_industry" class="form-label">{% trans "If yes, what industry?:" %}</label>
                                     <select class="form-select" name="e_forced_labour_industry[]" id="e_forced_labour_industry" aria-label="Default select example"  value="{{exploitation.e_forced_labour_industry}}" multiple>
@@ -250,18 +250,18 @@
                                 <div>
                                     
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_forced_marriage" id="e_forced_marriage_1" value="1" >
+                                        <input class="form-check-input" type="radio" name="e_forced_marriage" id="e_forced_marriage_1" value="1" onclick="togglesection_radio(['e_victim_knew_spouse_sec','block'],['e_spouse_nationality_sec','block'],['e_bprice_paid_sec','block'])">
                                         <label class="form-check-label" for="e_forced_marriage_1">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_forced_marriage" id="e_forced_marriage_0" value="0" >
+                                        <input class="form-check-input" type="radio" name="e_forced_marriage" id="e_forced_marriage_0" value="0" onclick="togglesection_radio(['e_victim_knew_spouse_sec','none'],['e_spouse_nationality_sec','none'],['e_bprice_paid_sec','none'],['e_bprice_amount_sec','none']),['e_bprice_recipient_sec','none']">
                                         <label class="form-check-label" for="e_forced_marriage_0">No</label>
                                     </div>
                                    
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_victim_knew_spouse_sec" style="display:none">
                                 <label for="e_victim_knew_spouse" class="form-label">{% trans "Did the victim know the spouse before the wedding?" %}</label>
                                 <div>
                                     
@@ -277,7 +277,7 @@
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_spouse_nationality_sec" style="display:none">
                                 <div class="">
                                     <label for="e_spouse_nationality" class="form-label">{% trans "What is the spouse’s nationality?:" %}</label>
                                     <select class="form-select" name="e_spouse_nationality_id" id="e_spouse_nationality" aria-label="Default select example"  value="{{exploitation.e_spouse_nationality_id}}">
@@ -288,10 +288,10 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_bprice_paid_sec" style="display:none">
                                 <div class="">
                                     <label for="e_bprice_paid" class="form-label">{% trans "Was a bride price, dowry or dower paid?:" %}</label>
-                                    <select class="form-select" name="e_bprice_paid_id" id="e_bprice_paid" aria-label="Default select example"  value="{{exploitation.e_bprice_paid_id}}">
+                                    <select class="form-select" name="e_bprice_paid_id" id="e_bprice_paid" aria-label="Default select example"  value="{{exploitation.e_bprice_paid_id}}" onchange="togglesection_select(this,[['e_bprice_amount_sec','e_bprice_recipient_sec'],['1','2','3']])">
                                         <option></option>
                                         {% for price in bride_prices %}
                                             <option {% if price.id == exploitation.e_bprice_paid_id %}selected{% endif %} value="{{price.id}}"> {{price.name}}</option>
@@ -299,13 +299,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_bprice_amount_sec" style="display:none">
                                 <div class="">
                                     <label for="e_bprice_amount_kind" class="form-label">{% trans "If YES to bride price, dowry or dower, how much and/or which material good's?:" %}</label>
                                     <input type="text" name = "e_bprice_amount_kind" value = "{{exploitation.e_bprice_amount_kind}}" class="form-control" id="e_bprice_amount_kind" aria-describedby="e_bprice_amount_kindHelp" >
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_bprice_recipient_sec" style="display:none">
                                 <div class="">
                                     <label for="e_brice_recipient" class="form-label">{% trans "If YES to bride price, which individual(s) received the bride price?:" %}</label>
                                     <select class="form-select" name="e_brice_recipient[]" id="e_brice_recipient" aria-label="Default select example"  value="{{exploitation.e_brice_recipient}}" multiple>
@@ -321,18 +321,18 @@
                                 <div>
                                     
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_child_marriage" id="e_child_marriage_1" value="1" >
+                                        <input class="form-check-input" type="radio" name="e_child_marriage" id="e_child_marriage_1" value="1" onclick="togglesection_radio(['e_child_marriage_reason_sec','block'],['e_victim_pregnancy_sec','block'],['e_marriage_violence_sec','block'])">
                                         <label class="form-check-label" for="e_child_marriage_1">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_child_marriage" id="e_child_marriage_0" value="0" >
+                                        <input class="form-check-input" type="radio" name="e_child_marriage" id="e_child_marriage_0" value="0" onclick="togglesection_radio(['e_child_marriage_reason_sec','none'],['e_victim_pregnancy_sec','none'],['e_marriage_violence_sec','none'],['e_children_from_marriage_sec','none'],['e_maternal_health_issues_sec','none'],['e_m_health_issues_description_sec','none'],['e_marriage_violence_type_sec','none'])">
                                         <label class="form-check-label" for="e_child_marriage_0">No</label>
                                     </div>
                                    
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_child_marriage_reason_sec" style="display:none">
                                 <div class="">
                                     <label for="e_child_marriage_reason" class="form-label">{% trans "What was the reason for the child marriage?:" %}</label>
                                     <select class="form-select" name="e_child_marriage_reason[]" id="e_child_marriage_reason" aria-label="Default select example"  value="{{exploitation.e_child_marriage_reason}}" multiple>
@@ -343,54 +343,54 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_victim_pregnancy_sec"  style="display:none">
                                 <label for="e_victim_pregnancy" class="form-label">{% trans "Did the victim fall pregnant as a result of the marriage?" %}</label>
                                 <div>
                                     
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_victim_pregnancy" id="e_victim_pregnancy" value="1" >
+                                        <input class="form-check-input" type="radio" name="e_victim_pregnancy" id="e_victim_pregnancy" value="1" onclick="togglesection_radio(['e_children_from_marriage_sec','block'],['e_maternal_health_issues_sec','block'])">
                                         <label class="form-check-label" for="e_victim_pregnancy_1">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_victim_pregnancy" id="e_victim_pregnancy" value="0" >
+                                        <input class="form-check-input" type="radio" name="e_victim_pregnancy" id="e_victim_pregnancy" value="0" onclick="togglesection_radio(['e_children_from_marriage_sec','none'],['e_maternal_health_issues_sec','none'],['e_m_health_issues_description_sec','none'])">
                                         <label class="form-check-label" for="e_victim_pregnancy_0">No</label>
                                     </div>
                                    
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6"  id="e_children_from_marriage_sec" style="display:none">
                                 <div class="">
                                     <label for="e_children_from_marriage" class="form-label">{% trans "If YES, how many children were born out of the marriage?:" %}</label>
                                     <input type="number" name = "e_children_from_marriage" value = "{{exploitation.e_children_from_marriage}}" class="form-control" id="e_children_from_marriage" aria-describedby="e_children_from_marriageHelp">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_maternal_health_issues_sec" style="display:none">
                                 <label for="e_maternal_health_issues" class="form-label">{% trans "Did the victim have any maternal health problems?" %}</label>
                                 <div>
                                     
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_maternal_health_issues" id="e_maternal_health_issues" value="1" >
+                                        <input class="form-check-input" type="radio" name="e_maternal_health_issues" id="e_maternal_health_issues" value="1"  onclick="togglesection_radio(['e_m_health_issues_description_sec','block'])">
                                         <label class="form-check-label" for="e_maternal_health_issues_1">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_maternal_health_issues" id="e_maternal_health_issues" value="0" >
+                                        <input class="form-check-input" type="radio" name="e_maternal_health_issues" id="e_maternal_health_issues" value="0" onclick="togglesection_radio(['e_m_health_issues_description_sec','none'])">
                                         <label class="form-check-label" for="e_maternal_health_issues_0">No</label>
                                     </div>
                                    
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_m_health_issues_description_sec"style="display:none">
                                 <div class="">
                                     <label for="e_m_health_issues_description" class="form-label">{% trans "If YES, please specify?:" %}</label>
                                     <textarea type="text" name = "e_m_health_issues_description"  class="form-control" id="e_m_health_issues_description" aria-describedby="e_m_health_issues_descriptionHelp">{{exploitation.e_m_health_issues_description}}</textarea>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_marriage_violence_sec" style="display:none">
                                 <div class="">
                                     <label for="e_marriage_violence" class="form-label">{% trans "During the marriage, was the victim subject to any form of violence?:" %}</label>
-                                    <select class="form-select" name="e_marriage_violence_id" id="e_marriage_violence" aria-label="Default select example"  value="{{exploitation.e_marriage_violence_id}}">
+                                    <select class="form-select" name="e_marriage_violence_id" id="e_marriage_violence" aria-label="Default select example"  value="{{exploitation.e_marriage_violence_id}}" onchange="togglesection_select(this,[['e_marriage_violence_type_sec'],['1']])">
                                         <option></option>
                                         {% for option in affirm_options %}
                                             <option {% if option.id == exploitation.e_marriage_violence_id %}selected{% endif %} value="{{option.id}}"> {{option.name}}</option>
@@ -398,7 +398,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_marriage_violence_type_sec" style="display:none">
                                 <div class="">
                                     <label for="e_marriage_violence_type" class="form-label">{% trans "If YES, please specify what the violence was through?:" %}</label>
                                     <select class="form-select" name="e_marriage_violence_type[]" id="e_marriage_violence_type" aria-label="Default select example"  value="{{exploitation.e_marriage_violence_type}}" multiple>
@@ -443,18 +443,18 @@
                                 <div>
                                     
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_child_soldier" id="e_child_soldier" value="1" >
+                                        <input class="form-check-input" type="radio" name="e_child_soldier" id="e_child_soldier" value="1"  onclick="togglesection_radio(['e_child_soldier_age_sec','block'])">
                                         <label class="form-check-label" for="e_child_soldiers_1">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_child_soldier" id="e_child_soldier" value="0" >
+                                        <input class="form-check-input" type="radio" name="e_child_soldier" id="e_child_soldier" value="0" onclick="togglesection_radio(['e_child_soldier_age_sec','none'])">
                                         <label class="form-check-label" for="e_child_soldier_0">No</label>
                                     </div>
                                    
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_child_soldier_age_sec" style="display:none">
                                 <div class="">
                                     <label for="e_child_soldier_age" class="form-label">{% trans "At what age?:" %}</label>
                                     <input type="number" name = "e_child_soldier_age" value = "{{exploitation.e_child_soldier_age}}" class="form-control" id="e_child_soldier_age" aria-describedby="e_child_soldier_ageHelp">
@@ -465,18 +465,18 @@
                                 <div>
                                     
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_organ_removed" id="e_organ_removed_1" value="1" >
+                                        <input class="form-check-input" type="radio" name="e_organ_removed" id="e_organ_removed_1" value="1" onclick="togglesection_radio(['e_body_part_removed_sec','block'],['e_operation_location_sec','block'],['e_operation_country_sec','block'],['e_organ_sale_price_sec','block'],['e_organ_paid_to_sec','block'],['e_remarks_sec','block'])">
                                         <label class="form-check-label" for="e_organ_removed_1">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="e_organ_removed" id="e_organ_removed_0" value="0" >
+                                        <input class="form-check-input" type="radio" name="e_organ_removed" id="e_organ_removed_0" value="0" onclick="togglesection_radio(['e_body_part_removed_sec','none'],['e_operation_location_sec','none'],['e_operation_country_sec','none'],['e_organ_sale_price_sec','none'],['e_organ_paid_to_sec','none'],['e_remarks_sec','none'])">
                                         <label class="form-check-label" for="e_organ_removed_0">No</label>
                                     </div>
                                    
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_body_part_removed_sec"  style="display:none">
                                 <div class="">
                                     <label for="e_body_part_removed" class="form-label">{% trans "Which body parts were removed?:" %}</label>
                                     <select class="form-select" name="e_body_part_removed[]" id="e_body_part_removed" aria-label="Default select example"  value="{{exploitation.e_body_part_removed}}" multiple>
@@ -487,7 +487,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_operation_location_sec"  style="display:none">
                                 <div class="">
                                     <label for="e_operation_location" class="form-label">{% trans "Where was the operation performed?:" %}</label>
                                     <select class="form-select" name="e_operation_location_id" id="e_operation_location" aria-label="Default select example"  value="{{exploitation.e_operation_location_id}}">
@@ -498,7 +498,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_operation_country_sec"  style="display:none">
                                 <div class="">
                                     <label for="e_operation_country" class="form-label">{% trans "In which country was the operation performed?:" %}</label>
                                     <select class="form-select" name="e_operation_country_id" id="e_operation_country" aria-label="Default select example"  value="{{exploitation.e_operation_country_id}}">
@@ -509,13 +509,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_organ_sale_price_sec"  style="display:none">
                                 <div class="">
                                     <label for="e_organ_sale_price" class="form-label">{% trans "If organ was sold, how much was offered or actually paid for the removed organ?:" %}</label>
                                     <input type="text" name = "e_organ_sale_price" value = "{{exploitation.e_organ_sale_price}}" class="form-control" id="e_organ_sale_price" aria-describedby="e_organ_sale_priceHelp">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_organ_paid_to_sec"  style="display:none">
                                 <div class="">
                                     <label for="e_organ_paid_to" class="form-label">{% trans "If applicable, to whom was the money paid?:" %}</label>
                                     <select class="form-select" name="e_organ_paid_to_id" id="e_organ_paid_to" aria-label="Default select example"  value="{{exploitation.e_organ_paid_to_id}}" >
@@ -526,7 +526,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_remarks_sec"  style="display:none">
                                 <div class="">
                                     <label for="e_remarks" class="form-label">{% trans "Additional remarks:" %}</label>
                                     <textarea type="text" name = "e_remarks"  class="form-control" id="e_remarks" aria-describedby="e_remarksHelp">{{exploitation.e_remarks}}</textarea>
@@ -543,7 +543,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="e_recruiter_relationship_sec">
                                 <div class="">
                                     <label for="e_recruiter_relationship" class="form-label">{% trans "If recruitment, how was the victim recruited?:" %}</label>
                                     <select class="form-select" name="e_recruiter_relationship_id" id="e_recruiter_relationship" aria-label="Default select example"  value="{{exploitation.e_recruiter_relationship_id}}">

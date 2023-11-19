@@ -105,11 +105,29 @@ def investigation_form(request):
             'roles_in_trafficking':roles_in_trafficking
 
         }
+        
         if request.GET.get('step') is not None:
             context['step'] = request.GET.get('step')
         
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
-        if request.GET.get('step') and 'v_id' in request.session:
+
+        if request.GET.get("v_id") is not None:
+            victim = VictimProfile.objects.filter(id = request.GET.get("v_id")).first()
+            if victim is None:
+                messages.error(request,'Victim does not exist. Please create a new victim.')
+            else:
+                if interviewer.victims.filter(id = victim.id).first() is not None:
+                    request.session['v_id'] = victim.id
+                else:
+                    permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
+                    if permission is None:
+                        messages.error(request,"You do not have access to this record. Please create a request.")
+                    else:
+                        # TODO: check if permision is granted
+                        # TODO: remove autopermission below
+                        request.session['v_id'] = victim.id
+
+        if 'v_id' in request.session:
             context['v_id'] = request.session['v_id']
             context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
             context['arrest'] = ArrestInvestigation.objects.filter(victim_id = request.session['v_id'],interviewer_id=interviewer.id).first()

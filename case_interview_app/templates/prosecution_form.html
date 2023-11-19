@@ -9,9 +9,9 @@
         <div class="card-body">
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link {% if step is not None and step == '1' %}active {% elif  step is None %}active{% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Victim Profile</button>
-                    <button class="nav-link {% if step is not None and step == '2' %} active {% endif %}" id="nav-suspect-tab" data-bs-toggle="tab" data-bs-target="#nav-suspect" type="button" role="tab" aria-controls="nav-suspect" aria-selected="false">Suspect</button>  
-                    <button class="nav-link {% if step is not None and step == '3' %} active {% endif %}" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-prosecution" type="button" role="tab" aria-controls="nav-prosecution" aria-selected="false">Prosecution</button>  
+                    <button class="nav-link {% if step is not None and step == '1' %}active {% elif  step is None %}active{% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "Victim Profile" %}</button>
+                    <button class="nav-link {% if step is not None and step == '2' %} active {% endif %}" id="nav-suspect-tab" data-bs-toggle="tab" data-bs-target="#nav-suspect" type="button" role="tab" aria-controls="nav-suspect" aria-selected="false">{% trans "Suspect" %}</button>  
+                    <button class="nav-link {% if step is not None and step == '3' %} active {% endif %}" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-prosecution" type="button" role="tab" aria-controls="nav-prosecution" aria-selected="false">{% trans "Prosecution" %}</button>  
                 </div>
             </nav>
             <div class="tab-content">
@@ -134,6 +134,7 @@
                                 <div class="">
                                     <label for="status_of_case_id" class="form-label">{% trans "What is the status of the case?:" %}</label>
                                     <select class="form-select" name="status_of_case_id" id="status_of_case_id" aria-label="Default select example" required value="{{prosecution.status_of_case_id}}">
+                                        <option> </option>
                                         {% for status in case_statuses %}
                                             <option {% if status.id == prosecution.status_of_case_id %}selected{% endif %} value="{{status.id}}">{% trans status.name %}</option>
                                         {% endfor %}
@@ -143,15 +144,16 @@
                             <div class="col-md-6">
                                 <div class="">
                                     <label for="trial_court_id" class="form-label">{% trans "In which trial court is this case enrolled?:" %}</label>
-                                    <select class="form-select" name="trial_court_id" id="trial_court_id" aria-label="Default select example" required value="{{prosecution.trial_court_id}}">
+                                    <select class="form-select" name="trial_court_id" id="trial_court_id" aria-label="Default select example" required value="{{prosecution.trial_court_id}}" onchange="togglesection_select(this,[['trial_court_country_sec'],['1']])">
+                                        <option> </option>
                                         {% for court in trial_courts %}
                                             <option {% if court.id == prosecution.trial_court_id %}selected{% endif %} value="{{court.id}}">{% trans court.name %}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="">
+                            <div class="col-md-6" id="trial_court_country_sec" style="display:none;">
+                                <div class="" >
                                     <label for="trial_court_country_id" class="form-label">{% trans "If in a foreign court, please specify country:" %}</label>
                                     <select class="form-select" name="trial_court_country_id" id="trial_court_country_id" aria-label="Default select example"  value="{{prosecution.trial_court_country_id}}">
                                         <option {% if  prosecution.trial_court_country_id is None %}selected{% endif %} value=""></option>
@@ -171,7 +173,7 @@
                             <div class="col-md-6">
                                 <div class="">
                                     <label for="verdict_id" class="form-label">{% trans "If applicable, what was the verdict?" %}</label>
-                                    <select class="form-select" name="verdict_id" id="verdict_id" aria-label="Default select example"  value="{{prosecution.verdict_id}}">
+                                    <select class="form-select" name="verdict_id" id="verdict_id" aria-label="Default select example"  value="{{prosecution.verdict_id}}" onchange="togglesection_select(this,[['guilty_verdict_reason_sec'],['2']])">
                                         <option {% if  prosecution.verdict_id is None %}selected{% endif %} value=""></option>
                                         
                                         {% for verdict in verdicts %}
@@ -180,7 +182,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="guilty_verdict_reason_sec" style="display:none;">
                                 <div class="">
                                     <label for="guilty_verdict_reason_id" class="form-label">{% trans "If GUILTY, please specify:" %}</label>
                                     <select class="form-select" name="guilty_verdict_reason_id" id="guilty_verdict_reason_id" aria-label="Default select example"  value="{{prosecution.guilty_verdict_reason_id}}">
@@ -195,7 +197,7 @@
                             <div class="col-md-6">
                                 <div class="">
                                     <label for="prosecution_outcome_id" class="form-label">{% trans "What was the outcome of this prosecution?" %}</label>
-                                    <select class="form-select" name="prosecution_outcome_id" id="prosecution_outcome_id" aria-label="Default select example"  value="{{prosecution.prosecution_outcome_id}}">
+                                    <select class="form-select" name="prosecution_outcome_id" id="prosecution_outcome_id" aria-label="Default select example"  value="{{prosecution.prosecution_outcome_id}}" onchange="togglesection_select(this,[['review_appeal_outcome_sec'],['2','4']],[['aquital_reason_sec'],['1']])">
                                         <option {% if  prosecution.prosecution_outcome_id is None %}selected{% endif %} value=""></option>
                                         {% for outcome in prosecution_outcomes %}
                                             <option {% if outcome.id == prosecution.prosecution_outcome_id %}selected{% endif %} value="{{outcome.id}}">{% trans outcome.name %}</option>
@@ -203,7 +205,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="aquital_reason_sec" style="display:none;">
                                 <div class="">
                                     <label for="aquital_reason_id" class="form-label">{% trans "If ACQUITTAL, state the reasons:" %}</label>
                                     <select class="form-select" name="aquital_reason_id" id="aquital_reason_id" aria-label="Default select example"  value="{{prosecution.aquital_reason_id}}">
@@ -215,7 +217,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id= "review_appeal_outcome_sec" style="display:none;">
                                 <div class="">
                                     <label for="review_appeal_outcome" class="form-label">{% trans "If REVIEW/ APPEAL, what was the outcome?:" %}</label>
                                     <input type="text" name = "review_appeal_outcome" value = "{{prosecution.review_appeal_outcome}}" class="form-control" id="review_appeal_outcome" aria-describedby="review_appeal_outcomeHelp" >
@@ -224,16 +226,15 @@
                             <div class="col-md-6">
                                 <div class="">
                                     <label for="sanction_penalty_id" class="form-label">{% trans "What was the nature of the sanction/penalty?:" %}</label>
-                                    <select class="form-select" name="sanction_penalty_id" id="sanction_penalty_id" aria-label="Default select example"  value="{{prosecution.sanction_penalty_id}}">
+                                    <select class="form-select" name="sanction_penalty_id" id="sanction_penalty_id" aria-label="Default select example"  value="{{prosecution.sanction_penalty_id}}" onchange="togglesection_select(this,[['years_imposed_sec'],['2']])">
                                         <option {% if  prosecution.sanction_penalty_id is None %}selected{% endif %} value=""></option>
-                                        
                                         {% for penalty in sanction_penalties %}
                                             <option {% if penalty.id == prosecution.sanction_penalty_id %}selected{% endif %} value="{{penalty.id}}">{% trans penalty.name %}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" id = "years_imposed_sec" style="display:none;">
                                 <div class="">
                                     <label for="years_imposed" class="form-label">{% trans "If CUSTODIAL SANCTION/PENALTY, how many years were imposed?:" %}</label>
                                     <input type="number" name = "years_imposed" value = "{{prosecution.years_imposed}}" class="form-control" id="years_imposed" aria-describedby="years_imposedHelp" >
