@@ -362,7 +362,7 @@
                             <div class="col-md-6"  id="e_children_from_marriage_sec" style="display:none">
                                 <div class="">
                                     <label for="e_children_from_marriage" class="form-label">{% trans "If YES, how many children were born out of the marriage?:" %}</label>
-                                    <input type="number" name = "e_children_from_marriage" value = "{{exploitation.e_children_from_marriage}}" class="form-control" id="e_children_from_marriage" aria-describedby="e_children_from_marriageHelp">
+                                    <input type="number" name = "e_children_from_marriage" value = "{{exploitation.e_children_from_marriage}}" class="form-control" id="e_children_from_marriage" aria-describedby="e_children_from_marriageHelp" min="1">
                                 </div>
                             </div>
                             <div class="col-md-6" id="e_maternal_health_issues_sec" style="display:none">
@@ -457,7 +457,7 @@
                             <div class="col-md-6" id="e_child_soldier_age_sec" style="display:none">
                                 <div class="">
                                     <label for="e_child_soldier_age" class="form-label">{% trans "At what age?:" %}</label>
-                                    <input type="number" name = "e_child_soldier_age" value = "{{exploitation.e_child_soldier_age}}" class="form-control" id="e_child_soldier_age" aria-describedby="e_child_soldier_ageHelp">
+                                    <input type="number" name = "e_child_soldier_age" value = "{{exploitation.e_child_soldier_age}}" class="form-control" id="e_child_soldier_age" aria-describedby="e_child_soldier_ageHelp" min="1">
                                 </div>
                             </div>
                             <div class="col-md-6">

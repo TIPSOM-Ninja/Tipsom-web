@@ -160,6 +160,7 @@
                 </div>
                 <div class="tab-pane fade {% if request.GET.step is not None and request.GET.step == '3' %}show active{% endif %}" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">
                     {% if request.session.v_id %}
+                    <div class="container" id="suspect_holder">
                     {% for suspect in suspects %}
                     <div class="card my-2">
                         <div class="card-header">
@@ -241,13 +242,21 @@
                         </div>
                     </div>
                     {% endfor %}
+                    </div>
                     {% if suspects|length < 1 %}
                         {% if suspect_count == 1 %}
                         {% include "components/suspect_form.html" %}
                         {% endif %}
                     {% endif %}
                     {% if suspects|length > 0 %}
-                    <a href="">Add suspect</a>
+                    <div class="container" id="form_holder" style="display:none;">
+                        {% if suspects|length > 0 %}
+                        <a href="javascript:;" onclick="toggleSuspects()">Toggle suspect view</a>
+                        {% endif %}
+
+                        {% include "components/suspect_form.html" %}
+                    </div>
+                    <a href="javascript:;" onclick="addSuspect()">Add suspect</a>
                     {% endif %}
                     <hr/>
                     {% else %}
@@ -268,7 +277,18 @@
 {% endblock content %}
 {% block scripts %}
 <script>
-   
+function addSuspect(){
+    document.getElementById('form_holder').style.display = "block"
+    document.getElementById('suspect_holder').style.display = "none"
+
+}
+function toggleSuspects(){
+    if(document.getElementById('suspect_holder').style.display =='block'){
+        document.getElementById('suspect_holder').style.display = "none"
+    }else{
+        document.getElementById('suspect_holder').style.display = "block"
+    }
+}
 
 {% if not request.session.v_id %}
 

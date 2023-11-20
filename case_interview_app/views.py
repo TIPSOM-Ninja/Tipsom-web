@@ -22,7 +22,7 @@ def interviewer_registration(request):
 
     if request.GET.get('language') is not None:
         activate(request.GET.get('language'))
-    countries = Country.objects.all()
+    countries = Country.objects.all().order_by('name').values()
     purposes = DataEntryPurpose.objects.all()
 
     context = {
@@ -57,10 +57,7 @@ def interviewer_registration(request):
                 user.save()
                 login(request,user)
                 messages.success(request,"Welcome "+interviewer.first_name+". Interviewer successfully created.")
-                if interviewer.data_entry_purpose_id==1:
-                    return redirect('/cases')
-                else:
-                    return redirect('/cases')
+                return redirect('/cases')
             elif request.user.is_authenticated:
                 if (request.POST['password'] is not None and not request.POST['password'] == ""):
                     user = request.user
@@ -69,6 +66,7 @@ def interviewer_registration(request):
                     login(request,user)
                     messages.success(request,"Credentials successfully modified.")
                 messages.success(request,"Interviewer data successfully modified.")
+                return redirect('/cases')
             interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
 
     context['interviewer']=interviewer
@@ -83,7 +81,7 @@ def investigation_form(request):
     
 
     if(request.user.is_authenticated):
-        countries = Country.objects.all()
+        countries = Country.objects.all().order_by('name').values()
         purposes = DataEntryPurpose.objects.all()
         languages = Language.objects.all()
         genders = Gender.objects.all()
@@ -131,7 +129,7 @@ def investigation_form(request):
             context['v_id'] = request.session['v_id']
             context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
             context['arrest'] = ArrestInvestigation.objects.filter(victim_id = request.session['v_id'],interviewer_id=interviewer.id).first()
-            context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = request.session['v_id'],interviewer_id=interviewer.id)
+            context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = request.session['v_id'])
             context['suspect_count'] = len(context['suspects']) if len(context['suspects'])>0 else 1
             context['suspect_add'] = 0
 
@@ -286,7 +284,7 @@ def prosecution_form(request):
     
 
     if(request.user.is_authenticated):
-        countries = Country.objects.all()
+        countries = Country.objects.all().order_by('name').values()
         purposes = DataEntryPurpose.objects.all()
         languages = Language.objects.all()
         genders = Gender.objects.all()
@@ -377,7 +375,7 @@ def save_prosecution(request):
 
 def tip_form(request):
     if(request.user.is_authenticated):
-        countries = Country.objects.all()
+        countries = Country.objects.all().order_by('name').values()
         purposes = DataEntryPurpose.objects.all()
         languages = Language.objects.all()
         genders = Gender.objects.all()
@@ -556,7 +554,7 @@ def save_transit(request):
 
 def assistance_form(request):
     if(request.user.is_authenticated):
-        countries = Country.objects.all()
+        countries = Country.objects.all().order_by('name').values()
         purposes = DataEntryPurpose.objects.all()
         languages = Language.objects.all()
         genders = Gender.objects.all()
