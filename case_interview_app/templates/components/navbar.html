@@ -22,21 +22,21 @@
                   </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="/cases">{% translate "ALL CASES" %}</a>
+                    <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/cases">{% translate "ALL CASES" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="/interviewer_registration">{% translate "PROFILE" %}</a>
+                    <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/interviewer_registration">{% translate "PROFILE" %}</a>
                 </li>
                 {% if not user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="/">{% translate "SIGN UP" %}</a>
+                    <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/interviewer_registration">{% translate "SIGN UP" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="/login">{% translate "SIGN IN" %}</a>
+                    <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/login">{% translate "SIGN IN" %}</a>
                 </li>
                 {% elif user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link text-warning" href="/logout">{% translate "SIGN OUT" %}</a>
+                    <a class="nav-link text-warning" href="//{{request.LANGUAGE_CODE}}/logout">{% translate "SIGN OUT" %}</a>
                 </li>
                 {% endif %}
             </ul>
