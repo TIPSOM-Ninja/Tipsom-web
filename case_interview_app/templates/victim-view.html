@@ -13,20 +13,7 @@
                 <h6>{%trans "ARRESTS/INVESTIGATION"%}<small class="text-danger"> - {{arrest.approval.name}}</small></h6>
             </div>
             <div class="my-2">
-                <div class="card-body">
-                    <div class="row g-3 my-2">
-                        
-                        <div class="col-md-12">
-                            
-                        <strong>{% trans "Have any suspects been arrested to date?:" %}</strong> {{arrest.suspects_arrested}}
-                        </div>
-                        
-                        <div class="col-md-12">
-                            <strong>{% trans "If NO, please explain why there have been no arrests?" %}</strong> {{arrest.why_no_arrest}}
-                        </div>
-                        
-                    </div>
-                </div>
+                {% include "components/arrest_view.html" %}
             </div>
             <div class="card-header bg-light py-3 border-top border-bottom border-primary">
                 <h6>{%trans "SUSPECTS"%}</h6>
@@ -116,17 +103,20 @@
             
             {% for prosecution in prosecutions %}
                     <div class="my-2">
-                        <div class="card-header ">
-                            <h6>Suspect: {{prosecution.trafficker.first_name}} {{prosecution.trafficker.last_name}}<small class="text-danger"> - {{prosecution.approval.name}}</small></h6>
-                        </div>
                         <div class="card-body">
                             <div class="row g-3 my-2">
-                                
                                 <div class="col-md-6">
-                                    
-                                <strong>{% trans "Name:" %}</strong> {{prosecution.trafficker.first_name}} {{prosecution.trafficker.last_name}}
+                                    <strong>{% trans "Suspect name:" %}</strong> {{prosecution.trafficker.first_name}} {{prosecution.trafficker.last_name}}
                                 </div>
-    
+                                <div class="col-md-6">
+                                    <strong>{% trans "What is the status of the case?" %}</strong> {% if prosecution.status_of_case%}{{prosecution.status_of_case.name}}{% else %}Not answered{% endif %} 
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "In which trial court is this case enrolled?" %}</strong> {% if prosecution.trial_court%}{{prosecution.trial_court.name}}{% else %}Not answered{% endif %} 
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "If in a foreign court, please specify country:" %}</strong> {% if prosecution.trial_court%}{{prosecution.trial_court.name}}{% else %}Not answered{% endif %} 
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,46 @@
+{% load i18n %}
+<div class="card-body">
+    <div class="row g-3 my-2">
+        
+        <div class="col-md-12"> 
+        <strong>{% trans "Have any suspects been arrested to date?:" %}</strong> {% if arrest.suspects_arrested%}{{arrest.suspects_arrested}}{% else %}Not answered{% endif %}
+        </div>
+        <div class="col-md-12">
+            <strong>{% trans "If NO, please explain why there have been no arrests?" %}</strong>{% if arrest.why_no_arrest%}{{arrest.why_no_arrest}}{% else %}Not answered{% endif %} 
+        </div>
+        <div class="col-md-12">
+            <strong>{% trans "Does the trafficker have ties to organized crime?" %}</strong>{% if arrest.org_crime%}{% if arrest.org_crime == 1 %}Yes {% else %} No{% endif %}{% else %}Not answered{% endif %} 
+        </div>
+        <div class="col-md-12">
+            <strong>{% trans "Was the victim travelling with or using the services of migrant smugglers?" %}</strong>{% if arrest.victim_smuggled%}{% if arrest.victim_smuggled == 1 %}Yes {% else %} No{% endif %}{% else %}Not answered{% endif %} 
+        </div>
+        <div class="col-md-12">
+            <strong>{% trans "How is the trafficker(s) organized?" %}</strong>{% if arrest.how_traffickers_org  %}{% for  org in arrest.how_traffickers_org %}{{org}}, {% endfor %}{% else %}Not answered{% endif %} 
+        </div>
+        <div class="col-md-12">
+            <strong>{% trans "Has an investigation been conducted?" %}</strong>{% if arrest.investigation_done%}{% if arrest.investigation_done == 1 %}Yes {% else %} No{% endif %}{% else %}Not answered{% endif %} 
+        </div>
+        {% if arrest.investigation_done %}
+            {% if arrest.investigation_done == 1 %}
+            <div class="col-md-12">
+                <strong>{% trans "If YES, what is the status of the investigation?" %}</strong>{% if arrest.investigation_status%}{{arrest.investigation_status.name}}{% else %}Not answered{% endif %} 
+            </div>
+            {% if arrest.why_pending %}
+            <div class="col-md-12">
+                <strong>{% trans "If PENDING, Specify:" %}</strong>{% if arrest.why_pending%}{{arrest.why_pending}}{% else %}Not answered{% endif %} 
+            </div>
+            {% endif %}
+            {% if arrest.withdrawn_closed_reason %}
+            <div class="col-md-12">
+                <strong>{% trans "If WITHDRAWN or CASE FILE CLOSED, please specify:" %}</strong>{% if arrest.withdrawn_closed_reason%}{{arrest.withdrawn_closed_reason}}{% else %}Not answered{% endif %} 
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="col-md-12">
+                <strong>{% trans "If NO, please specify:" %}</strong>{% if arrest.why_no_investigation%}{{arrest.why_no_investigation}}{% else %}Not answered{% endif %} 
+            </div>
+            {% endif %}
+        {% endif %}
+        
+    </div>
+</div>
