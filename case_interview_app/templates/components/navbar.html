@@ -36,7 +36,7 @@
                 </li>
                 {% elif user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link text-warning" href="//{{request.LANGUAGE_CODE}}/logout">{% translate "SIGN OUT" %}</a>
+                    <a class="nav-link text-warning" href="/{{request.LANGUAGE_CODE}}/logout">{% translate "SIGN OUT" %}</a>
                 </li>
                 {% endif %}
             </ul>
