@@ -256,7 +256,7 @@
 
                         {% include "components/suspect_form.html" %}
                     </div>
-                    <a href="javascript:;" onclick="addSuspect()">Add suspect</a>
+                    <a href="javascript:;" id="sus_add" onclick="addSuspect()">Add suspect</a>
                     {% endif %}
                     <hr/>
                     {% else %}
@@ -277,18 +277,7 @@
 {% endblock content %}
 {% block scripts %}
 <script>
-function addSuspect(){
-    document.getElementById('form_holder').style.display = "block"
-    document.getElementById('suspect_holder').style.display = "none"
 
-}
-function toggleSuspects(){
-    if(document.getElementById('suspect_holder').style.display =='block'){
-        document.getElementById('suspect_holder').style.display = "none"
-    }else{
-        document.getElementById('suspect_holder').style.display = "block"
-    }
-}
 
 {% if not request.session.v_id %}
 

@@ -90,6 +90,19 @@
           }
           
       }
+    function addSuspect(){
+        document.getElementById('form_holder').style.display = "block"
+        document.getElementById('suspect_holder').style.display = "none"
+        document.getElementById('sus_add').style.display = "none"
+    
+    }
+    function toggleSuspects(){
+        if(document.getElementById('suspect_holder').style.display =='block'){
+            document.getElementById('suspect_holder').style.display = "none"
+        }else{
+            document.getElementById('suspect_holder').style.display = "block"
+        }
+    }
   </script>
     {% block scripts %}{% endblock scripts %}
 </body>
