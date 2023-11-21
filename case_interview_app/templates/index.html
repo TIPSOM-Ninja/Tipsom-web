@@ -19,7 +19,7 @@
 <body>
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
-  <div class="container"> <a class="navbar-brand navbar-logo text-warning" href="#"> TiPNET </a>
+  <div class="container"> <a class="navbar-brand navbar-logo text-warning" href="#"><h3>TiPNET - beta</h3></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="fas fa-bars"></span> </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
@@ -45,6 +45,7 @@
         <li class="nav-item"> <a class="pill btn-sm btn-warning " href="/login" >{% translate "SIGN IN" %}</a> </li>
         {% else %}
         <li class="nav-item"> <a class="pill btn-sm btn-warning" href="/cases" >{% translate "ALL CASES" %}</a> </li>
+        <li class="nav-item"> <a class="pill btn-sm btn-warning " href="/{{request.LANGUAGE_CODE}}/logout" >{% translate "SIGN OUT" %}</a> </li>
         {% endif %}
         
       </ul>
@@ -59,8 +60,8 @@
       <div class="row">
         <div class="col-md-8 col-sm-12">
           <div class="banner-text">
-            <h2 class="white">{% translate "Trafficking Case Interview App" %}</h2>
-            <h6 class="white">{% translate "Conduct trafficking interviews easily on the go." %}</h6>
+            <h2 class="white">{% translate "SADC TiP Interview App" %}</h2>
+            <h6 class="white">{% translate "Conduct trafficking-in-persons interviews easily on the go." %}</h6>
             <p class="banner-text white">{% translate "Empower Insight, Liberate Data: Revolutionize Trafficking Awareness with with Precision and Privacy. Seamless Collection and Analysis made easy." %}</p>
             <ul>
               {% if not user.is_authenticated %}
@@ -429,7 +430,7 @@
 <!--Contact End--> 
 
 <!--Download End-->
-<section class="download section-padding">
+{% comment %} <section class="download section-padding">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -449,15 +450,17 @@
       </div>
     </div>
   </div>
-</section>
-
+</section> {% endcomment %}
 <!--Download End-->
 
 <footer class="footer-copy">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12">
-        <p>2018 &copy; Applight. Website Designed by <a href="http://w3Template.com" target="_blank" rel="dofollow">W3 Template</a></p>
+      <div class="col-md-12" style="background: #24408e; padding:0px">
+        <img  class = "img-fluid" src="{% static 'case_interview_app/images/sadc-logo.png' %}" />
+        <img  class = "img-fluid" src="{% static 'case_interview_app/images/country_strip.png' %}" style="width:100%"/>
+
+        {% comment %} <p>2018 &copy; Applight. Website Designed by <a href="http://w3Template.com" target="_blank" rel="dofollow">W3 Template</a></p> {% endcomment %}
       </div>
     </div>
   </div>

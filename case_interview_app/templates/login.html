@@ -1,12 +1,13 @@
 {% extends "layouts/master.html" %}
 {% load i18n %}
+{% load static %}
 
 {% block content %}
 <div class="container p-3 justify-content-center">
     <div class="row justify-content-center">
-        <div class="card col-md-6">
-            <div class="card-header text-center">
-                {% trans "LOGIN" %}
+        <div class="card col-md-4" style="padding: 0px; ">
+            <div class="card-header text-center text-warning" style="background-color: #1860c3;">
+                <h5>{% trans "LOGIN" %}</h5>
             </div>
             <div class="card-body">
                 <form id="interviewer_form" method="post">
@@ -30,4 +31,5 @@
         </div>
     </div>
 </div>
+
 {% endblock content %}

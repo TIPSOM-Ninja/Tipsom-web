@@ -2,7 +2,7 @@
 {% load case_extras %}
 <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #1860c3;">
     <div class="container-fluid">
-      <a class="navbar-brand text-warning" href="/">TiPNET</a>
+      <a class="navbar-brand text-warning" href="/"><h3>TiPNET - beta</h3></a>
       
       <button class="navbar-toggler text-warning" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon text-warning"></span>
@@ -21,12 +21,7 @@
                     </ul>
                   </li>
                 
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/cases">{% translate "ALL CASES" %}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/interviewer_registration">{% translate "PROFILE" %}</a>
-                </li>
+                
                 {% if not user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/interviewer_registration">{% translate "SIGN UP" %}</a>
@@ -35,6 +30,12 @@
                     <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/login">{% translate "SIGN IN" %}</a>
                 </li>
                 {% elif user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/cases">{% translate "ALL CASES" %}</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/interviewer_registration">{% translate "PROFILE" %}</a>
+              </li>
                 <li class="nav-item">
                     <a class="nav-link text-warning" href="/{{request.LANGUAGE_CODE}}/logout">{% translate "SIGN OUT" %}</a>
                 </li>
