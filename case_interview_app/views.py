@@ -807,7 +807,7 @@ def signin(request):
             login(request, user)
             return redirect("/cases")
         else:
-            messages.error(request,"Wrong credentials.")
+            messages.error(request,"Please enter the correct email and password.")
     return render(request,"login.html")
 
 def signout(request):
