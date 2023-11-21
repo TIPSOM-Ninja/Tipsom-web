@@ -15,7 +15,7 @@
             <strong>{% trans "Was the victim travelling with or using the services of migrant smugglers?" %}</strong>{% if arrest.victim_smuggled%}{% if arrest.victim_smuggled == 1 %}Yes {% else %} No{% endif %}{% else %}Not answered{% endif %} 
         </div>
         <div class="col-md-12">
-            <strong>{% trans "How is the trafficker(s) organized?" %}</strong>{% if arrest.how_traffickers_org  %}{% for  org in arrest.how_traffickers_org.all() %}{{org}}, {% endfor %}{% else %}Not answered{% endif %} 
+            <strong>{% trans "How is the trafficker(s) organized?" %}</strong>{% if arrest.how_traffickers_org  %}{% for  org in arrest.how_traffickers_org.all %}{{org}}, {% endfor %}{% else %}Not answered{% endif %} 
         </div>
         <div class="col-md-12">
             <strong>{% trans "Has an investigation been conducted?" %}</strong>{% if arrest.investigation_done%}{% if arrest.investigation_done == 1 %}Yes {% else %} No{% endif %}{% else %}Not answered{% endif %} 
