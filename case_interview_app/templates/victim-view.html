@@ -98,7 +98,7 @@
                     <hr/>
             {% endfor %}
             <div class="card-header bg-light py-3 border-top border-bottom border-primary">
-                <h6>{%trans "PROSECUTIONS"%}</h6>
+                <h6>{%trans "PROSECUTIONS"%}<small class="text-danger"> - {{prosecution.approval.name}}</small></h6>
             </div>
             
             {% for prosecution in prosecutions %}
