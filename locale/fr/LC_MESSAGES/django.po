@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-22 13:12+0300\n"
-"PO-Revision-Date: 2023-11-22 14:00+0000\n"
+"POT-Creation-Date: 2023-11-22 14:04+0300\n"
+"PO-Revision-Date: 2023-11-22 14:05+0000\n"
 "Last-Translator:   <jrarui.jr@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -20,7 +20,6 @@ msgstr ""
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
 #: .\case_interview_app\templates\assistance_form.html:7
-#| msgid "ASSISTANCE DATA"
 msgid "ASSISTANCE INFORMATION"
 msgstr "DONNÉES DE L'ENQUÊTE"
 
@@ -146,7 +145,6 @@ msgid "Other community-based assistance"
 msgstr "Autres aides communautaires"
 
 #: .\case_interview_app\templates\assistance_form.html:468
-#| msgid "If NO, please specify:"
 msgid "please specify:"
 msgstr "Si NON, veuillez préciser:"
 
@@ -183,7 +181,6 @@ msgstr ""
 "la victime avant son départ?:"
 
 #: .\case_interview_app\templates\assistance_form.html:529
-#| msgid "If NO, please specify:"
 msgid "If YES, please specify:"
 msgstr "Si NON, veuillez préciser:"
 
@@ -247,9 +244,16 @@ msgid "NEW VICTIM CASE"
 msgstr "NOUVEAU CAS DE VICTIME"
 
 #: .\case_interview_app\templates\cases.html:17
-#| msgid "PROFILE"
 msgid "CREATE PROFILE"
 msgstr "PROFIL"
+
+#: .\case_interview_app\templates\cases.html:29
+msgid "STATUS"
+msgstr "STATUT"
+
+#: .\case_interview_app\templates\cases.html:29
+msgid "Pending Approval"
+msgstr "En attente de validation"
 
 #: .\case_interview_app\templates\cases.html:32
 msgid "View"
@@ -273,13 +277,10 @@ msgid "If NO, please explain why there have been no arrests?"
 msgstr "Si NON, veuillez expliquer pourquoi il n'y a pas eu d'arrestation?"
 
 #: .\case_interview_app\templates\components\arrest_view.html:12
-#| msgid "Does the trafficker have ties to organized crime?:"
 msgid "Does the trafficker have ties to organized crime?"
 msgstr "Le trafiquant a-t-il des liens avec le crime organisé?"
 
 #: .\case_interview_app\templates\components\arrest_view.html:15
-#| msgid ""
-#| "Was the victim travelling with or using the services of migrant smugglers?:"
 msgid ""
 "Was the victim travelling with or using the services of migrant smugglers?"
 msgstr ""
@@ -287,17 +288,14 @@ msgstr ""
 "services?"
 
 #: .\case_interview_app\templates\components\arrest_view.html:18
-#| msgid "How is the trafficker(s) organized?:"
 msgid "How is the trafficker(s) organized?"
 msgstr "Comment le(s) trafiquant(s) est-il (sont-ils) organisé(s)?"
 
 #: .\case_interview_app\templates\components\arrest_view.html:21
-#| msgid "Has an investigation been conducted?:"
 msgid "Has an investigation been conducted?"
 msgstr "Une enquête a-t-elle été menée?"
 
 #: .\case_interview_app\templates\components\arrest_view.html:26
-#| msgid "If YES, what is the status of the investigation?:"
 msgid "If YES, what is the status of the investigation?"
 msgstr "Si OUI, quel est le statut de l'enquête?"
 
@@ -375,7 +373,6 @@ msgstr "Nom de famille:"
 #: .\case_interview_app\templates\investigation_form.html:180
 #: .\case_interview_app\templates\prosecution_form.html:49
 #: .\case_interview_app\templates\victim-view.html:36
-#| msgid "Place of Birth:"
 msgid "Date of birth:"
 msgstr "Lieu de naissance:"
 
@@ -472,7 +469,6 @@ msgstr "Pays de naissance:"
 #: .\case_interview_app\templates\investigation_form.html:226
 #: .\case_interview_app\templates\prosecution_form.html:95
 #: .\case_interview_app\templates\victim-view.html:80
-#| msgid "Place of Birth:"
 msgid "Date of arrest:"
 msgstr "Lieu de naissance:"
 
@@ -491,7 +487,6 @@ msgstr "Pays:"
 
 #: .\case_interview_app\templates\components\suspect_form.html:140
 #: .\case_interview_app\templates\components\suspect_form.html:156
-#| msgid "Race:"
 msgid "Place:"
 msgstr "Race:"
 
@@ -536,7 +531,6 @@ msgid "Additional Remarks:"
 msgstr "Remarques complémentaires:"
 
 #: .\case_interview_app\templates\components\victimprofile.html:6
-#| msgid "PROFILE"
 msgid "VICTIM PROFILE"
 msgstr "PROFIL"
 
@@ -567,12 +561,10 @@ msgid "Contact"
 msgstr "Contact"
 
 #: .\case_interview_app\templates\index.html:63
-#| msgid "Trafficking Case Interview App"
 msgid "SADC TiP Interview App"
 msgstr "Application d'entretien sur des cas de traite"
 
 #: .\case_interview_app\templates\index.html:64
-#| msgid "Conduct trafficking interviews easily on the go."
 msgid "Conduct trafficking-in-persons interviews easily on the go."
 msgstr ""
 "Menez facilement des entretiens sur la traite lors de vos déplacements."
@@ -637,7 +629,6 @@ msgid "Want a tutorial? Watch Now"
 msgstr "Vous voulez un tutoriel ? Regarde maintenant"
 
 #: .\case_interview_app\templates\index.html:154
-#| msgid "Conduct trafficking interviews easily on the go."
 msgid "Collect trafficking in persons data quickly and easily."
 msgstr ""
 "Menez facilement des entretiens sur la traite lors de vos déplacements."
@@ -691,9 +682,6 @@ msgid "SADC Member Countries"
 msgstr "Pays membres de la SADC"
 
 #: .\case_interview_app\templates\index.html:258
-#| msgid ""
-#| "This project is an initiative of SADC to combat trafficking in the region. "
-#| "The member states are as follows."
 msgid ""
 "This project is an initiative of SADC to combat trafficking of persons in "
 "the region. The member states are as follows."
@@ -819,7 +807,6 @@ msgstr ""
 "un monde plus sûr."
 
 #: .\case_interview_app\templates\investigation_form.html:8
-#| msgid "INVESTIGATION DATA"
 msgid "INVESTIGATION INFORMATION"
 msgstr "DONNÉES DE L'ENQUÊTE"
 
@@ -881,7 +868,6 @@ msgid "Password:"
 msgstr "Mot de passe:"
 
 #: .\case_interview_app\templates\prosecution_form.html:7
-#| msgid "INTERVIEWER DATA"
 msgid "PROSECUTION INFORMATION"
 msgstr "DONNÉES DE L'ENQUÊTEUR"
 
@@ -890,7 +876,6 @@ msgid "Suspect"
 msgstr "Suspect"
 
 #: .\case_interview_app\templates\prosecution_form.html:14
-#| msgid "Position:"
 msgid "Prosecution"
 msgstr "Poste:"
 
@@ -899,7 +884,6 @@ msgid "Suspected trafficker:"
 msgstr "Trafiquant présumé :"
 
 #: .\case_interview_app\templates\prosecution_form.html:147
-#| msgid "If YES, what is the status of the investigation?:"
 msgid "What is the status of the case?:"
 msgstr "Si OUI, quel est le statut de l'enquête?"
 
@@ -921,7 +905,6 @@ msgid "If applicable, what was the verdict?"
 msgstr "Le cas échéant, quel a été le verdict?"
 
 #: .\case_interview_app\templates\prosecution_form.html:199
-#| msgid "If NO, please specify:"
 msgid "If GUILTY, please specify:"
 msgstr "Si NON, veuillez préciser:"
 
@@ -938,7 +921,6 @@ msgid "If REVIEW/ APPEAL, what was the outcome?:"
 msgstr "Dans le cas d'un EXAMEN ou d'un APPEL, quel en a été le résultat?;"
 
 #: .\case_interview_app\templates\prosecution_form.html:240
-#| msgid "If YES, what is the status of the investigation?:"
 msgid "What was the nature of the sanction/penalty?:"
 msgstr "Si OUI, quel est le statut de l'enquête?"
 
@@ -949,7 +931,6 @@ msgstr ""
 "imposées?:"
 
 #: .\case_interview_app\templates\registration_form.html:8
-#| msgid "INTERVIEWER DATA"
 msgid "INTERVIEWER INFORMATION"
 msgstr "DONNÉES DE L'ENQUÊTEUR"
 
@@ -1004,7 +985,6 @@ msgstr ""
 "d'exploitation?:"
 
 #: .\case_interview_app\templates\tip_form.html:75
-#| msgid "If YES, what is the status of the investigation?:"
 msgid ""
 "If YES, what was the age(s) of the victim during the period of "
 "exploitation?:"
@@ -1016,7 +996,6 @@ msgstr ""
 "Si OUI, quel était l'âge de la victime pendant la période d'exploitation?"
 
 #: .\case_interview_app\templates\tip_form.html:103
-#| msgid "If NO, please specify:"
 msgid "If YES, please specify - Total amount?:"
 msgstr "Si NON, veuillez préciser:"
 
@@ -1036,7 +1015,6 @@ msgstr ""
 "victime?:"
 
 #: .\case_interview_app\templates\tip_form.html:131
-#| msgid "Position:"
 msgid "Prostitution"
 msgstr "Poste:"
 
@@ -1119,7 +1097,6 @@ msgid "Did the victim have any maternal health problems?"
 msgstr "La victime a-t-elle eu des problèmes de santé maternelle?"
 
 #: .\case_interview_app\templates\tip_form.html:386
-#| msgid "If NO, please specify:"
 msgid "If YES, please specify?:"
 msgstr "Si NON, veuillez préciser:"
 
@@ -1184,7 +1161,6 @@ msgstr "Le cas échéant, à qui l'argent a-t-il été versé?:"
 
 #: .\case_interview_app\templates\tip_form.html:531
 #: .\case_interview_app\templates\tip_form.html:633
-#| msgid "Additional Remarks:"
 msgid "Additional remarks:"
 msgstr "Remarques complémentaires:"
 
@@ -1199,7 +1175,6 @@ msgstr "Quels ont été les moyens utilisés dans le cadre de la traite?:"
 
 #: .\case_interview_app\templates\tip_form.html:588
 #: .\case_interview_app\templates\victim-view.html:150
-#| msgid "Country of birth:"
 msgid "Country of origin/recruitment:"
 msgstr "Pays de naissance:"
 
@@ -1224,7 +1199,6 @@ msgid "Case interview"
 msgstr "Entretien de cas"
 
 #: .\case_interview_app\templates\victim-view.html:13
-#| msgid "INVESTIGATION DATA"
 msgid "ARRESTS/INVESTIGATION"
 msgstr "DONNÉES DE L'ENQUÊTE"
 
@@ -1241,7 +1215,6 @@ msgid "Suspect name:"
 msgstr "Nom du suspect :"
 
 #: .\case_interview_app\templates\victim-view.html:112
-#| msgid "If YES, what is the status of the investigation?:"
 msgid "What is the status of the case?"
 msgstr "Si OUI, quel est le statut de l'enquête?"
 

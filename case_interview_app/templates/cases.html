@@ -26,7 +26,7 @@
                     <h5 class="card-title">{{victim.initials}} - {{victim.interview_date}}</h5>
                 </div>
                 <div class="card-body">
-                    <p><strong>STATUS:</strong> Pending Approval</p>
+                    <p><strong>{% trans "STATUS" %}:</strong> {% translate "Pending Approval" %}</p>
                     <div class="d-flex g-3 justify-content-start">
                         <div class="col">
                             <a href="/{{request.LANGUAGE_CODE}}/victim/{{victim.id}}"><small><i class="fa-solid fa-eye"></i> {% translate "View" %}</small></a>

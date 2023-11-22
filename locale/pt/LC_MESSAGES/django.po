@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-22 13:12+0300\n"
+"POT-Creation-Date: 2023-11-22 14:04+0300\n"
 "PO-Revision-Date: 2023-11-13 19:17+0000\n"
 "Last-Translator:   <jrarui.jr@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -238,6 +238,14 @@ msgstr ""
 #| msgid "PROFILE"
 msgid "CREATE PROFILE"
 msgstr "PERFIL"
+
+#: .\case_interview_app\templates\cases.html:29
+msgid "STATUS"
+msgstr ""
+
+#: .\case_interview_app\templates\cases.html:29
+msgid "Pending Approval"
+msgstr ""
 
 #: .\case_interview_app\templates\cases.html:32
 msgid "View"
