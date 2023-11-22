@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-22 12:32+0300\n"
+"POT-Creation-Date: 2023-11-22 13:12+0300\n"
 "PO-Revision-Date: 2023-11-13 19:17+0000\n"
 "Last-Translator:   <jrarui.jr@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: .\case_interview_app\templates\assistance_form.html:7
 #, fuzzy
 #| msgid "INVESTIGATION DATA"
-msgid "ASSISTANCE DATA"
+msgid "ASSISTANCE INFORMATION"
 msgstr "DADOS DO INVESTIGAÇÃO"
 
 #: .\case_interview_app\templates\assistance_form.html:12
@@ -774,9 +774,9 @@ msgstr ""
 "tráfico. A sua contribuição faz a diferença na luta por um mundo mais seguro."
 
 #: .\case_interview_app\templates\investigation_form.html:8
-#: .\case_interview_app\templates\prosecution_form.html:7
-#: .\case_interview_app\templates\tip_form.html:7
-msgid "INVESTIGATION DATA"
+#, fuzzy
+#| msgid "INVESTIGATION DATA"
+msgid "INVESTIGATION INFORMATION"
 msgstr "DADOS DO INVESTIGAÇÃO"
 
 #: .\case_interview_app\templates\investigation_form.html:14
@@ -834,6 +834,12 @@ msgstr "CONECTE-SE"
 #: .\case_interview_app\templates\registration_form.html:81
 msgid "Password:"
 msgstr "Senha:"
+
+#: .\case_interview_app\templates\prosecution_form.html:7
+#, fuzzy
+#| msgid "INTERVIEWER DATA"
+msgid "PROSECUTION INFORMATION"
+msgstr "DADOS DO ENTREVISTADOR"
 
 #: .\case_interview_app\templates\prosecution_form.html:13
 msgid "Suspect"
@@ -929,6 +935,10 @@ msgstr "Finalidade da entrada de dados"
 #: .\case_interview_app\templates\registration_form.html:97
 msgid "SUBMIT"
 msgstr "SALVAR"
+
+#: .\case_interview_app\templates\tip_form.html:7
+msgid "TRAFFICKING IN PERSONS INFORMATION"
+msgstr ""
 
 #: .\case_interview_app\templates\tip_form.html:13
 msgid "Exploitation"

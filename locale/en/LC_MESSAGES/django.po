@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-22 12:32+0300\n"
+"POT-Creation-Date: 2023-11-22 13:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: .\case_interview_app\templates\assistance_form.html:7
-msgid "ASSISTANCE DATA"
+msgid "ASSISTANCE INFORMATION"
 msgstr ""
 
 #: .\case_interview_app\templates\assistance_form.html:12
@@ -726,9 +726,7 @@ msgid ""
 msgstr ""
 
 #: .\case_interview_app\templates\investigation_form.html:8
-#: .\case_interview_app\templates\prosecution_form.html:7
-#: .\case_interview_app\templates\tip_form.html:7
-msgid "INVESTIGATION DATA"
+msgid "INVESTIGATION INFORMATION"
 msgstr ""
 
 #: .\case_interview_app\templates\investigation_form.html:14
@@ -784,6 +782,10 @@ msgstr ""
 #: .\case_interview_app\templates\login.html:20
 #: .\case_interview_app\templates\registration_form.html:81
 msgid "Password:"
+msgstr ""
+
+#: .\case_interview_app\templates\prosecution_form.html:7
+msgid "PROSECUTION INFORMATION"
 msgstr ""
 
 #: .\case_interview_app\templates\prosecution_form.html:13
@@ -869,6 +871,10 @@ msgstr ""
 
 #: .\case_interview_app\templates\registration_form.html:97
 msgid "SUBMIT"
+msgstr ""
+
+#: .\case_interview_app\templates\tip_form.html:7
+msgid "TRAFFICKING IN PERSONS INFORMATION"
 msgstr ""
 
 #: .\case_interview_app\templates\tip_form.html:13
