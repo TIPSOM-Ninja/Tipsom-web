@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-19 03:17+0300\n"
+"POT-Creation-Date: 2023-11-22 12:32+0300\n"
 "PO-Revision-Date: 2023-11-13 19:17+0000\n"
 "Last-Translator:   <jrarui.jr@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -219,7 +219,7 @@ msgid ""
 msgstr ""
 
 #: .\case_interview_app\templates\assistance_form.html:606
-#: .\case_interview_app\templates\prosecution_form.html:247
+#: .\case_interview_app\templates\prosecution_form.html:259
 #: .\case_interview_app\templates\tip_form.html:642
 #, fuzzy
 #| msgid "SAVE AND PROCEED"
@@ -250,6 +250,65 @@ msgstr ""
 msgid "Modify"
 msgstr ""
 
+#: .\case_interview_app\templates\components\arrest_view.html:6
+#: .\case_interview_app\templates\investigation_form.html:37
+msgid "Have any suspects been arrested to date?:"
+msgstr "Foi algum suspeito preso até ao presente momento?"
+
+#: .\case_interview_app\templates\components\arrest_view.html:9
+#: .\case_interview_app\templates\investigation_form.html:53
+msgid "If NO, please explain why there have been no arrests?"
+msgstr "Em caso negativo, explicar por que razão não houve detenção? "
+
+#: .\case_interview_app\templates\components\arrest_view.html:12
+#, fuzzy
+#| msgid "Does the trafficker have ties to organized crime?:"
+msgid "Does the trafficker have ties to organized crime?"
+msgstr "O traficante tem ligações com o crime organizado?"
+
+#: .\case_interview_app\templates\components\arrest_view.html:15
+#, fuzzy
+#| msgid ""
+#| "Was the victim travelling with or using the services of migrant "
+#| "smugglers?:"
+msgid ""
+"Was the victim travelling with or using the services of migrant smugglers?"
+msgstr ""
+"A vítima viajava com ou utilizava os serviços de contrabando de migrantes?"
+
+#: .\case_interview_app\templates\components\arrest_view.html:18
+#, fuzzy
+#| msgid "How is the trafficker(s) organized?:"
+msgid "How is the trafficker(s) organized?"
+msgstr "Como se organiza(m) o(s) traficante(s)?"
+
+#: .\case_interview_app\templates\components\arrest_view.html:21
+#, fuzzy
+#| msgid "Has an investigation been conducted?:"
+msgid "Has an investigation been conducted?"
+msgstr "Foi realizada uma investigação?"
+
+#: .\case_interview_app\templates\components\arrest_view.html:26
+#, fuzzy
+#| msgid "If YES, what is the status of the investigation?:"
+msgid "If YES, what is the status of the investigation?"
+msgstr "Em caso afirmativo, qual é o estado do inquérito?"
+
+#: .\case_interview_app\templates\components\arrest_view.html:30
+#: .\case_interview_app\templates\investigation_form.html:138
+msgid "If PENDING, Specify:"
+msgstr "Em caso de o processo estar PENDENTE, especificar:"
+
+#: .\case_interview_app\templates\components\arrest_view.html:35
+#: .\case_interview_app\templates\investigation_form.html:144
+msgid "If WITHDRAWN or CASE FILE CLOSED, please specify:"
+msgstr "Em caso de o processo ter sido SUSPENSO ou o ENCERRADO, especificar:"
+
+#: .\case_interview_app\templates\components\arrest_view.html:40
+#: .\case_interview_app\templates\investigation_form.html:120
+msgid "If NO, please specify:"
+msgstr "Em caso negativo, especificar:"
+
 #: .\case_interview_app\templates\components\navbar.html:14
 #: .\case_interview_app\templates\index.html:28
 msgid "LANGUAGES"
@@ -270,34 +329,34 @@ msgstr "FRANCÊS"
 msgid "PORTUGUESE"
 msgstr "PORTUGUÊS"
 
-#: .\case_interview_app\templates\components\navbar.html:25
-#: .\case_interview_app\templates\index.html:47
-msgid "ALL CASES"
-msgstr "TODOS OS CASOS"
-
-#: .\case_interview_app\templates\components\navbar.html:28
-msgid "PROFILE"
-msgstr "PERFIL"
-
-#: .\case_interview_app\templates\components\navbar.html:32
+#: .\case_interview_app\templates\components\navbar.html:27
 #: .\case_interview_app\templates\index.html:44
 msgid "SIGN UP"
 msgstr "INSCREVER-SE"
 
-#: .\case_interview_app\templates\components\navbar.html:35
+#: .\case_interview_app\templates\components\navbar.html:30
 #: .\case_interview_app\templates\index.html:45
 msgid "SIGN IN"
 msgstr "ENTRAR"
 
-#: .\case_interview_app\templates\components\navbar.html:39
+#: .\case_interview_app\templates\components\navbar.html:34
+#: .\case_interview_app\templates\index.html:47
+msgid "ALL CASES"
+msgstr "TODOS OS CASOS"
+
+#: .\case_interview_app\templates\components\navbar.html:37
+msgid "PROFILE"
+msgstr "PERFIL"
+
+#: .\case_interview_app\templates\components\navbar.html:40
+#: .\case_interview_app\templates\index.html:48
 msgid "SIGN OUT"
 msgstr "SAIR"
 
 #: .\case_interview_app\templates\components\suspect_form.html:9
-#: .\case_interview_app\templates\investigation_form.html:175
-#: .\case_interview_app\templates\prosecution_form.html:44
-#: .\case_interview_app\templates\victim-view.html:45
-#: .\case_interview_app\templates\victim-view.html:127
+#: .\case_interview_app\templates\investigation_form.html:176
+#: .\case_interview_app\templates\prosecution_form.html:45
+#: .\case_interview_app\templates\victim-view.html:32
 msgid "Name:"
 msgstr ""
 
@@ -306,10 +365,9 @@ msgid "Surname:"
 msgstr ""
 
 #: .\case_interview_app\templates\components\suspect_form.html:19
-#: .\case_interview_app\templates\components\victimprofile.html:18
-#: .\case_interview_app\templates\investigation_form.html:179
-#: .\case_interview_app\templates\prosecution_form.html:48
-#: .\case_interview_app\templates\victim-view.html:49
+#: .\case_interview_app\templates\investigation_form.html:180
+#: .\case_interview_app\templates\prosecution_form.html:49
+#: .\case_interview_app\templates\victim-view.html:36
 #, fuzzy
 #| msgid "Place of Birth:"
 msgid "Date of birth:"
@@ -317,106 +375,106 @@ msgstr "Local de nascimento:"
 
 #: .\case_interview_app\templates\components\suspect_form.html:25
 #: .\case_interview_app\templates\components\victim_form.html:22
-#: .\case_interview_app\templates\components\victimprofile.html:24
-#: .\case_interview_app\templates\investigation_form.html:185
-#: .\case_interview_app\templates\prosecution_form.html:54
-#: .\case_interview_app\templates\victim-view.html:55
+#: .\case_interview_app\templates\components\victimprofile.html:21
+#: .\case_interview_app\templates\investigation_form.html:186
+#: .\case_interview_app\templates\prosecution_form.html:55
+#: .\case_interview_app\templates\victim-view.html:42
 msgid "Gender:"
 msgstr "Sexo:"
 
 #: .\case_interview_app\templates\components\suspect_form.html:37
 #: .\case_interview_app\templates\components\victim_form.html:36
-#: .\case_interview_app\templates\components\victimprofile.html:27
-#: .\case_interview_app\templates\investigation_form.html:188
-#: .\case_interview_app\templates\prosecution_form.html:57
-#: .\case_interview_app\templates\victim-view.html:58
+#: .\case_interview_app\templates\components\victimprofile.html:24
+#: .\case_interview_app\templates\investigation_form.html:189
+#: .\case_interview_app\templates\prosecution_form.html:58
+#: .\case_interview_app\templates\victim-view.html:45
 msgid "Race:"
 msgstr " Raça:"
 
 #: .\case_interview_app\templates\components\suspect_form.html:49
 #: .\case_interview_app\templates\components\victim_form.html:49
-#: .\case_interview_app\templates\components\victimprofile.html:31
-#: .\case_interview_app\templates\investigation_form.html:192
-#: .\case_interview_app\templates\prosecution_form.html:61
-#: .\case_interview_app\templates\victim-view.html:62
+#: .\case_interview_app\templates\components\victimprofile.html:28
+#: .\case_interview_app\templates\investigation_form.html:193
+#: .\case_interview_app\templates\prosecution_form.html:62
+#: .\case_interview_app\templates\victim-view.html:49
 msgid "Languages:"
 msgstr "Língua(s):"
 
 #: .\case_interview_app\templates\components\suspect_form.html:60
 #: .\case_interview_app\templates\components\victim_form.html:73
-#: .\case_interview_app\templates\components\victimprofile.html:37
-#: .\case_interview_app\templates\investigation_form.html:195
-#: .\case_interview_app\templates\prosecution_form.html:64
-#: .\case_interview_app\templates\victim-view.html:68
+#: .\case_interview_app\templates\components\victimprofile.html:34
+#: .\case_interview_app\templates\investigation_form.html:196
+#: .\case_interview_app\templates\prosecution_form.html:65
+#: .\case_interview_app\templates\victim-view.html:55
 msgid "Citizenship:"
 msgstr "Cidadania:"
 
 #: .\case_interview_app\templates\components\suspect_form.html:68
-#: .\case_interview_app\templates\investigation_form.html:198
-#: .\case_interview_app\templates\prosecution_form.html:67
-#: .\case_interview_app\templates\victim-view.html:71
+#: .\case_interview_app\templates\investigation_form.html:199
+#: .\case_interview_app\templates\prosecution_form.html:68
+#: .\case_interview_app\templates\victim-view.html:58
 msgid "Nationality:"
 msgstr ""
 
 #: .\case_interview_app\templates\components\suspect_form.html:76
 #: .\case_interview_app\templates\components\victim_form.html:83
-#: .\case_interview_app\templates\components\victimprofile.html:41
-#: .\case_interview_app\templates\investigation_form.html:201
-#: .\case_interview_app\templates\prosecution_form.html:70
-#: .\case_interview_app\templates\victim-view.html:74
+#: .\case_interview_app\templates\components\victimprofile.html:38
+#: .\case_interview_app\templates\investigation_form.html:202
+#: .\case_interview_app\templates\prosecution_form.html:71
+#: .\case_interview_app\templates\victim-view.html:61
 msgid "ID Type:"
 msgstr "Tipo de Identificação"
 
 #: .\case_interview_app\templates\components\suspect_form.html:84
 #: .\case_interview_app\templates\components\victim_form.html:93
-#: .\case_interview_app\templates\components\victimprofile.html:44
-#: .\case_interview_app\templates\investigation_form.html:204
-#: .\case_interview_app\templates\prosecution_form.html:73
-#: .\case_interview_app\templates\victim-view.html:77
+#: .\case_interview_app\templates\components\victimprofile.html:41
+#: .\case_interview_app\templates\investigation_form.html:205
+#: .\case_interview_app\templates\prosecution_form.html:74
+#: .\case_interview_app\templates\victim-view.html:64
 msgid "ID number:"
 msgstr "Número de identificação:"
 
 #: .\case_interview_app\templates\components\suspect_form.html:89
 #: .\case_interview_app\templates\components\victim_form.html:99
-#: .\case_interview_app\templates\components\victimprofile.html:47
-#: .\case_interview_app\templates\investigation_form.html:207
-#: .\case_interview_app\templates\prosecution_form.html:76
+#: .\case_interview_app\templates\components\victimprofile.html:44
+#: .\case_interview_app\templates\investigation_form.html:208
+#: .\case_interview_app\templates\prosecution_form.html:77
 #: .\case_interview_app\templates\registration_form.html:44
-#: .\case_interview_app\templates\victim-view.html:80
+#: .\case_interview_app\templates\victim-view.html:67
 msgid "Address:"
 msgstr "Endereço: por exemplo"
 
 #: .\case_interview_app\templates\components\suspect_form.html:94
 #: .\case_interview_app\templates\components\victim_form.html:105
-#: .\case_interview_app\templates\components\victimprofile.html:50
-#: .\case_interview_app\templates\investigation_form.html:210
-#: .\case_interview_app\templates\prosecution_form.html:79
-#: .\case_interview_app\templates\victim-view.html:83
+#: .\case_interview_app\templates\components\victimprofile.html:47
+#: .\case_interview_app\templates\investigation_form.html:211
+#: .\case_interview_app\templates\prosecution_form.html:80
+#: .\case_interview_app\templates\victim-view.html:70
 msgid "Last place of residence:"
 msgstr "Último lugar de residência:"
 
 #: .\case_interview_app\templates\components\suspect_form.html:99
 #: .\case_interview_app\templates\components\victim_form.html:115
-#: .\case_interview_app\templates\components\victimprofile.html:53
-#: .\case_interview_app\templates\investigation_form.html:213
-#: .\case_interview_app\templates\prosecution_form.html:82
-#: .\case_interview_app\templates\victim-view.html:86
+#: .\case_interview_app\templates\components\victimprofile.html:50
+#: .\case_interview_app\templates\investigation_form.html:214
+#: .\case_interview_app\templates\prosecution_form.html:83
+#: .\case_interview_app\templates\victim-view.html:73
 msgid "Country of birth:"
 msgstr "País de nascimento:"
 
 #: .\case_interview_app\templates\components\suspect_form.html:115
-#: .\case_interview_app\templates\investigation_form.html:225
-#: .\case_interview_app\templates\prosecution_form.html:94
-#: .\case_interview_app\templates\victim-view.html:93
+#: .\case_interview_app\templates\investigation_form.html:226
+#: .\case_interview_app\templates\prosecution_form.html:95
+#: .\case_interview_app\templates\victim-view.html:80
 #, fuzzy
 #| msgid "Place of Birth:"
 msgid "Date of arrest:"
 msgstr "Local de nascimento:"
 
 #: .\case_interview_app\templates\components\suspect_form.html:120
-#: .\case_interview_app\templates\investigation_form.html:228
-#: .\case_interview_app\templates\prosecution_form.html:97
-#: .\case_interview_app\templates\victim-view.html:96
+#: .\case_interview_app\templates\investigation_form.html:229
+#: .\case_interview_app\templates\prosecution_form.html:98
+#: .\case_interview_app\templates\victim-view.html:83
 msgid "Role in trafficking:"
 msgstr ""
 
@@ -443,16 +501,16 @@ msgid "Initials:"
 msgstr "Iniciais:"
 
 #: .\case_interview_app\templates\components\victim_form.html:16
-#: .\case_interview_app\templates\components\victimprofile.html:21
-#: .\case_interview_app\templates\investigation_form.html:182
-#: .\case_interview_app\templates\prosecution_form.html:51
-#: .\case_interview_app\templates\victim-view.html:52
+#: .\case_interview_app\templates\components\victimprofile.html:18
+#: .\case_interview_app\templates\investigation_form.html:183
+#: .\case_interview_app\templates\prosecution_form.html:52
+#: .\case_interview_app\templates\victim-view.html:39
 msgid "Age:"
 msgstr "Idade:"
 
 #: .\case_interview_app\templates\components\victim_form.html:60
 #: .\case_interview_app\templates\components\victimprofile.html:15
-#: .\case_interview_app\templates\login.html:15
+#: .\case_interview_app\templates\login.html:16
 #: .\case_interview_app\templates\registration_form.html:50
 msgid "Email address:"
 msgstr "E-mail:"
@@ -484,12 +542,12 @@ msgid "Home"
 msgstr "INÍCIO"
 
 #: .\case_interview_app\templates\index.html:38
-#: .\case_interview_app\templates\index.html:90
+#: .\case_interview_app\templates\index.html:91
 msgid "About"
 msgstr "SOBRE"
 
 #: .\case_interview_app\templates\index.html:39
-#: .\case_interview_app\templates\index.html:151
+#: .\case_interview_app\templates\index.html:152
 msgid "Features"
 msgstr "Característicos"
 
@@ -505,15 +563,19 @@ msgstr "perguntas frequentes"
 msgid "Contact"
 msgstr "Contate-nos"
 
-#: .\case_interview_app\templates\index.html:62
-msgid "Trafficking Case Interview App"
+#: .\case_interview_app\templates\index.html:63
+#, fuzzy
+#| msgid "Trafficking Case Interview App"
+msgid "SADC TiP Interview App"
 msgstr "Aplicativo de entrevista de caso de tráfico"
 
-#: .\case_interview_app\templates\index.html:63
-msgid "Conduct trafficking interviews easily on the go."
+#: .\case_interview_app\templates\index.html:64
+#, fuzzy
+#| msgid "Conduct trafficking interviews easily on the go."
+msgid "Conduct trafficking-in-persons interviews easily on the go."
 msgstr "Conduza entrevistas sobre tráfico facilmente em qualquer lugar."
 
-#: .\case_interview_app\templates\index.html:64
+#: .\case_interview_app\templates\index.html:65
 msgid ""
 "Empower Insight, Liberate Data: Revolutionize Trafficking Awareness with "
 "with Precision and Privacy. Seamless Collection and Analysis made easy."
@@ -521,38 +583,97 @@ msgstr ""
 "Capacite o Insight, libere dados: revolucione a conscientização sobre o "
 "tráfico com precisão e privacidade. Coleta e análise perfeitas e fáceis"
 
-#: .\case_interview_app\templates\index.html:67
-#: .\case_interview_app\templates\index.html:69
-#: .\case_interview_app\templates\index.html:116
-#: .\case_interview_app\templates\index.html:118
+#: .\case_interview_app\templates\index.html:68
+#: .\case_interview_app\templates\index.html:70
+#: .\case_interview_app\templates\index.html:117
+#: .\case_interview_app\templates\index.html:119
 msgid "Get started"
 msgstr "Iniciar"
 
-#: .\case_interview_app\templates\index.html:92
+#: .\case_interview_app\templates\index.html:93
 msgid ""
-"Unleash the power of our data collection app to combat trafficking. Your "
-"contribution makes a difference in the fight for a safer world."
+"TiPNet streamlines the collection and analysis of Trafficking in Persons "
+"data, supporting informed policy-making and regional anti-trafficking "
+"efforts through efficient data management and accessibility."
 msgstr ""
-"Liberte o poder do nosso aplicativo de coleta de dados para combater o "
-"tráfico. A sua contribuição faz a diferença na luta por um mundo mais seguro."
 
-#: .\case_interview_app\templates\index.html:104
+#: .\case_interview_app\templates\index.html:99
+msgid "Fast"
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:100
+msgid "Collect your data easily and on the go."
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:105
 msgid "Cross Platform"
 msgstr "Plataforma cruzada"
 
-#: .\case_interview_app\templates\index.html:130
+#: .\case_interview_app\templates\index.html:106
+msgid "Access the system of your laptop or on your mobile phone easily."
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:111
+msgid "Support"
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:112
+msgid "Find help in the FAQ section or contact us via the form on this page."
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:131
 msgid "Want a tutorial? Watch Now"
 msgstr "Quer um tutorial? Assista agora"
 
-#: .\case_interview_app\templates\index.html:183
-msgid "Fast Processing"
+#: .\case_interview_app\templates\index.html:154
+#, fuzzy
+#| msgid "Conduct trafficking interviews easily on the go."
+msgid "Collect trafficking in persons data quickly and easily."
+msgstr "Conduza entrevistas sobre tráfico facilmente em qualquer lugar."
+
+#: .\case_interview_app\templates\index.html:162
+#: .\case_interview_app\templates\index.html:178
+msgid "Fast collection"
 msgstr ""
 
-#: .\case_interview_app\templates\index.html:247
+#: .\case_interview_app\templates\index.html:163
+#: .\case_interview_app\templates\index.html:179
+msgid "User-friendly data entry forms, enabling ease-of-use"
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:169
+#: .\case_interview_app\templates\index.html:185
+msgid "User friendly"
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:170
+#: .\case_interview_app\templates\index.html:186
+msgid "Allows for seamless navigation, ensuring intuitive user experience."
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:222
+msgid "Multilingual support"
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:223
+msgid "Provides multilingual support in English, French and Portuguese."
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:229
+msgid "Aggregate data"
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:230
+msgid ""
+"Aggregates data from diverse stakeholders, enabling comprehensive and varied "
+"data collection."
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:256
 msgid "SADC Member Countries"
 msgstr "Países Membros da SADC"
 
-#: .\case_interview_app\templates\index.html:249
+#: .\case_interview_app\templates\index.html:258
 #, fuzzy
 #| msgid ""
 #| "This project is an initiative of SADC to combat trafficking in the "
@@ -564,13 +685,93 @@ msgstr ""
 "Este projecto é uma iniciativa da SADC para combater o tráfico na região. Os "
 "estados membros são os seguintes."
 
-#: .\case_interview_app\templates\index.html:333
+#: .\case_interview_app\templates\index.html:342
 msgid "Frequently Asked Questions"
 msgstr "Perguntas frequentes"
 
-#: .\case_interview_app\templates\index.html:378
+#: .\case_interview_app\templates\index.html:344
+msgid "Stuck anywhere? Find answers to some common questions below."
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:349
+msgid "How do I input data using the system's forms?"
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:350
+msgid ""
+"To input data, simply navigate to the data entry section of the system. "
+"Here, forms provide an interface for data entry which are designed to make "
+"data entry as intuitive and straightforward as possible."
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:353
+msgid "Can I access the system in different languages?"
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:354
+msgid "Yes, the system supports English, French, and Portuguese."
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:357
+msgid "How do I change the language settings?"
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:358
+msgid ""
+" To change the language, go to the menu bar where you'll find the language "
+"option. Select your preferred language, and the system interface will update "
+"accordingly."
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:361
+msgid ""
+"What are the navigation features of the system, and how do I navigate to "
+"different sections?"
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:362
+msgid ""
+"The system is designed with user-friendly navigation in mind. It features a "
+"clear and intuitive interface with labeled sections and easy-to-follow menus."
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:365
+msgid ""
+"How does the system ensure comprehensive data collection from various "
+"stakeholders?"
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:366
+msgid ""
+"The system is built to aggregate data from a wide range of stakeholders. "
+"This approach ensures a comprehensive collection of data, providing a broad "
+"and inclusive perspective on Trafficking in Persons information."
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:369
+msgid ""
+"What measures are in place to ensure the security and confidentiality of the "
+"data entered into the system?"
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:370
+msgid ""
+"TipNet prioritizes the security and confidentiality of all data entered into "
+"our system. Robust encryption, secure login processes, and strict access "
+"controls are in place to protect your data."
+msgstr ""
+
+#: .\case_interview_app\templates\index.html:388
 msgid "Contact us"
 msgstr "Contate-nos"
+
+#: .\case_interview_app\templates\index.html:390
+msgid ""
+"Unleash the power of our data collection app to combat trafficking. Your "
+"contribution makes a difference in the fight for a safer world."
+msgstr ""
+"Liberte o poder do nosso aplicativo de coleta de dados para combater o "
+"tráfico. A sua contribuição faz a diferença na luta por um mundo mais seguro."
 
 #: .\case_interview_app\templates\investigation_form.html:8
 #: .\case_interview_app\templates\prosecution_form.html:7
@@ -585,16 +786,6 @@ msgstr ""
 #: .\case_interview_app\templates\investigation_form.html:15
 msgid "Suspected Trafficker"
 msgstr ""
-
-#: .\case_interview_app\templates\investigation_form.html:37
-#: .\case_interview_app\templates\victim-view.html:21
-msgid "Have any suspects been arrested to date?:"
-msgstr "Foi algum suspeito preso até ao presente momento?"
-
-#: .\case_interview_app\templates\investigation_form.html:53
-#: .\case_interview_app\templates\victim-view.html:25
-msgid "If NO, please explain why there have been no arrests?"
-msgstr "Em caso negativo, explicar por que razão não houve detenção? "
 
 #: .\case_interview_app\templates\investigation_form.html:61
 msgid "Does the trafficker have ties to organized crime?:"
@@ -614,44 +805,32 @@ msgstr "Como se organiza(m) o(s) traficante(s)?"
 msgid "Has an investigation been conducted?:"
 msgstr "Foi realizada uma investigação?"
 
-#: .\case_interview_app\templates\investigation_form.html:120
-msgid "If NO, please specify:"
-msgstr "Em caso negativo, especificar:"
-
 #: .\case_interview_app\templates\investigation_form.html:126
 msgid "If YES, what is the status of the investigation?:"
 msgstr "Em caso afirmativo, qual é o estado do inquérito?"
 
-#: .\case_interview_app\templates\investigation_form.html:138
-msgid "If PENDING, Specify:"
-msgstr "Em caso de o processo estar PENDENTE, especificar:"
-
-#: .\case_interview_app\templates\investigation_form.html:144
-msgid "If WITHDRAWN or CASE FILE CLOSED, please specify:"
-msgstr "Em caso de o processo ter sido SUSPENSO ou o ENCERRADO, especificar:"
-
-#: .\case_interview_app\templates\investigation_form.html:232
-#: .\case_interview_app\templates\prosecution_form.html:101
-#: .\case_interview_app\templates\victim-view.html:100
+#: .\case_interview_app\templates\investigation_form.html:233
+#: .\case_interview_app\templates\prosecution_form.html:102
+#: .\case_interview_app\templates\victim-view.html:87
 msgid "From:"
 msgstr ""
 
-#: .\case_interview_app\templates\investigation_form.html:236
-#: .\case_interview_app\templates\prosecution_form.html:105
-#: .\case_interview_app\templates\victim-view.html:104
+#: .\case_interview_app\templates\investigation_form.html:237
+#: .\case_interview_app\templates\prosecution_form.html:106
+#: .\case_interview_app\templates\victim-view.html:91
 msgid "To:"
 msgstr ""
 
-#: .\case_interview_app\templates\investigation_form.html:258
+#: .\case_interview_app\templates\investigation_form.html:267
 msgid "RETURN TO HOME"
 msgstr ""
 
-#: .\case_interview_app\templates\login.html:9
-#: .\case_interview_app\templates\login.html:24
+#: .\case_interview_app\templates\login.html:10
+#: .\case_interview_app\templates\login.html:25
 msgid "LOGIN"
 msgstr "CONECTE-SE"
 
-#: .\case_interview_app\templates\login.html:19
+#: .\case_interview_app\templates\login.html:20
 #: .\case_interview_app\templates\registration_form.html:81
 msgid "Password:"
 msgstr "Senha:"
@@ -666,62 +845,65 @@ msgstr ""
 msgid "Prosecution"
 msgstr "Posição:"
 
-#: .\case_interview_app\templates\prosecution_form.html:125
+#: .\case_interview_app\templates\prosecution_form.html:137
 msgid "Suspected trafficker:"
 msgstr ""
 
-#: .\case_interview_app\templates\prosecution_form.html:135
+#: .\case_interview_app\templates\prosecution_form.html:147
 #, fuzzy
 #| msgid "If YES, what is the status of the investigation?:"
 msgid "What is the status of the case?:"
 msgstr "Em caso afirmativo, qual é o estado do inquérito?"
 
-#: .\case_interview_app\templates\prosecution_form.html:146
+#: .\case_interview_app\templates\prosecution_form.html:158
 msgid "In which trial court is this case enrolled?:"
 msgstr ""
 
-#: .\case_interview_app\templates\prosecution_form.html:157
+#: .\case_interview_app\templates\prosecution_form.html:169
+#: .\case_interview_app\templates\victim-view.html:118
 msgid "If in a foreign court, please specify country:"
 msgstr ""
 
-#: .\case_interview_app\templates\prosecution_form.html:169
+#: .\case_interview_app\templates\prosecution_form.html:181
 msgid "What is the assigned court case number?:"
 msgstr ""
 
-#: .\case_interview_app\templates\prosecution_form.html:175
+#: .\case_interview_app\templates\prosecution_form.html:187
 msgid "If applicable, what was the verdict?"
 msgstr ""
 
-#: .\case_interview_app\templates\prosecution_form.html:187
+#: .\case_interview_app\templates\prosecution_form.html:199
 #, fuzzy
 #| msgid "If NO, please specify:"
 msgid "If GUILTY, please specify:"
 msgstr "Em caso negativo, especificar:"
 
-#: .\case_interview_app\templates\prosecution_form.html:199
+#: .\case_interview_app\templates\prosecution_form.html:211
 msgid "What was the outcome of this prosecution?"
 msgstr ""
 
-#: .\case_interview_app\templates\prosecution_form.html:210
+#: .\case_interview_app\templates\prosecution_form.html:222
 msgid "If ACQUITTAL, state the reasons:"
 msgstr ""
 
-#: .\case_interview_app\templates\prosecution_form.html:222
+#: .\case_interview_app\templates\prosecution_form.html:234
 msgid "If REVIEW/ APPEAL, what was the outcome?:"
 msgstr ""
 
-#: .\case_interview_app\templates\prosecution_form.html:228
+#: .\case_interview_app\templates\prosecution_form.html:240
 #, fuzzy
 #| msgid "If YES, what is the status of the investigation?:"
 msgid "What was the nature of the sanction/penalty?:"
 msgstr "Em caso afirmativo, qual é o estado do inquérito?"
 
-#: .\case_interview_app\templates\prosecution_form.html:239
+#: .\case_interview_app\templates\prosecution_form.html:251
 msgid "If CUSTODIAL SANCTION/PENALTY, how many years were imposed?:"
 msgstr ""
 
 #: .\case_interview_app\templates\registration_form.html:8
-msgid "INTERVIEWER DATA"
+#, fuzzy
+#| msgid "INTERVIEWER DATA"
+msgid "INTERVIEWER INFORMATION"
 msgstr "DADOS DO ENTREVISTADOR"
 
 #: .\case_interview_app\templates\registration_form.html:16
@@ -954,7 +1136,7 @@ msgid "What were the means employed in the process of trafficking?:"
 msgstr ""
 
 #: .\case_interview_app\templates\tip_form.html:588
-#: .\case_interview_app\templates\victim-view.html:160
+#: .\case_interview_app\templates\victim-view.html:150
 #, fuzzy
 #| msgid "Country of birth:"
 msgid "Country of origin/recruitment:"
@@ -986,23 +1168,37 @@ msgstr ""
 msgid "ARRESTS/INVESTIGATION"
 msgstr "DADOS DO INVESTIGAÇÃO"
 
-#: .\case_interview_app\templates\victim-view.html:32
+#: .\case_interview_app\templates\victim-view.html:19
 msgid "SUSPECTS"
 msgstr ""
 
-#: .\case_interview_app\templates\victim-view.html:114
+#: .\case_interview_app\templates\victim-view.html:101
 msgid "PROSECUTIONS"
 msgstr ""
 
-#: .\case_interview_app\templates\victim-view.html:136
+#: .\case_interview_app\templates\victim-view.html:109
+msgid "Suspect name:"
+msgstr ""
+
+#: .\case_interview_app\templates\victim-view.html:112
+#, fuzzy
+#| msgid "If YES, what is the status of the investigation?:"
+msgid "What is the status of the case?"
+msgstr "Em caso afirmativo, qual é o estado do inquérito?"
+
+#: .\case_interview_app\templates\victim-view.html:115
+msgid "In which trial court is this case enrolled?"
+msgstr ""
+
+#: .\case_interview_app\templates\victim-view.html:126
 msgid "EXPLOITATION"
 msgstr ""
 
-#: .\case_interview_app\templates\victim-view.html:144
+#: .\case_interview_app\templates\victim-view.html:134
 msgid "Has the victim been subject to exploitation:"
 msgstr ""
 
-#: .\case_interview_app\templates\victim-view.html:152
+#: .\case_interview_app\templates\victim-view.html:142
 msgid "TRANSIT ROUTE"
 msgstr ""
 
