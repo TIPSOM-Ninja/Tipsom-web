@@ -9,6 +9,19 @@
       </button>
       <div class="collapse navbar-collapse w-100 order-1 dual-collapse2" id="navbarNav">
             <ul class="navbar-nav ms-auto gy-5">
+                <li>
+                  <div class="container-fluid">
+                    
+                      <input class="form-control me-2" type="search" placeholder="Search" aria-label="search" id="search" onkeyup="search()">
+                      <ul class="dropdown-menu" aria-labelledby="search">
+                        <li><a class="dropdown-item dr" href="{% lang_url request.build_absolute_uri 'en' %}">{% trans "ENGLISH" %}</a></li>
+                        <li><a class="dropdown-item dr" href="{% lang_url request.build_absolute_uri 'fr' %}">{% trans "FRENCH" %}</a></li>
+                        <li><a class="dropdown-item dr" href="{% lang_url request.build_absolute_uri 'pt' %}">{% trans "PORTUGUESE" %}</a></li>
+  
+                      </ul>
+                    
+                  </div>
+                </li>
                 <li class="nav-item  dropdown">
                     <a class="nav-link text-light dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       {% trans "LANGUAGES" %}
@@ -32,9 +45,12 @@
                 {% elif user.is_authenticated %}
                 <li class="nav-item">
                   <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/cases">{% translate "ALL CASES" %}</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/interviewer_registration">{% translate "PROFILE" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/interviewer_registration">{% translate "PROFILE" %}</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/">{% translate "HELP" %}</a>
               </li>
                 <li class="nav-item">
                     <a class="nav-link text-warning" href="/{{request.LANGUAGE_CODE}}/logout">{% translate "SIGN OUT" %}</a>
