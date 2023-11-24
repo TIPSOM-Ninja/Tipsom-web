@@ -23,13 +23,71 @@ def lang_url(url,language):
     return url
 
 @register.simple_tag
-def search(name):
+def search(user):
     searches = {}
     for s in Search.objects.all():
-        searches[s.search_text] = {
-            "search_text": s.search_text,
-            "search_link": s.search_link,
-            "search_description": s.search_description,
-            "search_tag": s.search_tag.name
-        }
+        if s.is_admin == 1:
+            if(user.is_staff):
+                searches[s.search_text] = {
+                    "id":s.id,
+                    "search_text": s.search_text,
+                    "search_link": s.search_link,
+                    "search_description": s.search_description,
+                    "search_tag": s.search_tag.name
+                }
+        elif s.is_technical == 1:
+            if(user.is_staff or user.has_perm):
+                searches[s.search_text] = {
+                    "id":s.id,
+                    "search_text": s.search_text,
+                    "search_link": s.search_link,
+                    "search_description": s.search_description,
+                    "search_tag": s.search_tag.name
+                }
+        else:
+             if(user.is_staff or user.has_perm):
+                searches[s.search_text] = {
+                    "id":s.id,
+                    "search_text": s.search_text,
+                    "search_link": s.search_link,
+                    "search_description": s.search_description,
+                    "search_tag": s.search_tag.name
+                }
+        
+        
     return mark_safe(json.dumps(searches))
+
+@register.filter()
+def search_get(user):
+    searches = []
+    for s in Search.objects.all():
+        if s.is_admin == 1:
+            if(user.is_staff):
+                searches.append({
+                    "id":s.id,
+                    "search_text": s.search_text,
+                    "search_link": s.search_link,
+                    "search_description": s.search_description,
+                    "search_tag": s.search_tag.name
+                })
+        elif s.is_technical == 1:
+            if(user.is_staff or user.has_perm):
+                searches.append({
+                    "id":s.id,
+                    "search_text": s.search_text,
+                    "search_link": s.search_link,
+                    "search_description": s.search_description,
+                    "search_tag": s.search_tag.name
+                })
+        else:
+             if(user.is_staff or user.has_perm):
+                searches.append({
+                    "id":s.id,
+                    "search_text": s.search_text,
+                    "search_link": s.search_link,
+                    "search_description": s.search_description,
+                    "search_tag": s.search_tag.name
+                })
+        
+        
+    return mark_safe(searches)

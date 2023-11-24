@@ -9,17 +9,16 @@
       </button>
       <div class="collapse navbar-collapse w-100 order-1 dual-collapse2" id="navbarNav">
             <ul class="navbar-nav ms-auto gy-5">
-                <li>
-                  <div class="container-fluid">
+                <li class="nav-item  dropdown">
+                  
                     
-                      <input class="form-control me-2" type="search" placeholder="Search" aria-label="search" id="search" onkeyup="search()">
-                      <ul class="dropdown-menu" aria-labelledby="search">
-                        <li><a class="dropdown-item dr" href="{% lang_url request.build_absolute_uri 'en' %}">{% trans "ENGLISH" %}</a></li>
-                        <li><a class="dropdown-item dr" href="{% lang_url request.build_absolute_uri 'fr' %}">{% trans "FRENCH" %}</a></li>
-                        <li><a class="dropdown-item dr" href="{% lang_url request.build_absolute_uri 'pt' %}">{% trans "PORTUGUESE" %}</a></li>
+                      <input class="form-control me-2" type="search"  placeholder="Search" aria-label="search" id="search" aria-expanded="false">
+                      <ul id ="search_show" class="dropdown-menu" aria-labelledby="search">
+                        
+                        
                       </ul>
                     
-                  </div>
+                  
                 </li>
                 <li class="nav-item  dropdown">
                     <a class="nav-link text-light dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -60,6 +59,98 @@
     </div>
 </nav>
 <script>
-  let searches = {% search "name" %}
-  searches.forEach((element) => console.log(element));
+  
+  
+  function initSidebarQuickFilter() {
+    const options = [];
+    let searches = {{user|search_get|safe}}
+    let search_elements = []
+    var search_show = document.getElementById('search_show')
+    searches.forEach((element) =>{
+      search_elements.push('<li id="search_'+element.id+'" style="display:none;"><a class="dropdown-item dr" href="'+element.search_url+'">'+element.search_text+'</a></li>')
+      var a =document.createElement('a')
+      a.href = element.search_link
+      a.classList.add("dropdown-item","dr")
+      
+      var div = document.createElement('div')
+      div.appendChild(Object.assign(
+        document.createElement('h5'), 
+        {textContent: element.search_text}
+                ))
+      div.appendChild(Object.assign(
+        document.createElement('p'), 
+        {textContent: element.search_description, }
+                ))
+      search_show.appendChild(
+        Object.assign(
+              document.createElement('li'), 
+              {id: 'search_'+element.id, style:"display:none;"}
+                      )
+                
+                ).appendChild(
+                  Object.assign(
+                    document.createElement('a'), 
+                    {href:element.search_link}
+                            )
+                ).appendChild(
+                  div
+                );
+    });
+      
+    {% comment %} const navSidebar = document.getElementById('search'); {% endcomment %}
+    {% comment %} if (!navSidebar) {
+        return;
+    } {% endcomment %}
+    {% comment %} navSidebar.querySelectorAll('th[scope=row] a').forEach((container) => {
+        options.push({title: container.innerHTML, node: container});
+    }); {% endcomment %}
+
+    function checkValue(event) {
+        let filterValue = event.target.value;
+        if (filterValue) {
+            filterValue = filterValue.toLowerCase();
+        }
+        if (event.key === 'Escape') {
+            filterValue = '';
+            event.target.value = ''; // clear input
+        }
+        let matches = false;
+        for (const o of searches) {
+            let displayValue = '';
+            if (filterValue && filterValue!="") {
+                if (o.search_text.toLowerCase().indexOf(filterValue) > -1) {
+                    displayValue = 'block';
+                    matches=true
+                } else {
+                    displayValue = 'none'
+                }
+            }else{
+              displayValue = 'none'
+            }
+            // show/hide parent <TR>
+            document.getElementById("search_"+o.id).style.display = displayValue;
+            document.getElementById("search_show").style.display = 'block';
+        }
+        if(!matches){
+          document.getElementById("search_show").style.display = 'none';
+        }
+       
+    }
+    function hideAll(){
+      for (const o of searches) {
+        
+        // show/hide parent <TR>
+        document.getElementById("search_"+o.id).style.display = 'none';
+    }
+    }
+
+    const nav = document.getElementById('search');
+    nav.addEventListener('change', checkValue, false);
+    nav.addEventListener('input', checkValue, false);
+    nav.addEventListener('keyup', checkValue, false);
+    nav.addEventListener('focusout', hideAll, false);
+
+  
+}
+initSidebarQuickFilter()
 </script>
