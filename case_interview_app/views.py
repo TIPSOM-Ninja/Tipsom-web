@@ -173,13 +173,13 @@ def save_victim(request):
         victim.consent_abstain_answer = 1
         victim.save()
         if interviewer.data_entry_purpose_id == 1:
-            victim.victim_identifier = "TP-"+victim.id
+            victim.victim_identifier = "TP-"+int(victim.id)
         if interviewer.data_entry_purpose_id == 2:
-            victim.victim_identifier = "IV-"+victim.id
+            victim.victim_identifier = "IV-"+int(victim.id)
         if interviewer.data_entry_purpose_id == 3:
-            victim.victim_identifier = "PR-"+victim.id
+            victim.victim_identifier = "PR-"+int(victim.id)
         if interviewer.data_entry_purpose_id == 4:
-            victim.victim_identifier = "AS-"+victim.id
+            victim.victim_identifier = "AS-"+int(victim.id)
         victim.save()
         for lang in request.POST.getlist('languages[]'):
             victim.languages.add(Language.objects.filter(id= lang).first())
