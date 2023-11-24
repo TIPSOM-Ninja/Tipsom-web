@@ -696,3 +696,5 @@ class Search(models.Model):
     search_tag = models.ForeignKey(
         Tag, related_name = "search", on_delete=models.CASCADE, null=True, blank=True
     )
+    is_technical = models.BooleanField(blank=True,null=True)
+    is_admin = models.BooleanField(blank=True,null=True)
