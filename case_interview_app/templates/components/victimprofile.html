@@ -2,11 +2,17 @@
 <div class="card-body">
     <div class="row g-3 my-2">
         <div class="col-md-12">
-            <div class="card-header bg-light py-3 border-top border-bottom border-primary">
-                <h6>{% translate "VICTIM PROFILE" %}<small class="text-danger"> - {{victim.approval.name}}</small> </h6>
+            <div class="card-header bg-light border-top border-bottom border-primary">
+                <div class="d-flex py-3 justify-content-between">
+                    <h6 class="m-0">{% translate "VICTIM PROFILE" %}<small class="text-danger"> - {{victim.approval.name}}</small> </h6>
+                    <p class="m-0"><strong>{% trans "Consent given:" %}</strong> <i class="fa-solid fa-circle-check text-success"></i>Yes</p>
+                </div>
             </div>
         </div>
-        
+        <div class="col-md-6">
+            
+            <strong>{% trans "Victim ID:" %}</strong> {{victim.victim_identifier}}
+            </div>
         <div class="col-md-6">
             
         <strong>{% trans "Initials:" %}</strong> {{victim.initials}}
@@ -49,6 +55,7 @@
         <div class="col-md-6">
             <strong>{% trans "Country of birth:" %}</strong> {{victim.countryOfBirth.name}}
         </div>
+        
 
        
     </div>

@@ -1,0 +1,93 @@
+{% load i18n %}
+<div id="consent_modal" class="modal" tabindex="-1" role="dialog" data-bs-backdrop="static"data-bs-keyboard="false">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #1860c3;">
+            <h5 class="modal-title text-warning">{% trans "VICTIM CONSENT" %}</h5>
+            </div>
+            <div class="modal-body">
+                <form id="consent_form" method="post" action="/{{request.LANGUAGE_CODE}}/process_consent">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.build_absolute_uri }}">
+                    <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+                        <div class="col-md-12">
+                            <div class="">
+                                <label for="" class="form-label">{% trans "Has the victim been informed that (name of organization/department) reserves the right to share her/ his individual case data for assistance purposes and only with government departments and partnering organizations involved in direct assistance?" %}</label>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="consent_share_gov_patner" id="consent_share_gov_patner_1" value="1" >
+                                        <label class="form-check-label" for="consent_share_gov_patner_1">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="consent_share_gov_patner" id="consent_share_gov_patner_0" value="0">
+                                        <label class="form-check-label" for="consent_share_gov_patner_0">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="">
+                                <label for="" class="form-label">{% trans "Has the victim further been informed that (name of organization/department) reserves the right to make a limited disclosure of non-personal data based on the information collected at the interview to law enforcement for the purpose of rescuing other victims that remain under the control of traffickers or preventing other potential victims from being trafficked?" %}</label>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="consent_limited_disclosure" id="consent_limited_disclosure_1" value="1" >
+                                        <label class="form-check-label" for="consent_limited_disclosure_1">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="consent_limited_disclosure" id="consent_limited_disclosure_0" value="0">
+                                        <label class="form-check-label" for="consent_limited_disclosure_0">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="">
+                                <label for="" class="form-label">{% trans "Has the victim further been informed that (name of organization/department) reserves the right to use (only anonymous, aggregate) data for research purpose?" %}</label>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="consent_research" id="consent_research_1" value="1" >
+                                        <label class="form-check-label" for="consent_research_1">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="consent_research" id="consent_research_0" value="0">
+                                        <label class="form-check-label" for="consent_research_0">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="">
+                                <label for="" class="form-label">{% trans "Victim has the right to refuse to or abstain from answering by replying Not applicable (NA) or Don’t know (NK)" %}</label>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="consent_abstain_answer" id="consent_abstain_answer_1" value="1" >
+                                        <label class="form-check-label" for="consent_abstain_answer_1">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="consent_abstain_answer" id="consent_abstain_answer_0" value="0">
+                                        <label class="form-check-label" for="consent_abstain_answer_0">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-center m-3 ">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary text-warning">{% translate "SUBMIT" %}</button>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded',function(event){
+        const myModal = new bootstrap.Modal('#consent_modal', {
+            keyboard: false
+          })
+          myModal.show()
+    })
+      
+</script>

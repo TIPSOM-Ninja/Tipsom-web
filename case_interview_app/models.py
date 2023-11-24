@@ -294,6 +294,7 @@ class Occupation(models.Model):
         return f"{self.name}"
      
 class VictimProfile(models.Model):
+    victim_identifier = models.CharField(null=True,blank=True)
     citizenship = models.ForeignKey(
         Country, related_name = "victims_cit",  on_delete=models.CASCADE, null=True, blank=True
     )
@@ -320,6 +321,12 @@ class VictimProfile(models.Model):
         auto_now=False, auto_now_add=False, null=True, blank=True
     )
     additional_remarks = models.TextField(null=True, blank=True)
+    
+    consent_share_gov_patner = models.BooleanField(null=True, blank=True)
+    consent_limited_disclosure = models.BooleanField(null=True, blank=True)
+    consent_research = models.BooleanField(null=True, blank=True)
+    consent_abstain_answer = models.BooleanField(null=True, blank=True)
+
     approval = models.ForeignKey(
         ApprovalStatus, related_name = "victimprofile", on_delete=models.CASCADE, null=True, blank=True
     )

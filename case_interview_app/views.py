@@ -116,6 +116,7 @@ def investigation_form(request):
             else:
                 if interviewer.victims.filter(id = victim.id).first() is not None:
                     request.session['v_id'] = victim.id
+                    request.session['consent_given'] = 1
                 else:
                     permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
                     if permission is None:
@@ -124,6 +125,7 @@ def investigation_form(request):
                         # TODO: check if permision is granted
                         # TODO: remove autopermission below
                         request.session['v_id'] = victim.id
+                        request.session['consent_given'] = 1
 
         if 'v_id' in request.session:
             context['v_id'] = request.session['v_id']
@@ -139,7 +141,9 @@ def investigation_form(request):
 
     return render(request,"investigation_form.html",context)
 def save_victim(request):
-    
+    if 'consent_given' not in request.session:
+        messages.error(request,"Victim consent not given")
+        return redirect("/cases")
     if request.method == "POST":
         if request.POST.get('victim_id') is not None:
             # TODO: Add checks on who posted and who can edit
@@ -163,6 +167,19 @@ def save_victim(request):
         victim.interview_date = request.POST['interview_date']
         victim.additional_remarks = request.POST['additional_remarks']
         victim.approval_id = 1
+        victim.consent_share_gov_patner = 1
+        victim.consent_limited_disclosure = 1
+        victim.consent_research = 1
+        victim.consent_abstain_answer = 1
+        victim.save()
+        if interviewer.data_entry_purpose_id == 1:
+            victim.victim_identifier = "TP-"+victim.id
+        if interviewer.data_entry_purpose_id == 2:
+            victim.victim_identifier = "IV-"+victim.id
+        if interviewer.data_entry_purpose_id == 3:
+            victim.victim_identifier = "PR-"+victim.id
+        if interviewer.data_entry_purpose_id == 4:
+            victim.victim_identifier = "AS-"+victim.id
         victim.save()
         for lang in request.POST.getlist('languages[]'):
             victim.languages.add(Language.objects.filter(id= lang).first())
@@ -192,6 +209,9 @@ def save_victim(request):
     return redirect(url)
 
 def save_arrest(request):
+    if 'consent_given' not in request.session:
+        messages.error(request,"Victim consent not given")
+        return redirect("/cases")
     #TODO: add check for who can post about a victim
     #TODO: combine victims
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
@@ -225,6 +245,9 @@ def save_arrest(request):
     return redirect('/investigation_form'+formulate_get)
 
 def save_suspect(request):
+    if 'consent_given' not in request.session:
+        messages.error(request,"Victim consent not given")
+        return redirect("/cases")
     today = date.today()
     born = datetime.strptime(request.POST['dob'], '%Y-%m-%d')
     age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
@@ -315,6 +338,7 @@ def prosecution_form(request):
             else:
                 if interviewer.victims.filter(id = victim.id).first() is not None:
                     request.session['v_id'] = victim.id
+                    request.session['consent_given'] = 1
                 else:
                     permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
                     if permission is None:
@@ -323,6 +347,7 @@ def prosecution_form(request):
                         # TODO: check if permision is granted
                         # TODO: remove autopermission below
                         request.session['v_id'] = victim.id
+                        request.session['consent_given'] = 1
              
         if 'v_id' in request.session:
             context['v_id'] = request.session['v_id']
@@ -349,7 +374,9 @@ def prosecution_form(request):
 
 def save_prosecution(request):
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
-
+    if 'consent_given' not in request.session:
+        messages.error(request,"Victim consent not given")
+        return redirect("/cases")
     if request.method == "POST":
         prosecution = Prosecution()
         prosecution.victim_id = request.session['v_id']
@@ -403,6 +430,7 @@ def tip_form(request):
             else:
                 if interviewer.victims.filter(id = victim.id).first() is not None:
                     request.session['v_id'] = victim.id
+                    request.session['consent_given'] = 1
                 else:
                     permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
                     if permission is None:
@@ -411,6 +439,7 @@ def tip_form(request):
                         # TODO: check if permision is granted
                         # TODO: remove autopermission below
                         request.session['v_id'] = victim.id
+                        request.session['consent_given'] = 1
              
         if 'v_id' in request.session:
             context['v_id'] = request.session['v_id']
@@ -445,6 +474,9 @@ def tip_form(request):
     return render(request,"tip_form.html",context)
 
 def save_exploitation(request):
+    if 'consent_given' not in request.session:
+        messages.error(request,"Victim consent not given")
+        return redirect("/cases")
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     
     if request.method == "POST":
@@ -529,6 +561,9 @@ def save_exploitation(request):
         return redirect('/tip_form'+formulate_get)
 
 def save_transit(request):
+    if 'consent_given' not in request.session:
+        messages.error(request,"Victim consent not given")
+        return redirect("/cases")
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     
     if request.method == "POST":
@@ -553,6 +588,7 @@ def save_transit(request):
         return redirect('/cases')
 
 def assistance_form(request):
+
     if(request.user.is_authenticated):
         countries = Country.objects.all().order_by('name').values()
         purposes = DataEntryPurpose.objects.all()
@@ -596,11 +632,13 @@ def assistance_form(request):
 
         if request.GET.get("v_id") is not None:
             victim = VictimProfile.objects.filter(id = request.GET.get("v_id")).first()
+            
             if victim is None:
                 messages.error(request,'Victim does not exist. Please create a new victim.')
             else:
                 if interviewer.victims.filter(id = victim.id).first() is not None:
                     request.session['v_id'] = victim.id
+                    request.session['consent_given'] = 1
                 else:
                     permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
                     if permission is None:
@@ -609,6 +647,7 @@ def assistance_form(request):
                         # TODO: check if permision is granted
                         # TODO: remove autopermission below
                         request.session['v_id'] = victim.id
+                        request.session['consent_given'] = 1
              
         if 'v_id' in request.session:
             context['v_id'] = request.session['v_id']
@@ -622,6 +661,9 @@ def assistance_form(request):
     return render(request,"assistance_form.html",context)
 
 def save_assistance_types(request):
+    if 'consent_given' not in request.session:
+        messages.error(request,"Victim consent not given")
+        return redirect("/cases")
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     
     if request.method == "POST":
@@ -725,6 +767,9 @@ def save_assistance_types(request):
         return redirect('/assistance_form'+formulate_get)
         
 def save_socio_economic(request):
+    if 'consent_given' not in request.session:
+        messages.error(request,"Victim consent not given")
+        return redirect("/cases")
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     
     if request.method == "POST":
@@ -765,6 +810,14 @@ def save_assistance_aggregate(request):
 
         return redirect('/cases')
 
+def process_consent(request):
+    if request.POST.get('consent_share_gov_patner') == '1' and request.POST.get('consent_limited_disclosure') == '1' and request.POST.get('consent_research') == '1' and request.POST.get('consent_abstain_answer') == '1':
+        request.session['consent_given'] = 1
+        messages.success(request,"Consent granted. You can proceed.")
+        return redirect(request.POST.get('next'))
+    else:
+        messages.error(request,"Victim denied consent. You cannot add their details.")
+        return redirect('/cases')
 
 def cases(request):
     if request.GET.get('language') is not None:
@@ -773,6 +826,8 @@ def cases(request):
     victims = interviewer.victims.all()
     if request.session.get('v_id') != None:
         del request.session['v_id']
+    if request.session.get('consent_given') is not None:
+        del request.session['consent_given']
     context = {
         "victims":victims,
         "interviewer":interviewer
