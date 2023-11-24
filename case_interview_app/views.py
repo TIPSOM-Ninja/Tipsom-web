@@ -150,7 +150,7 @@ def save_victim(request):
             # edit capability shelved for now
             #victim = VictimProfile.objects.filter(id=request.POST['victim_id']).first()
             pass
-        
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         victim = VictimProfile()
         victim.citizenship_id = request.POST['citizenship']
         victim.countryOfBirth_id = request.POST['country_of_birth']
@@ -187,7 +187,7 @@ def save_victim(request):
         for idt in request.POST.getlist('idtypes[]'):
             victim.identification_type.add(IdType.objects.filter(id = idt).first())
 
-        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+        
         interviewer.victims.add(victim)
         messages.success(request,"Victim successfully saved.")
 
