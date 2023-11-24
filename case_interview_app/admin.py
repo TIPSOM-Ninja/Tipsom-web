@@ -198,24 +198,9 @@ class LivingWithAdmin(admin.ModelAdmin):
 class OccupationAdmin(admin.ModelAdmin):
     pass
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    pass
 
 
 
@@ -269,7 +254,9 @@ class AssistanceAggregateDataAdmin(admin.ModelAdmin):
 class SocioEconomicAdmin(admin.ModelAdmin):
     pass
 
-
+@admin.register(Search)
+class SearchAdmin(admin.ModelAdmin):
+    pass
 
 
 

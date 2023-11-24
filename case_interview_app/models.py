@@ -292,6 +292,12 @@ class Occupation(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+    
+class Tag(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.name}"
      
 class VictimProfile(models.Model):
     victim_identifier = models.CharField(null=True,blank=True)
@@ -681,3 +687,10 @@ class SocioEconomic(models.Model):
     )
     approval_comments = models.TextField( null=True, blank=True)
     
+class Search(models.Model):
+    search_text = models.CharField(null = True, blank = True)
+    search_description = models.CharField(null = True, blank = True)
+    search_link = models.CharField(null = True, blank = True)
+    search_tag = models.ForeignKey(
+        Tag, related_name = "search", on_delete=models.CASCADE, null=True, blank=True
+    )
