@@ -2,6 +2,9 @@
 {% load i18n %}
 {% block content %}
 <div class="container p-3">
+    {% if request.session.consent_given is None %}
+    {% include "components/consent_form.html" %}
+    {% endif %}
     <div class="card ">
         <div class="card-header text-center"  style="background-color: #1860c3;">
             <h5 class="text-warning">{% trans "PROSECUTION INFORMATION" %}</h5>
