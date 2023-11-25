@@ -8,6 +8,8 @@ from datetime import date, datetime
 from django.db.models import Count
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django_otp.decorators import otp_required
+from django_otp.plugins.otp_email.models import EmailDevice
 
 def index(request):
     countries = Country.objects.all().order_by('name').values()
@@ -58,9 +60,22 @@ def interviewer_registration(request):
                 user.last_name =  request.POST['last_name']
                 user.groups.add(1)
                 user.save()
+                if(EmailDevice.objects.filter(user = user).first() is None):
+                    dev = EmailDevice()
+                    dev.user = user
+                    dev.name = "default"
+                    dev.confirmed = True
+                    dev.save()
                 messages.success(request,"Account successfully created. Please login with your email and password to proceed.")
                 return redirect('/account/login?next=/en/cases')
             elif request.user.is_authenticated:
+                if(EmailDevice.objects.filter(user = request.user).first() is None):
+                    dev = EmailDevice()
+                    dev.user = request.user
+                    dev.name = "default"
+                    dev.confirmed = True
+                    dev.save()
+                    
                 if (request.POST['password'] is not None and not request.POST['password'] == ""):
                     user = request.user
                     user.set_password(request.POST['password'])
@@ -838,7 +853,7 @@ def cases(request):
     else:
         page=1
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
-    victims = interviewer.victims.annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))
+    victims = interviewer.victims.order_by('id').annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))
     paginator = Paginator(victims, per_page=12)
 
     page_object = paginator.get_page(page)
