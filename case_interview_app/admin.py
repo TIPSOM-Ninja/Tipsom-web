@@ -5,7 +5,8 @@ from .models import *
 # Register your models here.
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name','two_code','three_code']
+
 
 
 @admin.register(Language)
