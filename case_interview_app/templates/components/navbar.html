@@ -38,7 +38,7 @@
                     <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/interviewer_registration">{% translate "SIGN UP" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/login">{% translate "SIGN IN" %}</a>
+                    <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/account/login?next=/en/cases">{% translate "SIGN IN" %}</a>
                 </li>
                 {% elif user.is_authenticated %}
                 <li class="nav-item">

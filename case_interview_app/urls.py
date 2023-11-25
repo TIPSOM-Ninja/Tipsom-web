@@ -12,7 +12,7 @@ urlpatterns = [
 
 
     path("cases", views.cases, name="cases"),
-    path("login", views.signin, name="signin"),
+    # path("login", views.signin, name="signin"),
     path("logout", views.signout, name="signout"),
     path("lang/<language>",views.change_language, name="lang"),
     path("save_victim", views.save_victim, name="save_victim"),

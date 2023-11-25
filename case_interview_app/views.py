@@ -7,6 +7,7 @@ from django.utils.translation import activate, get_language_info
 from datetime import date, datetime
 from django.db.models import Count
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     countries = Country.objects.all().order_by('name').values()
@@ -57,9 +58,8 @@ def interviewer_registration(request):
                 user.last_name =  request.POST['last_name']
                 user.groups.add(1)
                 user.save()
-                login(request,user)
-                messages.success(request,"Welcome "+interviewer.first_name+". Interviewer successfully created.")
-                return redirect('/cases')
+                messages.success(request,"Account successfully created. Please login with your email and password to proceed.")
+                return redirect('/account/login?next=/en/cases')
             elif request.user.is_authenticated:
                 if (request.POST['password'] is not None and not request.POST['password'] == ""):
                     user = request.user
@@ -76,7 +76,7 @@ def interviewer_registration(request):
     return render(request,"registration_form.html",context)
 
 
-
+@login_required
 def investigation_form(request):
     if request.GET.get('language') is not None:
         activate(request.GET.get('language'))
@@ -138,10 +138,10 @@ def investigation_form(request):
             context['suspect_add'] = 0
 
         context['interviewer']=interviewer
-    else:
-        return redirect("/login")
+    
 
     return render(request,"investigation_form.html",context)
+@login_required
 def save_victim(request):
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
@@ -210,6 +210,7 @@ def save_victim(request):
         url = '/assistance_form'+formulate_get
     return redirect(url)
 
+@login_required
 def save_arrest(request):
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
@@ -246,6 +247,7 @@ def save_arrest(request):
 
     return redirect('/investigation_form'+formulate_get)
 
+@login_required
 def save_suspect(request):
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
@@ -302,6 +304,7 @@ def save_suspect(request):
     
     return redirect(url)
 
+@login_required
 def prosecution_form(request):
     if request.GET.get('language') is not None:
         activate(request.GET.get('language'))
@@ -367,13 +370,12 @@ def prosecution_form(request):
 
 
         context['interviewer']=interviewer
-    else:
-        return redirect("/login")
+    
 
     return render(request,"prosecution_form.html",context)
 
 
-
+@login_required
 def save_prosecution(request):
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     if 'consent_given' not in request.session:
@@ -402,6 +404,7 @@ def save_prosecution(request):
         
     return redirect('/cases')
 
+@login_required
 def tip_form(request):
     if(request.user.is_authenticated):
         countries = Country.objects.all().order_by('name').values()
@@ -470,11 +473,11 @@ def tip_form(request):
 
 
         context['interviewer']=interviewer
-    else:
-        return redirect("/login")
+    
 
     return render(request,"tip_form.html",context)
 
+@login_required
 def save_exploitation(request):
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
@@ -562,6 +565,7 @@ def save_exploitation(request):
         formulate_get="?step=3"
         return redirect('/tip_form'+formulate_get)
 
+@login_required
 def save_transit(request):
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
@@ -589,6 +593,7 @@ def save_transit(request):
         formulate_get="?step=3"
         return redirect('/cases')
 
+@login_required
 def assistance_form(request):
 
     if(request.user.is_authenticated):
@@ -657,11 +662,11 @@ def assistance_form(request):
             
 
         context['interviewer']=interviewer
-    else:
-        return redirect("/login")
+    
 
     return render(request,"assistance_form.html",context)
 
+@login_required
 def save_assistance_types(request):
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
@@ -767,7 +772,8 @@ def save_assistance_types(request):
 
         formulate_get="?step=3"
         return redirect('/assistance_form'+formulate_get)
-        
+
+@login_required       
 def save_socio_economic(request):
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
@@ -794,6 +800,7 @@ def save_socio_economic(request):
         formulate_get="?step=4"
         return redirect('/assistance_form'+formulate_get)
 
+@login_required
 def save_assistance_aggregate(request):
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     
@@ -812,6 +819,7 @@ def save_assistance_aggregate(request):
 
         return redirect('/cases')
 
+@login_required
 def process_consent(request):
     if request.POST.get('consent_share_gov_patner') == '1' and request.POST.get('consent_limited_disclosure') == '1' and request.POST.get('consent_research') == '1' and request.POST.get('consent_abstain_answer') == '1':
         request.session['consent_given'] = 1
@@ -821,6 +829,7 @@ def process_consent(request):
         messages.error(request,"Victim denied consent. You cannot add their details.")
         return redirect('/cases')
 
+@login_required
 def cases(request):
     if request.GET.get('language') is not None:
         activate(request.GET.get('language'))
@@ -852,6 +861,7 @@ def cases(request):
     }
     return render(request,"cases.html",context)
 
+@login_required
 def victim_view(request,id):
     if(request.user.is_authenticated):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
@@ -871,19 +881,8 @@ def victim_view(request,id):
     return render(request,"victim-view.html",context)
 
 
-def signin(request):
-    if request.GET.get('language') is not None:
-        activate(request.GET.get('language'))
-    if request.method == "POST":
-        user = authenticate(request, username=request.POST['username'],password=request.POST['password'])
-        if user is not None:
-            login(request, user)
-            return redirect("/cases")
-        else:
-            messages.error(request,"Please enter the correct email and password.")
-    return render(request,"login.html")
-
+@login_required
 def signout(request):
     logout(request)
-    return redirect("/login")
+    return redirect("/")
 

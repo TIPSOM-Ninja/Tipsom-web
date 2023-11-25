@@ -42,7 +42,7 @@
         <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="6">{% translate "Contact" %}</a> </li>
         {% if not user.is_authenticated %}
         <li class="nav-item"> <a class="pill btn-sm btn-warning" href="/{{request.LANGUAGE_CODE}}/interviewer_registration" >{% translate "SIGN UP" %}</a> </li>
-        <li class="nav-item"> <a class="pill btn-sm btn-warning " href="/{{request.LANGUAGE_CODE}}/login" >{% translate "SIGN IN" %}</a> </li>
+        <li class="nav-item"> <a class="pill btn-sm btn-warning " href="/{{request.LANGUAGE_CODE}}/account/login?next=/en/cases" >{% translate "SIGN IN" %}</a> </li>
         {% else %}
         <li class="nav-item"> <a class="pill btn-sm btn-warning" href="/{{request.LANGUAGE_CODE}}/cases" >{% translate "ALL CASES" %}</a> </li>
         <li class="nav-item"> <a class="pill btn-sm btn-warning " href="/{{request.LANGUAGE_CODE}}/logout" >{% translate "SIGN OUT" %}</a> </li>
