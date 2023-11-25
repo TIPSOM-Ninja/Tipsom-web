@@ -5,49 +5,48 @@ from .models import *
 # Register your models here.
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Country._meta.get_fields()]
+    pass
 
 
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Language._meta.get_fields()]
+    pass
 
 
 
 @admin.register(Gender)
 class GenderAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Gender._meta.get_fields()]
+    pass
 
 
 
 @admin.register(Race)
 class RaceAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Race._meta.get_fields()]
+    pass
 
 
 
 @admin.register(IdType)
 class IdTypeAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in IdType._meta.get_fields()]
+    pass
   
 
 
 @admin.register(DataEntryPurpose)
 class DataEntryPurposeAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in DataEntryPurpose._meta.get_fields()]
+    pass
 
 
 
 @admin.register(InvestigationStatus)
 class InvestigationStatusAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in InvestigationStatus._meta.get_fields()]
+    pass
 
 
 
 @admin.register(TraffickerOrg)
 class TraffickerOrgAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in TraffickerOrg._meta.get_fields()]
-
+    pass
 
 
 @admin.register(RoleInTrafficking)
@@ -244,7 +243,9 @@ class PendingCaseAdmin(VictimProfileAdmin):
 
 @admin.register(Interviewer)
 class InterviewerAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['first_name','last_name','position','organization','email_address','country','approval']
+    list_filter = ["country", "data_entry_purpose","approval"]
+
 
 
 @admin.register(TransitRouteDestination)
@@ -288,8 +289,8 @@ class SocioEconomicAdmin(admin.ModelAdmin):
 
 @admin.register(Search)
 class SearchAdmin(admin.ModelAdmin):
-    pass
-
+    list_display = ['search_text','search_description','search_link','search_tag','is_technical','is_admin']
+    list_filter = ["search_tag", "is_technical",'is_admin']
 
 
 

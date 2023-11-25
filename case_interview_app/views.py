@@ -829,7 +829,7 @@ def cases(request):
     else:
         page=1
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
-    victims = interviewer.victims.annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True))
+    victims = interviewer.victims.annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))
     paginator = Paginator(victims, per_page=12)
 
     page_object = paginator.get_page(page)
