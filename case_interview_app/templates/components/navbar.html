@@ -81,6 +81,7 @@
         document.createElement('p'), 
         {textContent: element.search_description, }
                 ))
+      a.appendChild(div)
       search_show.appendChild(
         Object.assign(
               document.createElement('li'), 
@@ -88,12 +89,7 @@
                       )
                 
                 ).appendChild(
-                  Object.assign(
-                    document.createElement('a'), 
-                    {href:element.search_link}
-                            )
-                ).appendChild(
-                  div
+                  a
                 );
     });
       
@@ -140,7 +136,7 @@
       for (const o of searches) {
         
         // show/hide parent <TR>
-        document.getElementById("search_"+o.id).style.display = 'none';
+        {% comment %} document.getElementById("search_"+o.id).style.display = 'none'; {% endcomment %}
     }
     }
 
