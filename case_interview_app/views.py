@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils.translation import activate, get_language_info
 from datetime import date, datetime
+from django.db.models import Count
+from django.core.paginator import Paginator
 
 def index(request):
     countries = Country.objects.all().order_by('name').values()
@@ -822,14 +824,30 @@ def process_consent(request):
 def cases(request):
     if request.GET.get('language') is not None:
         activate(request.GET.get('language'))
+    if request.GET.get('page') is not None:
+        page=request.GET.get('page')
+    else:
+        page=1
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
-    victims = interviewer.victims.all()
+    victims = interviewer.victims.annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True))
+    paginator = Paginator(victims, per_page=12)
+
+    page_object = paginator.get_page(page)
     if request.session.get('v_id') != None:
         del request.session['v_id']
     if request.session.get('consent_given') is not None:
         del request.session['consent_given']
     context = {
-        "victims":victims,
+        "victims":page_object.object_list,
+        "page": {
+
+            "current": page_object.number,
+
+            "has_next": page_object.has_next(),
+
+            "has_previous": page_object.has_previous(),
+
+        },
         "interviewer":interviewer
     }
     return render(request,"cases.html",context)

@@ -5,42 +5,49 @@ from .models import *
 # Register your models here.
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
-    pass
+    list_display = [field.name for field in Country._meta.get_fields()]
 
 
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
-    pass
+    list_display = [field.name for field in Language._meta.get_fields()]
+
 
 
 @admin.register(Gender)
 class GenderAdmin(admin.ModelAdmin):
-    pass
+    list_display = [field.name for field in Gender._meta.get_fields()]
+
 
 
 @admin.register(Race)
 class RaceAdmin(admin.ModelAdmin):
-    pass
+    list_display = [field.name for field in Race._meta.get_fields()]
+
 
 
 @admin.register(IdType)
 class IdTypeAdmin(admin.ModelAdmin):
-    pass
+    list_display = [field.name for field in IdType._meta.get_fields()]
+  
 
 
 @admin.register(DataEntryPurpose)
 class DataEntryPurposeAdmin(admin.ModelAdmin):
-    pass
+    list_display = [field.name for field in DataEntryPurpose._meta.get_fields()]
+
 
 
 @admin.register(InvestigationStatus)
 class InvestigationStatusAdmin(admin.ModelAdmin):
-    pass
+    list_display = [field.name for field in InvestigationStatus._meta.get_fields()]
+
 
 
 @admin.register(TraffickerOrg)
 class TraffickerOrgAdmin(admin.ModelAdmin):
-    pass
+    list_display = [field.name for field in TraffickerOrg._meta.get_fields()]
+
 
 
 @admin.register(RoleInTrafficking)
@@ -207,7 +214,32 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(VictimProfile)
 class VictimProfileAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['victim_identifier','citizenship','countryOfBirth','gender','interview_location','interview_date','approval']
+    list_filter = ["approval", "citizenship"]
+
+class PendingCase(VictimProfile):
+    class Meta:
+        proxy = True
+
+
+@admin.register(PendingCase)
+class PendingCaseAdmin(VictimProfileAdmin):
+    actions = ["approve", "reject","clarify"]
+    def get_queryset(self, request):
+        return self.model.objects.filter(approval_id=1)
+
+    @admin.action(description="Approve victim profile")
+    def approve(modeladmin, request, queryset):
+        queryset.update(approval_id=2)
+
+    @admin.action(description="Reject Victim profile")
+    def reject(modeladmin, request, queryset):
+        queryset.update(approval_id=3)
+    
+    @admin.action(description="Request clarification")
+    def clarify(modeladmin, request, queryset):
+        queryset.update(approval_id=4)
+
 
 
 @admin.register(Interviewer)
