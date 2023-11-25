@@ -41,6 +41,14 @@
         
         overflow: hidden;
     }
+    .search_p{
+      height: 100%;
+    {% comment %} max-width: 400px; {% endcomment %}
+    width: 100%;
+    position: relative;
+    word-break: break-all;
+    white-space: normal;
+    }
 
     </style>
     {% block styles %}{% endblock %}
@@ -57,9 +65,21 @@
     </div>
     {% endfor %}
     {% endif %}
+    <div class="container py-3" id="search_area" style="display:none;">
+      <p class="h5">SEARCH RESULTS</p>
+      <ul id ="search_show" class="list-group py-3" aria-labelledby="search">              
+      </ul>
+      <ul id ="search_none" class="list-group py-3" aria-labelledby="search" style="display:none;">
+        <li>No search results</li>             
+      </ul>
+
+    </div>
+    <div id="content_area">
+
     {% block content %}
 
     {% endblock %}
+    </div>
     {% if not user.is_authenticated %}
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container-fluid">
@@ -118,6 +138,129 @@
             document.getElementById('suspect_holder').style.display = "block"
         }
     }
+    function initSidebarQuickFilter() {
+      const options = [];
+      let searches = {{user|search_get|safe}}
+      let search_elements = []
+      var search_show = document.getElementById('search_show')
+      var search_area = document.getElementById('search_area')
+  
+      searches.forEach((element) =>{
+        search_elements.push('<li id="search_'+element.id+'" style="display:none;"><a class="dropdown-item dr" href="'+element.search_url+'">'+element.search_text+'</a></li>')
+        var a =document.createElement('a')
+        a.href = element.search_link
+        a.classList.add("dropdown-item","dr")
+        
+        var div = document.createElement('div')
+        div.appendChild(Object.assign(
+          document.createElement('h5'), 
+          {textContent: element.search_text}
+                  ))
+        div.appendChild(Object.assign(
+          document.createElement('p'), 
+          {innerText: element.search_description, classList:("search_p") }
+                  ))
+        
+        var row = document.createElement('div')
+        row.classList.add('row','px-3')
+        var button = document.createElement('button')
+        if(element.search_tag=="Page"){
+          button.classList.add('btn','btn-outline-primary','btn-sm','col-md-2','rounded-pill') 
+        }else if(element.search_tag=="Help"){
+          button.classList.add('btn','btn-outline-success','btn-sm','col-md-2','rounded-pill')
+        }else if(element.search_tag=="Admin"){
+          button.classList.add('btn','btn-outline-danger','btn-sm','col-md-2','rounded-pill')
+        }else{
+          button.classList.add('btn','btn-outline-warning','btn-sm','col-md-2','rounded-pill')
+  
+        }
+        button.innerText = element.search_tag
+        row.appendChild(button)
+        div.appendChild(row)
+        {% comment %} div.appendChild(
+          document.createElement('hr')
+        ) {% endcomment %}
+        
+  
+  
+        a.appendChild(div)
+        search_show.appendChild(
+          Object.assign(
+                document.createElement('li'), 
+                {id: 'search_'+element.id, style:"display:none;", classList:('list-group-item')}
+                        )
+                  
+                  ).appendChild(
+                    a
+                  );
+      });
+        
+      {% comment %} const navSidebar = document.getElementById('search'); {% endcomment %}
+      {% comment %} if (!navSidebar) {
+          return;
+      } {% endcomment %}
+      {% comment %} navSidebar.querySelectorAll('th[scope=row] a').forEach((container) => {
+          options.push({title: container.innerHTML, node: container});
+      }); {% endcomment %}
+  
+      function checkValue(event) {
+          let filterValue = event.target.value;
+          if (filterValue) {
+              filterValue = filterValue.toLowerCase();
+          }
+          if (event.key === 'Escape') {
+              filterValue = '';
+              event.target.value = ''; // clear input
+          }
+          let matches = false;
+          for (const o of searches) {
+              let displayValue = '';
+              if (filterValue && filterValue!="") {
+                  if (o.search_text.toLowerCase().indexOf(filterValue) > -1) {
+                      displayValue = 'block';
+                      matches=true
+                  } else {
+                      displayValue = 'none'
+                  }
+                  document.getElementById("search_"+o.id).style.display = displayValue;
+                  document.getElementById("search_show").style.display = 'block';
+                  document.getElementById("search_area").style.display = 'block';
+                  document.getElementById("search_none").style.display = 'none';
+                  document.getElementById("content_area").style.display = 'none';
+
+              }else{
+                displayValue = 'none'
+                document.getElementById("search_area").style.display = 'none';
+                document.getElementById("content_area").style.display = 'block';
+
+              }
+              // show/hide parent <TR>
+              
+          }
+          if(!matches){
+            document.getElementById("search_show").style.display = 'none';
+            document.getElementById("search_none").style.display = 'block';
+            {% comment %} document.getElementById("search_area").style.display = 'none'; {% endcomment %}
+          }
+         
+      }
+      function hideAll(){
+        for (const o of searches) {
+          
+          // show/hide parent <TR>
+          {% comment %} document.getElementById("search_"+o.id).style.display = 'none'; {% endcomment %}
+      }
+      }
+  
+      const nav = document.getElementById('search');
+      nav.addEventListener('change', checkValue, false);
+      nav.addEventListener('input', checkValue, false);
+      nav.addEventListener('keyup', checkValue, false);
+      nav.addEventListener('focusout', hideAll, false);
+  
+    
+  }
+  initSidebarQuickFilter()
   </script>
     {% block scripts %}{% endblock scripts %}
 </body>
