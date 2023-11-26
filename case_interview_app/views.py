@@ -60,21 +60,21 @@ def interviewer_registration(request):
                 user.last_name =  request.POST['last_name']
                 user.groups.add(1)
                 user.save()
-                if(EmailDevice.objects.filter(user = user).first() is None):
-                    dev = EmailDevice()
-                    dev.user = user
-                    dev.name = "default"
-                    dev.confirmed = True
-                    dev.save()
+                # if(EmailDevice.objects.filter(user = user).first() is None):
+                #     dev = EmailDevice()
+                #     dev.user = user
+                #     dev.name = "default"
+                #     dev.confirmed = True
+                #     dev.save()
                 messages.success(request,"Account successfully created. Please login with your email and password to proceed.")
                 return redirect('/account/login?next=/en/cases')
             elif request.user.is_authenticated:
-                if(EmailDevice.objects.filter(user = request.user).first() is None):
-                    dev = EmailDevice()
-                    dev.user = request.user
-                    dev.name = "default"
-                    dev.confirmed = True
-                    dev.save()
+                # if(EmailDevice.objects.filter(user = request.user).first() is None):
+                #     dev = EmailDevice()
+                #     dev.user = request.user
+                #     dev.name = "default"
+                #     dev.confirmed = True
+                #     dev.save()
                     
                 if (request.POST['password'] is not None and not request.POST['password'] == ""):
                     user = request.user
