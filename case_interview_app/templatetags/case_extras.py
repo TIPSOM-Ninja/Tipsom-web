@@ -60,9 +60,10 @@ def search(user):
 @register.filter()
 def search_get(user):
     searches = []
-    interviewer = Interviewer.objects.filter(email_address = user.email).first()
-
-    for s in Search.objects.all():
+    if user.is_authenticated:
+        interviewer = Interviewer.objects.filter(email_address = user.email).first()
+    if user.is_authenticated:
+        for s in Search.objects.all():
         if s.data_entry_purpose_id is not None:
             if(interviewer.data_entry_purpose_id == s.data_entry_purpose_id):
                 searches.append({
