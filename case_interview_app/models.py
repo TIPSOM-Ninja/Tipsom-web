@@ -339,6 +339,8 @@ class VictimProfile(models.Model):
         ApprovalStatus, related_name = "victimprofile", on_delete=models.CASCADE, null=True, blank=True
     )
     approval_comments = models.TextField( null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
 class Interviewer(models.Model):
     country = models.ForeignKey(
@@ -358,7 +360,8 @@ class Interviewer(models.Model):
     )
     approval_comments = models.TextField( null=True, blank=True)
     victims = models.ManyToManyField(VictimProfile, null=True, blank=True)
-
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
 class TransitRouteDestination(models.Model):
     victim = models.ForeignKey(VictimProfile, related_name = "destinations", on_delete=models.CASCADE, null=True, blank=True)
@@ -380,7 +383,8 @@ class TransitRouteDestination(models.Model):
         ApprovalStatus, related_name = "destinations", on_delete=models.CASCADE, null=True, blank=True
     )
     approval_comments = models.TextField( null=True, blank=True)
-
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
 class SuspectedTrafficker(models.Model):
     victim = models.ForeignKey(VictimProfile,  related_name = "traffickers",  on_delete=models.CASCADE, null=True, blank=True)
@@ -423,7 +427,8 @@ class SuspectedTrafficker(models.Model):
         ApprovalStatus, related_name = "traffickers", on_delete=models.CASCADE, null=True, blank=True
     )
     approval_comments = models.TextField( null=True, blank=True)
-    
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
 class ArrestInvestigation(models.Model):
     victim = models.ForeignKey(VictimProfile, related_name = "investigations", on_delete=models.CASCADE, null=True, blank=True)
@@ -450,7 +455,8 @@ class ArrestInvestigation(models.Model):
         ApprovalStatus, related_name = "investigations", on_delete=models.CASCADE, null=True, blank=True
     )
     approval_comments = models.TextField( null=True, blank=True)
-    
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
 
 class Prosecution(models.Model):
@@ -493,7 +499,8 @@ class Prosecution(models.Model):
         ApprovalStatus, related_name = "prosecutions", on_delete=models.CASCADE, null=True, blank=True
     )
     approval_comments = models.TextField( null=True, blank=True)
-    
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
 class VictimPermissions(models.Model):
     interviewer = models.ForeignKey(
@@ -509,6 +516,8 @@ class VictimPermissions(models.Model):
     permissions_granted = models.ManyToManyField(
         AccessPermission,  related_name = "permissions_granted", null=True, blank=True
     )
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
 class Exploitation(models.Model):
     victim = models.ForeignKey(
@@ -582,7 +591,9 @@ class Exploitation(models.Model):
         ApprovalStatus, related_name = "exploitation", on_delete=models.CASCADE, null=True, blank=True
     )
     approval_comments = models.TextField( null=True, blank=True)
-    
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
 class Assistance(models.Model):
     victim = models.ForeignKey(VictimProfile, related_name = "assistance", on_delete=models.CASCADE, null=True, blank=True)
     social_assistance_days = models.IntegerField(null=True, blank=True)
@@ -659,7 +670,9 @@ class Assistance(models.Model):
         ApprovalStatus, related_name = "assistance", on_delete=models.CASCADE, null=True, blank=True
     )
     approval_comments = models.TextField( null=True, blank=True)
-    
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
 class AssistanceAggregateData(models.Model):
     data_supplier = models.ForeignKey(DataSupplier,  related_name = "aggregate_data_supplier", on_delete=models.CASCADE, null=True, blank=True)
     total_tip_annually = models.IntegerField(null=True,blank=True)
@@ -671,7 +684,8 @@ class AssistanceAggregateData(models.Model):
         ApprovalStatus, related_name = "assistance_aggregate", on_delete=models.CASCADE, null=True, blank=True
     )
     approval_comments = models.TextField( null=True, blank=True)
-    
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
 class SocioEconomic(models.Model):
     victim = models.ForeignKey(VictimProfile, related_name = "socio_economic", on_delete=models.CASCADE, null=True, blank=True)
@@ -688,7 +702,9 @@ class SocioEconomic(models.Model):
         ApprovalStatus, related_name = "socio_economic", on_delete=models.CASCADE, null=True, blank=True
     )
     approval_comments = models.TextField( null=True, blank=True)
-    
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
 class Search(models.Model):
     search_text = models.CharField(null = True, blank = True)
     search_description = models.CharField(null = True, blank = True)
@@ -698,3 +714,5 @@ class Search(models.Model):
     )
     is_technical = models.BooleanField(blank=True,null=True)
     is_admin = models.BooleanField(blank=True,null=True)
+    created_at = models.DateTimeField(auto_now_add=True,null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
