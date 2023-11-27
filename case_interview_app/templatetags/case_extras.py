@@ -60,7 +60,7 @@ def search(user):
 @register.filter()
 def search_get(user):
     searches = []
-    interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+    interviewer = Interviewer.objects.filter(email_address = user.email).first()
 
     for s in Search.objects.all():
         if s.data_entry_purpose_id is not None:
