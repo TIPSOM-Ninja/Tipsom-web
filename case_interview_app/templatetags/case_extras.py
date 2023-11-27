@@ -1,5 +1,5 @@
 from django import template
-from case_interview_app.models import Search
+from case_interview_app.models import Search, Interviewer
 from django.core import serializers
 from django.utils.safestring import mark_safe
 import json
