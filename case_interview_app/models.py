@@ -714,5 +714,8 @@ class Search(models.Model):
     )
     is_technical = models.BooleanField(blank=True,null=True)
     is_admin = models.BooleanField(blank=True,null=True)
+    data_entry_purpose = models.ForeignKey(
+        DataEntryPurpose, related_name = "search", on_delete=models.CASCADE, null=True, blank=True
+    )
     created_at = models.DateTimeField(auto_now_add=True,null = True, blank = True)
     updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)

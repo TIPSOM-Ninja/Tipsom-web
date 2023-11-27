@@ -60,7 +60,20 @@ def search(user):
 @register.filter()
 def search_get(user):
     searches = []
+    interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+
     for s in Search.objects.all():
+        if s.data_entry_purpose_id is not None:
+            if(interviewer.data_entry_purpose_id == s.data_entry_purpose_id):
+                searches.append({
+                    "id":s.id,
+                    "search_text": s.search_text,
+                    "search_link": s.search_link,
+                    "search_description": s.search_description,
+                    "search_tag": s.search_tag.name
+                })
+            else:
+                continue
         if s.is_admin == 1:
             if(user.is_staff):
                 searches.append({
