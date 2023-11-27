@@ -64,44 +64,44 @@ def search_get(user):
         interviewer = Interviewer.objects.filter(email_address = user.email).first()
     if user.is_authenticated:
         for s in Search.objects.all():
-        if s.data_entry_purpose_id is not None:
-            if(interviewer.data_entry_purpose_id == s.data_entry_purpose_id):
-                searches.append({
-                    "id":s.id,
-                    "search_text": s.search_text,
-                    "search_link": s.search_link,
-                    "search_description": s.search_description,
-                    "search_tag": s.search_tag.name
-                })
+            if s.data_entry_purpose_id is not None:
+                if(interviewer.data_entry_purpose_id == s.data_entry_purpose_id):
+                    searches.append({
+                        "id":s.id,
+                        "search_text": s.search_text,
+                        "search_link": s.search_link,
+                        "search_description": s.search_description,
+                        "search_tag": s.search_tag.name
+                    })
+                else:
+                    continue
+            if s.is_admin == 1:
+                if(user.is_staff):
+                    searches.append({
+                        "id":s.id,
+                        "search_text": s.search_text,
+                        "search_link": s.search_link,
+                        "search_description": s.search_description,
+                        "search_tag": s.search_tag.name
+                    })
+            elif s.is_technical == 1:
+                if(user.is_staff or user.has_perm):
+                    searches.append({
+                        "id":s.id,
+                        "search_text": s.search_text,
+                        "search_link": s.search_link,
+                        "search_description": s.search_description,
+                        "search_tag": s.search_tag.name
+                    })
             else:
-                continue
-        if s.is_admin == 1:
-            if(user.is_staff):
-                searches.append({
-                    "id":s.id,
-                    "search_text": s.search_text,
-                    "search_link": s.search_link,
-                    "search_description": s.search_description,
-                    "search_tag": s.search_tag.name
-                })
-        elif s.is_technical == 1:
-            if(user.is_staff or user.has_perm):
-                searches.append({
-                    "id":s.id,
-                    "search_text": s.search_text,
-                    "search_link": s.search_link,
-                    "search_description": s.search_description,
-                    "search_tag": s.search_tag.name
-                })
-        else:
-             if(user.is_staff or user.has_perm):
-                searches.append({
-                    "id":s.id,
-                    "search_text": s.search_text,
-                    "search_link": s.search_link,
-                    "search_description": s.search_description,
-                    "search_tag": s.search_tag.name
-                })
-        
+                if(user.is_staff or user.has_perm):
+                    searches.append({
+                        "id":s.id,
+                        "search_text": s.search_text,
+                        "search_link": s.search_link,
+                        "search_description": s.search_description,
+                        "search_tag": s.search_tag.name
+                    })
+            
         
     return mark_safe(searches)
