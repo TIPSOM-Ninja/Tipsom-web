@@ -708,6 +708,10 @@ class SocioEconomic(models.Model):
 class Search(models.Model):
     search_text = models.CharField(null = True, blank = True)
     search_description = models.CharField(null = True, blank = True)
+    search_text_fr = models.CharField(null = True, blank = True)
+    search_description_fr = models.CharField(null = True, blank = True)
+    search_text_pt = models.CharField(null = True, blank = True)
+    search_description_pt = models.CharField(null = True, blank = True)
     search_link = models.CharField(null = True, blank = True)
     search_tag = models.ForeignKey(
         Tag, related_name = "search", on_delete=models.CASCADE, null=True, blank=True
