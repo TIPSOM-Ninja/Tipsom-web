@@ -182,6 +182,7 @@ def save_victim(request):
         victim.age = request.POST['age']
         victim.address = request.POST['address']
         victim.email_address = request.POST['email_address']
+        victim.interview_country_id = request.POST['interviewer_country']
         victim.interview_location = request.POST['interviewer_location']
         victim.interview_date = request.POST['interview_date']
         victim.additional_remarks = request.POST['additional_remarks']
@@ -852,10 +853,20 @@ def cases(request):
         activate(request.GET.get('language'))
     if request.GET.get('page') is not None:
         page=request.GET.get('page')
+    
+        
     else:
         page=1
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
-    victims = interviewer.victims.order_by('id').annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))
+    if request.user.is_staff:
+        if request.GET.get('pending') is None:
+            victims = VictimProfile.objects.filter(interview_country_id = interviewer.country_id).order_by('id').annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))
+        else:
+            victims = VictimProfile.objects.filter(interview_country_id = interviewer.country_id,approval_id = 1).order_by('id').annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))
+    else:
+        victims = interviewer.victims.order_by('id').annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))
+
+    
     paginator = Paginator(victims, per_page=12)
 
     page_object = paginator.get_page(page)

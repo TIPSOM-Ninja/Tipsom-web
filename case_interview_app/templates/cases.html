@@ -42,20 +42,20 @@
                     <h5 class="card-title">{{victim.victim_identifier}} - {{victim.interview_date}}</h5>
                 </div>
                 <div class="card-body">
-                    {% if interviewer.data_entry_purpose_id == 1 %}
-                    <p>Exploitation forms: {{victim.exploitation__count}}</p>
-                    <p>Transit route forms: {{victim.destinations__count}}</p>
+                    {% if interviewer.data_entry_purpose_id == 1 or user.is_staff %}
+                    <p>{% trans "Exploitation forms:" %} {{victim.exploitation__count}}</p>
+                    <p>{% trans "Transit route forms:" %} {{victim.destinations__count}}</p>
 
-                    {% elif interviewer.data_entry_purpose_id == 2 %}
-                    <p>Arrest and investigation forms: {{victim.investigations__count}}</p>
-                    <p>Suspect forms: {{victim.traffickers__count}}</p>
-                    {% elif interviewer.data_entry_purpose_id == 3 %}
-                    <p>Suspect forms: {{victim.traffickers__count}}</p>
-                    <p>Prosecution forms: {{victim.prosecutions__count}}</p>
-                    {% elif interviewer.data_entry_purpose_id == 4 %}
-                    <p>Assistance forms: {{victim.assistance__count}}</p>
+                    {% elif interviewer.data_entry_purpose_id == 2 or user.is_staff %}
+                    <p>{% trans "Arrest and investigation forms:" %} {{victim.investigations__count}}</p>
+                    <p>{% trans "Suspect forms:" %} {{victim.traffickers__count}}</p>
+                    {% elif interviewer.data_entry_purpose_id == 3 or user.is_staff %}
+                    <p>{% trans "Suspect forms:" %} {{victim.traffickers__count}}</p>
+                    <p>{% trans "Prosecution forms:" %} {{victim.prosecutions__count}}</p>
+                    {% elif interviewer.data_entry_purpose_id == 4 or user.is_staff %}
+                    <p>{% trans "Assistance forms:" %} {{victim.assistance__count}}</p>
                     
-                    <p>Socio-economic forms: {{victim.socio_economic__count}}</p>
+                    <p>{% trans "Socio-economic forms:" %} {{victim.socio_economic__count}}</p>
                     {% endif %}
                     
                     

@@ -166,7 +166,20 @@
                 <input type="date" name = "interview_date" value = "{{victim.interview_date}}" class="form-control" id="interviewDate" aria-describedby="interviewDateHelp" required>
             </div>
         </div>
-        
+        <div class="col-md-6">
+            <div class="">
+                <label for="interview_country" class="form-label">{% trans "Interview country:" %}</label>
+                <select class="form-select" name="interview_country" id="interview_country" aria-label="Default select example" required>
+                    
+                    {% for country in countries %}
+                        {% if country.is_sadc %}
+                        <option {% if victim.interview_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                        {% endif %}
+                    {% endfor %}
+                    
+                </select>
+            </div>
+        </div>
         <div class="col-md-6">
             <div class="">
                 <label for="interviewerLocation" class="form-label">{% trans "Interviewer Location:" %}</label>

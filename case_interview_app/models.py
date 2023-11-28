@@ -325,6 +325,9 @@ class VictimProfile(models.Model):
     age = models.IntegerField(null=True, blank=True)
     address = models.CharField(max_length=50, null=True, blank=True)
     email_address = models.EmailField(max_length=150, null=True, blank=True)
+    interview_country = models.ForeignKey(
+        Country, related_name = "victim_interview_country", on_delete=models.CASCADE, null=True, blank=True
+    )
     interview_location = models.CharField(max_length=50, null=True, blank=True)
     interview_date = models.DateField(
         auto_now=False, auto_now_add=False, null=True, blank=True
