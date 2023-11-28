@@ -221,6 +221,18 @@ h6 {
 	font-size: 50px;
 	line-height: 135px;
 	margin: 0 auto;
+	box-shadow:none;
+}
+.icon-box i:hover {
+	
+	width: 140px;
+	height: 140px;
+	border-radius: 100px;
+	box-shadow: 0 1px 8px 3px rgba(0, 0, 0, 0.0509803922);
+	color: #ffffff;
+	font-size: 50px;
+	line-height: 135px;
+	margin: 0 auto;
 }
 .icon-box h5 {
 	margin-top:30px;
