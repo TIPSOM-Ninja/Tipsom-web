@@ -342,31 +342,12 @@
         </div>
         <div class="section-content">
           <div class="row">
+            {% for faq in faqs %}
             <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.2s">
-              <h4>{% trans "How do I input data using the system's forms?" %}</h4>
-              <p>{% trans "To input data, simply navigate to the data entry section of the system. Here, forms provide an interface for data entry which are designed to make data entry as intuitive and straightforward as possible." %}</p>
+              <h4>{% trans faq.question %}</h4>
+              <p>{% trans faq.answer %}</p>
             </div>
-            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.2s">
-              <h4>{% trans "Can I access the system in different languages?" %}</h4>
-              <p>{% trans "Yes, the system supports English, French, and Portuguese." %}</p>
-            </div>
-            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.6s">
-              <h4>{% trans "How do I change the language settings?" %}</h4>
-              <p>{% trans " To change the language, go to the menu bar where you'll find the language option. Select your preferred language, and the system interface will update accordingly." %}</p>
-            </div>
-            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.4s">
-              <h4>{% trans "What are the navigation features of the system, and how do I navigate to different sections?" %}</h4>
-              <p>{% trans "The system is designed with user-friendly navigation in mind. It features a clear and intuitive interface with labeled sections and easy-to-follow menus." %}</p>
-            </div>
-            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.4s">
-              <h4>{% trans "How does the system ensure comprehensive data collection from various stakeholders?" %}</h4>
-              <p>{% trans "The system is built to aggregate data from a wide range of stakeholders. This approach ensures a comprehensive collection of data, providing a broad and inclusive perspective on Trafficking in Persons information." %}</p>
-            </div>
-            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.6s">
-              <h4>{% trans "What measures are in place to ensure the security and confidentiality of the data entered into the system?" %}</h4>
-              <p>{% trans "TipNet prioritizes the security and confidentiality of all data entered into our system. Robust encryption, secure login processes, and strict access controls are in place to protect your data." %}</p>
-            </div>
-            
+            {% endfor %}
           </div>
         </div>
       </div>

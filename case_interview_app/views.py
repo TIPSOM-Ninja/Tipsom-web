@@ -13,8 +13,10 @@ from django_otp.plugins.otp_email.models import EmailDevice
 
 def index(request):
     countries = Country.objects.all().order_by('name').values()
+    faqs = Faq.objects.all().order_by('name').values()
     context = {
         "countries":countries,
+        "faqs":faqs,
      
     }
     return render(request,"index.html",context)

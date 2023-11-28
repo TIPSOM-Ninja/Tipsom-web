@@ -293,6 +293,11 @@ class SearchAdmin(admin.ModelAdmin):
     list_display = ['search_text','search_description','search_link','search_tag','is_technical','is_admin']
     list_filter = ["search_tag", "is_technical",'is_admin']
 
+@admin.register(Faq)
+class FaqAdmin(admin.ModelAdmin):
+    list_display = ['question','answer','is_active']
+    list_filter = ['is_active']
+
 
 
 

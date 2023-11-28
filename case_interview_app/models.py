@@ -719,3 +719,12 @@ class Search(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True,null = True, blank = True)
     updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
+
+class Faq(models.Model):
+    question = models.CharField(null = True, blank = True)
+    answer = models.TextField(null = True, blank = True)
+    is_active = models.BooleanField(null = True, blank = True)
+    created_at = models.DateTimeField(auto_now_add=True,null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
