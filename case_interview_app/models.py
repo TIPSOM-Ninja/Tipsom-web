@@ -7,6 +7,7 @@ class Country(models.Model):
     flag = models.CharField(max_length=150, null=True, blank=True)
     two_code = models.CharField(max_length=2, null=True, blank=True)
     three_code = models.CharField(max_length=3, null=True, blank=True)
+    is_sadc = models.BooleanField(null=True,blank=True)
 
     def __str__(self):
         return f"{self.name}"

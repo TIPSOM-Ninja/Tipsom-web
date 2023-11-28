@@ -142,7 +142,7 @@
     }
     function initSidebarQuickFilter() {
       const options = [];
-      let searches = {{user|search_get|safe}}
+      let searches = {{request|search_get|safe}}
       let search_elements = []
       var search_show = document.getElementById('search_show')
       var search_area = document.getElementById('search_area')

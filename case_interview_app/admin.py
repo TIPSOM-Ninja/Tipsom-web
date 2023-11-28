@@ -5,7 +5,17 @@ from .models import *
 # Register your models here.
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
-    list_display = ['name','two_code','three_code']
+    list_display = ['name','two_code','three_code','is_sadc']
+    list_filter = ['is_sadc']
+    actions = ["add_to_sadc", "remove_from_sadc"]
+
+    @admin.action(description="Add to SADC countries")
+    def add_to_sadc(modeladmin, request, queryset):
+        queryset.update(is_sadc=True)
+
+    @admin.action(description="Remove from SADC countries")
+    def remove_from_sadc(modeladmin, request, queryset):
+        queryset.update(is_sadc=False)
 
 
 

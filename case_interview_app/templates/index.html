@@ -263,6 +263,7 @@
             <div class="col-md-6 views-view-grid horizontal cols-1 clearfix country">
               <div class="row country">
                 {% for country in countries  %}
+                {% if country.is_sadc %}
               <div class="col-md-3 col-sm-6 col-xs-6 state-item">
                 <div class="column clearfix">
                   <div class="views-field views-field-field-flag">
@@ -279,6 +280,7 @@
                   </div>
                 </div>
               </div>
+              {% endif %}
               {% endfor %}
              
               </div>
