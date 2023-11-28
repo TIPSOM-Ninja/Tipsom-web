@@ -12,7 +12,7 @@ from django_otp.decorators import otp_required
 from django_otp.plugins.otp_email.models import EmailDevice
 
 def index(request):
-    countries = Country.objects.all().order_by('name').values()
+    countries = Country.objects.filter(is_sadc=True).order_by('name').values()
     faqs = Faq.objects.all()
     context = {
         "countries":countries,
@@ -29,7 +29,7 @@ def interviewer_registration(request):
 
     if request.GET.get('language') is not None:
         activate(request.GET.get('language'))
-    countries = Country.objects.all().order_by('name').values()
+    countries = Country.objects.all().order_by('name','is_sadc').values()
     purposes = DataEntryPurpose.objects.all()
 
     context = {

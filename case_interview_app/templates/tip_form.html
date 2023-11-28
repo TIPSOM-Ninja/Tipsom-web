@@ -295,7 +295,15 @@
                                     <select class="form-select" name="e_spouse_nationality_id" id="e_spouse_nationality" aria-label="Default select example"  value="{{exploitation.e_spouse_nationality_id}}">
                                         <option></option>
                                         {% for country in countries %}
-                                            <option {% if country.id == exploitation.e_spouse_nationality_id %}selected{% endif %} value="{{country.id}}"> {{country.name}}</option>
+                                            {% if country.is_sadc %}
+                                            <option {% if exploitation.e_spouse_nationality_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <option disabled style="background:#1860c3; color:white">NON-SADC</option>
+                                        {% for country in countries %}
+                                            {% if country.is_sadc != True %}
+                                            <option {% if exploitation.e_spouse_nationality_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -521,8 +529,17 @@
                                     <label for="e_operation_country" class="form-label"><i class="fa-solid fa-minus text-danger"></i> {% trans "In which country was the operation performed?:" %}</label>
                                     <select class="form-select" name="e_operation_country_id" id="e_operation_country" aria-label="Default select example"  value="{{exploitation.e_operation_country_id}}">
                                         <option></option>
+                                        
                                         {% for country in countries %}
-                                            <option {% if country.id == exploitation.e_operation_country_id %}selected{% endif %} value="{{country.id}}"> {{country.name}}</option>
+                                            {% if country.is_sadc %}
+                                            <option {% if exploitation.e_operation_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <option disabled style="background:#1860c3; color:white">NON-SADC</option>
+                                        {% for country in countries %}
+                                            {% if country.is_sadc != True %}
+                                            <option {% if exploitation.e_operation_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -613,8 +630,17 @@
                                     <label for="country_of_origin" class="form-label">{% trans "Country of origin/recruitment:" %}</label>
                                     <select class="form-select" name="country_of_origin_id" id="country_of_origin" aria-label="Default select example"  value="{{transit.country_of_origin}}">
                                         <option></option>
+                                        
                                         {% for country in countries %}
-                                            <option {% if country.id == transit.country_of_origin_id %}selected{% endif %} value="{{country.id}}"> {{country.name}}</option>
+                                            {% if country.is_sadc %}
+                                            <option {% if transit.country_of_origin_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <option disabled style="background:#1860c3; color:white">NON-SADC</option>
+                                        {% for country in countries %}
+                                            {% if country.is_sadc != True %}
+                                            <option {% if transit.country_of_origin_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -630,8 +656,17 @@
                                     <label for="country_of_dest" class="form-label">{% trans "Country of destination/exploitation:" %}</label>
                                     <select class="form-select" name="country_of_dest_id" id="country_of_dest" aria-label="Default select example"  value="{{transit.country_of_dest}}">
                                         <option></option>
+                                        
                                         {% for country in countries %}
-                                            <option {% if country.id == transit.country_of_origin_id %}selected{% endif %} value="{{country.id}}"> {{country.name}}</option>
+                                            {% if country.is_sadc %}
+                                            <option {% if transit.country_of_dest_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <option disabled style="background:#1860c3; color:white">NON-SADC</option>
+                                        {% for country in countries %}
+                                            {% if country.is_sadc != True %}
+                                            <option {% if transit.country_of_dest_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     </select>
                                 </div>

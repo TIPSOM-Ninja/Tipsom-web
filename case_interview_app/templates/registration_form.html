@@ -59,7 +59,15 @@
                             
                             <select class="form-select" name="country" id="country" value="{{interviewer.country_id}}" aria-label="Default select example" required>
                                 {% for country in countries %}
+                                    {% if country.is_sadc %}
                                     <option {% if interviewer.country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                <option disabled style="background:#1860c3; color:white">NON-SADC</option>
+                                {% for country in countries %}
+                                    {% if country.is_sadc != True %}
+                                    <option {% if interviewer.country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                    {% endif %}
                                 {% endfor %}
                             </select>
                         </div>

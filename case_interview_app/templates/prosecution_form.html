@@ -172,9 +172,16 @@
                                     <label for="trial_court_country_id" class="form-label"><i class="fa-solid fa-minus text-danger"></i> {% trans "If in a foreign court, please specify country:" %}</label>
                                     <select class="form-select" name="trial_court_country_id" id="trial_court_country_id" aria-label="Default select example"  value="{{prosecution.trial_court_country_id}}">
                                         <option {% if  prosecution.trial_court_country_id is None %}selected{% endif %} value=""></option>
-                                        
                                         {% for country in countries %}
-                                            <option {% if country.id == prosecution.trial_court_country_id %}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% if country.is_sadc %}
+                                            <option {% if prosecution.trial_court_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <option disabled style="background:#1860c3; color:white">NON-SADC</option>
+                                        {% for country in countries %}
+                                            {% if country.is_sadc != True %}
+                                            <option {% if prosecution.trial_court_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     </select>
                                 </div>
