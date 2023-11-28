@@ -124,6 +124,9 @@
                                     <textarea type="text" name = "event_description"  class="form-control" id="event_description" aria-describedby="event_descriptionHelp" >{{exploitation.event_description}}</textarea>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+
                             <div class="col-md-12">
                                 <div class="">
                                     <label class="form-label">{% trans "Which type(s) of exploitation best describes the victim’s experiences?:" %}</label>
@@ -194,6 +197,9 @@
                                 </div>
                                 
                             </div>
+                        </div>
+                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+
                             <div class="col-md-6">
                                 <label for="e_criminal_activity" class="form-label"><i class="fa-solid fa-square-minus text-warning"></i> {% trans "Criminal activity" %}</label>
                                 <div>
@@ -248,6 +254,9 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+
                             <div class="col-md-6">
                                 <label for="e_forced_marriage" class="form-label"><i class="fa-solid fa-square-minus text-warning"></i> {% trans "Forced marriage" %}</label>
                                 <div>
@@ -412,6 +421,9 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+
                             <div class="col-md-6">
                                 <label for="e_forced_military_type" class="form-label">{% trans "In what type of military unit/militia was the victim enagaged in?" %}</label>
                                 <div> 
@@ -463,6 +475,9 @@
                                     <input type="number" name = "e_child_soldier_age" value = "{{exploitation.e_child_soldier_age}}" class="form-control" id="e_child_soldier_age" aria-describedby="e_child_soldier_ageHelp" min="1">
                                 </div>
                             </div>
+                        </div>
+                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+
                             <div class="col-md-6">
                                 <label for="e_organ_removed" class="form-label"><i class="fa-solid fa-square-minus text-warning"></i> {% trans "Organ removal" %}</label>
                                 <div>
@@ -529,12 +544,16 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6" id="e_remarks_sec"  style="display:none">
+                        </div>
+                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+
+                            <div class="col-md-12" id="e_remarks_sec" >
                                 <div class="">
                                     <label for="e_remarks" class="form-label">{% trans "Additional remarks:" %}</label>
                                     <textarea type="text" name = "e_remarks"  class="form-control" id="e_remarks" aria-describedby="e_remarksHelp">{{exploitation.e_remarks}}</textarea>
                                 </div>
                             </div>
+                        
                             <div class="col-md-6">
                                 <div class="">
                                     <label for="e_recruitment_type" class="form-label">{% trans "If recruitment, how was the victim recruited?:" %}</label>
@@ -548,7 +567,7 @@
                             </div>
                             <div class="col-md-6" id="e_recruiter_relationship_sec">
                                 <div class="">
-                                    <label for="e_recruiter_relationship" class="form-label">{% trans "If recruitment, how was the victim recruited?:" %}</label>
+                                    <label for="e_recruiter_relationship" class="form-label">{% trans "What was the victim’s relationship with the recruiter(s)/trafficker(s)?:" %}</label>
                                     <select class="form-select" name="e_recruiter_relationship_id" id="e_recruiter_relationship" aria-label="Default select example"  value="{{exploitation.e_recruiter_relationship_id}}">
                                         <option></option>
                                         {% for relationship in recruitment_relationships %}
@@ -569,13 +588,16 @@
                                 </div>
                             </div>
                            
-                        </div>
+                        
+                    </div>
+                    
                         <div class="row text-center m-3 ">
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE AND PROCEED" %}</button>
                             </div>
                         
                         </div>
+
                     </form>
                     {% else %}
                     <p>Please create / select a victim to access this form</p>
