@@ -28,31 +28,83 @@ def search(request):
     for s in Search.objects.all():
         if s.is_admin == 1:
             if(request.user.is_staff):
-                searches[s.search_text] = {
-                    "id":s.id,
-                    "search_text": s.search_text,
-                    "search_link": s.search_link,
-                    "search_description": s.search_description,
-                    "search_tag": s.search_tag.name
-                }
+                if request.LANGUAGE_CODE == "en":
+                        searches[s.search_text]={
+                            "id":s.id,
+                            "search_text": s.search_text,
+                            "search_link": s.search_link,
+                            "search_description": s.search_description,
+                            "search_tag": s.search_tag.name
+                        }
+                elif request.LANGUAGE_CODE == "fr":
+                    searches[s.search_text_fr]={
+                        "id":s.id,
+                        "search_text": s.search_text_fr,
+                        "search_link": s.search_link,
+                        "search_description": s.search_description_fr,
+                        "search_tag": s.search_tag.name
+                    }
+                elif request.LANGUAGE_CODE == "pt":
+                    searches[s.search_text_pt]={
+                        "id":s.id,
+                        "search_text": s.search_text_pt,
+                        "search_link": s.search_link,
+                        "search_description": s.search_description_pt,
+                        "search_tag": s.search_tag.name
+                    }
         elif s.is_technical == 1:
             if(request.user.is_staff or request.user.has_perm):
-                searches[s.search_text] = {
-                    "id":s.id,
-                    "search_text": s.search_text,
-                    "search_link": s.search_link,
-                    "search_description": s.search_description,
-                    "search_tag": s.search_tag.name
-                }
+                if request.LANGUAGE_CODE == "en":
+                        searches[s.search_text]={
+                            "id":s.id,
+                            "search_text": s.search_text,
+                            "search_link": s.search_link,
+                            "search_description": s.search_description,
+                            "search_tag": s.search_tag.name
+                        }
+                elif request.LANGUAGE_CODE == "fr":
+                    searches[s.search_text_fr]={
+                        "id":s.id,
+                        "search_text": s.search_text_fr,
+                        "search_link": s.search_link,
+                        "search_description": s.search_description_fr,
+                        "search_tag": s.search_tag.name
+                    }
+                elif request.LANGUAGE_CODE == "pt":
+                    searches[s.search_text_pt]={
+                        "id":s.id,
+                        "search_text": s.search_text_pt,
+                        "search_link": s.search_link,
+                        "search_description": s.search_description_pt,
+                        "search_tag": s.search_tag.name
+                    }
         else:
              if(request.user.is_staff or request.user.has_perm):
-                searches[s.search_text] = {
-                    "id":s.id,
-                    "search_text": s.search_text,
-                    "search_link": s.search_link,
-                    "search_description": s.search_description,
-                    "search_tag": s.search_tag.name
-                }
+                if request.LANGUAGE_CODE == "en":
+                        searches[s.search_text]={
+                            "id":s.id,
+                            "search_text": s.search_text,
+                            "search_link": s.search_link,
+                            "search_description": s.search_description,
+                            "search_tag": s.search_tag.name
+                        }
+                elif request.LANGUAGE_CODE == "fr":
+                    searches[s.search_text_fr]={
+                        "id":s.id,
+                        "search_text": s.search_text_fr,
+                        "search_link": s.search_link,
+                        "search_description": s.search_description_fr,
+                        "search_tag": s.search_tag.name
+                    }
+                elif request.LANGUAGE_CODE == "pt":
+                    searches[s.search_text_pt]={
+                        "id":s.id,
+                        "search_text": s.search_text_pt,
+                        "search_link": s.search_link,
+                        "search_description": s.search_description_pt,
+                        "search_tag": s.search_tag.name
+                    }
+                
         
         
     return mark_safe(json.dumps(searches))

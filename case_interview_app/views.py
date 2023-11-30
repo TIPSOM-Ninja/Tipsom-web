@@ -846,6 +846,69 @@ def process_consent(request):
     else:
         messages.error(request,"Victim denied consent. You cannot add their details.")
         return redirect('/cases')
+@login_required
+def processApproval(request):
+    if request.user.is_staff:
+        if request.POST.get("form_model") == "exploitation":
+            id = request.POST.get("id")
+            approval_id = request.POST.get("approval")
+            obj = Exploitation.objects.filter(id=id).first()
+            obj.approval_id = approval_id
+            obj.save()
+            victim_id = obj.victim_id
+            messages.success(request,"Approval successful")
+
+        elif request.POST.get("form_model") == "destination":
+            id = request.POST.get("id")
+            approval_id = request.POST.get("approval")
+            obj = TransitRouteDestination.objects.filter(id=id).first()
+            obj.approval_id = approval_id
+            obj.save()
+            victim_id = obj.victim_id
+            messages.success(request,"Approval successful")
+
+        elif request.POST.get("form_model") == "prosecution":
+            id = request.POST.get("id")
+            approval_id = request.POST.get("approval")
+            obj = Prosecution.objects.filter(id=id).first()
+            obj.approval_id = approval_id
+            obj.save()
+            victim_id = obj.victim_id
+            messages.success(request,"Approval successful")
+
+        elif request.POST.get("form_model") == "suspect":
+            id = request.POST.get("id")
+            approval_id = request.POST.get("approval")
+            obj = SuspectedTrafficker.objects.filter(id=id).first()
+            obj.approval_id = approval_id
+            obj.save()
+            victim_id = obj.victim_id
+            messages.success(request,"Approval successful")
+
+        elif request.POST.get("form_model") == "arrest":
+            id = request.POST.get("id")
+            approval_id = request.POST.get("approval")
+            obj = ArrestInvestigation.objects.filter(id=id).first()
+            obj.approval_id = approval_id
+            obj.save()
+            victim_id = obj.victim_id
+            messages.success(request,"Approval successful")
+
+        elif request.POST.get("form_model") == "victim":
+            id = request.POST.get("id")
+            approval_id = request.POST.get("approval")
+            obj = VictimProfile.objects.filter(id=id).first()
+            obj.approval_id = approval_id
+            obj.save()
+            victim_id = obj.victim_id
+            messages.success(request,"Approval successful")
+
+        elif request.POST.get("form_model") == "socio":
+            pass
+        elif request.POST.get("form_model") == "aggregate":
+            pass
+        
+    return redirect('/victim_view/'+int(victim_id))
 
 @login_required
 def cases(request):
@@ -893,15 +956,20 @@ def cases(request):
 def victim_view(request,id):
     if(request.user.is_authenticated):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
-    victim = interviewer.victims.filter(id=id ).first()
+    if request.user.is_staff:
+        victim = VictimProfile.objects.filter(id=id).first()
+    else:
+        victim = interviewer.victims.filter(id=id ).first()
+
     context = {
         "victim":victim,
         # "suspects":suspects
     }
-    context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = id,interviewer_id=interviewer.id)
-    context['arrest'] = ArrestInvestigation.objects.filter(victim_id = id,interviewer_id=interviewer.id).first()
+    
+    context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = id)
+    context['arrest'] = ArrestInvestigation.objects.filter(victim_id = id).first()
     context['prosecutions'] = Prosecution.objects.filter(victim_id = id)
-    context['exploitation'] = Exploitation.objects.filter(victim_id = id).first()
+    context['exploitations'] = Exploitation.objects.filter(victim_id = id)
     context['destination'] = TransitRouteDestination.objects.filter(victim_id = id).first()
     context['assistance'] = Assistance.objects.filter(victim_id = id).first()
     context['socio_economic'] = SocioEconomic.objects.filter(victim_id = id).first()
