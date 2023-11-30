@@ -29,6 +29,7 @@ def search(request):
         if s.is_admin == 1:
             if(request.user.is_staff):
                 if request.LANGUAGE_CODE == "en":
+                    if s.search_text is not None:
                         searches[s.search_text]={
                             "id":s.id,
                             "search_text": s.search_text,
@@ -37,24 +38,27 @@ def search(request):
                             "search_tag": s.search_tag.name
                         }
                 elif request.LANGUAGE_CODE == "fr":
-                    searches[s.search_text_fr]={
-                        "id":s.id,
-                        "search_text": s.search_text_fr,
-                        "search_link": s.search_link,
-                        "search_description": s.search_description_fr,
-                        "search_tag": s.search_tag.name
-                    }
+                    if s.search_text_fr is not None:
+                        searches[s.search_text_fr]={
+                            "id":s.id,
+                            "search_text": s.search_text_fr,
+                            "search_link": s.search_link,
+                            "search_description": s.search_description_fr,
+                            "search_tag": s.search_tag.name
+                        }
                 elif request.LANGUAGE_CODE == "pt":
-                    searches[s.search_text_pt]={
-                        "id":s.id,
-                        "search_text": s.search_text_pt,
-                        "search_link": s.search_link,
-                        "search_description": s.search_description_pt,
-                        "search_tag": s.search_tag.name
-                    }
+                    if s.search_text_pt is not None:
+                        searches[s.search_text_pt]={
+                            "id":s.id,
+                            "search_text": s.search_text_pt,
+                            "search_link": s.search_link,
+                            "search_description": s.search_description_pt,
+                            "search_tag": s.search_tag.name
+                        }
         elif s.is_technical == 1:
-            if(request.user.is_staff or request.user.has_perm):
+            if(request.user.is_staff ):
                 if request.LANGUAGE_CODE == "en":
+                    if s.search_text is not None:
                         searches[s.search_text]={
                             "id":s.id,
                             "search_text": s.search_text,
@@ -63,24 +67,27 @@ def search(request):
                             "search_tag": s.search_tag.name
                         }
                 elif request.LANGUAGE_CODE == "fr":
-                    searches[s.search_text_fr]={
-                        "id":s.id,
-                        "search_text": s.search_text_fr,
-                        "search_link": s.search_link,
-                        "search_description": s.search_description_fr,
-                        "search_tag": s.search_tag.name
-                    }
+                    if s.search_text_fr is not None:
+                        searches[s.search_text_fr]={
+                            "id":s.id,
+                            "search_text": s.search_text_fr,
+                            "search_link": s.search_link,
+                            "search_description": s.search_description_fr,
+                            "search_tag": s.search_tag.name
+                        }
                 elif request.LANGUAGE_CODE == "pt":
-                    searches[s.search_text_pt]={
-                        "id":s.id,
-                        "search_text": s.search_text_pt,
-                        "search_link": s.search_link,
-                        "search_description": s.search_description_pt,
-                        "search_tag": s.search_tag.name
-                    }
+                    if s.search_text_pt is not None:
+                        searches[s.search_text_pt]={
+                            "id":s.id,
+                            "search_text": s.search_text_pt,
+                            "search_link": s.search_link,
+                            "search_description": s.search_description_pt,
+                            "search_tag": s.search_tag.name
+                        }
         else:
-             if(request.user.is_staff or request.user.has_perm):
+             if(request.user.is_staff ):
                 if request.LANGUAGE_CODE == "en":
+                    if s.search_text is not None:
                         searches[s.search_text]={
                             "id":s.id,
                             "search_text": s.search_text,
@@ -89,21 +96,23 @@ def search(request):
                             "search_tag": s.search_tag.name
                         }
                 elif request.LANGUAGE_CODE == "fr":
-                    searches[s.search_text_fr]={
-                        "id":s.id,
-                        "search_text": s.search_text_fr,
-                        "search_link": s.search_link,
-                        "search_description": s.search_description_fr,
-                        "search_tag": s.search_tag.name
-                    }
+                    if s.search_text_fr is not None:
+                        searches[s.search_text_fr]={
+                            "id":s.id,
+                            "search_text": s.search_text_fr,
+                            "search_link": s.search_link,
+                            "search_description": s.search_description_fr,
+                            "search_tag": s.search_tag.name
+                        }
                 elif request.LANGUAGE_CODE == "pt":
-                    searches[s.search_text_pt]={
-                        "id":s.id,
-                        "search_text": s.search_text_pt,
-                        "search_link": s.search_link,
-                        "search_description": s.search_description_pt,
-                        "search_tag": s.search_tag.name
-                    }
+                    if s.search_text_pt is not None:
+                        searches[s.search_text_pt]={
+                            "id":s.id,
+                            "search_text": s.search_text_pt,
+                            "search_link": s.search_link,
+                            "search_description": s.search_description_pt,
+                            "search_tag": s.search_tag.name
+                        }
                 
         
         
@@ -119,109 +128,121 @@ def search_get(request):
             if s.data_entry_purpose_id is not None:
                 if(interviewer.data_entry_purpose_id == s.data_entry_purpose_id):
                     if request.LANGUAGE_CODE == "en":
-                        searches.append({
-                            "id":s.id,
-                            "search_text": s.search_text,
-                            "search_link": s.search_link,
-                            "search_description": s.search_description,
-                            "search_tag": s.search_tag.name
-                        })
+                        if s.search_text is not None:
+                            searches.append({
+                                "id":s.id,
+                                "search_text": s.search_text,
+                                "search_link": s.search_link,
+                                "search_description": s.search_description,
+                                "search_tag": s.search_tag.name
+                            })
                     elif request.LANGUAGE_CODE == "fr":
-                        searches.append({
-                            "id":s.id,
-                            "search_text": s.search_text_fr,
-                            "search_link": s.search_link,
-                            "search_description": s.search_description_fr,
-                            "search_tag": s.search_tag.name
-                        })
+                        if s.search_text_fr is not None:
+                            searches.append({
+                                "id":s.id,
+                                "search_text": s.search_text_fr,
+                                "search_link": s.search_link,
+                                "search_description": s.search_description_fr,
+                                "search_tag": s.search_tag.name
+                            })
                     elif request.LANGUAGE_CODE == "pt":
-                        searches.append({
-                            "id":s.id,
-                            "search_text": s.search_text_pt,
-                            "search_link": s.search_link,
-                            "search_description": s.search_description_pt,
-                            "search_tag": s.search_tag.name
-                        })
+                        if s.search_text_pt is not None:
+                            searches.append({
+                                "id":s.id,
+                                "search_text": s.search_text_pt,
+                                "search_link": s.search_link,
+                                "search_description": s.search_description_pt,
+                                "search_tag": s.search_tag.name
+                            })
                 else:
                     continue
             if s.is_admin == 1:
                 if(request.user.is_staff):
                     if request.LANGUAGE_CODE == "en":
-                        searches.append({
-                            "id":s.id,
-                            "search_text": s.search_text,
-                            "search_link": s.search_link,
-                            "search_description": s.search_description,
-                            "search_tag": s.search_tag.name
-                        })
+                        if s.search_text is not None:
+                            searches.append({
+                                "id":s.id,
+                                "search_text": s.search_text,
+                                "search_link": s.search_link,
+                                "search_description": s.search_description,
+                                "search_tag": s.search_tag.name
+                            })
                     elif request.LANGUAGE_CODE == "fr":
-                        searches.append({
-                            "id":s.id,
-                            "search_text": s.search_text_fr,
-                            "search_link": s.search_link,
-                            "search_description": s.search_description_fr,
-                            "search_tag": s.search_tag.name
-                        })
+                        if s.search_text_fr is not None:
+                            searches.append({
+                                "id":s.id,
+                                "search_text": s.search_text_fr,
+                                "search_link": s.search_link,
+                                "search_description": s.search_description_fr,
+                                "search_tag": s.search_tag.name
+                            })
                     elif request.LANGUAGE_CODE == "pt":
-                        searches.append({
-                            "id":s.id,
-                            "search_text": s.search_text_pt,
-                            "search_link": s.search_link,
-                            "search_description": s.search_description_pt,
-                            "search_tag": s.search_tag.name
-                        })
+                        if s.search_text_pt is not None:
+                            searches.append({
+                                "id":s.id,
+                                "search_text": s.search_text_pt,
+                                "search_link": s.search_link,
+                                "search_description": s.search_description_pt,
+                                "search_tag": s.search_tag.name
+                            })
             elif s.is_technical == 1:
-                if(request.user.is_staff or request.user.has_perm):
+                if(request.user.is_staff):
                     if request.LANGUAGE_CODE == "en":
-                        searches.append({
-                            "id":s.id,
-                            "search_text": s.search_text,
-                            "search_link": s.search_link,
-                            "search_description": s.search_description,
-                            "search_tag": s.search_tag.name
-                        })
+                        if s.search_text is not None:
+                            searches.append({
+                                "id":s.id,
+                                "search_text": s.search_text,
+                                "search_link": s.search_link,
+                                "search_description": s.search_description,
+                                "search_tag": s.search_tag.name
+                            })
                     elif request.LANGUAGE_CODE == "fr":
-                        searches.append({
-                            "id":s.id,
-                            "search_text": s.search_text_fr,
-                            "search_link": s.search_link,
-                            "search_description": s.search_description_fr,
-                            "search_tag": s.search_tag.name
-                        })
+                        if s.search_text_fr is not None:
+                            searches.append({
+                                "id":s.id,
+                                "search_text": s.search_text_fr,
+                                "search_link": s.search_link,
+                                "search_description": s.search_description_fr,
+                                "search_tag": s.search_tag.name
+                            })
                     elif request.LANGUAGE_CODE == "pt":
-                        searches.append({
-                            "id":s.id,
-                            "search_text": s.search_text_pt,
-                            "search_link": s.search_link,
-                            "search_description": s.search_description_pt,
-                            "search_tag": s.search_tag.name
-                        })
+                        if s.search_text_pt is not None:
+                            searches.append({
+                                "id":s.id,
+                                "search_text": s.search_text_pt,
+                                "search_link": s.search_link,
+                                "search_description": s.search_description_pt,
+                                "search_tag": s.search_tag.name
+                            })
             else:
-                if(request.user.is_staff or request.user.has_perm):
+                if(request.user.is_staff):
                     if request.LANGUAGE_CODE == "en":
-                        searches.append({
-                            "id":s.id,
-                            "search_text": s.search_text,
-                            "search_link": s.search_link,
-                            "search_description": s.search_description,
-                            "search_tag": s.search_tag.name
-                        })
+                        if s.search_text is not None:
+                            searches.append({
+                                "id":s.id,
+                                "search_text": s.search_text,
+                                "search_link": s.search_link,
+                                "search_description": s.search_description,
+                                "search_tag": s.search_tag.name
+                            })
                     elif request.LANGUAGE_CODE == "fr":
-                        searches.append({
-                            "id":s.id,
-                            "search_text": s.search_text_fr,
-                            "search_link": s.search_link,
-                            "search_description": s.search_description_fr,
-                            "search_tag": s.search_tag.name
-                        })
+                        if s.search_text_fr is not None:
+                            searches.append({
+                                "id":s.id,
+                                "search_text": s.search_text_fr,
+                                "search_link": s.search_link,
+                                "search_description": s.search_description_fr,
+                                "search_tag": s.search_tag.name
+                            })
                     elif request.LANGUAGE_CODE == "pt":
-                        searches.append({
-                            "id":s.id,
-                            "search_text": s.search_text_pt,
-                            "search_link": s.search_link,
-                            "search_description": s.search_description_pt,
-                            "search_tag": s.search_tag.name
-                        })
+                        if s.search_text_pt is not None:
+                            searches.append({
+                                "id":s.id,
+                                "search_text": s.search_text_pt,
+                                "search_link": s.search_link,
+                                "search_description": s.search_description_pt,
+                                "search_tag": s.search_tag.name
+                            })
             
         
     return mark_safe(searches)
