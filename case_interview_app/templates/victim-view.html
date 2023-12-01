@@ -173,7 +173,7 @@
                             <strong>{% trans "What was the victim’s relationship with the recruiter(s)/trafficker(s)?" %}</strong> {% if exploitation.e_recruiter_relationship %}{{exploitation.e_recruiter_relationship.name}}{% else %}No{% endif %}
                         </div>
                         <div class="col-md-12">
-                            <strong>{% trans "What were the means employed in the process of trafficking?" %}</strong> {% for etm in exploitation.e_trafficking_means.all %}{{etm.name}}{% endif %}
+                            <strong>{% trans "What were the means employed in the process of trafficking?" %}</strong> {% for etm in exploitation.e_trafficking_means.all %}{{etm.name}}{% endfor %}
                         </div>
 
                     </div>
