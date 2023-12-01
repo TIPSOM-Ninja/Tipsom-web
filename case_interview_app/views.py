@@ -926,8 +926,6 @@ def cases(request):
         activate(request.GET.get('language'))
     if request.GET.get('page') is not None:
         page=request.GET.get('page')
-    
-        
     else:
         page=1
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
