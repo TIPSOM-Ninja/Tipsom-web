@@ -341,7 +341,34 @@
                                     <strong>{% trans "In which trial court is this case enrolled?" %}</strong> {% if prosecution.trial_court%}{{prosecution.trial_court.name}}{% else %}Not answered{% endif %} 
                                 </div>
                                 <div class="col-md-6">
-                                    <strong>{% trans "If in a foreign court, please specify country:" %}</strong> {% if prosecution.trial_court%}{{prosecution.trial_court.name}}{% else %}Not answered{% endif %} 
+                                    <strong>{% trans "If in a foreign court, please specify country:" %}</strong> {% if prosecution.trial_court_country%}{{prosecution.trial_court_country.name}}{% else %}Not answered{% endif %} 
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "What is the assigned court case number?" %}</strong> {% if prosecution.court_case_no%}{{prosecution.court_case_no}}{% else %}Not answered{% endif %} 
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "If applicable, what was the verdict?" %}</strong> {% if prosecution.guilty_verdict%}{{prosecution.guilty_verdict|yesno}}{% else %}Not answered{% endif %} 
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "If GUILTY, please specify:" %}</strong> {% if prosecution.verdict%}{{prosecution.verdict.name}}{% else %}Not answered{% endif %} 
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "What was the outcome of this prosecution?" %}</strong> {% if prosecution.guilty_verdict_reason%}{{prosecution.guilty_verdict_reason.name}}{% else %}Not answered{% endif %} 
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "If ACQUITTAL, state the reasons" %}</strong> {% if prosecution.prosecution_outcome%}{{prosecution.prosecution_outcome.name}}{% else %}Not answered{% endif %} 
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "If REVIEW/ APPEAL, what was the outcome?" %}</strong> {% if prosecution.aquital_reason%}{{prosecution.aquital_reason.name}}{% else %}Not answered{% endif %} 
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "What was the nature of the sanction/penalty?" %}</strong> {% if prosecution.review_appeal_outcome%}{{prosecution.review_appeal_outcome}}{% else %}Not answered{% endif %} 
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "If ACQUITTAL, state the reasons" %}</strong> {% if prosecution.sanction_penalty%}{{prosecution.sanction_penalty.name}}{% else %}Not answered{% endif %} 
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>{% trans "If CUSTODIAL SANCTION/PENALTY, how many years were imposed?" %}</strong> {% if prosecution.years_imposed%}{{prosecution.years_imposed}}{% else %}Not answered{% endif %} 
                                 </div>
                             </div>
                         </div>
