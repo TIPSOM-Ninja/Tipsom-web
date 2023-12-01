@@ -373,7 +373,7 @@
                         </div>
                         <div class="col-md-12">  
                             <strong>{% trans "Means of transportation:" %}</strong> 
-                            {% for means in destination.transport_means %}
+                            {% for means in destination.transport_means.all %}
                             {{means.name}}
                             {% endfor %}
                             

@@ -96,7 +96,7 @@
     {% endif %}
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://kit.fontawesome.com/46d3b27b2b.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script>
@@ -274,6 +274,20 @@
     
   }
   initSidebarQuickFilter()
+  function validateNumber(obj,errorId,min,max,){
+    if(obj.value > max){
+      document.getElementById(errorId).innerText="Enter a value less than "+max
+      document.getElementById(errorId).style.display = "block"
+    }
+    else if(obj.value < min){
+      document.getElementById(errorId).innerText="Enter a value greater than "+min
+      document.getElementById(errorId).style.display = "block"
+    }
+    else{
+      document.getElementById(errorId).style.display = "none"
+
+    }
+  }
   </script>
     {% block scripts %}{% endblock scripts %}
 </body>

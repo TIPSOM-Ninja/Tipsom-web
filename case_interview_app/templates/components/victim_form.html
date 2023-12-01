@@ -1,4 +1,6 @@
 {% load i18n %}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
 <form id="victim_form" method="post" action="/{{request.LANGUAGE_CODE}}/save_victim">
     {% csrf_token %}
     <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
@@ -14,7 +16,8 @@
         <div class="col-md-6">
             <div class="">
                 <label for="age" class="form-label">{% trans "Age:" %}</label>
-                <input type="number" name = "age" value = "{{victim.age}}" class="form-control" id="age" aria-describedby="ageHelp" required>
+                <input type="number" name = "age" value = "{{victim.age}}" class="form-control" id="age" min=0 aria-describedby="ageHelp" required onchange="validateNumber(this,'victim_age_error',0,120)">
+                <span id="victim_age_error"  style="display:none; color:red;"></span>
             </div>
         </div>
         <div class="col-md-6">
@@ -163,7 +166,7 @@
         <div class="col-md-6">
             <div class="">
                 <label for="interviewDate" class="form-label">{% trans "Interview Date:" %}</label>
-                <input type="date" name = "interview_date" value = "{{victim.interview_date}}" class="form-control" id="interviewDate" aria-describedby="interviewDateHelp" required>
+                <input type="date" name = "interview_date" value = "{{victim.interview_date}}" class="form-control" id="interviewDate" aria-describedby="interviewDateHelp" max="{% now 'm/d/Y' %}" required>
             </div>
         </div>
         <div class="col-md-6">
@@ -211,3 +214,16 @@
     
     </div>
 </form>
+<script>
+{% comment %} var today = new Date();
+var lastMonth = new Date().getMonth() - 1;
+
+var picker = new Pikaday({
+  field: document.getElementById('interviewDate'),
+  format: 'MM/DD/YYYY',
+  maxDate: today,  // maximum/latest date set to today
+  // demo only
+  position: 'top left',
+  reposition: false
+}); {% endcomment %}
+</script>
