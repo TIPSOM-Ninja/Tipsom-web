@@ -25,6 +25,7 @@ urlpatterns = [
     path("save_socio_economic", views.save_socio_economic, name="save_socio_economic"),
     path("save_assistance_aggregate", views.save_assistance_aggregate, name="save_assistance_aggregate"),
     path("process_consent", views.process_consent, name="process_consent"),
+    path("process_approval", views.process_approval, name="process_approval"),
 
     
 

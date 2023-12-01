@@ -12,7 +12,7 @@
             {% if user.is_staff %}
             {% if victim.approval_id is None or victim.approval_id < 2 %}
             <div>
-                <form id="victim_approval_form">
+                <form method="POST" id="victim_approval_form" action="/{{request.LANGUAGE_CODE}}/process_approval">
                     {% csrf_token %}
                     <input type="hidden" name="id" value="{{victim.id}}">
                     <input type="hidden" name="form_model" value="victim">
@@ -182,7 +182,7 @@
             {% if user.is_staff %}
             {% if exploitation.approval_id is None or exploitation.approval_id < 2 %}
             <div>
-                <form id="exploitation{{exploitation.id}}_approval_form">
+                <form method="POST" id="exploitation{{exploitation.id}}_approval_form" action="/{{request.LANGUAGE_CODE}}/process_approval">
                     {% csrf_token %}
                     <input type="hidden" name="id" value="{{exploitation.id}}">
                     <input type="hidden" name="form_model" value="exploitation">
@@ -208,7 +208,7 @@
             {% if user.is_staff %}
             {% if arrest.approval_id is None or arrest.approval_id < 2 %}
             <div>
-                <form id="arrest_approval_form">
+                <form method="POST" id="arrest_approval_form" action="/{{request.LANGUAGE_CODE}}/process_approval">
                     {% csrf_token %}
                     <input type="hidden" name="id" value="{{arrest.id}}">
                     <input type="hidden" name="form_model" value="arrest">
@@ -306,7 +306,7 @@
                     {% if user.is_staff %}
                     {% if suspect.approval_id is None or suspect.approval_id < 2 %}
                     <div>
-                        <form id="suspect{{suspect.id}}_approval_form">
+                        <form method="POST" id="suspect{{suspect.id}}_approval_form" action="/{{request.LANGUAGE_CODE}}/process_approval">
                             {% csrf_token %}
                             <input type="hidden" name="id" value="{{suspect.id}}">
                             <input type="hidden" name="form_model" value="suspect">
@@ -334,7 +334,7 @@
                     {% if user.is_staff %}
                     {% if prosecution.approval_id is None or prosecution.approval_id < 2 %}
                     <div>
-                        <form id="prosecution{{prosecution.id}}_approval_form">
+                        <form method="POST" id="prosecution{{prosecution.id}}_approval_form" action="/{{request.LANGUAGE_CODE}}/process_approval">
                             {% csrf_token %}
                             <input type="hidden" name="id" value="{{prosecution.id}}">
                             <input type="hidden" name="form_model" value="prosecution">
@@ -389,7 +389,7 @@
             {% if user.is_staff %}
             {% if destination.approval_id is None or destination.approval_id < 2 %}
             <div>
-                <form id="destination{{destination.id}}_approval_form">
+                <form method="POST" id="destination{{destination.id}}_approval_form" action="/{{request.LANGUAGE_CODE}}/process_approval">
                     {% csrf_token %}
                     <input type="hidden" name="id" value="{{destination.id}}">
                     <input type="hidden" name="form_model" value="destination">
@@ -415,7 +415,7 @@
         app.value=3
         form.submit()
     }
-    function approveForm(){
+    function approveForm(section){
         app = document.getElementById(section+"_approve_input")
         form = document.getElementById(section+"_approval_form")
         app.value=2

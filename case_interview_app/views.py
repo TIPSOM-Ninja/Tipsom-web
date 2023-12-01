@@ -69,7 +69,7 @@ def interviewer_registration(request):
                     dev.confirmed = True
                     dev.save()
                 messages.success(request,"Account successfully created. Please login with your email and password to proceed.")
-                return redirect('/account/login?next=/en/cases')
+                return redirect('/'+request.LANGUAGE_CODE+'/account/login?next=/en/cases')
             elif request.user.is_authenticated:
                 # if(EmailDevice.objects.filter(user = request.user).first() is None):
                 #     dev = EmailDevice()
@@ -85,7 +85,7 @@ def interviewer_registration(request):
                     login(request,user)
                     messages.success(request,"Credentials successfully modified.")
                 messages.success(request,"Interviewer data successfully modified.")
-                return redirect('/cases')
+                return redirect('/'+request.LANGUAGE_CODE+'/cases')
             interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
 
     context['interviewer']=interviewer
@@ -164,7 +164,7 @@ def investigation_form(request):
 def save_victim(request):
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
-        return redirect("/cases")
+        return redirect('/'+request.LANGUAGE_CODE+"/cases")
     if request.method == "POST":
         if request.POST.get('victim_id') is not None:
             # TODO: Add checks on who posted and who can edit
@@ -221,20 +221,20 @@ def save_victim(request):
         formulate_get="?step=2"
     
     if interviewer.data_entry_purpose_id == 1:
-        url = '/tip_form'+formulate_get
+        url = '/'+request.LANGUAGE_CODE+'/tip_form'+formulate_get
     elif interviewer.data_entry_purpose_id == 2:
-        url = '/investigation_form'+formulate_get
+        url = '/'+request.LANGUAGE_CODE+'/investigation_form'+formulate_get
     elif interviewer.data_entry_purpose_id == 3:
-        url = '/prosecution_form'+formulate_get
+        url = '/'+request.LANGUAGE_CODE+'/prosecution_form'+formulate_get
     else:
-        url = '/assistance_form'+formulate_get
+        url = '/'+request.LANGUAGE_CODE+'/assistance_form'+formulate_get
     return redirect(url)
 
 @login_required
 def save_arrest(request):
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
-        return redirect("/cases")
+        return redirect('/'+request.LANGUAGE_CODE+"/cases")
     #TODO: add check for who can post about a victim
     #TODO: combine victims
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
@@ -268,13 +268,13 @@ def save_arrest(request):
     
     
 
-    return redirect('/investigation_form'+formulate_get)
+    return redirect('/'+request.LANGUAGE_CODE+'/investigation_form'+formulate_get)
 
 @login_required
 def save_suspect(request):
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
-        return redirect("/cases")
+        return redirect('/'+request.LANGUAGE_CODE+"/cases")
     today = date.today()
     born = datetime.strptime(request.POST['dob'], '%Y-%m-%d')
     age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
@@ -317,13 +317,13 @@ def save_suspect(request):
         formulate_get="?step=3"
     
     if interviewer.data_entry_purpose_id == 1:
-        url = '/tip_form'+formulate_get
+        url = '/'+request.LANGUAGE_CODE+'/tip_form'+formulate_get
     elif interviewer.data_entry_purpose_id == 2:
-        url = '/investigation_form'+formulate_get
+        url = '/'+request.LANGUAGE_CODE+'/investigation_form'+formulate_get
     elif interviewer.data_entry_purpose_id == 3:
-        url = '/prosecution_form?step=3'
+        url = '/'+request.LANGUAGE_CODE+'/prosecution_form?step=3'
     else:
-        url = '/assistance_form?step=2'
+        url = '/'+request.LANGUAGE_CODE+'/assistance_form?step=2'
     
     return redirect(url)
 
@@ -405,7 +405,7 @@ def save_prosecution(request):
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
-        return redirect("/cases")
+        return redirect('/'+request.LANGUAGE_CODE+"/cases")
     if request.method == "POST":
         prosecution = Prosecution()
         prosecution.victim_id = request.session['v_id']
@@ -427,7 +427,7 @@ def save_prosecution(request):
 
         messages.success(request,'Prosecution details saved')
         
-    return redirect('/cases')
+    return redirect('/'+request.LANGUAGE_CODE+'/cases')
 
 @login_required
 def tip_form(request):
@@ -508,7 +508,7 @@ def tip_form(request):
 def save_exploitation(request):
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
-        return redirect("/cases")
+        return redirect('/'+request.LANGUAGE_CODE+"/cases")
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     
     if request.method == "POST":
@@ -590,13 +590,13 @@ def save_exploitation(request):
         messages.success(request,"Exploitation data successfully saved")
         
         formulate_get="?step=3"
-        return redirect('/tip_form'+formulate_get)
+        return redirect('/'+request.LANGUAGE_CODE+'/tip_form'+formulate_get)
 
 @login_required
 def save_transit(request):
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
-        return redirect("/cases")
+        return redirect('/'+request.LANGUAGE_CODE+"/cases")
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     
     if request.method == "POST":
@@ -618,7 +618,7 @@ def save_transit(request):
         messages.success(request,'Transit route successfully saved')
         
         formulate_get="?step=3"
-        return redirect('/cases')
+        return redirect('/'+request.LANGUAGE_CODE+'/cases')
 
 @login_required
 def assistance_form(request):
@@ -698,7 +698,7 @@ def assistance_form(request):
 def save_assistance_types(request):
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
-        return redirect("/cases")
+        return redirect('/'+request.LANGUAGE_CODE+"/cases")
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     
     if request.method == "POST":
@@ -799,13 +799,13 @@ def save_assistance_types(request):
         messages.success(request,'Assistance data saved successfully')
 
         formulate_get="?step=3"
-        return redirect('/assistance_form'+formulate_get)
+        return redirect('/'+request.LANGUAGE_CODE+'/assistance_form'+formulate_get)
 
 @login_required       
 def save_socio_economic(request):
     if 'consent_given' not in request.session:
         messages.error(request,"Victim consent not given")
-        return redirect("/cases")
+        return redirect('/'+request.LANGUAGE_CODE+"/cases")
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     
     if request.method == "POST":
@@ -826,7 +826,7 @@ def save_socio_economic(request):
         messages.success(request,"Socio-economic situation saved")
 
         formulate_get="?step=4"
-        return redirect('/assistance_form'+formulate_get)
+        return redirect('/'+request.LANGUAGE_CODE+'/assistance_form'+formulate_get)
 
 @login_required
 def save_assistance_aggregate(request):
@@ -845,7 +845,7 @@ def save_assistance_aggregate(request):
 
         messages.success(request,"Assistance aggregates saved.")
 
-        return redirect('/cases')
+        return redirect('/'+request.LANGUAGE_CODE+'/cases')
 
 @login_required
 def process_consent(request):
@@ -855,59 +855,59 @@ def process_consent(request):
         return redirect(request.POST.get('next'))
     else:
         messages.error(request,"Victim denied consent. You cannot add their details.")
-        return redirect('/cases')
+        return redirect('/'+request.LANGUAGE_CODE+'/cases')
 @login_required
-def processApproval(request):
+def process_approval(request):
     if request.user.is_staff:
         if request.POST.get("form_model") == "exploitation":
-            id = request.POST.get("id")
+            oid = request.POST.get("id")
             approval_id = request.POST.get("approval")
-            obj = Exploitation.objects.filter(id=id).first()
+            obj = Exploitation.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
             victim_id = obj.victim_id
             messages.success(request,"Approval successful")
 
         elif request.POST.get("form_model") == "destination":
-            id = request.POST.get("id")
+            oid = request.POST.get("id")
             approval_id = request.POST.get("approval")
-            obj = TransitRouteDestination.objects.filter(id=id).first()
+            obj = TransitRouteDestination.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
             victim_id = obj.victim_id
             messages.success(request,"Approval successful")
 
         elif request.POST.get("form_model") == "prosecution":
-            id = request.POST.get("id")
+            oid = request.POST.get("id")
             approval_id = request.POST.get("approval")
-            obj = Prosecution.objects.filter(id=id).first()
+            obj = Prosecution.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
             victim_id = obj.victim_id
             messages.success(request,"Approval successful")
 
         elif request.POST.get("form_model") == "suspect":
-            id = request.POST.get("id")
+            oid = request.POST.get("id")
             approval_id = request.POST.get("approval")
-            obj = SuspectedTrafficker.objects.filter(id=id).first()
+            obj = SuspectedTrafficker.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
             victim_id = obj.victim_id
             messages.success(request,"Approval successful")
 
         elif request.POST.get("form_model") == "arrest":
-            id = request.POST.get("id")
+            oid = request.POST.get("id")
             approval_id = request.POST.get("approval")
-            obj = ArrestInvestigation.objects.filter(id=id).first()
+            obj = ArrestInvestigation.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
             victim_id = obj.victim_id
             messages.success(request,"Approval successful")
 
         elif request.POST.get("form_model") == "victim":
-            id = request.POST.get("id")
+            oid = request.POST.get("id")
             approval_id = request.POST.get("approval")
-            obj = VictimProfile.objects.filter(id=id).first()
+            obj = VictimProfile.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
             victim_id = obj.victim_id
@@ -918,7 +918,7 @@ def processApproval(request):
         elif request.POST.get("form_model") == "aggregate":
             pass
         
-    return redirect('/victim_view/'+int(victim_id))
+    return redirect('/'+request.LANGUAGE_CODE+'/victim/'+str(victim_id))
 
 @login_required
 def cases(request):
@@ -990,5 +990,5 @@ def victim_view(request,id):
 @login_required
 def signout(request):
     logout(request)
-    return redirect("/")
+    return redirect('/'+request.LANGUAGE_CODE+"/")
 

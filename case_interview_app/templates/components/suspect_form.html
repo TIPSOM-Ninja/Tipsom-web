@@ -59,7 +59,7 @@
         <div class="col-md-6">
             <label for="citizenship" class="form-label">{% trans "Citizenship:" %}</label>
             <select class="form-select" name="citizenship" id="citizenship" aria-label="Default select example" required>
-                
+                <option></option>
                 {% for country in countries %}
                     {% if country.is_sadc %}
                     <option {% if suspect.citizenship_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
@@ -76,7 +76,7 @@
         <div class="col-md-6">
             <label for="nationality" class="form-label">{% trans "Nationality:" %}</label>
             <select class="form-select" name="nationality" id="nationality" aria-label="Default select example" required>
-                
+                <option></option>
                 {% for country in countries %}
                     {% if country.is_sadc %}
                     <option {% if suspect.nationality_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
@@ -93,6 +93,7 @@
         <div class="col-md-6">
             <label for="idtype" class="form-label">{% trans "ID Type:" %}</label>
             <select class="form-select" name="idtypes" id="idtype" aria-label="Default select example" required>
+                <option></option>
                 {% for idtype in idtypes %}
                     <option {% if idtype.id in suspect.idtypes %}selected{% endif %} value="{{idtype.id}}">{% trans idtype.name %}</option>
                 {% endfor %}
@@ -116,7 +117,7 @@
         <div class="col-md-6">
             <label for="countryOfBirth" class="form-label">{% trans "Country of birth:" %}</label>
             <select class="form-select" name="country_of_birth" id="countryOfBirth" aria-label="Default select example" required>
-                
+                <option></option>
                 {% for country in countries %}
                     {% if country.is_sadc %}
                     <option {% if suspect.country_of_birth_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
@@ -146,7 +147,7 @@
         <div class="col-md-6">
             <label for="role_in_trafficking" class="form-label">{% trans "Role in trafficking:" %}</label>
             <select class="form-select" name="role_in_trafficking[]" id="role_in_trafficking" aria-label="Default select example" required multiple>
-                
+                <option></option>
                 {% for role_in_trafficking in roles_in_trafficking %}
                     <option value="{{role_in_trafficking.id}}">{% trans role_in_trafficking.name %}</option>
                 {% endfor %}
@@ -158,7 +159,7 @@
         <div class="col-md-6">
             <label for="traffick_from_country" class="form-label">{% trans "Country:" %}</label>
             <select class="form-select" name="traffick_from_country" id="traffick_from_country" aria-label="Default select example" required>
-                
+                <option></option>
                 {% for country in countries %}
                     {% if country.is_sadc %}
                     <option {% if suspect.traffick_from_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
@@ -183,6 +184,7 @@
         <div class="col-md-6">
             <label for="traffick_to_country" class="form-label">{% trans "Country:" %}</label>
             <select class="form-select" name="traffick_to_country" id="traffick_to_country" aria-label="Default select example" required>
+                <option></option>
                 {% for country in countries %}
                     {% if country.is_sadc %}
                     <option {% if suspect.traffick_to_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
