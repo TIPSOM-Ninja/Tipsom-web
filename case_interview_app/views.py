@@ -376,7 +376,7 @@ def prosecution_form(request):
             context['v_id'] = request.session['v_id']
             context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
             context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = request.session['v_id'])
-            context['prosecution'] = Prosecution.objects.filter(interviewer_id = interviewer.id, victim_id = request.session['v_id']).first()
+            context['prosecutions'] = Prosecution.objects.filter(interviewer_id = interviewer.id, victim_id = request.session['v_id'])
             context['case_statuses'] = CaseStatus.objects.all()
             context['trial_courts'] = TrialCourt.objects.all()
             context['verdicts'] = Verdict.objects.all()

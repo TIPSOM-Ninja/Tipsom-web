@@ -138,6 +138,19 @@
             document.getElementById('suspect_holder').style.display = "block"
         }
     }
+    function addProsecution(){
+      document.getElementById('prosecution_form_holder').style.display = "block"
+      document.getElementById('prosecutions_holder').style.display = "none"
+      document.getElementById('pros_add').style.display = "none"
+  
+  }
+  function toggleProsecutions(){
+      if(document.getElementById('prosecutions_holder').style.display =='block'){
+          document.getElementById('prosecutions_holder').style.display = "none"
+      }else{
+          document.getElementById('prosecutions_holder').style.display = "block"
+      }
+  }
     function initSidebarQuickFilter() {
       const options = [];
       let searches = {{request|search_get|safe}}
