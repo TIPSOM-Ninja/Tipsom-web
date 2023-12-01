@@ -34,24 +34,25 @@
                     <form id="arrests_form" method="POST" action="/{{request.LANGUAGE_CODE}}/save_arrest">
                         {% csrf_token %}
                         <input type="hidden" name="v_id" value="{{v_id}}"/>
+                        <input type="hidden" name="arrest_id" value="{{arrest.id}}"/>
                         <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
                             <div class="col-md-6">
                                 <div class="">
                                     <label for="suspects_arrested" class="form-label">{% trans "Have any suspects been arrested to date?:" %}</label>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="suspects_arrested" id="suspects_arrested_1" value="1" onclick="togglesection_radio(['why_no_arrest_sec','none'])">
+                                            <input class="form-check-input" type="radio" name="suspects_arrested" id="suspects_arrested_1" value="1" {% if arrest.suspects_arrested == 1 %}checked selected{% endif %} onclick="togglesection_radio(['why_no_arrest_sec','none'])">
                                             <label class="form-check-label" for="suspects_arrested_1">Yes</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="suspects_arrested" id="suspects_arrested_0" value="0" onclick="togglesection_radio(['why_no_arrest_sec','block'])">
+                                            <input class="form-check-input" type="radio" name="suspects_arrested" id="suspects_arrested_0" value="0" {% if arrest.suspects_arrested == 0 %}checked selected{% endif %} onclick="togglesection_radio(['why_no_arrest_sec','block'])">
                                             <label class="form-check-label" for="suspects_arrested_0">No</label>
                                         </div>
                                     </div>
                                 </div>
                                 
                             </div>
-                            <div class="col-md-6" id="why_no_arrest_sec"  style="display:none">
+                            <div class="col-md-6" id="why_no_arrest_sec"  {% if arrest.suspects_arrested == False %}{% else %}style="display:none"{% endif %}>
                                 <div class="">
                                     <label for="whyNoArrest" class="form-label">{% trans "If NO, please explain why there have been no arrests?" %}</label>
                                     <input type="text" name = "why_no_arrest" value = "{{arrest.why_no_arrest}}" class="form-control" id="whyNoArrest" aria-describedby="whyNoArrestHelp" >
@@ -64,11 +65,11 @@
                                     <label for="org_crime" class="form-label">{% trans "Does the trafficker have ties to organized crime?:" %}</label>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="org_crime" id="org_crime_1" value="1">
+                                            <input class="form-check-input" type="radio" name="org_crime" id="org_crime_1" value="1" {% if arrest.org_crime == 1 %}checked selected{% endif %}>
                                             <label class="form-check-label" for="org_crime_1">Yes</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="org_crime" id="org_crime_0" value="0">
+                                            <input class="form-check-input" type="radio" name="org_crime" id="org_crime_0" value="0" {% if arrest.org_crime == 0 %}checked selected{% endif %}>
                                             <label class="form-check-label" for="org_crime_0">No</label>
                                         </div>
                                     </div>
@@ -79,11 +80,11 @@
                                     <label for="victim_smuggled" class="form-label">{% trans "Was the victim travelling with or using the services of migrant smugglers?:" %}</label>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="victim_smuggled" id="victim_smuggled_1" value="1">
+                                            <input class="form-check-input" type="radio" name="victim_smuggled" id="victim_smuggled_1" value="1" {% if arrest.victim_smuggled == 1 %}checked selected{% endif %}>
                                             <label class="form-check-label" for="victim_smuggled_1">Yes</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="victim_smuggled" id="victim_smuggled_0" value="0">
+                                            <input class="form-check-input" type="radio" name="victim_smuggled" id="victim_smuggled_0" value="0" {% if arrest.victim_smuggled == 0 %}checked selected{% endif %}>
                                             <label class="form-check-label" for="victim_smuggled_0">No</label>
                                         </div>
                                     </div>
@@ -96,7 +97,7 @@
                                     <label for="how_traffickers_org" class="form-label">{% trans "How is the trafficker(s) organized?:" %}</label>
                                     <select class="form-select" name="how_traffickers_org[]" id="how_traffickers_org" aria-label="Default select example" required multiple>
                                         {% for trafficker_org in trafficker_orgs %}
-                                            <option {% if trafficker_org.id in arrest.how_traffickers_org %}selected{% endif %} value="{{trafficker_org.id}}">{% trans trafficker_org.name %}</option>
+                                            <option {% if trafficker_org in arrest.how_traffickers_org %}selected{% endif %} value="{{trafficker_org.id}}">{% trans trafficker_org.name %}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -106,11 +107,11 @@
                                     <label for="investigation_done" class="form-label">{% trans "Has an investigation been conducted?:" %}</label>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="investigation_done" id="investigation_done_1" value="1" {% if arrest.investigation_done == 1 %}selected{% endif %} onclick="togglesection_radio(['why_no_investigation_sec','none'],['investigation_status_sec','block'])">
+                                            <input class="form-check-input" type="radio" name="investigation_done" id="investigation_done_1" value="1" {% if arrest.investigation_done == 1 %}checked selected{% endif %} onclick="togglesection_radio(['why_no_investigation_sec','none'],['investigation_status_sec','block'])">
                                             <label class="form-check-label" for="investigation_done_1">Yes</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="investigation_done" id="investigation_done_0" value="0" {% if arrest.investigation_done == 0 %}selected{% endif %} onclick="togglesection_radio(['why_no_investigation_sec','block'],['investigation_status_sec','none'])">
+                                            <input class="form-check-input" type="radio" name="investigation_done" id="investigation_done_0" value="0" {% if arrest.investigation_done == 0 %}checked selected{% endif %} onclick="togglesection_radio(['why_no_investigation_sec','block'],['investigation_status_sec','none'])">
                                             <label class="form-check-label" for="investigation_done_0">No</label>
                                         </div>
                                     </div>
@@ -130,7 +131,7 @@
                                     <select class="form-select" name="investigation_status" id="investigation_status" aria-label="Default select example" onchange="togglesection_select(this,[['why_pending_sec'],['4']],[['withdrawn_closed_reason'],['2','1']])" >
                                         <option> </option>
                                         {% for investigation_status in investigation_statuses %}
-                                            <option {% if investigation_status.id in arrest.investigation_status %}selected{% endif %} value="{{investigation_status.id}}">{% trans investigation_status.name %}</option>
+                                            <option {% if investigation_status in arrest.investigation_status %}selected{% endif %} value="{{investigation_status.id}}">{% trans investigation_status.name %}</option>
                                         {% endfor %}
                                     </select>
                                 </div>

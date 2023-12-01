@@ -139,17 +139,19 @@ def investigation_form(request):
                 else:
                     permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
                     if permission is None:
-                        messages.error(request,"You do not have access to this record. Please create a request.")
-                    else:
+                        if request.user.is_staff:
+                            request.session['v_id'] = victim.id
+                            request.session['consent_given'] = 1
                         # TODO: check if permision is granted
                         # TODO: remove autopermission below
-                        request.session['v_id'] = victim.id
-                        request.session['consent_given'] = 1
+                        else:
+                            messages.error(request,"You do not have access to this record. Please create a request.")
+
 
         if 'v_id' in request.session:
             context['v_id'] = request.session['v_id']
             context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
-            context['arrest'] = ArrestInvestigation.objects.filter(victim_id = request.session['v_id'],interviewer_id=interviewer.id).first()
+            context['arrest'] = ArrestInvestigation.objects.filter(victim_id = request.session['v_id']).first()
             context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = request.session['v_id'])
             context['suspect_count'] = len(context['suspects']) if len(context['suspects'])>0 else 1
             context['suspect_add'] = 0
@@ -237,10 +239,13 @@ def save_arrest(request):
     #TODO: combine victims
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     if request.method == "POST":
-        arrest = ArrestInvestigation()
+        if request.POST.get("arrest_id"):
+            arrest = ArrestInvestigation.objects.filter(id = int(request.POST.get("arrest_id"))).first()
+        else:
+            arrest = ArrestInvestigation()
         arrest.victim_id =  request.POST['v_id']
         arrest.org_crime=request.POST['org_crime']
-        arrest.suspect_arrested = request.POST['suspects_arrested']
+        arrest.suspects_arrested = request.POST['suspects_arrested']
         arrest.why_no_arrest=request.POST['why_no_arrest']
         arrest.victim_smuggled=request.POST['victim_smuggled']
         arrest.investigation_done=request.POST['investigation_done']
@@ -365,12 +370,14 @@ def prosecution_form(request):
                 else:
                     permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
                     if permission is None:
-                        messages.error(request,"You do not have access to this record. Please create a request.")
-                    else:
+                        if request.user.is_staff:
+                            request.session['v_id'] = victim.id
+                            request.session['consent_given'] = 1
                         # TODO: check if permision is granted
                         # TODO: remove autopermission below
-                        request.session['v_id'] = victim.id
-                        request.session['consent_given'] = 1
+                        else:
+                            messages.error(request,"You do not have access to this record. Please create a request.")
+
              
         if 'v_id' in request.session:
             context['v_id'] = request.session['v_id']
@@ -457,12 +464,14 @@ def tip_form(request):
                 else:
                     permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
                     if permission is None:
-                        messages.error(request,"You do not have access to this record. Please create a request.")
-                    else:
+                        if request.user.is_staff:
+                            request.session['v_id'] = victim.id
+                            request.session['consent_given'] = 1
                         # TODO: check if permision is granted
                         # TODO: remove autopermission below
-                        request.session['v_id'] = victim.id
-                        request.session['consent_given'] = 1
+                        else:
+                            messages.error(request,"You do not have access to this record. Please create a request.")
+
              
         if 'v_id' in request.session:
             context['v_id'] = request.session['v_id']
@@ -667,13 +676,14 @@ def assistance_form(request):
                 else:
                     permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
                     if permission is None:
-                        messages.error(request,"You do not have access to this record. Please create a request.")
-                    else:
+                        if request.user.is_staff:
+                            request.session['v_id'] = victim.id
+                            request.session['consent_given'] = 1
                         # TODO: check if permision is granted
                         # TODO: remove autopermission below
-                        request.session['v_id'] = victim.id
-                        request.session['consent_given'] = 1
-             
+                        else:
+                            messages.error(request,"You do not have access to this record. Please create a request.")
+          
         if 'v_id' in request.session:
             context['v_id'] = request.session['v_id']
             context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
