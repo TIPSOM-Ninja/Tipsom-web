@@ -75,6 +75,7 @@
             <div class="">
                 <label for="citizenship" class="form-label">{% trans "Citizenship:" %}</label>
                 <select class="form-select" name="citizenship" id="citizenship" aria-label="Default select example" required>
+                    <option></option>
                     
                     {% for country in countries %}
                         {% if country.is_sadc %}
@@ -116,6 +117,7 @@
             <div class="">
                 <label for="lastPlaceOfResidence" class="form-label">{% trans "Last place of residence:" %}</label>
                 <select class="form-select" name="last_place_of_residence" id="lastPlaceOfResidence" aria-label="Default select example" required>
+                    <option></option>
                     
                     {% for country in countries %}
                         {% if country.is_sadc %}
@@ -135,6 +137,7 @@
             <div class="">
                 <label for="countryOfBirth" class="form-label">{% trans "Country of birth:" %}</label>
                 <select class="form-select" name="country_of_birth" id="countryOfBirth" aria-label="Default select example" required>
+                    <option></option>
                     
                     {% for country in countries %}
                         {% if country.is_sadc %}
@@ -173,7 +176,7 @@
             <div class="">
                 <label for="interview_country" class="form-label">{% trans "Interview country:" %}</label>
                 <select class="form-select" name="interview_country" id="interview_country" aria-label="Default select example" required>
-                    
+                    <option></option>
                     {% for country in countries %}
                         {% if country.is_sadc %}
                         <option {% if victim.interview_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
