@@ -58,6 +58,7 @@
                             <label for="country" class="form-label">{% trans "Country:" %}</label>
                             
                             <select class="form-select" name="country" id="country" value="{{interviewer.country_id}}" aria-label="Default select example" required>
+                                <option></option>
                                 {% for country in countries %}
                                     {% if country.is_sadc %}
                                     <option {% if interviewer.country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>

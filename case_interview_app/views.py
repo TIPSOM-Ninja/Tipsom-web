@@ -184,7 +184,7 @@ def save_victim(request):
         victim.age = request.POST['age']
         victim.address = request.POST['address']
         victim.email_address = request.POST['email_address']
-        victim.interview_country_id = request.POST['interviewer_country']
+        victim.interview_country_id = request.POST['interview_country']
         victim.interview_location = request.POST['interviewer_location']
         victim.interview_date = request.POST['interview_date']
         victim.additional_remarks = request.POST['additional_remarks']
