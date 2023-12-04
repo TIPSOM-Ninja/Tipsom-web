@@ -560,7 +560,7 @@ input {
 	color: #242424;
 	font-size: 13px;
 	text-align: center;
-	padding:15px 0px;
+	/* padding:15px 0px; */
 }
 .footer-copy p {
 	margin-bottom:0px;
