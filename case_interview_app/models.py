@@ -355,9 +355,9 @@ class Interviewer(models.Model):
     )
     first_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
-    position = models.CharField(max_length=50, null=True, blank=True)
-    organization = models.CharField(max_length=50, null=True, blank=True)
-    address = models.CharField(max_length=50, null=True, blank=True)
+    position = models.CharField(max_length=250, null=True, blank=True)
+    organization = models.CharField(max_length=250, null=True, blank=True)
+    address = models.CharField(max_length=250, null=True, blank=True)
     email_address = models.EmailField(max_length=254, null=True, blank=True)
     approval = models.ForeignKey(
         ApprovalStatus, related_name = "interviewers", on_delete=models.CASCADE, null=True, blank=True
