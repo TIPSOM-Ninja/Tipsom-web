@@ -346,6 +346,8 @@ class VictimProfile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
     updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
+    def __str__(self):
+        return f"{self.victim_identifier}"
 class Interviewer(models.Model):
     country = models.ForeignKey(
         Country, related_name = "interviewers", on_delete=models.CASCADE, null=True, blank=True

@@ -1,0 +1,154 @@
+{% extends "layouts/master.html" %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% block styles %}
+<style>
+    .input-full{
+        max-length:100%;
+    }
+</style>
+{% endblock styles %}
+{% block content %}
+  <div class="container">
+    <div class="card mt-4">
+        <div class="card-header"  style="background-color: #1860c3;">
+            <h1 class="h5 text-warning">{% trans "ADVANCED SEARCH" %}</h1>
+            
+        </div>
+        <div class="card-body">
+            <!-- Tabs for switching between search forms -->
+            <ul class="nav nav-tabs" id="searchTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link {% if current_search == 1 %}active{% endif %}" id="victim-tab" data-bs-toggle="tab" href="#victim" role="tab" aria-controls="victim" aria-selected="true">{% trans "Victim" %}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if current_search == 2 %}active{% endif %}" id="interviewer-tab" data-bs-toggle="tab" href="#interviewer" role="tab" aria-controls="interviewer" aria-selected="false">{% trans "Interviewer" %}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if current_search == 3 %}active{% endif %}" id="trafficker-tab" data-bs-toggle="tab" href="#trafficker" role="tab" aria-controls="trafficker" aria-selected="false">{% trans "Trafficker" %}</a>
+            </li>
+            </ul>
+
+            <!-- Tab content -->
+            <div class="tab-content  mt-4" id="searchTabsContent">
+            <div class="tab-pane fade  {% if current_search == 1 %}show active{% endif %}" id="victim" role="tabpanel" aria-labelledby="victim-tab">
+                <!-- Victim search form -->
+                <form method="get" action="{% url 'search_view' %}">
+                {% csrf_token %}
+                {{ victim_form.non_field_errors }}
+                <div class="row g-3">
+                    {% for field in victim_form %}
+                    <div class="col-md-4">
+                        
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        {{ field|add_class:'form-control input-full' }}
+                        {{ field.errors }}
+                        
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" name="victim_search" class="btn btn-primary mt-3">{% trans "Search" %}</button>
+                </form>
+            </div>
+
+            <div class="tab-pane fade {% if current_search == 2 %}show active{% endif %}" id="interviewer" role="tabpanel" aria-labelledby="interviewer-tab">
+                <!-- Interviewer search form -->
+                <form method="get" action="{% url 'search_view' %}">
+                {% csrf_token %}
+                {{ interviewer_form.non_field_errors }}
+                <div class="row g-3">
+                    {% for field in interviewer_form %}
+                    <div class="col-md-4">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        
+                        {{ field|add_class:'form-control input-full' }}
+                        
+                        {{ field.errors }}
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" name="interviewer_search" class="btn btn-primary mt-3">{% trans "Search" %}</button>
+                </form>
+            </div>
+
+            <div class="tab-pane fade {% if current_search == 3 %}show active{% endif %}" id="trafficker" role="tabpanel" aria-labelledby="trafficker-tab">
+                <!-- Trafficker search form -->
+                <form method="get" action="{% url 'search_view' %}">
+                {% csrf_token %}
+                {{ trafficker_form.non_field_errors }}
+                <div class="row g-3">
+                    {% for field in trafficker_form %}
+                    <div class="col-md-4">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        {{ field|add_class:'form-control input-full' }}
+                        {{ field.errors }}
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" name="trafficker_search" class="btn btn-primary mt-3">{% trans "Search" %}</button>
+                </form>
+            </div>
+            
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!-- Display search results as a table with pagination -->
+    <div class="mt-4">
+        {% if results %}<table class="table">
+          <thead>
+            <tr>
+              <th>{% trans "First Name" %}</th>
+              <th>{% trans "Last Name" %}</th>
+              <th>{% trans "ID" %}</th>
+              <th>{% trans "Created at" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for result in results %}
+              <tr>
+                <td>{{ result.first_name }}</td>
+                <td>{{ result.last_name }}</td>
+                <td>{{ result.id }}</td>
+                <td>{{ result.created_at }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <!-- Pagination -->
+        <div class="pagination">
+          <span class="step-links">
+              {% if results.has_previous %}
+                  <a href="?page=1">&laquo; first</a>
+                  <a href="?page={{ results.previous_page_number }}">previous</a>
+              {% endif %}
+  
+              <span class="current">
+                  Page {{ results.number }} of {{ results.paginator.num_pages }}.
+              </span>
+  
+              {% if results.has_next %}
+                  <a href="?page={{ results.next_page_number }}">next</a>
+                  <a href="?page={{ results.paginator.num_pages }}">last &raquo;</a>
+              {% endif %}
+          </span>
+        </div>{% else %}
+        <p>No result to be shown.</p>
+        {% endif %}
+      </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var selects = document.querySelectorAll('.form-select');
+      selects.forEach(function (select) {
+        new Choices(select,{
+            classNames: {
+                containerInner: 'choices_inner',
+            }
+        });
+      });
+    });
+  </script>
+{% endblock scripts %}

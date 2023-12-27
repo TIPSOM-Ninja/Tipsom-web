@@ -30,10 +30,9 @@ urlpatterns = [
     
 
     path("victim/<id>", views.victim_view, name="victim_view"),
-    
 
-    
-
-
+    path('search/', views.search_view, name='search_view'),
     
 ]
+    
+

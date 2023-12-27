@@ -5,11 +5,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils.translation import activate, get_language_info
 from datetime import date, datetime
-from django.db.models import Count
+from django.db.models import Count,Q
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django_otp.decorators import otp_required
 from django_otp.plugins.otp_email.models import EmailDevice
+from .forms import VictimSearchForm, InterviewerSearchForm, TraffickerSearchForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.admin.views.decorators import staff_member_required
 
 def index(request):
     countries = Country.objects.filter(is_sadc=True).order_by('name').values()
@@ -959,6 +962,56 @@ def cases(request):
         "interviewer":interviewer
     }
     return render(request,"cases.html",context)
+
+@staff_member_required
+def search_view(request):
+    victim_form = VictimSearchForm(request.GET or None)
+    interviewer_form = InterviewerSearchForm(request.GET or None)
+    trafficker_form = TraffickerSearchForm(request.GET or None)
+
+    results = []
+    current_search = 1
+    if victim_form.is_valid() and 'victim_search' in request.GET:
+        query = Q()
+        for field, value in victim_form.cleaned_data.items():
+            if value:
+                query |= Q(**{field: value})
+        results = VictimProfile.objects.filter(query)
+        current_search = 1
+
+    elif interviewer_form.is_valid() and 'interviewer_search' in request.GET:
+        query = Q()
+        for field, value in interviewer_form.cleaned_data.items():
+            if value:
+                query |= Q(**{field: value})
+        results = Interviewer.objects.filter(query)
+        current_search = 2
+    elif trafficker_form.is_valid() and 'trafficker_search' in request.GET:
+        query = Q()
+        for field, value in trafficker_form.cleaned_data.items():
+            if value:
+                query |= Q(**{field: value})
+        results = SuspectedTrafficker.objects.filter(query)
+        current_search = 3
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(results, 10)  # Show 10 results per page
+    try:
+        results = paginator.page(page)
+    except PageNotAnInteger:
+        results = paginator.page(1)
+    except EmptyPage:
+        results = paginator.page(paginator.num_pages)
+
+    context = {
+        'victim_form': victim_form,
+        'interviewer_form': interviewer_form,
+        'trafficker_form': trafficker_form,
+        'results': results,
+        'current_search':current_search
+    }
+    return render(request, 'search_results.html', context)
+
 
 @login_required
 def victim_view(request,id):

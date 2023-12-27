@@ -12,7 +12,7 @@
                 <li class="nav-item">
                   
                     
-                      <input class="form-control me-2" type="search"  placeholder="Search" aria-label="search" id="search" aria-expanded="false">
+                      <input class="form-control me-2" type="search"  placeholder="{% trans "Find help" %}" aria-label="search" id="search" aria-expanded="false">
                       {% comment %} <ul id ="search_show" class="dropdown-menu" aria-labelledby="search">
                         
                         
@@ -41,9 +41,16 @@
                     <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/account/login?next=/en/cases">{% translate "SIGN IN" %}</a>
                 </li>
                 {% elif user.is_authenticated %}
+                
                 <li class="nav-item">
                   <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/cases">{% translate "ALL CASES" %}</a>
                 </li>
+                
+                {% if user.is_staff %}
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/search">{% translate "SEARCH" %}</a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/interviewer_registration">{% translate "PROFILE" %}</a>
                 </li>
