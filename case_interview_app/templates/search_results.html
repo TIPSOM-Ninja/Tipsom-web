@@ -95,22 +95,63 @@
     <hr>
     <!-- Display search results as a table with pagination -->
     <div class="mt-4">
-        {% if results %}<table class="table">
+        
+
+        {% if results %}
+        {% if current_search == 1 %}
+            <h5>{% trans "VICTIM SEARCH RESULTS" %}</h5>
+            {% elif current_search == 2 %}
+            <h5>{% trans "INTERVIEWER SEARCH RESULTS" %}</h5>
+            
+            {% elif current_search == 3 %}
+            <h5>{% trans "TRAFFICKER SEARCH RESULTS" %}</h5>
+            
+        {% endif %}
+        <hr>
+        <table class="table">
           <thead>
             <tr>
-              <th>{% trans "First Name" %}</th>
-              <th>{% trans "Last Name" %}</th>
-              <th>{% trans "ID" %}</th>
-              <th>{% trans "Created at" %}</th>
+            {% if current_search == 1 %}
+            <th>{% trans "Victim ID" %}</th>
+            {% elif current_search == 2 %}
+            <th>{% trans "First Name" %}</th>
+            <th>{% trans "Last Name" %}</th>
+            <th>{% trans "Email Address" %}</th>
+            {% elif current_search == 3 %}
+            <th>{% trans "First Name" %}</th>
+            <th>{% trans "Last Name" %}</th>
+            <th>{% trans "Nationality" %}</th>
+            {% endif %}
+              
+            <th>{% trans "Created at" %}</th>
+            <th>{% trans "Action" %}</th>
             </tr>
           </thead>
           <tbody>
             {% for result in results %}
               <tr>
-                <td>{{ result.first_name }}</td>
-                <td>{{ result.last_name }}</td>
-                <td>{{ result.id }}</td>
+                {% if current_search == 1 %}
+                    <td>{{ result.victim_identifier }}</td>
+                {% elif current_search == 2 %}
+                    <td>{{ result.first_name }}</td>
+                    <td>{{ result.last_name }}</td>
+                    <td>{{ result.email_address }}</td>
+                {% elif current_search == 3 %}
+                    <td>{{ result.first_name }}</td>
+                    <td>{{ result.last_name }}</td>
+                    <td>{{ result.nationality.name }}</td>
+                {% endif %}
+                
                 <td>{{ result.created_at }}</td>
+                
+                {% if current_search == 1 %}
+                    <td><a href="/{{request.LANGUAGE_CODE}}/victim/{{result.id}}"><small><i class="fa-solid fa-eye"></i> {% translate "View" %}</small></a></td>
+                {% elif current_search == 2 %}
+                    <td><a href="/{{request.LANGUAGE_CODE}}/interviewer/{{result.id}}"><small><i class="fa-solid fa-eye"></i> {% translate "View" %}</small></a></td>
+                {% elif current_search == 3 %}
+                    <td><a href="/{{request.LANGUAGE_CODE}}/suspect/{{result.id}}"><small><i class="fa-solid fa-eye"></i> {% translate "View" %}</small></a></td>
+                {% endif %}
+                
               </tr>
             {% endfor %}
           </tbody>
