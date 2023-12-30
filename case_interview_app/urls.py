@@ -32,6 +32,7 @@ urlpatterns = [
     path("victim/<id>", views.victim_view, name="victim_view"),
 
     path('search/', views.search_view, name='search_view'),
+    path('suspect/<int:suspect_id>/', views.suspect_detail, name='suspect_detail'),
     
 ]
     

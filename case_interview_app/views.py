@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from .models import *
 from django.contrib.auth import authenticate, login, logout
@@ -1012,6 +1012,11 @@ def search_view(request):
     }
     return render(request, 'search_results.html', context)
 
+def suspect_detail(request, suspect_id):
+    # Fetch the suspect object based on the provided ID
+    suspect = get_object_or_404(SuspectedTrafficker, pk=suspect_id)
+
+    return render(request, 'suspect_detail.html', {'suspect': suspect})
 
 @login_required
 def victim_view(request,id):

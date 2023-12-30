@@ -1,0 +1,119 @@
+{% extends 'layouts/master.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between my-4">
+        
+            <a href="/save_prosecution?v_id={{suspect.victim_id}}" class="btn btn-primary text-warning">
+                {% trans "Add Prosecution Information" %}
+            </a>
+        
+        
+            <a href="{% url 'victim_view' suspect.victim.id %}" class="btn btn-secondary">
+                {% trans "View Victim Record" %}
+            </a>
+        
+    </div>
+    <div class="row mb-4">
+        <div class="">
+            <div class="card-header bg-light border-top border-bottom border-primary">
+                <div class="d-flex py-3 justify-content-between">
+                    <h6 class="m-0">{% trans "SUSPECT PROFILE" %}<small class="text-danger"> - {{suspect.approval.name}}</small> </h6>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    
+                    <div class="col-md-6">
+                        <!-- Suspect Information -->
+                        <p><strong>{% trans "Surname" %}:</strong> {{ suspect.last_name }}</p>
+                        <p><strong>{% trans "Date of Birth" %}:</strong> {{ suspect.dob }}</p>
+                        <p><strong>{% trans "Name" %}:</strong> {{ suspect.first_name }}</p>
+                        <p><strong>{% trans "Gender (M/ F)" %}:</strong> {{ suspect.gender }}</p>
+                        <p><strong>{% trans "Age" %}:</strong> {{ suspect.age }}</p>
+                        <p><strong>{% trans "Country of Birth" %}:</strong> {{ suspect.country_of_birth }}</p>
+                        
+                    </div>
+                    <div class="col-md-6">
+                        
+                        <p><strong>{% trans "ID Type (Birth Certificate/Driver’s License/ID Document/Passport/Other)" %}:</strong> {{ suspect.id_type }}</p>
+                        <p><strong>{% trans "ID Number" %}:</strong> {{ suspect.id_number }}</p>
+                        <p><strong>{% trans "Language" %}:</strong>
+                            {% for language in suspect.languages.all %}
+                                {{ language }},
+                            {% endfor %}
+                        </p>
+                        <p><strong>{% trans "Citizenship" %}:</strong> {{ suspect.citizenship }}</p>
+                        <p><strong>{% trans "Nationality" %}:</strong> {{ suspect.nationality }}</p>
+                        <p><strong>{% trans "Last place of residence" %}:</strong> {{ suspect.last_residence }}</p>
+                        <p><strong>{% trans "Address" %}:</strong> {{ suspect.address }}</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="mb-4">
+            <div class="card-header bg-light border-top border-bottom border-primary">
+                <div class="d-flex py-3 justify-content-between">
+                    <h6 class="m-0">{% trans "TRAFFICKING INFORMATION" %}<small class="text-danger"> - {{suspect.approval.name}}</small> </h6>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="col-md-12">
+                        
+                    <p><strong>{% trans "Date of arrest" %}:</strong> {{ suspect.date_of_arrest }}</p>
+                    <p><strong>{% trans "Role in Trafficking Process (Buyer/ Harbourer/ Kidnapper/ Receiver/ Recruiter/ Seller/ Transporter)" %}:</strong>
+                        {% for role in suspect.role_in_trafficking.all %}
+                            {{ role }},
+                        {% endfor %}
+                    </p>
+                    <p><strong>{% trans "FROM Country" %}:</strong> {{ suspect.traffick_from_country }}</p>
+                    <p><strong>{% trans "Place" %}:</strong> {{ suspect.traffick_from_place }}</p>
+                    <p><strong>{% trans "TO Country" %}:</strong> {{ suspect.traffick_to_country }}</p>
+                    <p><strong>{% trans "Place" %}:</strong> {{ suspect.traffick_to_place }}</p>
+                    <p><strong>{% trans "Interviewer" %}:</strong> {{ suspect.interviewer.first_name }}</p>
+                    <p><strong>{% trans "Approval" %}:</strong> {{ suspect.approval }}</p>
+                    <p><strong>{% trans "Approval Comments" %}:</strong> {{ suspect.approval_comments }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class = "row mb-4">
+        <div class="col-md-12">
+            <div class="">
+                <div class="card-header bg-light border-top border-bottom border-primary">
+                    <div class="d-flex py-3 justify-content-between">
+                        <h6 class="m-0">{% trans "PROSECUTION INFORMATION" %}<small class="text-danger"></h6>
+                    </div>
+                </div>
+                {% for prosecution in suspect.prosecutions.all %}
+                <div class="card-body">
+                    <!-- Prosecution Information -->
+                    <p class="h6">{% trans "CASE NUMBER" %}: {{ prosecution.first.court_case_no }} - {{prosecution.approval.name}}</small> </p>
+                    <p><strong>{% trans "Status of the case (Awaiting allocation of trial date/ Cancelled/ Finalised/ Part heard/ Pending trial/Pending appeal/Pending review/Struck off the role/Withdrawn)" %}:</strong> {{ prosecution.first.status_of_case }}</p>
+                    <p><strong>{% trans "In which trial court is this case enrolled? (Foreign court/High court/ Magistrate court/ Supreme court/Other lower court)" %}:</strong> {{ prosecution.first.trial_court }}</p>
+                    <p><strong>{% trans "If in a foreign court, please specify country" %}:</strong> {{ prosecution.first.trial_court_country }}</p>
+                    <p><strong>{% trans "What is the assigned court case number?" %}:</strong> {{ prosecution.first.court_case_no }}</p>
+                    <p><strong>{% trans "If applicable, what was the verdict?" %}:</strong> {{ prosecution.first.verdict }}</p>
+                    <p><strong>{% trans "If GUILTY, please specify" %}:</strong> {{ prosecution.first.guilty_verdict_reason }}</p>
+                    <p><strong>{% trans "What was the outcome of this prosecution?" %}:</strong> {{ prosecution.first.prosecution_outcome }}</p>
+                    <p><strong>{% trans "If ACQUITTAL, state the reasons" %}:</strong> {{ prosecution.first.aquital_reason }}</p>
+                    <p><strong>{% trans "If REVIEW/ APPEAL, what was the outcome?" %}:</strong> {{ prosecution.first.review_appeal_outcome }}</p>
+                    <p><strong>{% trans "What was the nature of the sanction/penalty?" %}:</strong> {{ prosecution.first.sanction_penalty }}</p>
+                    <p><strong>{% trans "If CUSTODIAL SANCTION/PENALTY, how many years were imposed?" %}:</strong> {{ prosecution.first.years_imposed }}</p>
+                    <p><strong>{% trans "Prosecution Approval" %}:</strong> {{ prosecution.first.approval }}</p>
+                    <p><strong>{% trans "Approval Comments" %}:</strong> {{ prosecution.first.approval_comments }}</p>
+                </div>
+                <hr/>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    
+</div>
+{% endblock %}
