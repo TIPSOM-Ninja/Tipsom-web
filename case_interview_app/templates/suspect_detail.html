@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="container">
-    <div class="d-flex justify-content-between my-4">
+    <div class="d-flex justify-content-start my-4">
         <!-- Add/Edit Interviewer Information -->
         <a href="/{{request.LANGUAGE_CODE}}/search"><< back to search</a>
     </div>
@@ -97,20 +97,20 @@
                 {% for prosecution in suspect.prosecutions.all %}
                 <div class="card-body">
                     <!-- Prosecution Information -->
-                    <p class="h6">{% trans "CASE NUMBER" %}: {{ prosecution.first.court_case_no }} - {{prosecution.approval.name}}</small> </p>
-                    <p><strong>{% trans "Status of the case (Awaiting allocation of trial date/ Cancelled/ Finalised/ Part heard/ Pending trial/Pending appeal/Pending review/Struck off the role/Withdrawn)" %}:</strong> {{ prosecution.first.status_of_case }}</p>
-                    <p><strong>{% trans "In which trial court is this case enrolled? (Foreign court/High court/ Magistrate court/ Supreme court/Other lower court)" %}:</strong> {{ prosecution.first.trial_court }}</p>
-                    <p><strong>{% trans "If in a foreign court, please specify country" %}:</strong> {{ prosecution.first.trial_court_country }}</p>
-                    <p><strong>{% trans "What is the assigned court case number?" %}:</strong> {{ prosecution.first.court_case_no }}</p>
-                    <p><strong>{% trans "If applicable, what was the verdict?" %}:</strong> {{ prosecution.first.verdict }}</p>
-                    <p><strong>{% trans "If GUILTY, please specify" %}:</strong> {{ prosecution.first.guilty_verdict_reason }}</p>
-                    <p><strong>{% trans "What was the outcome of this prosecution?" %}:</strong> {{ prosecution.first.prosecution_outcome }}</p>
-                    <p><strong>{% trans "If ACQUITTAL, state the reasons" %}:</strong> {{ prosecution.first.aquital_reason }}</p>
-                    <p><strong>{% trans "If REVIEW/ APPEAL, what was the outcome?" %}:</strong> {{ prosecution.first.review_appeal_outcome }}</p>
-                    <p><strong>{% trans "What was the nature of the sanction/penalty?" %}:</strong> {{ prosecution.first.sanction_penalty }}</p>
-                    <p><strong>{% trans "If CUSTODIAL SANCTION/PENALTY, how many years were imposed?" %}:</strong> {{ prosecution.first.years_imposed }}</p>
-                    <p><strong>{% trans "Prosecution Approval" %}:</strong> {{ prosecution.first.approval }}</p>
-                    <p><strong>{% trans "Approval Comments" %}:</strong> {{ prosecution.first.approval_comments }}</p>
+                    <p class="h6">{% trans "CASE NUMBER" %}: {{ prosecution.court_case_no }} - {{prosecution.approval.name}}</small> </p>
+                    <p><strong>{% trans "Status of the case (Awaiting allocation of trial date/ Cancelled/ Finalised/ Part heard/ Pending trial/Pending appeal/Pending review/Struck off the role/Withdrawn)" %}:</strong> {{ prosecution.status_of_case }}</p>
+                    <p><strong>{% trans "In which trial court is this case enrolled? (Foreign court/High court/ Magistrate court/ Supreme court/Other lower court)" %}:</strong> {{ prosecution.trial_court }}</p>
+                    <p><strong>{% trans "If in a foreign court, please specify country" %}:</strong> {{ prosecution.trial_court_country }}</p>
+                    <p><strong>{% trans "What is the assigned court case number?" %}:</strong> {{ prosecution.court_case_no }}</p>
+                    <p><strong>{% trans "If applicable, what was the verdict?" %}:</strong> {{ prosecution.verdict }}</p>
+                    <p><strong>{% trans "If GUILTY, please specify" %}:</strong> {{ prosecution.guilty_verdict_reason }}</p>
+                    <p><strong>{% trans "What was the outcome of this prosecution?" %}:</strong> {{ prosecution.prosecution_outcome }}</p>
+                    <p><strong>{% trans "If ACQUITTAL, state the reasons" %}:</strong> {{ prosecution.aquital_reason }}</p>
+                    <p><strong>{% trans "If REVIEW/ APPEAL, what was the outcome?" %}:</strong> {{ prosecution.review_appeal_outcome }}</p>
+                    <p><strong>{% trans "What was the nature of the sanction/penalty?" %}:</strong> {{ prosecution.sanction_penalty }}</p>
+                    <p><strong>{% trans "If CUSTODIAL SANCTION/PENALTY, how many years were imposed?" %}:</strong> {{ prosecution.years_imposed }}</p>
+                    <p><strong>{% trans "Prosecution Approval" %}:</strong> {{ prosecution.approval }}</p>
+                    <p><strong>{% trans "Approval Comments" %}:</strong> {{ prosecution.approval_comments }}</p>
                 </div>
                 <hr/>
                 {% endfor %}
