@@ -1,0 +1,35 @@
+{% extends 'layouts/master.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="container">
+    
+    <div class="row my-4">
+        <div class="">
+            <div class="card-header bg-light border-top border-bottom border-primary">
+                <div class="d-flex py-3 justify-content-between">
+                    <h6 class="m-0">{% trans "INTERVIEWER PROFILE" %}</h6>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Interviewer Information -->
+                        <p><strong>{% trans "First Name" %}:</strong> {{ interviewer.first_name }}</p>
+                        <p><strong>{% trans "Last Name" %}:</strong> {{ interviewer.last_name }}</p>
+                        <p><strong>{% trans "Position" %}:</strong> {{ interviewer.position }}</p>
+                        <p><strong>{% trans "Organization" %}:</strong> {{ interviewer.organization }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>{% trans "Address" %}:</strong> {{ interviewer.address }}</p>
+                        <p><strong>{% trans "Email Address" %}:</strong> {{ interviewer.email_address }}</p>
+                        <p><strong>{% trans "Approval" %}:</strong> {{ interviewer.approval }}</p>
+                        <p><strong>{% trans "Approval Comments" %}:</strong> {{ interviewer.approval_comments }}</p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1018,6 +1018,10 @@ def suspect_detail(request, suspect_id):
 
     return render(request, 'suspect_detail.html', {'suspect': suspect})
 
+def interviewer_detail(request, interviewer_id):
+    interviewer = get_object_or_404(Interviewer, pk=interviewer_id)
+    return render(request, 'interviewer_detail.html', {'interviewer': interviewer})
+
 @login_required
 def victim_view(request,id):
     if(request.user.is_authenticated):
