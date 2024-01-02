@@ -37,6 +37,7 @@ ALLOWED_HOSTS = [env('DJANGO_HOST')]
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

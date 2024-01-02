@@ -27,8 +27,6 @@ urlpatterns = [
     path("process_consent", views.process_consent, name="process_consent"),
     path("process_approval", views.process_approval, name="process_approval"),
 
-    
-
     path("victim/<id>", views.victim_view, name="victim_view"),
 
     path('search/', views.search_view, name='search_view'),
