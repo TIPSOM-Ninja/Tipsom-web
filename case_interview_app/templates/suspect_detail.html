@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-md-6">
                         
-                        <p><strong>{% trans "ID Type (Birth Certificate/Driver’s License/ID Document/Passport/Other)" %}:</strong> {{ suspect.id_type }}</p>
+                        <p><strong>{% trans "ID Type:" %}:</strong> {{ suspect.id_type }}</p>
                         <p><strong>{% trans "ID Number" %}:</strong> {{ suspect.id_number }}</p>
                         <p><strong>{% trans "Language" %}:</strong>
                             {% for language in suspect.languages.all %}
@@ -70,7 +70,7 @@
                 <div class="col-md-12">
                         
                     <p><strong>{% trans "Date of arrest" %}:</strong> {{ suspect.date_of_arrest }}</p>
-                    <p><strong>{% trans "Role in Trafficking Process (Buyer/ Harbourer/ Kidnapper/ Receiver/ Recruiter/ Seller/ Transporter)" %}:</strong>
+                    <p><strong>{% trans "Role in Trafficking Process" %}:</strong>
                         {% for role in suspect.role_in_trafficking.all %}
                             {{ role }},
                         {% endfor %}
@@ -98,8 +98,8 @@
                 <div class="card-body">
                     <!-- Prosecution Information -->
                     <p class="h6">{% trans "CASE NUMBER" %}: {{ prosecution.court_case_no }} - {{prosecution.approval.name}}</small> </p>
-                    <p><strong>{% trans "Status of the case (Awaiting allocation of trial date/ Cancelled/ Finalised/ Part heard/ Pending trial/Pending appeal/Pending review/Struck off the role/Withdrawn)" %}:</strong> {{ prosecution.status_of_case }}</p>
-                    <p><strong>{% trans "In which trial court is this case enrolled? (Foreign court/High court/ Magistrate court/ Supreme court/Other lower court)" %}:</strong> {{ prosecution.trial_court }}</p>
+                    <p><strong>{% trans "Status of the case" %}:</strong> {{ prosecution.status_of_case }}</p>
+                    <p><strong>{% trans "In which trial court is this case enrolled?" %}:</strong> {{ prosecution.trial_court }}</p>
                     <p><strong>{% trans "If in a foreign court, please specify country" %}:</strong> {{ prosecution.trial_court_country }}</p>
                     <p><strong>{% trans "What is the assigned court case number?" %}:</strong> {{ prosecution.court_case_no }}</p>
                     <p><strong>{% trans "If applicable, what was the verdict?" %}:</strong> {{ prosecution.verdict }}</p>
