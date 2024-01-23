@@ -36,6 +36,7 @@ urlpatterns = [
 
     path('api/interviewer/', apis.InterviewerRegistrationAPIView.as_view(), name='interviewer-list-api'),
     path('api/interviewer/<int:pk>/', apis.InterviewerRegistrationAPIView.as_view(), name='interviewer-detail-api'),
+    path('api/cases/', apis.CasesWithCountsAPIView.as_view(), name='cases-api'),
 ]
     
 

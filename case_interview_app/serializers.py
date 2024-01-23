@@ -1,6 +1,7 @@
 # serializers.py
 from rest_framework import serializers
 from .models import *
+from django.db.models import Count
 
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
@@ -354,3 +355,38 @@ class SocioEconomicSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocioEconomic
         fields = '__all__'
+
+
+class VictimProfileWithCountsSerializer(serializers.ModelSerializer):
+    assistance_count = serializers.SerializerMethodField()
+    exploitation_count = serializers.SerializerMethodField()
+    investigations_count = serializers.SerializerMethodField()
+    prosecutions_count = serializers.SerializerMethodField()
+    socio_economic_count = serializers.SerializerMethodField()
+    traffickers_count = serializers.SerializerMethodField()
+    destinations_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = VictimProfile
+        fields = '__all__'
+
+    def get_assistance_count(self, obj):
+        return obj.assistance.aggregate(Count('id', distinct=True))['id__count']
+
+    def get_exploitation_count(self, obj):
+        return obj.exploitation.aggregate(Count('id', distinct=True))['id__count']
+
+    def get_investigations_count(self, obj):
+        return obj.investigations.aggregate(Count('id', distinct=True))['id__count']
+
+    def get_prosecutions_count(self, obj):
+        return obj.prosecutions.aggregate(Count('id', distinct=True))['id__count']
+
+    def get_socio_economic_count(self, obj):
+        return obj.socio_economic.aggregate(Count('id', distinct=True))['id__count']
+
+    def get_traffickers_count(self, obj):
+        return obj.traffickers.aggregate(Count('id', distinct=True))['id__count']
+
+    def get_destinations_count(self, obj):
+        return obj.destinations.aggregate(Count('id', distinct=True))['id__count']

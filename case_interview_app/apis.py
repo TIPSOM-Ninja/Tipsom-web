@@ -42,3 +42,46 @@ class InterviewerRegistrationAPIView(APIView):
             serializer.save()
             return Response({"message": "Interviewer updated successfully"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CasesWithCountsAPIView(APIView):
+    def get(self, request):
+        if request.GET.get('language') is not None:
+            activate(request.GET.get('language'))
+        if request.GET.get('page') is not None:
+            page = request.GET.get('page')
+        else:
+            page = 1
+        interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
+
+        if request.user.is_staff:
+            if request.GET.get('pending') is None:
+                victims = VictimProfile.objects.filter(interviewer__id = interviewer.id).order_by('id').annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))|VictimProfile.objects.filter(interview_country_id = interviewer.country_id).order_by('id').annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))
+            else:
+                victims = VictimProfile.objects.filter(interview_country_id = interviewer.country_id,approval_id = 1).order_by('id').annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))
+        else:
+            victims = interviewer.victims.order_by('id').annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))
+
+
+        paginator = Paginator(victims, per_page=12)
+        page_object = paginator.get_page(page)
+
+        if request.session.get('v_id') is not None:
+            del request.session['v_id']
+        if request.session.get('consent_given') is not None:
+            del request.session['consent_given']
+
+        # Serialize the data using the custom serializer
+        serializer = VictimProfileWithCountsSerializer(page_object, many=True)
+
+        context = {
+            "victims": serializer.data,
+            "page": {
+                "current": page_object.number,
+                "has_next": page_object.has_next(),
+                "has_previous": page_object.has_previous(),
+            },
+            "interviewer": interviewer
+        }
+
+        return Response(context)
