@@ -1,6 +1,7 @@
 from django.urls import path
 
 from . import views
+from . import apis
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -32,6 +33,9 @@ urlpatterns = [
     path('search/', views.search_view, name='search_view'),
     path('suspect/<int:suspect_id>/', views.suspect_detail, name='suspect_detail'),
     path('interviewer/<int:interviewer_id>/', views.interviewer_detail, name='interviewer_detail'),
+
+    path('api/interviewer/', apis.InterviewerRegistrationAPIView.as_view(), name='interviewer-list-api'),
+    path('api/interviewer/<int:pk>/', apis.InterviewerRegistrationAPIView.as_view(), name='interviewer-detail-api'),
 ]
     
 
