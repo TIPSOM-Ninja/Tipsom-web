@@ -85,7 +85,7 @@ class CasesWithCountsAPIView(APIView):
                 "has_next": page_object.has_next(),
                 "has_previous": page_object.has_previous(),
             },
-            "interviewer": InterviewerSerializer(data=interviewer)
+            "interviewer": InterviewerSerializer(data=interviewer).data
         }
 
         return Response(context)
