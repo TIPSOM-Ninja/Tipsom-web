@@ -77,7 +77,7 @@ class CasesWithCountsAPIView(APIView):
 
         # Serialize the data using the custom serializer
         serializer = VictimProfileWithCountsSerializer(page_object, many=True)
-
+        interviewer_serializer = InterviewerSerializer(interviewer)
         context = {
             "victims": serializer.data,
             "page": {
@@ -85,7 +85,7 @@ class CasesWithCountsAPIView(APIView):
                 "has_next": page_object.has_next(),
                 "has_previous": page_object.has_previous(),
             },
-            "interviewer": InterviewerSerializer(data=interviewer).data
+            "interviewer": interviewer_serializer.data
         }
 
         return Response(context)
