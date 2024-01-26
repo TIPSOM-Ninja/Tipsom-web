@@ -15,7 +15,7 @@ class InterviewerRegistrationAPIView(APIView):
     def get(self, request, pk=None):
         if pk:
             if request.user.is_authenticated:
-                interviewer = Interviewer.objects.where('email_address',request.user.username).first()
+                interviewer = Interviewer.objects.filter('email_address',request.user.username).first()
             else:   
                 interviewer = get_object_or_404(Interviewer, pk=pk)
             serializer = InterviewerSerializer(interviewer)
