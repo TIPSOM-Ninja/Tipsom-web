@@ -14,11 +14,15 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 class InterviewerRegistrationAPIView(APIView):
     def get(self, request, pk=None):
         if pk:
-            interviewer = get_object_or_404(Interviewer, pk=pk)
+            if pk == 0 and request.user.is_authenticated:
+                interviewer = Interviewer.objects.where('email_address',request.user.username).first()
+            else:   
+                interviewer = get_object_or_404(Interviewer, pk=pk)
             serializer = InterviewerSerializer(interviewer)
         else:
-            interviewers = Interviewer.objects.all()
-            serializer = InterviewerSerializer(interviewers, many=True)
+            if request.user.is_staff:
+                interviewers = Interviewer.objects.all()
+                serializer = InterviewerSerializer(interviewers, many=True)
         return Response(serializer.data)
     def post(self, request):
         serializer = InterviewerSerializer(data=request.data)
