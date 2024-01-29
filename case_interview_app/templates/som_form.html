@@ -1,0 +1,239 @@
+{% extends "layouts/master.html" %}
+{% load i18n %}
+{% block content %}
+<div class="container p-3">
+    {% if request.session.consent_given is None %}
+    {% include "components/consent_form.html" %}
+    {% endif %}
+    <div class="card ">
+        <div class="card-header text-center"  style="background-color: #1860c3;">
+            <h5 class="text-warning">{% trans "SMUGGLING OF PERSONS INFORMATION" %}</h5>
+        </div>
+        <div class="card-body">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link {% if step is not None and step == '1' %}active {% elif  step is None %}active{% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "Victim Profile" %}</button>
+                    <button class="nav-link {% if step is not None and step == '3' %} active {% endif %}" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-transit" type="button" role="tab" aria-controls="nav-transit" aria-selected="false">{% translate "Transit Route" %}</button>  
+
+                </div>
+            </nav>
+            <div class="tab-content">
+                <div class="tab-pane fade {% if step is not None and step == '1' %} show active {% elif  step is None %}show active {% endif %}" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                    <button class="btn btn-light my-2 {% if step is not None and step == '1' %}active {% elif  step is None %}active{% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "Single victim" %}</button>
+                    <button class="btn btn-primary my-2 {% if step is not None and step == '3' %} active {% endif %}" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-transit" type="button" role="tab" aria-controls="nav-transit" aria-selected="false">{% translate "Multiple victims" %}</button>  
+
+                    {% if request.session.v_id %}
+                    {% include "components/victimprofile.html"%}
+                    <div class="container text-center">
+                        <a href="/{{request.LANGUAGE_CODE}}/tip_form?step=2" class="btn btn-primary mt-3 text-warning">{% translate "NEXT" %}</a>
+
+                    </div>
+                    {% else %}
+                    {% include "components/multiple_victim_form_som.html"%}
+                    {% endif %}
+                </div>
+                <div class="tab-pane fade {% if step is not None and step == '3' %} show active  {% endif %}" id="nav-transit" role="tabpanel" aria-labelledby="nav-transit-tab" tabindex="2">
+                    
+                    <form id="transit_form" method="post" action="/{{request.LANGUAGE_CODE}}/save_transit">
+                        {% csrf_token %}
+                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="country_of_origin" class="form-label">{% trans "Country of origin/recruitment:" %}</label>
+                                    <select class="form-select" name="country_of_origin_id" id="country_of_origin" aria-label="Default select example"  value="{{transit.country_of_origin}}">
+                                        <option></option>
+                                        
+                                        {% for country in countries %}
+                                            {% if country.is_sadc %}
+                                            <option {% if transit.country_of_origin_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <option disabled style="background:#1860c3; color:white">NON-SADC</option>
+                                        {% for country in countries %}
+                                            {% if country.is_sadc != True %}
+                                            <option {% if transit.country_of_origin_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="country_of_dest" class="form-label">{% trans "Country of final destination:" %}</label>
+                                    <select class="form-select" name="country_of_dest_id" id="country_of_dest" aria-label="Default select example"  value="{{transit.country_of_dest}}">
+                                        <option></option>
+                                        
+                                        {% for country in countries %}
+                                            {% if country.is_sadc %}
+                                            <option {% if transit.country_of_dest_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <option disabled style="background:#1860c3; color:white">NON-SADC</option>
+                                        {% for country in countries %}
+                                            {% if country.is_sadc != True %}
+                                            <option {% if transit.country_of_dest_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="country_of_transit" class="form-label">{% trans "Countries of transit:" %}</label>
+                                    <select class="form-select" name="country_of_dest_id" id="country_of_dest" aria-label="Default select example"  value="{{transit.country_of_dest}}">
+                                        <option></option>
+                                        
+                                        {% for country in countries %}
+                                            {% if country.is_sadc %}
+                                            <option {% if transit.country_of_dest_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <option disabled style="background:#1860c3; color:white">NON-SADC</option>
+                                        {% for country in countries %}
+                                            {% if country.is_sadc != True %}
+                                            <option {% if transit.country_of_dest_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="country_of_transit" class="form-label">{% trans "Country of interception:" %}</label>
+                                    <select class="form-select" name="country_of_dest_id" id="country_of_dest" aria-label="Default select example"  value="{{transit.country_of_dest}}">
+                                        <option></option>
+                                        
+                                        {% for country in countries %}
+                                            {% if country.is_sadc %}
+                                            <option {% if transit.country_of_dest_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <option disabled style="background:#1860c3; color:white">NON-SADC</option>
+                                        {% for country in countries %}
+                                            {% if country.is_sadc != True %}
+                                            <option {% if transit.country_of_dest_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="means_of_transport" class="form-label">{% trans "Means of transportation:" %}</label>
+                                    <select class="form-select" name="means_of_transport[]" id="means_of_transport" aria-label="Default select example"  value="{{transit.means_of_transport_id}}" multiple>
+                                        <option></option>
+                                        {% for mean in transport_means %}
+                                            <option {% if mean in transit.means_of_transport %}selected{% endif %} value="{{mean.id}}"> {{mean.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="remarks" class="form-label">{% trans "Additional remarks:" %}</label>
+                                    <textarea type="text" name = "remarks"  class="form-control" id="remarks" aria-describedby="remarksHelp">{{transit.remarks}}</textarea>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="row text-center m-3 ">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE AND RETURN" %}</button>
+                            </div>
+                        
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block scripts %}
+<script>
+{% if not request.session.v_id %}
+const languages = document.querySelector('#languages');
+const choices_0 = new Choices(languages,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const idtypes = document.querySelector('#idtypes');
+const choices_1 = new Choices(idtypes,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+{% endif %}
+const e_criminal_activity_type = document.querySelector('#e_criminal_activity_type');
+const choices = new Choices(e_criminal_activity_type,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+
+const e_forced_labour_industry = document.querySelector('#e_forced_labour_industry');
+const choices1 = new Choices(e_forced_labour_industry,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+
+const e_brice_recipient = document.querySelector('#e_brice_recipient');
+const choices2 = new Choices(e_brice_recipient,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+
+const e_child_marriage_reason = document.querySelector('#e_child_marriage_reason');
+const choices3 = new Choices(e_child_marriage_reason,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+
+const e_marriage_violence_type = document.querySelector('#e_marriage_violence_type');
+const choices4 = new Choices(e_marriage_violence_type,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+
+const e_victim_military_activities = document.querySelector('#e_victim_military_activities');
+const choices5 = new Choices(e_victim_military_activities,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+
+const e_body_part_removed = document.querySelector('#e_body_part_removed');
+const choices6 = new Choices(e_body_part_removed,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+
+const e_trafficking_means = document.querySelector('#e_trafficking_means');
+const choices7 = new Choices(e_trafficking_means,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+
+const means_of_transport = document.querySelector('#means_of_transport');
+const choices8 = new Choices(means_of_transport,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+
+
+</script>
+{% endblock scripts %}

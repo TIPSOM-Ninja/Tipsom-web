@@ -1,0 +1,109 @@
+{% extends "layouts/master.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between">
+    {% if interviewer %}
+    {% if interviewer.data_entry_purpose_id == 1 %}
+    <span>
+    <a href="/{{request.LANGUAGE_CODE}}/tip_form" class="btn btn-primary mt-3 text-warning">{% translate "NEW TIP CASE" %}</a>
+    <a href="/{{request.LANGUAGE_CODE}}/tip_form" class="btn btn-primary mt-3 text-warning">{% translate "NEW SOM CASE" %}</a>
+    </span>
+    {% elif interviewer.data_entry_purpose_id == 2 %}
+    <span>
+        <a href="/{{request.LANGUAGE_CODE}}/investigation_form" class="btn btn-primary mt-3 text-warning">{% translate "NEW TIP CASE" %}</a>
+        <a href="/{{request.LANGUAGE_CODE}}/investigation_form" class="btn btn-primary mt-3 text-warning">{% translate "NEW SOM CASE" %}</a>
+    </span>
+    {% elif interviewer.data_entry_purpose_id == 3 %}
+    <span>
+    <a href="/{{request.LANGUAGE_CODE}}/prosecution_form" class="btn btn-primary mt-3 text-warning">{% translate "NEW TIP CASE" %}</a>
+    <a href="/{{request.LANGUAGE_CODE}}/prosecution_form" class="btn btn-primary mt-3 text-warning">{% translate "NEW SOM CASE" %}</a>
+    </span>
+    {% elif interviewer.data_entry_purpose_id == 4 %}
+    <span>
+    <a href="/{{request.LANGUAGE_CODE}}/assistance_form" class="btn btn-primary mt-3 text-warning">{% translate "NEW TIP CASE" %}</a>
+    <a href="/{{request.LANGUAGE_CODE}}/assistance_form" class="btn btn-primary mt-3 text-warning">{% translate "NEW SOM CASE" %}</a>
+    </span>
+    {% endif %}
+    {% else %}
+    <a href="/{{request.LANGUAGE_CODE}}/interviewer_form" class="btn btn-primary mt-3 text-warning">{% translate "CREATE PROFILE" %}</a>
+    {% endif %}
+    <div class="d-flex">
+    {% if page.has_previous %}
+    <a href="/{{request.LANGUAGE_CODE}}/cases?page={{page.current|add:'-1'}}" class="btn btn-outline-primary mt-3 me-2 text-warning"><< </a>
+    {% endif %}
+
+    {% if page.has_previous or page.has_next %}
+    <a href="/{{request.LANGUAGE_CODE}}/cases?page={{page.current}}" class="btn btn-primary mt-3 text-warning">{{page.current}}</a>
+    {% endif %}
+
+    {% if page.has_next %}
+    <a href="/{{request.LANGUAGE_CODE}}/cases?page={{page.current|add:'1'}}" class="btn btn-outline-primary mt-3 ms-2 text-warning"> >></a>
+    {% endif %}
+    </div>
+    </div>
+
+    <hr/>
+    <div class="row g-3">
+        {% for victim in victims %}
+        <div class="col-md-3">
+            <div class="card text-bg-light mb-3">
+                
+                <div class="card-header">
+                    <h5 class="card-title">{{victim.victim_identifier}} - {{victim.interview_date}}</h5>
+                </div>
+                <div class="card-body">
+                    {% if interviewer.data_entry_purpose_id == 1 or user.is_staff %}
+                    <p>{% trans "Exploitation forms:" %} {{victim.exploitation__count}}</p>
+                    <p>{% trans "Transit route forms:" %} {{victim.destinations__count}}</p>
+
+                    {% elif interviewer.data_entry_purpose_id == 2 or user.is_staff %}
+                    <p>{% trans "Arrest and investigation forms:" %} {{victim.investigations__count}}</p>
+                    <p>{% trans "Suspect forms:" %} {{victim.traffickers__count}}</p>
+                    {% elif interviewer.data_entry_purpose_id == 3 or user.is_staff %}
+                    <p>{% trans "Suspect forms:" %} {{victim.traffickers__count}}</p>
+                    <p>{% trans "Prosecution forms:" %} {{victim.prosecutions__count}}</p>
+                    {% elif interviewer.data_entry_purpose_id == 4 or user.is_staff %}
+                    <p>{% trans "Assistance forms:" %} {{victim.assistance__count}}</p>
+                    
+                    <p>{% trans "Socio-economic forms:" %} {{victim.socio_economic__count}}</p>
+                    {% endif %}
+                    
+                    
+                    
+                    
+                    
+                    
+
+
+                    
+                    {% comment %} <p><strong>{% trans "STATUS" %}:</strong> {% translate "Pending Approval" %}</p> {% endcomment %}
+                    <div class="d-flex g-3 justify-content-start">
+                        <div class="col">
+                            <a href="/{{request.LANGUAGE_CODE}}/victim/{{victim.id}}"><small><i class="fa-solid fa-eye"></i> {% translate "View" %}</small></a>
+                        </div>
+                        <div class="col">
+                            {% if interviewer %}
+                                {% if interviewer.data_entry_purpose_id == 1 %}
+                                    <a href="/{{request.LANGUAGE_CODE}}/tip_form?v_id={{victim.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
+                                {% elif interviewer.data_entry_purpose_id == 2 %}
+                                    <a href="/{{request.LANGUAGE_CODE}}/investigation_form?v_id={{victim.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
+                                {% elif interviewer.data_entry_purpose_id == 3 %}
+                                    <a href="/{{request.LANGUAGE_CODE}}/prosecution_form?v_id={{victim.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
+                                {% elif interviewer.data_entry_purpose_id == 4 %}
+                                    <a href="/{{request.LANGUAGE_CODE}}/assistance_form?v_id={{victim.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
+                                {% endif %}
+                            {% else %}
+                            
+                            {% endif %}
+                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

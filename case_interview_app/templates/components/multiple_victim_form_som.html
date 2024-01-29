@@ -9,14 +9,14 @@
         </div>
         <div class="col-md-6">
             <div class="">
-                <label for="initials" class="form-label">{% trans "Initials:" %}</label>
+                <label for="initials" class="form-label">{% trans "Number of victims:" %}</label>
                 <input type="text" name = "initials" value = "{{victim.initials}}" class="form-control" id="initials" aria-describedby="familyNameHelp" required>
             </div>
         </div>
         <div class="col-md-6">
             <div class="">
                 <label for="age" class="form-label">{% trans "Age:" %}</label>
-                <input type="number" name = "age" value = "{{victim.age}}" class="form-control" id="age" min=0 aria-describedby="ageHelp" required onchange="validateNumber(this,'victim_age_error',0,120)">
+                <input type="text" name = "age" class="form-control" id="age" min=0 aria-describedby="ageHelp" required onchange="validateNumber(this,'victim_age_error',0,120)" value="10-20yrs:10vic, 20-30yrs:3vic, ">
                 <span id="victim_age_error"  style="display:none; color:red;"></span>
             </div>
         </div>
@@ -26,8 +26,10 @@
                 <div>
                     {% for gender in genders %}
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gender" id="gender_{{gender.id}}" value="{{gender.id}}">
+                            <input class="form-check-input" type="radio" name="gender" id="gender_{{gender.id}}" value="{{gender.id}}"> 
                             <label class="form-check-label" for="gender_{{gender.id}}">{{gender.name}}</label>
+                            <input type="text" class="form-control" placeholder="no of {{gender.name}}">
+
                         </div>
                     {% endfor %}
                 </div>
@@ -38,23 +40,51 @@
             <div class="">
                 <label for="race" class="form-label">{% trans "Race:" %}</label>
                 <div>
-                    {% for race in races %}
+                    
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="race" id="race_{{race.id}}" value="{{race.id}}" required>
-                            <label class="form-check-label" for="race_{{race.id}}">{{race.name}}</label>
+                            
+                            <label class="form-check-label" for="race_{{race.id}}">Black</label>
+                            <input type="text" class="form-control" placeholder="No of black" >
                         </div>
-                    {% endfor %}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="race" id="race_{{race.id}}" value="{{race.id}}" required>
+                            <label class="form-check-label" for="race_{{race.id}}">White</label>
+                            <input type="text" class="form-control" placeholder="No of white">
+                        </div>
+                        
+                    
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="">
                 <label for="languages" class="form-label">{% trans "Languages:" %}</label>
-                <select class="form-select" name="languages[]" id="languages" aria-label="Default select example" required multiple>
+                <div>
+                    
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="race" id="race_{{race.id}}" value="{{race.id}}" required>
+                        
+                        <label class="form-check-label" for="race_{{race.id}}">English</label>
+                        <input type="text" class="form-control" placeholder="No speaking english" >
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="race" id="race_{{race.id}}" value="{{race.id}}" required>
+                        <label class="form-check-label" for="race_{{race.id}}">French</label>
+                        <input type="text" class="form-control" placeholder="No speaking french">
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="race" id="race_{{race.id}}" value="{{race.id}}" required>
+                        <label class="form-check-label" for="race_{{race.id}}">Portuguese</label>
+                        <input type="text" class="form-control" placeholder="No speaking portuguese">
+                    </div>
+                
+            </div>
+                {% comment %} <select class="form-select" name="languages[]" id="languages" aria-label="Default select example" required multiple>
                     {% for language in languages %}
                         <option {% if language.id in victim.languages %}selected{% endif %} value="{{language.id}}">{% trans language.name %}</option>
                     {% endfor %}
-                </select>
+                </select> {% endcomment %}
             </div>
         </div>
         {% comment %} Deprecated {% endcomment %}
@@ -73,7 +103,7 @@
         
         <div class="col-md-6">
             <div class="">
-                <label for="citizenship" class="form-label">{% trans "Suspected country of origin:" %}</label>
+                <label for="citizenship" class="form-label">{% trans "Suspected country(ies) of origin:" %}</label>
                 <select class="form-select" name="citizenship" id="citizenship" aria-label="Default select example" required>
                     <option></option>
                     
@@ -137,7 +167,7 @@
         </div>
         <div class="col-md-6">
             <div class="">
-                <label for="countryOfBirth" class="form-label">{% trans "Country of birth:" %}</label>
+                <label for="countryOfBirth" class="form-label">{% trans "Country(ies) of birth:" %}</label>
                 <select class="form-select" name="country_of_birth" id="countryOfBirth" aria-label="Default select example" required>
                     <option></option>
                     

@@ -1,0 +1,202 @@
+{% extends "layouts/master.html" %}
+{% load i18n %}
+{% block content %}
+<div class="container p-3">
+    {% if request.session.consent_given is None %}
+    {% include "components/consent_form.html" %}
+    {% endif %}
+    <div class="card ">
+        <div class="card-header text-center"  style="background-color: #1860c3;">
+            <h5 class="text-warning">{% trans "PROSECUTION INFORMATION" %}</h5>
+        </div>
+        <div class="card-body">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                     
+                    <button class="nav-link {% if step is not None and step == '1' %} active {% elif  step is None %}active {% endif %}" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-prosecution" type="button" role="tab" aria-controls="nav-prosecution" aria-selected="false">{% trans "Prosecution" %}</button>
+                    <button class="nav-link {% if step is not None and step == '2' %} active {% endif %}" id="nav-suspect-tab" data-bs-toggle="tab" data-bs-target="#nav-suspect" type="button" role="tab" aria-controls="nav-suspect" aria-selected="false">{% trans "Suspects" %}</button> 
+                    <button class="nav-link {% if step is not None and step == '3' %}active {% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "Victim Profile" %}</button>
+                </div>
+            </nav>
+            <div class="tab-content">
+                <div class="tab-pane fade {% if step is not None and step == '3' %} show active {% endif %}" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                    {% if request.session.v_id %}
+                    {% include "components/victimprofile.html"%}
+                    <div class="container text-center">
+                        <a href="/{{request.LANGUAGE_CODE}}/prosecution_form?step=2" class="btn btn-primary mt-3 text-warning">{% translate "NEXT" %}</a>
+
+                    </div>
+                    {% else %}
+                    {% include "components/victim_form.html"%}
+                    {% endif %}
+                </div>
+                <div class="tab-pane fade {% if step is not None and step == '2' %} show active {% endif %}" id="nav-suspect" role="tabpanel" aria-labelledby="nav-suspect-tab" tabindex="1">
+                    
+                    {% if suspects|length > 0 %}
+                    <div class="container" id="suspect_holder">
+                        {% for suspect in suspects %}
+                        <div class="card my-2">
+                            <div class="card-header">
+                                <h3>Suspect: {{suspect.first_name}} {{suspect.last_name}}</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3 mb-1">
+                                    <div class="col-md-12 py-2 border-top border-bottom border-primary bg-light">
+                                        <h6>Bio-data</h6>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                    <p>{% trans "Name:" %} {{suspect.first_name}} {{suspect.last_name}}</p>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        {% trans "Date of birth:" %} {{suspect.dob}}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% trans "Age:" %} {{suspect.age}}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% trans "Gender:" %} {{suspect.gender.name}}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% trans "Race:" %}{{suspect.race.name}}
+                                        
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% trans "Languages:" %} {% for  lang in suspect.languages.all  %}{{lang.name}} {% endfor %}
+                                    </div>
+                                    <div class="col-md-6">
+                                    {% trans "Citizenship:" %} {{suspect.citizenship.name}}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% trans "Nationality:" %} {{suspect.nationality.name}}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% trans "ID Type:" %} {{suspect.idtype.name }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% trans "ID number:" %} {{suspect.id_number}}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% trans "Address:" %} {{suspect.address}}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% trans "Last place of residence:" %} {{suspect.last_residence.name}}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% trans "Country of birth:" %} {{suspect.country_of_birth.name}}
+                                    </div>
+        
+                                
+                                </div>
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-12 py-2 border-top border-bottom border-primary bg-light">
+                                        <h6>Case data</h6>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        {% trans "Date of arrest:" %} {{suspect.date_of_arrest}}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% trans "Role in trafficking:" %} {% for role_in_trafficking in suspect.role_in_trafficking.all %}{{role_in_trafficking.name }} {% endfor %}
+                                        
+                                    </div>
+                                    <div class="col-md-12">
+                                        {% translate "From:" %} {{suspect.traffick_from_country.name}},{{suspect.traffick_from_place}}
+                                    </div>
+                                    
+                                    <div class="col-md-12">
+                                        {% translate "To:" %} {{suspect.traffick_to_country.name}},{{suspect.traffick_to_place}}
+                                    </div>
+                                    
+        
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if suspects|length > 0 %}
+                    <div class="container" id="form_holder" style="display:none;">
+                        {% if suspects|length > 0 %}
+                        <a href="javascript:;" onclick="toggleSuspects()">Toggle suspect view</a>
+                        {% endif %}
+
+                        {% include "components/suspect_form.html" %}
+                    </div>
+                    <a href="javascript:;" id="sus_add" onclick="addSuspect()">Add suspect</a>
+                    {% endif %}
+                    {% else %}
+                    {% include "components/suspect_form.html" %}
+                    {% endif %}
+                    
+                </div>
+                <div class="tab-pane fade {% if step is not None and step == '3' %} show active {% elif  step is None %}show active    {% endif %}" id="nav-prosecution" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="2">
+                    
+                    <div class="container" id="prosecutions_holder">
+                    {% for prosecution in prosecutions %}
+                    <div class="card my-2">
+                    {% include "components/prosecution_view.html" %}
+                    </div>
+                    {% endfor %}
+                    </div>
+                    {% if prosecutions|length < 1 %}
+                       
+                        {% include "components/prosecution_form.html" %}
+                        
+                    {% endif %}
+                    
+                    {% if prosecutions|length > 0 %}
+                    <div class="container" id="prosecution_form_holder" style="display:none;">
+                        {% if suspects|length > 0 %}
+                        <a href="javascript:;" onclick="toggleProsecutions()">Toggle prosecutions view</a>
+                        {% endif %}
+
+                        {% include "components/prosecution_form.html" %}
+                    </div>
+                    <a href="javascript:;" id="pros_add" onclick="addProsecution()">Add prosecution</a>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+{% if not request.session.v_id %}
+    const languages = document.querySelector('#languages');
+    const choices_0 = new Choices(languages,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+    const idtypes = document.querySelector('#idtypes');
+    const choices_1 = new Choices(idtypes,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+{% endif %}
+const role_in_trafficking = document.querySelector('#role_in_trafficking');
+const choices4 = new Choices(role_in_trafficking,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const languages_1 = document.querySelector('.languages');
+const choices5 = new Choices(languages_1,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+const idtypes_1 = document.querySelector('.idtypes');
+const choices6 = new Choices(idtypes_1,{
+    classNames: {
+        containerInner: 'choices_inner',
+    }
+});
+</script>
+{% endblock scripts %}
