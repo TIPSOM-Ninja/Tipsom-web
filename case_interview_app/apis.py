@@ -96,7 +96,7 @@ class CasesWithCountsAPIView(APIView):
     
 class TipVictimAPIView(APIView):
     def get(self, request, pk=None):
-        victim =VictimProfile.objects.filter(pk = pk).order_by('id').annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))
+        victim =VictimProfile.objects.filter(pk = pk).annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True)).first()
         serializer = VictimProfileWithCountsSerializer(victim)
         return Response(serializer.data)
 
