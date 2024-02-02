@@ -393,6 +393,15 @@ class VictimProfileWithCountsSerializer(serializers.ModelSerializer):
     
 
 class VictimProfileWithRelatedSerializer(serializers.ModelSerializer):
+    citizenship = CountrySerializer(read_only=True)
+    countryOfBirth = CountrySerializer(read_only=True)
+    languages = LanguageSerializer(many=True, read_only=True)
+    gender = GenderSerializer(read_only=True)
+    race = RaceSerializer(read_only=True)
+    identification_type = IdTypeSerializer(many=True, read_only=True)
+    last_place_of_residence = CountrySerializer(read_only=True)
+    interview_country = CountrySerializer(read_only=True)
+    approval = ApprovalStatusSerializer(read_only=True)
     assistance_count = serializers.SerializerMethodField()
     exploitation_count = serializers.SerializerMethodField()
     investigations_count = serializers.SerializerMethodField()

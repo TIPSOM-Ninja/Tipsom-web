@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-from .serializers import InterviewerSerializer, VictimProfileWithCountsSerializer
+from .serializers import *
 from .models import *
 from django_otp.plugins.otp_email.models import EmailDevice
 from django.shortcuts import get_object_or_404
@@ -97,7 +97,7 @@ class CasesWithCountsAPIView(APIView):
 class TipVictimAPIView(APIView):
     def get(self, request, pk=None):
         victim =VictimProfile.objects.filter(pk = pk).annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True)).first()
-        serializer = VictimProfileWithCountsSerializer(victim)
+        serializer = VictimProfileWithRelatedSerializer(victim)
         return Response(serializer.data)
 
            
