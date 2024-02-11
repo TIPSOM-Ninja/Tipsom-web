@@ -13,7 +13,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class InterviewerRegistrationAPIView(APIView):
     def get(self, request, pk=None):
-        if pk:
+        if pk==0:
             if request.user.is_authenticated:
                 interviewer = Interviewer.objects.filter(email_address=request.user.username).first()
             else:   

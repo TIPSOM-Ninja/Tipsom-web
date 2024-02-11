@@ -35,7 +35,7 @@ urlpatterns = [
     path('suspect/<int:suspect_id>/', views.suspect_detail, name='suspect_detail'),
     path('interviewer/<int:interviewer_id>/', views.interviewer_detail, name='interviewer_detail'),
 
-    path('api/interviewer/', apis.InterviewerRegistrationAPIView.as_view(), name='interviewer-list-api'),
+    path('api/interviewers/', apis.InterviewerRegistrationAPIView.as_view(), name='interviewer-list-api'),
     path('api/interviewer/<int:pk>/', apis.InterviewerRegistrationAPIView.as_view(), name='interviewer-detail-api'),
     path('api/cases/', apis.CasesWithCountsAPIView.as_view(), name='cases-api'),
     path('api/victims/<int:pk>/', apis.TipVictimAPIView.as_view(), name='victim-api'),
