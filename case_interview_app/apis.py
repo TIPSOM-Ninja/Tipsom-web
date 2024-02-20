@@ -135,10 +135,10 @@ class TipVictimAPIView(APIView):
         if interviewer.data_entry_purpose_id == 4:
             victim.victim_identifier = victim.citizenship.two_code+"-AS-"+str(victim.id)
         victim.save()
-        for lang in request.data.languages:
+        for lang in request.data['languages']:
             victim.languages.add(Language.objects.filter(id= lang).first())
         
-        for idt in request.data.idType:
+        for idt in request.data['idType']:
             victim.identification_type.add(IdType.objects.filter(id = idt).first())
 
         
