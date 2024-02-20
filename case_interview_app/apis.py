@@ -105,21 +105,21 @@ class TipVictimAPIView(APIView):
         print(request.data)
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         victim = VictimProfile()
-        victim.citizenship_id = request.POST['citizenship']
-        victim.countryOfBirth_id = request.POST['countryOfBirth']
-        victim.gender_id = request.POST['gender']
-        victim.race_id = request.POST['race']
-        victim.place_of_birth = request.POST['placeOfBirth']
-        victim.last_place_of_residence_id = request.POST['lastPlaceOfResidence']
-        victim.identification_number = request.POST['idNumber']
-        victim.initials = request.POST['initials']
-        victim.age = request.POST['age']
-        victim.address = request.POST['address']
-        victim.email_address = request.POST['email_address']
-        victim.interview_country_id = request.POST['interview_country']
-        victim.interview_location = request.POST['interviewer_location']
-        victim.interview_date = request.POST['interview_date']
-        victim.additional_remarks = request.POST['additional_remarks']
+        victim.citizenship_id = request.data['citizenship']
+        victim.countryOfBirth_id = request.data['countryOfBirth']
+        victim.gender_id = request.data['gender']
+        victim.race_id = request.data['race']
+        victim.place_of_birth = request.data['placeOfBirth']
+        victim.last_place_of_residence_id = request.data['lastPlaceOfResidence']
+        victim.identification_number = request.data['idNumber']
+        victim.initials = request.data['initials']
+        victim.age = request.data['age']
+        victim.address = request.data['address']
+        victim.email_address = request.data['email_address']
+        victim.interview_country_id = request.data['interview_country']
+        victim.interview_location = request.data['interviewer_location']
+        victim.interview_date = request.data['interview_date']
+        victim.additional_remarks = request.data['additional_remarks']
         victim.approval_id = 1
         victim.consent_share_gov_patner = 1
         victim.consent_limited_disclosure = 1
@@ -135,10 +135,10 @@ class TipVictimAPIView(APIView):
         if interviewer.data_entry_purpose_id == 4:
             victim.victim_identifier = victim.citizenship.two_code+"-AS-"+str(victim.id)
         victim.save()
-        for lang in request.POST.getlist('languages[]'):
+        for lang in request.data.getlist('languages[]'):
             victim.languages.add(Language.objects.filter(id= lang).first())
         
-        for idt in request.POST.getlist('idtypes[]'):
+        for idt in request.data.getlist('idtypes[]'):
             victim.identification_type.add(IdType.objects.filter(id = idt).first())
 
         
