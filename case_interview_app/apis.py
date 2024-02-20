@@ -99,5 +99,47 @@ class TipVictimAPIView(APIView):
         victim =VictimProfile.objects.filter(pk = pk).annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True)).first()
         serializer = VictimProfileWithRelatedSerializer(victim)
         return Response(serializer.data)
+    def post(self,request):
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+        victim = VictimProfile()
+        victim.citizenship_id = request.POST['citizenship']
+        victim.countryOfBirth_id = request.POST['countryOfBirth']
+        victim.gender_id = request.POST['gender']
+        victim.race_id = request.POST['race']
+        victim.place_of_birth = request.POST['placeOfBirth']
+        victim.last_place_of_residence_id = request.POST['lastPlaceOfResidence']
+        victim.identification_number = request.POST['idNumber']
+        victim.initials = request.POST['initials']
+        victim.age = request.POST['age']
+        victim.address = request.POST['address']
+        victim.email_address = request.POST['email_address']
+        victim.interview_country_id = request.POST['interview_country']
+        victim.interview_location = request.POST['interviewer_location']
+        victim.interview_date = request.POST['interview_date']
+        victim.additional_remarks = request.POST['additional_remarks']
+        victim.approval_id = 1
+        victim.consent_share_gov_patner = 1
+        victim.consent_limited_disclosure = 1
+        victim.consent_research = 1
+        victim.consent_abstain_answer = 1
+        victim.save()
+        if interviewer.data_entry_purpose_id == 1:
+            victim.victim_identifier = victim.citizenship.two_code+"-TP-"+str(victim.id)
+        if interviewer.data_entry_purpose_id == 2:
+            victim.victim_identifier = victim.citizenship.two_code+"-IV-"+str(victim.id)
+        if interviewer.data_entry_purpose_id == 3:
+            victim.victim_identifier = victim.citizenship.two_code+"-PR-"+str(victim.id)
+        if interviewer.data_entry_purpose_id == 4:
+            victim.victim_identifier = victim.citizenship.two_code+"-AS-"+str(victim.id)
+        victim.save()
+        for lang in request.POST.getlist('languages[]'):
+            victim.languages.add(Language.objects.filter(id= lang).first())
+        
+        for idt in request.POST.getlist('idtypes[]'):
+            victim.identification_type.add(IdType.objects.filter(id = idt).first())
+
+        
+        interviewer.victims.add(victim)
+        return Response({"message": "Victim created successfully"}, status=status.HTTP_201_CREATED)
 
            
