@@ -143,6 +143,6 @@ class TipVictimAPIView(APIView):
 
         
         interviewer.victims.add(victim)
-        return Response({"message": "Victim created successfully"}, status=status.HTTP_201_CREATED)
+        return Response({"message": "Victim created successfully","id":victim.id}, status=status.HTTP_201_CREATED)
 
            

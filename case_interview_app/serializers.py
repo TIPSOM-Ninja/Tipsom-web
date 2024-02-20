@@ -471,8 +471,8 @@ class VictimProfileSerializer(serializers.ModelSerializer):
     gender = GenderSerializer(read_only=True)
     race = RaceSerializer(read_only=True)
     identification_type = IdTypeSerializer(many=True, read_only=True)
-    last_place_of_residence = CountrySerializer(read_only=True)
-    interview_country = CountrySerializer(read_only=True)
+    lastPlaceOfResidence = CountrySerializer(read_only=True)
+    interviewCountry = CountrySerializer(read_only=True)
     approval = ApprovalStatusSerializer(read_only=True)
 
     class Meta:
