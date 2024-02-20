@@ -100,6 +100,9 @@ class TipVictimAPIView(APIView):
         serializer = VictimProfileWithRelatedSerializer(victim)
         return Response(serializer.data)
     def post(self,request):
+        print(request.POST)
+        print("+++++++")
+        print(request.data)
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         victim = VictimProfile()
         victim.citizenship_id = request.POST['citizenship']
