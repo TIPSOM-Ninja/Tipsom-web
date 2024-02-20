@@ -115,11 +115,11 @@ class TipVictimAPIView(APIView):
         victim.initials = request.data['initials']
         victim.age = request.data['age']
         victim.address = request.data['address']
-        victim.email_address = request.data['email_address']
-        victim.interview_country_id = request.data['interview_country']
-        victim.interview_location = request.data['interviewer_location']
-        victim.interview_date = request.data['interview_date']
-        victim.additional_remarks = request.data['additional_remarks']
+        victim.email_address = request.data['email']
+        victim.interview_country_id = request.data['interviewCountry']
+        victim.interview_location = request.data['interviewerLocation']
+        victim.interview_date = request.data['interviewDate']
+        victim.additional_remarks = request.data['additionalRemarks']
         victim.approval_id = 1
         victim.consent_share_gov_patner = 1
         victim.consent_limited_disclosure = 1
@@ -135,10 +135,10 @@ class TipVictimAPIView(APIView):
         if interviewer.data_entry_purpose_id == 4:
             victim.victim_identifier = victim.citizenship.two_code+"-AS-"+str(victim.id)
         victim.save()
-        for lang in request.data.getlist('languages[]'):
+        for lang in request.data.getlist('languages'):
             victim.languages.add(Language.objects.filter(id= lang).first())
         
-        for idt in request.data.getlist('idtypes[]'):
+        for idt in request.data.getlist('idTypes'):
             victim.identification_type.add(IdType.objects.filter(id = idt).first())
 
         
