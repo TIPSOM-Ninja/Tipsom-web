@@ -10,7 +10,6 @@ from django.db.models import Count,Q
 from django.utils.translation import activate, get_language_info
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .encryption import decrypt_data
-import json
 
 
 class InterviewerRegistrationAPIView(APIView):
@@ -102,31 +101,26 @@ class TipVictimAPIView(APIView):
         serializer = VictimProfileWithRelatedSerializer(victim)
         return Response(serializer.data)
     def post(self,request):
+        print(request.POST)
         print("+++++++")
-        body_unicode = request.body.decode('utf-8')
-        body_data = json.loads(body_unicode)
-        print(body_data)
-        
-        dat = decrypt_data(body_data)
-        print("----")
-        print(dat)
+        print(request.data)
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         victim = VictimProfile()
-        victim.citizenship_id = dat['citizenship']
-        victim.countryOfBirth_id = dat['countryOfBirth']
-        victim.gender_id = dat['gender']
-        victim.race_id = dat['race']
-        victim.place_of_birth = dat['placeOfBirth']
-        victim.last_place_of_residence_id = dat['lastPlaceOfResidence']
-        victim.identification_number = dat['idNumber']
-        victim.initials = dat['initials']
-        victim.age = dat['age']
-        victim.address = dat['address']
-        victim.email_address = dat['email']
-        victim.interview_country_id = dat['interviewCountry']
-        victim.interview_location = dat['interviewerLocation']
-        victim.interview_date = dat['interviewDate']
-        victim.additional_remarks = dat['additionalRemarks']
+        victim.citizenship_id = decrypt_data(request.data['citizenship'])
+        victim.countryOfBirth_id = decrypt_data(request.data['countryOfBirth'])
+        victim.gender_id = decrypt_data(request.data['gender'])
+        victim.race_id = decrypt_data(request.data['race'])
+        victim.place_of_birth = decrypt_data(request.data['placeOfBirth'])
+        victim.last_place_of_residence_id = decrypt_data(request.data['lastPlaceOfResidence'])
+        victim.identification_number = decrypt_data(request.data['idNumber'])
+        victim.initials = decrypt_data(request.data['initials'])
+        victim.age = decrypt_data(request.data['age'])
+        victim.address = decrypt_data(request.data['address'])
+        victim.email_address = decrypt_data(request.data['email'])
+        victim.interview_country_id = decrypt_data(request.data['interviewCountry'])
+        victim.interview_location = decrypt_data(request.data['interviewerLocation'])
+        victim.interview_date = decrypt_data(request.data['interviewDate'])
+        victim.additional_remarks = decrypt_data(request.data['additionalRemarks'])
         victim.approval_id = 1
         victim.consent_share_gov_patner = 1
         victim.consent_limited_disclosure = 1
@@ -142,10 +136,10 @@ class TipVictimAPIView(APIView):
         if interviewer.data_entry_purpose_id == 4:
             victim.victim_identifier = victim.citizenship.two_code+"-AS-"+str(victim.id)
         victim.save()
-        for lang in dat['languages']:
+        for lang in request.data['languages']:
             victim.languages.add(Language.objects.filter(id= lang).first())
         
-        for idt in dat['idType']:
+        for idt in request.data['idType']:
             victim.identification_type.add(IdType.objects.filter(id = idt).first())
 
         
