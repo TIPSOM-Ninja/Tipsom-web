@@ -10,6 +10,7 @@ from django.db.models import Count,Q
 from django.utils.translation import activate, get_language_info
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .encryption import decrypt_data
+import json
 
 
 class InterviewerRegistrationAPIView(APIView):
@@ -104,7 +105,10 @@ class TipVictimAPIView(APIView):
         print(request.POST)
         print("+++++++")
         print(request.data)
-        dat = decrypt_data(request.data)
+        body_unicode = request.body.decode('utf-8')
+        body_data = json.loads(body_unicode)
+        encrypted_data = body_data['data']
+        dat = decrypt_data(encrypted_data)
         print("----")
         print(dat)
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
