@@ -102,9 +102,7 @@ class TipVictimAPIView(APIView):
         serializer = VictimProfileWithRelatedSerializer(victim)
         return Response(serializer.data)
     def post(self,request):
-        print(request.POST)
         print("+++++++")
-        print(request.data)
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
         encrypted_data = body_data['data']
