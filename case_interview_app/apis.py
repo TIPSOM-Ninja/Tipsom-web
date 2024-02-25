@@ -106,8 +106,8 @@ class TipVictimAPIView(APIView):
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
         print(body_data)
-        encrypted_data = body_data['data']
-        dat = decrypt_data(encrypted_data)
+        
+        dat = decrypt_data(body_data)
         print("----")
         print(dat)
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
