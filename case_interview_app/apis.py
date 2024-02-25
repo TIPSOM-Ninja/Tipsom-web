@@ -105,6 +105,7 @@ class TipVictimAPIView(APIView):
         print("+++++++")
         print(request.data)
         dat = decrypt_data(request.data)
+        print("----")
         print(dat)
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         victim = VictimProfile()
