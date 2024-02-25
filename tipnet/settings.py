@@ -192,4 +192,4 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
 }
 
-PRIVATE_KEY = env('PRIVATE_KEY')
+PRIVATE_KEY = os.path.join(BASE_DIR,env('PRIVATE_KEY'))
