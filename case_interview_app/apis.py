@@ -105,6 +105,7 @@ class TipVictimAPIView(APIView):
         print("+++++++")
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
+        print(body_data)
         encrypted_data = body_data['data']
         dat = decrypt_data(encrypted_data)
         print("----")
