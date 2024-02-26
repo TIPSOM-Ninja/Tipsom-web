@@ -17,4 +17,5 @@ def decrypt_data(encrypted_data):
         base64.b64decode(base64.b64decode(encrypted_data)),
         padding.PKCS1v15()
     )
+    print(decrypted)
     return decrypted
