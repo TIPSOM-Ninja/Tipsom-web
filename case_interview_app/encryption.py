@@ -15,10 +15,6 @@ def decrypt_data(encrypted_data):
     
     decrypted = private_key.decrypt(
         base64.b64decode(base64.b64decode(encrypted_data)),
-        padding.OAEP(
-            mgf=padding.MGF1(algorithm=hashes.SHA256()),
-            algorithm=hashes.SHA256(),
-            label=None
-        )
+        padding.PKCS1v15()
     )
     return decrypted
