@@ -16,6 +16,6 @@ def decrypt_data(encrypted_data):
     decrypted = private_key.decrypt(
         base64.b64decode(base64.b64decode(encrypted_data)),
         padding.PKCS1v15()
-    )
+    ).decode('utf-8')
     print(decrypted)
     return decrypted
