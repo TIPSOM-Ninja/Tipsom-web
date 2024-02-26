@@ -108,7 +108,7 @@ class TipVictimAPIView(APIView):
         victim = VictimProfile()
         victim.citizenship_id = decrypt_data(request.data['citizenship'])
         victim.countryOfBirth_id = decrypt_data(request.data['countryOfBirth'])
-        victim.gender_id = decrypt_data(request.data['gender'])
+        victim.gender_id = request.data['gender']
         victim.race_id = decrypt_data(request.data['race'])
         victim.place_of_birth = decrypt_data(request.data['placeOfBirth'])
         victim.last_place_of_residence_id = decrypt_data(request.data['lastPlaceOfResidence'])
