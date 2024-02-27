@@ -665,3 +665,23 @@ class VictimProfileWithRelatedSerializer(serializers.ModelSerializer):
 
     def get_destinations_count(self, obj):
         return obj.destinations.aggregate(Count('id', distinct=True))['id__count']
+    
+class ProsecutionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Prosecution
+        fields = ['id', 'suspectedTrafficker', 'courtCaseNumber', 'prosecutionOutcome', 'trialCourt','foreignCourtCountry', 'caseStatus', 'verdict','reviewAppealOutcome',  'penalty', 'guiltyVerdict','yearsImposed', 'acquitalReason']
+        # Specify the field names in camelCase
+        extra_kwargs = {
+            'suspectedTrafficker': {'source': 'trafficker_id'},
+            'courtCaseNumber': {'source': 'court_case_no'},
+            'prosecutionOutcome': {'source': 'prosecution_outcome_id'},
+            'trialCourt': {'source': 'trial_court_id'},
+            'foreignCourtCountry': {'source': 'trial_court_country_id'},
+            'caseStatus': {'source': 'status_of_case_id'},
+            'verdict': {'source': 'verdict_id'},
+            'reviewAppealOutcome': {'source': 'review_appeal_outcome_id'},
+            'penalty': {'source': 'sanction_penalty_id'},
+            'guiltyVerdict': {'source': 'guilty_verdict'},
+            'yearsImposed': {'source': 'years_imposed'},
+            'acquitalReason': {'source': 'aquital_reason_id'}
+        }

@@ -146,4 +146,32 @@ class TipVictimAPIView(APIView):
         interviewer.victims.add(victim)
         return Response({"message": "Victim created successfully","id":victim.id}, status=status.HTTP_201_CREATED)
 
-           
+
+class TipProsecutionAPIView(APIView):
+    def get(self, request, pk = None):
+        prosecution =Prosecution.objects.filter(pk = pk).first()
+        serializer = ProsecutionSerializer(prosecution)
+        return Response(serializer.data)
+
+    def post(self,request):
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+        
+        prosecution = Prosecution()
+        prosecution.victim_id = request.data['v_id']
+        prosecution.interviewer_id = interviewer.id
+        prosecution.trafficker_id = request.data['suspectedTrafficker']
+        prosecution.status_of_case_id = request.data['caseStatus']
+        prosecution.trial_court_id = request.data['trialCourt']
+        prosecution.trial_court_country_id = request.data['foreignCourtCountry']
+        prosecution.court_case_no = request.data['courtCaseNumber']
+        prosecution.verdict_id = request.data['verdict']
+        prosecution.guilty_verdict_reason_id = request.data['guiltyVerdict']
+        prosecution.prosecution_outcome_id = request.data['prosecutionOutcome']
+        prosecution.aquital_reason_id = request.data['acquittalReason']
+        prosecution.review_appeal_outcome = request.data['reviewAppealOutcome']
+        prosecution.sanction_penalty_id = request.data['penalty']
+        prosecution.years_imposed = request.data['yearsImposed'] if not request.data['yearsImposed'] == "" else None
+        prosecution.approval_id=1
+        prosecution.save()
+        return Response({"message": "Prosecution details created successfully","id":prosecution.id}, status=status.HTTP_201_CREATED)
+        

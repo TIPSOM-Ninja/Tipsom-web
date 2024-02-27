@@ -56,7 +56,8 @@ INSTALLED_APPS = [
     'two_factor',
     #'two_factor.plugins.phonenumber',  # <- if you want phone number capability.
     'two_factor.plugins.email',
-    'widget_tweaks'
+    'widget_tweaks',
+    'auditlog'
 ]
 
 MIDDLEWARE = [
@@ -69,7 +70,7 @@ MIDDLEWARE = [
     'django_otp.middleware.OTPMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+    'auditlog.middleware.AuditlogMiddleware',
     
 ]
 
@@ -193,3 +194,5 @@ SIMPLE_JWT = {
 }
 
 PRIVATE_KEY = os.path.join(BASE_DIR,env('PRIVATE_KEY'))
+
+AUDITLOG_INCLUDE_ALL_MODELS=True
