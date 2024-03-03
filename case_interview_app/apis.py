@@ -10,6 +10,7 @@ from django.db.models import Count,Q
 from django.utils.translation import activate, get_language_info
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .encryption import decrypt_data
+from datetime import date, datetime
 
 
 class InterviewerRegistrationAPIView(APIView):
@@ -174,4 +175,47 @@ class TipProsecutionAPIView(APIView):
         prosecution.approval_id=1
         prosecution.save()
         return Response({"message": "Prosecution details created successfully","id":prosecution.id}, status=status.HTTP_201_CREATED)
-        
+
+class TipSuspectAPIView(APIView):
+    def get(self, request, v_id=None, pk=None ):
+        if(v_id is None):
+            suspect =SuspectedTrafficker.objects.all()
+            serializer = SuspectedTraffickerSerializer(suspect, many = True)
+        elif(v_id is not None and pk is None):
+            suspect =SuspectedTrafficker.objects.filter(victim_id = v_id)
+            serializer = SuspectedTraffickerSerializer(suspect, many = True)
+        elif pk is not None:
+            suspect =SuspectedTrafficker.objects.filter(victim_id = v_id)
+            serializer = SuspectedTraffickerSerializer(suspect)
+
+        return Response(serializer.data)
+    def post(self,request):
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+        today = date.today()
+        born = datetime.strptime(request.data['dob'], '%Y-%m-%d')
+        age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+        suspect = SuspectedTrafficker()
+        suspect.victim_id = request.data['v_id']
+        suspect.first_name = request.data['firstName']
+        suspect.last_name = request.data['surName'] 
+        suspect.dob = request.data['dob']
+        suspect.gender_id = request.data['gender'] 
+        suspect.race_id = request.data['race']
+        suspect.age = age
+        suspect.country_of_birth_id = request.data['countryOfBirth'] 
+        suspect.citizenship_id = request.data['citizenship']
+        suspect.nationality_id = request.data['nationality']
+        suspect.id_number = request.data['idNumber']
+        suspect.last_residence = request.data['lastResidence']
+        suspect.address = request.data['address']
+        # suspect.date_of_arrest = request.data['dateOfArrest']
+        # suspect.traffick_from_country_id = request.data['traffickFromCountry']
+        # suspect.traffick_from_place = request.data['traffickFromPlace']
+        # suspect.traffick_to_country_id = request.data['traffickToCountry']
+        # suspect.traffick_to_place = request.data['traffickToPlace']
+        suspect.interviewer_id=interviewer.id
+        suspect.approval_id=1
+        suspect.id_type_id = request.data['idTypes']
+        suspect.save()
+        return Response({"message": "Suspect created successfully","id":suspect.id}, status=status.HTTP_201_CREATED)
+
