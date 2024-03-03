@@ -254,10 +254,10 @@ class TipExploitationAPIView(APIView):
         exploitation.subject_to_exploitation = request.data['subjectToExploitation']
         exploitation.intent_to_exploit = request.data['intentToExploit']
         exploitation.exploitation_length = request.data['exploitationLength']
-        exploitation.exploitation_age_id = request.data['exploitationAge']
+        exploitation.exploitation_age_id = int(request.data['exploitationAge']) if request.data['exploitationAge'].isdigit() else None
         exploitation.pay_debt = request.data['paidDebt']
         exploitation.debt_amount = request.data['debtAmount']
-        exploitation.freed_method_id = request.data['freedMethod']
+        exploitation.freed_method_id = int(request.data['freedMethod']) if request.data['freedMethod'].isdigit() else None
         exploitation.event_description = request.data['eventDescription']
         exploitation.e_prostitution = request.data['eProstitution']
         exploitation.e_other_sexual = request.data['eOtherSexual']
@@ -267,7 +267,7 @@ class TipExploitationAPIView(APIView):
         exploitation.e_forced_labour = request.data['eForcedLabour']
         exploitation.e_forced_marriage = request.data['eForcedMarriage']
         exploitation.e_victim_knew_spouse = request.data['eVictimKnewSpouse']
-        exploitation.e_spouse_nationality_id = request.data['eSpouseNationality']
+        exploitation.e_spouse_nationality_id = int(request.data['eSpouseNationality']) if request.data['eSpouseNationality'].isdigit() else None
         exploitation.e_bprice_paid_id = request.data['eBPricePaid']
         exploitation.e_bprice_amount_kind = request.data['eBPriceAmountKind']
         exploitation.e_child_marriage = request.data['eChildMarriage']
@@ -275,19 +275,19 @@ class TipExploitationAPIView(APIView):
         exploitation.e_children_from_marriage = int(request.data['eChildFromMarriage']) if request.data['eChildFromMarriage'].isdigit() else 0
         exploitation.e_maternal_health_issues = request.data['eMaternalHealthIssues']
         exploitation.e_m_health_issues_description = request.data['eMHealthIssuesDescription']
-        exploitation.e_marriage_violence_id = request.data['eMarriageViolence']
-        exploitation.e_forced_military_type_id = request.data['eForcedMilitaryType']
+        exploitation.e_marriage_violence_id = int(request.data['eMarriageViolence']) if request.data['eMarriageViolence'].isdigit() else None
+        exploitation.e_forced_military_type_id = int(request.data['eForcedMilitaryType']) if request.data['eForcedMilitaryType'].isdigit() else None
         exploitation.e_armed_group_name = request.data['eArmedGroupName']
         exploitation.e_child_soldier = request.data['eChildSoldier']
         exploitation.e_child_soldier_age = int(request.data['eChildSoldierAge'])  if request.data['eChildSoldierAge'].isdigit() else 0
         exploitation.e_organ_removed = request.data['eOrganRemoved']
-        exploitation.e_operation_location_id = request.data['eOperationLocation']
-        exploitation.e_operation_country_id = request.data['eOperationCountry']
+        exploitation.e_operation_location_id = int(request.data['eOperationLocation']) if request.data['eOperationLocation'].isdigit() else None
+        exploitation.e_operation_country_id = int(request.data['eOperationCountry']) if request.data['eOperationCountry'].isdigit() else None
         exploitation.e_organ_sale_price = request.data['eOrganSalePrice']
-        exploitation.e_organ_paid_to_id = request.data['eOrganPaidTo']
+        exploitation.e_organ_paid_to_id = int(request.data['eOrganPaidTo']) if request.data['eOrganPaidTo'].isdigit() else None
         exploitation.e_remarks = request.data['eRemarks']
-        exploitation.e_recruitment_type_id = request.data['eRecruitmentType']
-        exploitation.e_recruiter_relationship_id = request.data['eRecruiterRelationship']
+        exploitation.e_recruitment_type_id = int(request.data['eRecruitmentType']) if request.data['eRecruitmentType'].isdigit() else None
+        exploitation.e_recruiter_relationship_id = int(request.data['eRecruiterRelationship']) if request.data['eRecruiterRelationship'].isdigit() else None
         exploitation.approval_id=1
         exploitation.save()
 
@@ -295,31 +295,31 @@ class TipExploitationAPIView(APIView):
             for ca in request.data('eCriminalActivityType'):
                 exploitation.e_criminal_activity_type.add(ca)
 
-        if request.POST.get('eForcedLabourIndustry'):
+        if request.data['eForcedLabourIndustry']:
             for ca in request.data['eForcedLabourIndustry']:
                 exploitation.e_forced_labour_industry.add(ca)
 
-        if request.POST.get('eBPriceRecipient'):
+        if request.data['eBPriceRecipient']:
             for ca in request.data['eBPriceRecipient']:
                 exploitation.e_brice_recipient.add(ca)
 
-        if request.POST.get('eChildMarriageReason'):
+        if request.data['eChildMarriageReason']:
             for ca in request.data['eChildMarriageReason']:
                 exploitation.e_child_marriage_reason.add(ca)
 
-        if request.POST.get('eMarriageViolenceType'):
+        if request.data['eMarriageViolenceType']:
             for ca in request.data['eMarriageViolenceType']:
                 exploitation.e_marriage_violence_type.add(ca)
         
-        if request.POST.get('eVictimMilitaryActivities'):
+        if request.data['eVictimMilitaryActivities']:
             for ca in request.data['eVictimMilitaryActivities']:
                 exploitation.e_victim_military_activities.add(ca)
         
-        if request.POST.get('eBodyPartRemoved'):
+        if request.data['eBodyPartRemoved']:
             for ca in request.data['eBodyPartRemoved']:
                 exploitation.e_body_part_removed.add(ca)
         
-        if request.POST.get('eTraffickingMeans'):
+        if request.data['eTraffickingMeans']:
             for ca in request.data['eTraffickingMeans']:
                 exploitation.e_trafficking_means.add(ca)
 
