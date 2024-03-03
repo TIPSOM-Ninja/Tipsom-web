@@ -272,7 +272,7 @@ class TipExploitationAPIView(APIView):
         exploitation.e_bprice_amount_kind = request.data['eBPriceAmountKind']
         exploitation.e_child_marriage = request.data['eChildMarriage']
         exploitation.e_victim_pregnancy = request.data['eVictimPregnancy']
-        exploitation.e_children_from_marriage = int(request.data['eChildFromMarriage'])
+        exploitation.e_children_from_marriage = int(request.data['eChildFromMarriage']) if request.data['eChildFromMarriage'].isdigit() else 0
         exploitation.e_maternal_health_issues = request.data['eMaternalHealthIssues']
         exploitation.e_m_health_issues_description = request.data['eMHealthIssuesDescription']
         exploitation.e_marriage_violence_id = request.data['eMarriageViolence']
