@@ -160,18 +160,18 @@ class TipProsecutionAPIView(APIView):
         prosecution = Prosecution()
         prosecution.victim_id = request.data['v_id']
         prosecution.interviewer_id = interviewer.id
-        prosecution.trafficker_id = request.data['suspectedTrafficker']
-        prosecution.status_of_case_id = request.data['caseStatus']
-        prosecution.trial_court_id = request.data['trialCourt']
-        prosecution.trial_court_country_id = request.data['foreignCourtCountry']
+        prosecution.trafficker_id = int(request.data['suspectedTrafficker']) if request.data['suspectedTrafficker'].isdigit() else None
+        prosecution.status_of_case_id = int(request.data['caseStatus']) if request.data['caseStatus'].isdigit() else None
+        prosecution.trial_court_id = int(request.data['trialCourt']) if request.data['trialCourt'].isdigit() else None
+        prosecution.trial_court_country_id = int(request.data['foreignCourtCountry']) if request.data['foreignCourtCountry'].isdigit() else None
         prosecution.court_case_no = request.data['courtCaseNumber']
-        prosecution.verdict_id = request.data['verdict']
-        prosecution.guilty_verdict_reason_id = request.data['guiltyVerdict']
-        prosecution.prosecution_outcome_id = request.data['prosecutionOutcome']
-        prosecution.aquital_reason_id = request.data['acquittalReason']
+        prosecution.verdict_id = int(request.data['verdict']) if request.data['verdict'].isdigit() else None
+        prosecution.guilty_verdict_reason_id = int(request.data['guiltyVerdict']) if request.data['guiltyVerdict'].isdigit() else None
+        prosecution.prosecution_outcome_id = int(request.data['prosecutionOutcome']) if request.data['prosecutionOutcome'].isdigit() else None
+        prosecution.aquital_reason_id = int(request.data['acquittalReason']) if request.data['acquittalReason'].isdigit() else None
         prosecution.review_appeal_outcome = request.data['reviewAppealOutcome']
-        prosecution.sanction_penalty_id = request.data['penalty']
-        prosecution.years_imposed = request.data['yearsImposed'] if not request.data['yearsImposed'] == "" else None
+        prosecution.sanction_penalty_id = int(request.data['penalty']) if request.data['penalty'].isdigit() else None
+        prosecution.years_imposed = int(request.data['yearsImposed']) if request.data['yearsImposed'].isdigit() else None
         prosecution.approval_id=1
         prosecution.save()
         return Response({"message": "Prosecution details created successfully","id":prosecution.id}, status=status.HTTP_201_CREATED)
