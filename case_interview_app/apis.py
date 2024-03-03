@@ -178,14 +178,21 @@ class TipProsecutionAPIView(APIView):
 
 class TipSuspectAPIView(APIView):
     def get(self, request, v_id=None, pk=None ):
+        if request.GET.get('page') is not None:
+            page = request.GET.get('page')
+        else:
+            page = 1
         if(v_id is None):
             suspect =SuspectedTrafficker.objects.all()
-            serializer = SuspectedTraffickerSerializer(suspect, many = True)
+            paginator = Paginator(suspect, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = SuspectedTraffickerSerializer(page_object, many = True)
+
         elif(v_id is not None and pk is None):
             suspect =SuspectedTrafficker.objects.filter(victim_id = v_id)
             serializer = SuspectedTraffickerSerializer(suspect, many = True)
         elif pk is not None:
-            suspect =SuspectedTrafficker.objects.filter(victim_id = v_id)
+            suspect =SuspectedTrafficker.objects.filter(victim_id = v_id).first()
             serializer = SuspectedTraffickerSerializer(suspect)
 
         return Response(serializer.data)
