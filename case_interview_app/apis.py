@@ -194,8 +194,8 @@ class TipSuspectAPIView(APIView):
         elif pk is not None:
             suspect =SuspectedTrafficker.objects.filter(victim_id = v_id).first()
             serializer = SuspectedTraffickerSerializer(suspect)
-
         return Response(serializer.data)
+    
     def post(self,request):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         today = date.today()
@@ -225,4 +225,103 @@ class TipSuspectAPIView(APIView):
         suspect.id_type_id = request.data['idTypes']
         suspect.save()
         return Response({"message": "Suspect created successfully","id":suspect.id}, status=status.HTTP_201_CREATED)
+
+class TipExploitationAPIView(APIView):
+    def get(self, request, v_id=None, pk=None ):
+        if request.GET.get('page') is not None:
+            page = request.GET.get('page')
+        else:
+            page = 1
+        if(v_id is None):
+            exploitation =Exploitation.objects.all()
+            paginator = Paginator(exploitation, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = ExploitationSerializer(page_object, many = True)
+
+        elif(v_id is not None and pk is None):
+            exploitation =Exploitation.objects.filter(victim_id = v_id)
+            serializer = ExploitationSerializer(exploitation, many = True)
+        elif pk is not None:
+            exploitation =Exploitation.objects.filter(victim_id = v_id).first()
+            serializer = ExploitationSerializer(exploitation)
+        return Response(serializer.data)
+
+    def post(self, request):
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+        exploitation = Exploitation()
+        exploitation.victim_id = request.data['v_id']
+        exploitation.interviewer_id = interviewer.id
+        exploitation.subject_to_exploitation = request.POST['subjectToExploitation']
+        exploitation.intent_to_exploit = request.POST['intentToExploit']
+        exploitation.exploitation_length = request.POST['exploitationLength']
+        exploitation.exploitation_age_id = request.POST['exploitationAge']
+        exploitation.pay_debt = request.data['payDebt']
+        exploitation.debt_amount = request.data['debtAmount']
+        exploitation.freed_method_id = request.data['freedMethod']
+        exploitation.event_description = request.data['eventDescription']
+        exploitation.e_prostitution = request.data['eProstitution']
+        exploitation.e_other_sexual = request.data['eOtherSexual']
+        exploitation.e_other_sexual_online = request.data['eOtherSexualOnline']
+        exploitation.e_online_porno = request.data['eOnlinePorno']
+        exploitation.e_criminal_activity = request.data['eCriminalActivity']
+        exploitation.e_forced_labour = request.data['eForcedLabour']
+        exploitation.e_forced_marriage = request.data['eForcedMarriage']
+        exploitation.e_victim_knew_spouse = request.data['eVictimKnewSpouse']
+        exploitation.e_spouse_nationality_id = request.data['eSpouseNationality']
+        exploitation.e_bprice_paid_id = request.data['eBPricePaid']
+        exploitation.e_bprice_amount_kind = request.data['eBPriceAmountKind']
+        exploitation.e_child_marriage = request.data['eChildMarriage']
+        exploitation.e_victim_pregnancy = request.data['eVictimPregnancy']
+        exploitation.e_children_from_marriage = request.data['eChildrenFromMarriage']
+        exploitation.e_maternal_health_issues = request.data['eMaternalHealthIssues']
+        exploitation.e_m_health_issues_description = request.data['eMHealthIssuesDescription']
+        exploitation.e_marriage_violence_id = request.data['eMarriageViolence']
+        exploitation.e_forced_military_type_id = request.data['eForcedMilitaryType']
+        exploitation.e_armed_group_name = request.data['eArmedGroupName']
+        exploitation.e_child_soldier = request.data['eChildSoldier']
+        exploitation.e_child_soldier_age = request.data['eChildSoldierAge']
+        exploitation.e_organ_removed = request.data['eOrganRemoved']
+        exploitation.e_operation_location_id = request.data['eOperationLocation']
+        exploitation.e_operation_country_id = request.data['eOperationCountry']
+        exploitation.e_organ_sale_price = request.data['eOrganSalePrice']
+        exploitation.e_organ_paid_to_id = request.data['eOrganPaidTo']
+        exploitation.e_remarks = request.data['eRemarks']
+        exploitation.e_recruitment_type_id = request.data['eRecruitmentType']
+        exploitation.e_recruiter_relationship_id = request.data['eRecruiterRelationship']
+        exploitation.approval_id=1
+        exploitation.save()
+
+        if request.data['eCriminalActivityType']:
+            for ca in request.data('eCriminalActivityType'):
+                exploitation.e_criminal_activity_type.add(ca)
+
+        if request.POST.get('eForcedLabourIndustry'):
+            for ca in request.data['eForcedLabourIndustry']:
+                exploitation.e_forced_labour_industry.add(ca)
+
+        if request.POST.get('eBPriceRecipient'):
+            for ca in request.data['eBPriceRecipient']:
+                exploitation.e_brice_recipient.add(ca)
+
+        if request.POST.get('eChildMarriageReason'):
+            for ca in request.data['eChildMarriageReason']:
+                exploitation.e_child_marriage_reason.add(ca)
+
+        if request.POST.get('eMarriageViolenceType'):
+            for ca in request.data['eMarriageViolenceType']:
+                exploitation.e_marriage_violence_type.add(ca)
+        
+        if request.POST.get('eVictimMilitaryActivities'):
+            for ca in request.data['eVictimMilitaryActivities']:
+                exploitation.e_victim_military_activities.add(ca)
+        
+        if request.POST.get('eBodyPartRemoved'):
+            for ca in request.data['eBodyPartRemoved']:
+                exploitation.e_body_part_removed.add(ca)
+        
+        if request.POST.get('eTraffickingMeans'):
+            for ca in request.data['eTraffickingMeans']:
+                exploitation.e_trafficking_means.add(ca)
+
+        return Response({"message": "Exploitation records created successfully","id":exploitation.id}, status=status.HTTP_201_CREATED)
 
