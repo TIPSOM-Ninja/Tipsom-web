@@ -325,3 +325,20 @@ class TipExploitationAPIView(APIView):
 
         return Response({"message": "Exploitation records created successfully","id":exploitation.id}, status=status.HTTP_201_CREATED)
 
+class TipTransitAPIView(APIView):
+    def get(self, request, v_id=None, pk=None ):
+        pass
+
+    def post(self, request):
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+        transit = TransitRouteDestination()
+        transit.victim_id = request.data['v_id']
+        transit.country_of_origin_id = int(request.data['countryOfOrigin']) if request.data['countryOfOrigin'].isdigit() else None
+        transit.country_of_dest_id = int(request.data['countryOfDest']) if request.data['countryOfDest'].isdigit() else None
+        transit.city_village_of_dest = request.data['cityVillageOfDest']
+        transit.city_village_of_origin = request.data['cityVillageOfOrigin']
+        transit.remarks = request.data['remarks']
+        transit.interviewer_id = interviewer.id
+        transit.approval_id = 1
+        transit.save()
+        return Response({"message": "Transit record created successfully","id":transit.id}, status=status.HTTP_201_CREATED)
