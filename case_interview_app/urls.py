@@ -42,11 +42,12 @@ urlpatterns = [
     path('api/victims/', apis.TipVictimAPIView.as_view(), name='victim-api'),
     path('api/victims/<int:pk>/', apis.TipVictimAPIView.as_view(), name='victim-detail-api'),
 
-    path('api/prosecutions/', apis.TipVictimAPIView.as_view(), name='victim-api'),
-    path('api/prosecutions/<int:pk>/', apis.TipVictimAPIView.as_view(), name='victim-detail-api'),
+    path('api/prosecutions/', apis.TipVictimAPIView.as_view(), name='prosecution-api'),
+    path('api/prosecutions/<int:pk>/', apis.TipVictimAPIView.as_view(), name='prosecution-detail-api'),
 
-    path('api/suspects/', apis.TipVictimAPIView.as_view(), name='victim-api'),
-    path('api/suspects/<int:v_id>/', apis.TipVictimAPIView.as_view(), name='victim-detail-api'),
+    path('api/suspects/', apis.TipVictimAPIView.as_view(), name='suspect-api'),
+    path('api/suspects/<int:v_id>/', apis.TipVictimAPIView.as_view(), name='victim-suspect-api')
+    path('api/suspects/<int:v_id>/<int:pk>/', apis.TipVictimAPIView.as_view(), name='suspect-detail-api'),
 
 
 
