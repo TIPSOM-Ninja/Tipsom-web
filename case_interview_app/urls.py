@@ -46,7 +46,7 @@ urlpatterns = [
     path('api/prosecutions/<int:pk>/', apis.TipVictimAPIView.as_view(), name='prosecution-detail-api'),
 
     path('api/suspects/', apis.TipVictimAPIView.as_view(), name='suspect-api'),
-    path('api/suspects/<int:v_id>/', apis.TipVictimAPIView.as_view(), name='victim-suspect-api')
+    path('api/suspects/<int:v_id>/', apis.TipVictimAPIView.as_view(), name='victim-suspect-api'),
     path('api/suspects/<int:v_id>/<int:pk>/', apis.TipVictimAPIView.as_view(), name='suspect-detail-api'),
 
 
