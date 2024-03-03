@@ -268,7 +268,7 @@ class TipExploitationAPIView(APIView):
         exploitation.e_forced_marriage = request.data['eForcedMarriage']
         exploitation.e_victim_knew_spouse = request.data['eVictimKnewSpouse']
         exploitation.e_spouse_nationality_id = int(request.data['eSpouseNationality']) if request.data['eSpouseNationality'].isdigit() else None
-        exploitation.e_bprice_paid_id = request.data['eBPricePaid']
+        exploitation.e_bprice_paid_id = int(request.data['eBPricePaid']) if request.data['eBPricePaid'].isdigit() else None
         exploitation.e_bprice_amount_kind = request.data['eBPriceAmountKind']
         exploitation.e_child_marriage = request.data['eChildMarriage']
         exploitation.e_victim_pregnancy = request.data['eVictimPregnancy']
