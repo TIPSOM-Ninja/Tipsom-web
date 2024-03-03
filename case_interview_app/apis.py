@@ -279,7 +279,7 @@ class TipExploitationAPIView(APIView):
         exploitation.e_forced_military_type_id = request.data['eForcedMilitaryType']
         exploitation.e_armed_group_name = request.data['eArmedGroupName']
         exploitation.e_child_soldier = request.data['eChildSoldier']
-        exploitation.e_child_soldier_age = request.data['eChildSoldierAge']
+        exploitation.e_child_soldier_age = int(request.data['eChildSoldierAge'])  if request.data['eChildSoldierAge'].isdigit() else 0
         exploitation.e_organ_removed = request.data['eOrganRemoved']
         exploitation.e_operation_location_id = request.data['eOperationLocation']
         exploitation.e_operation_country_id = request.data['eOperationCountry']
