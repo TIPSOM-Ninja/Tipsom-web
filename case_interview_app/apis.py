@@ -255,7 +255,7 @@ class TipExploitationAPIView(APIView):
         exploitation.intent_to_exploit = request.data['intentToExploit']
         exploitation.exploitation_length = request.data['exploitationLength']
         exploitation.exploitation_age_id = request.data['exploitationAge']
-        exploitation.pay_debt = request.data['payDebt']
+        exploitation.pay_debt = request.data['paidDebt']
         exploitation.debt_amount = request.data['debtAmount']
         exploitation.freed_method_id = request.data['freedMethod']
         exploitation.event_description = request.data['eventDescription']
