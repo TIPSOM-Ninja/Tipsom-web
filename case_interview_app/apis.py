@@ -206,24 +206,32 @@ class TipSuspectAPIView(APIView):
         suspect.first_name = request.data['firstName']
         suspect.last_name = request.data['surName'] 
         suspect.dob = request.data['dob']
-        suspect.gender_id = request.data['gender'] 
-        suspect.race_id = request.data['race']
+        suspect.gender_id = int(request.data['gender']) if request.data['gender'].isdigit() else None
+        suspect.race_id = int(request.data['race']) if request.data['race'].isdigit() else None
         suspect.age = age
-        suspect.country_of_birth_id = request.data['countryOfBirth'] 
-        suspect.citizenship_id = request.data['citizenship']
-        suspect.nationality_id = request.data['nationality']
+        suspect.country_of_birth_id = int(request.data['countryOfBirth']) if request.data['countryOfBirth'].isdigit() else None 
+        suspect.citizenship_id = int(request.data['citizenship']) if request.data['citizenship'].isdigit() else None
+        suspect.nationality_id = int(request.data['nationality']) if request.data['nationality'].isdigit() else None
         suspect.id_number = request.data['idNumber']
         suspect.last_residence = request.data['lastResidence']
         suspect.address = request.data['address']
-        # suspect.date_of_arrest = request.data['dateOfArrest']
-        # suspect.traffick_from_country_id = request.data['traffickFromCountry']
-        # suspect.traffick_from_place = request.data['traffickFromPlace']
-        # suspect.traffick_to_country_id = request.data['traffickToCountry']
-        # suspect.traffick_to_place = request.data['traffickToPlace']
+        suspect.date_of_arrest = request.data['dateOfArrest']
+        suspect.traffick_from_country_id = request.data['traffickFromCountry']
+        suspect.traffick_from_place = request.data['traffickFromPlace']
+        suspect.traffick_to_country_id = request.data['traffickToCountry']
+        suspect.traffick_to_place = request.data['traffickToPlace']
         suspect.interviewer_id=interviewer.id
         suspect.approval_id=1
-        suspect.id_type_id = request.data['idTypes']
+        suspect.id_type_id = request.data['idType']
         suspect.save()
+
+        for lang in request.data['languages']:
+            suspect.languages.add(Language.objects.filter(id= lang).first())
+
+        
+        for rl in request.data['roleInTrafficking']:
+            suspect.role_in_trafficking.add(RoleInTrafficking.objects.filter(id = rl).first())
+
         return Response({"message": "Suspect created successfully","id":suspect.id}, status=status.HTTP_201_CREATED)
 
 class TipExploitationAPIView(APIView):
@@ -341,4 +349,8 @@ class TipTransitAPIView(APIView):
         transit.interviewer_id = interviewer.id
         transit.approval_id = 1
         transit.save()
+
+        if request.data('meansOfTransportation') is not None:
+            for item in request.data('meansOfTransportation'):
+                transit.transport_means.add(int(item))
         return Response({"message": "Transit record created successfully","id":transit.id}, status=status.HTTP_201_CREATED)
