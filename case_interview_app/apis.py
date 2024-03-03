@@ -206,7 +206,7 @@ class TipSuspectAPIView(APIView):
         suspect.first_name = request.data['firstName']
         suspect.last_name = request.data['surName'] 
         suspect.dob = request.data['dob']
-        suspect.gender_id = int(request.data['gender']) if request.data['gender'].isdigit() else None
+        suspect.gender_id = request.data['gender']
         suspect.race_id = int(request.data['race']) if request.data['race'].isdigit() else None
         suspect.age = age
         suspect.country_of_birth_id = int(request.data['countryOfBirth']) if request.data['countryOfBirth'].isdigit() else None 
