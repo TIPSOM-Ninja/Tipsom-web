@@ -160,17 +160,17 @@ class TipProsecutionAPIView(APIView):
         prosecution = Prosecution()
         prosecution.victim_id = request.data['v_id']
         prosecution.interviewer_id = interviewer.id
-        prosecution.trafficker_id = int(request.data['suspectedTrafficker']) if request.data['suspectedTrafficker'].isdigit() else None
-        prosecution.status_of_case_id = int(request.data['caseStatus']) if request.data['caseStatus'].isdigit() else None
-        prosecution.trial_court_id = int(request.data['trialCourt']) if request.data['trialCourt'].isdigit() else None
-        prosecution.trial_court_country_id = int(request.data['foreignCourtCountry']) if request.data['foreignCourtCountry'].isdigit() else None
+        prosecution.trafficker_id = request.data['suspectedTrafficker'] if not request.data['suspectedTrafficker'] == ""  else None
+        prosecution.status_of_case_id = request.data['caseStatus'] if not request.data['caseStatus']  == "" else None
+        prosecution.trial_court_id = request.data['trialCourt'] if not request.data['trialCourt']  == "" else None
+        prosecution.trial_court_country_id = request.data['foreignCourtCountry'] if not request.data['foreignCourtCountry']  == "" else None
         prosecution.court_case_no = request.data['courtCaseNumber']
-        prosecution.verdict_id = int(request.data['verdict']) if request.data['verdict'].isdigit() else None
-        prosecution.guilty_verdict_reason_id = int(request.data['guiltyVerdict']) if request.data['guiltyVerdict'].isdigit() else None
-        prosecution.prosecution_outcome_id = int(request.data['prosecutionOutcome']) if request.data['prosecutionOutcome'].isdigit() else None
-        prosecution.aquital_reason_id = int(request.data['acquittalReason']) if request.data['acquittalReason'].isdigit() else None
+        prosecution.verdict_id = request.data['verdict'] if not request.data['verdict']  == "" else None
+        prosecution.guilty_verdict_reason_id = request.data['guiltyVerdict'] if not request.data['guiltyVerdict']  == "" else None
+        prosecution.prosecution_outcome_id = request.data['prosecutionOutcome'] if not request.data['prosecutionOutcome']  == "" else None
+        prosecution.aquital_reason_id = request.data['acquittalReason'] if not request.data['acquittalReason']  == "" else None
         prosecution.review_appeal_outcome = request.data['reviewAppealOutcome']
-        prosecution.sanction_penalty_id = int(request.data['penalty']) if request.data['penalty'].isdigit() else None
+        prosecution.sanction_penalty_id = request.data['penalty'] if not request.data['penalty']  == "" else None
         prosecution.years_imposed = int(request.data['yearsImposed']) if request.data['yearsImposed'].isdigit() else None
         prosecution.approval_id=1
         prosecution.save()
