@@ -251,10 +251,10 @@ class TipExploitationAPIView(APIView):
         exploitation = Exploitation()
         exploitation.victim_id = request.data['v_id']
         exploitation.interviewer_id = interviewer.id
-        exploitation.subject_to_exploitation = request.POST['subjectToExploitation']
-        exploitation.intent_to_exploit = request.POST['intentToExploit']
-        exploitation.exploitation_length = request.POST['exploitationLength']
-        exploitation.exploitation_age_id = request.POST['exploitationAge']
+        exploitation.subject_to_exploitation = request.data['subjectToExploitation']
+        exploitation.intent_to_exploit = request.data['intentToExploit']
+        exploitation.exploitation_length = request.data['exploitationLength']
+        exploitation.exploitation_age_id = request.data['exploitationAge']
         exploitation.pay_debt = request.data['payDebt']
         exploitation.debt_amount = request.data['debtAmount']
         exploitation.freed_method_id = request.data['freedMethod']
