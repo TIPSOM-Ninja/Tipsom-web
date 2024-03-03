@@ -334,7 +334,7 @@ class TipTransitAPIView(APIView):
         transit = TransitRouteDestination()
         transit.victim_id = request.data['v_id']
         transit.country_of_origin_id = int(request.data['countryOfOrigin']) if request.data['countryOfOrigin'].isdigit() else None
-        transit.country_of_dest_id = int(request.data['countryOfDest']) if request.data['countryOfDest'].isdigit() else None
+        transit.country_of_dest_id = int(request.data['countryOfDestination']) if request.data['countryOfDestination'].isdigit() else None
         transit.city_village_of_dest = request.data['cityVillageOfDest']
         transit.city_village_of_origin = request.data['cityVillageOfOrigin']
         transit.remarks = request.data['remarks']
