@@ -237,232 +237,232 @@ class TagSerializer(serializers.ModelSerializer):
 class CountryNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        fields = ['name']
+        fields = '__all__'
 
 class LanguageNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
-        fields = ['name']
+        fields = '__all__'
 
 class GenderNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Gender
-        fields = ['name']
+        fields = '__all__'
 
 class RaceNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Race
-        fields = ['name']
+        fields = '__all__'
 
 class IdTypeNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = IdType
-        fields = ['name']
+        fields = '__all__'
 
 class DataEntryPurposeNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = DataEntryPurpose
-        fields = ['name']
+        fields = '__all__'
 
 class InvestigationStatusNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = InvestigationStatus
-        fields = ['name']
+        fields = '__all__'
 
 class TraffickerOrgNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = TraffickerOrg
-        fields = ['name']
+        fields = '__all__'
 
 class RoleInTraffickingNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoleInTrafficking
-        fields = ['name']
+        fields = '__all__'
 
 class CaseStatusNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = CaseStatus
-        fields = ['name']
+        fields = '__all__'
 
 class TrialCourtNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = TrialCourt
-        fields = ['name']
+        fields = '__all__'
 
 class GuiltyReasonNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = GuiltyReason
-        fields = ['name']
+        fields = '__all__'
 
 class ProsecutionOutcomeNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProsecutionOutcome
-        fields = ['name']
+        fields = '__all__'
 
 class AquitalReasonSerializer(serializers.ModelSerializer):
     class Meta:
         model = AquitalReason
-        fields = ['name']
+        fields = '__all__'
 
 class SanctionPenaltyNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = SanctionPenalty
-        fields = ['name']
+        fields = '__all__'
 
 class TransportMeanNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = TransportMean
-        fields = ['name']
+        fields = '__all__'
 
 class VerdictNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Verdict
-        fields = ['name']
+        fields = '__all__'
 
 class ApprovalStatusNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = ApprovalStatus
-        fields = ['name']
+        fields = '__all__'
 
 class AccessPermissionNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = AccessPermission
-        fields = ['name']
+        fields = '__all__'
 
 class ExploitationAgeNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExploitationAge
-        fields = ['name']
+        fields = '__all__'
 
 class FreedMethodNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = FreedMethod
-        fields = ['name']
+        fields = '__all__'
 
 class CriminalActivityTypeNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = CriminalActivityType
-        fields = ['name']
+        fields = '__all__'
 
 class ForcedLabourIndustryNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = ForcedLabourIndustry
-        fields = ['name']
+        fields = '__all__'
 
 class BridePriceNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = BridePrice
-        fields = ['name']
+        fields = '__all__'
 
 class BridePriceRecipientNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = BridePriceRecipient
-        fields = ['name']
+        fields = '__all__'
 
 class ChildMarriageReasonNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChildMarriageReason
-        fields = ['name']
+        fields = '__all__'
 
 class AffirmOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = AffirmOption
-        fields = ['name']
+        fields = '__all__'
 
 class MarriageViolenceTypeNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = MarriageViolenceType
-        fields = ['name']
+        fields = '__all__'
 
 class MilitaryActivityNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = MilitaryActivity
-        fields = ['name']
+        fields = '__all__'
 
 class MilitaryTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = MilitaryType
-        fields = ['name']
+        fields = '__all__'
 
 class BodyPartNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = BodyPart
-        fields = ['name']
+        fields = '__all__'
 
 class OperationLocationNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = OperationLocation
-        fields = ['name']
+        fields = '__all__'
 
 class OrganPaidToNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrganPaidTo
-        fields = ['name']
+        fields = '__all__'
 
 class RecruitmentTypeNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecruitmentType
-        fields = ['name']
+        fields = '__all__'
 
 class RecruiterRelationshipSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecruiterRelationship
-        fields = ['name']
+        fields = '__all__'
 
 class TraffickingMeanNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = TraffickingMean
-        fields = ['name']
+        fields = '__all__'
 
 class ProviderNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Provider
-        fields = ['name']
+        fields = '__all__'
 
 class IncomeProjectTypeNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = IncomeProjectType
-        fields = ['name']
+        fields = '__all__'
 
 class EducationLevelNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = EducationLevel
-        fields = ['name']
+        fields = '__all__'
 
 class ImEmmigrationStatusNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = ImEmmigrationStatus
-        fields = ['name']
+        fields = '__all__'
 
 class CommunityAssistanceTypeNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommunityAssistanceType
-        fields = ['name']
+        fields = '__all__'
 
 class DataSupplierNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = DataSupplier
-        fields = ['name']
+        fields = '__all__'
 
 class FamilyStructureNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = FamilyStructure
-        fields = ['name']
+        fields = '__all__'
 
 class LivingWithNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = LivingWith
-        fields = ['name']
+        fields = '__all__'
 
 class OccupationNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Occupation
-        fields = ['name']
+        fields = '__all__'
 
 class TagNameNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ['name']
+        fields = '__all__'
 
 class VictimProfileSerializer(serializers.ModelSerializer):
     citizenship = CountrySerializer(read_only=True)
@@ -667,9 +667,10 @@ class VictimProfileWithRelatedSerializer(serializers.ModelSerializer):
         return obj.destinations.aggregate(Count('id', distinct=True))['id__count']
     
 class ProsecutionSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Prosecution
-        fields = ['id', 'suspectedTrafficker', 'courtCaseNumber', 'prosecutionOutcome', 'trialCourt','foreignCourtCountry', 'caseStatus', 'verdict','reviewAppealOutcome',  'penalty', 'guiltyVerdict','yearsImposed', 'acquitalReason']
+        fields = ['id', 'suspectedTrafficker', 'courtCaseNumber', 'prosecutionOutcome', 'trialCourt','foreignCourtCountry', 'caseStatus', 'verdict','reviewAppealOutcome',  'penalty', 'guiltyVerdict','yearsImposed', 'acquitalReason','v_id']
         # Specify the field names in camelCase
         extra_kwargs = {
             'suspectedTrafficker': {'source': 'trafficker_id'},
@@ -683,5 +684,25 @@ class ProsecutionSerializer(serializers.ModelSerializer):
             'penalty': {'source': 'sanction_penalty_id'},
             'guiltyVerdict': {'source': 'guilty_verdict'},
             'yearsImposed': {'source': 'years_imposed'},
-            'acquitalReason': {'source': 'aquital_reason_id'}
+            'acquitalReason': {'source': 'aquital_reason_id'},
+            'v_id': {'source':'victim_id'}
+        }
+
+class ArrestInvestigationSerializer(serializers.ModelSerializer):
+    howTraffickersOrg = TraffickerOrgNameSerializer(many=True,read_only = True)
+    class Meta:
+        model = ArrestInvestigation
+        fields = ['id', 'suspectArrested', 'organizedCrime', 'whyNoArrest', 'victimSmuggled','investigationDone', 'whyNoInvestigation', 'investigationStatus','whyPending',  'withdrawnClosedReason', 'v_id','howTraffickersOrg']
+        # Specify the field names in camelCase
+        extra_kwargs = {
+            'suspectArrested': {'source': 'suspects_arrested_id'},
+            'organizedCrime': {'source': 'org_crime'},
+            'whyNoArrest': {'source': 'why_no_arrest'},
+            'victimSmuggled': {'source': 'victim_smuggled'},
+            'investigationDone': {'source': 'investigation_done'},
+            'whyNoInvestigation': {'source': 'why_no_investigation'},
+            'investigationStatus': {'source': 'investigation_status_id'},
+            'whyPending': {'source': 'why_pending'},
+            'withdrawnClosedReason': {'source': 'withdrawn_closed_reason'},
+            'v_id': {'source':'victim_id'}
         }

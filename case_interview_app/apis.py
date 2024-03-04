@@ -354,3 +354,31 @@ class TipTransitAPIView(APIView):
             for item in request.data('meansOfTransportation'):
                 transit.transport_means.add(int(item))
         return Response({"message": "Transit record created successfully","id":transit.id}, status=status.HTTP_201_CREATED)
+
+class TipArrestAPIView(APIView):
+    def get(self, request, pk = None):
+        arrest =ArrestInvestigation.objects.filter(pk = pk).first()
+        serializer = ArrestInvestigationSerializer(arrest)
+        return Response(serializer.data)
+
+    def post(self,request):
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+        
+        arrest = ArrestInvestigation()
+        arrest.victim_id = request.data['v_id']
+        arrest.org_crime=request.data['organizedCrime']
+        arrest.suspects_arrested = request.data['suspectArrested']
+        arrest.why_no_arrest=request.data['whyNoArrest']
+        arrest.victim_smuggled=request.data['victimSmuggled']
+        arrest.investigation_done=request.data['investigationDone']
+        arrest.why_no_investigation=request.data['whyNoInvestigation']
+        arrest.investigation_status_id= int(request.data['investigationStatus']) if request.data['investigationStatus'].isdigit() else None
+        arrest.why_pending=request.data['whyPending']
+        arrest.withdrawn_closed_reason=request.data['withdrawnClosedReason']
+        arrest.interviewer_id = interviewer.id
+        arrest.approval_id=1
+        arrest.save()
+        for org in request.POST.getlist('howTraffickersOrg[]'):
+            arrest.how_traffickers_org.add(TraffickerOrg.objects.filter(id= org).first())
+
+        return Response({"message": "Arrest details created successfully","id":arrest.id}, status=status.HTTP_201_CREATED)
