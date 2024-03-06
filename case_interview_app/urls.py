@@ -61,6 +61,18 @@ urlpatterns = [
     path('api/arrests/<int:v_id>/', apis.TipArrestAPIView.as_view(), name='victim-arrest-api'),
     path('api/arrests/<int:v_id>/<int:pk>/', apis.TipArrestAPIView.as_view(), name='arrest-detail-api'),
 
+    path('api/assistances/', apis.TipAssistanceAPIView.as_view(), name='assistance-api'),
+    path('api/assistances/<int:v_id>/', apis.TipAssistanceAPIView.as_view(), name='victim-assistance-api'),
+    path('api/assistances/<int:v_id>/<int:pk>/', apis.TipAssistanceAPIView.as_view(), name='assistance-detail-api'),
+
+    path('api/socios/', apis.TipSocioAPIView.as_view(), name='socio-api'),
+    path('api/socios/<int:v_id>/', apis.TipSocioAPIView.as_view(), name='victim-socio-api'),
+    path('api/socios/<int:v_id>/<int:pk>/', apis.TipSocioAPIView.as_view(), name='socio-detail-api'),
+
+    path('api/aggregates/', apis.TipAggregateAPIView.as_view(), name='aggregate-api'),
+    path('api/aggregates/<int:v_id>/', apis.TipAggregateAPIView.as_view(), name='victim-aggregate-api'),
+    path('api/aggregates/<int:v_id>/<int:pk>/', apis.TipAggregateAPIView.as_view(), name='aggregate-detail-api'),
+
     path("som_interviewer_registration", som_views.interviewer_registration, name="som_interviewer_registration"),
     path("som_investigation_form", som_views.investigation_form, name="som_investigation_form"),
     path("som_prosecution_form", som_views.prosecution_form, name="som_prosecution_form"),

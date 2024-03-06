@@ -378,7 +378,162 @@ class TipArrestAPIView(APIView):
         arrest.interviewer_id = interviewer.id
         arrest.approval_id=1
         arrest.save()
-        for org in request.POST.getlist('howTraffickersOrg[]'):
+        for org in request.POST.getlist('howTraffickersOrg'):
             arrest.how_traffickers_org.add(TraffickerOrg.objects.filter(id= org).first())
 
         return Response({"message": "Arrest details created successfully","id":arrest.id}, status=status.HTTP_201_CREATED)
+
+class TipAssistanceAPIView(APIView):
+    def get(self, request, pk = None):
+        assistance =Assistance.objects.filter(pk = pk).first()
+        serializer = AssistanceSerializer(assistance)
+        return Response(serializer.data)
+
+    def post(self,request):
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+        assistance = Assistance()
+        assistance.victim_id = request.data['v_id']
+        assistance.interviewer_id = interviewer.id
+        if request.POST.get('socialAssistanceDurationType') == '1':
+            assistance.social_assistance_days = int(request.data["socialAssistanceDuration"]) if request.data['socialAssistanceDuration'].isdigit() else None
+        elif request.POST.get('socialAssistanceDurationType') == '0':
+            assistance.social_assistance_months = int(request.data["socialAssistanceDuration"]) if request.data['socialAssistanceDuration'].isdigit() else None
+        if request.POST.get('medicalRehabilitationAssistanceDurationType') == '1':
+            assistance.med_rehab_days = int(request.data["medicalRehabilitationAssistanceDuration"]) if request.data['medicalRehabilitationAssistanceDuration'].isdigit() else None
+        elif request.POST.get('medicalRehabilitationAssistanceDurationType') == '0':
+            assistance.med_rehab_months = int(request.data["medicalRehabilitationAssistanceDuration"]) if request.data['medicalRehabilitationAssistanceDuration'].isdigit() else None
+        if request.POST.get('housingAllowanceDurationType') == '1':
+            assistance.housing_allowance_days = int(request.data["housingAllowanceDuration"]) if request.data['housingAllowanceDuration'].isdigit() else None
+        elif request.POST.get('housingAllowanceDurationType') == '0':
+            assistance.housing_allowance_months = int(request.data["housingAllowanceDuration"]) if request.data['housingAllowanceDuration'].isdigit() else None
+        if request.POST.get('halfwayHouseDurationType') == '1':
+            assistance.halfway_house_days = int(request.data["halfwayHouseDuration"]) if request.data['halfwayHouseDuration'].isdigit() else None
+        elif request.POST.get('halfwayHouseDurationType') == '0':
+            assistance.halfway_house_months = int(request.data["halfwayHouseDuration"]) if request.data['halfwayHouseDuration'].isdigit() else None
+        if request.POST.get('shelterDurationType') == '1':
+            assistance.shelter_days = int(request.data["shelterDuration"]) if request.data['shelterDuration'].isdigit() else None
+        elif request.POST.get('shelterDurationType') == '0':
+            assistance.shelter_months = int(request.data["shelterDuration"]) if request.data['shelterDuration'].isdigit() else None
+        if request.POST.get('vocationalTrainingDurationType') == '1':
+            assistance.vocational_training_days = int(request.data["vocationalTrainingDuration"]) if request.data['vocationalTrainingDuration'].isdigit() else None
+        elif request.POST.get('vocationalTrainingDurationType') == '0':
+            assistance.vocational_training_months = int(request.data["vocationalTrainingDuration"]) if request.data['vocationalTrainingDuration'].isdigit() else None
+        if request.POST.get('incomeGeneratingProjectDurationType') == '1':
+            assistance.micro_ent_income_days = int(request.data["incomeGeneratingProjectDuration"]) if request.data['incomeGeneratingProjectDuration'].isdigit() else None
+        elif request.POST.get('incomeGeneratingProjectDurationType') == '0':
+            assistance.micro_ent_income_months = int(request.data["incomeGeneratingProjectDuration"]) if request.data['incomeGeneratingProjectDuration'].isdigit() else None
+        if request.POST.get('legalAssistanceDurationType') == '1':
+            assistance.legal_assistance_days = int(request.data["legalAssistanceDuration"]) if request.data['legalAssistanceDuration'].isdigit() else None
+        elif request.POST.get('legalAssistanceDurationType') == '0':
+            assistance.legal_assistance_months = int(request.data["legalAssistanceDuration"]) if request.data['legalAssistanceDuration'].isdigit() else None
+        if request.POST.get('medicalAssistanceDurationType') == '1':
+            assistance.medical_assistance_days = int(request.data["medicalAssistanceDuration"]) if request.data['medicalAssistanceDuration'].isdigit() else None
+        elif request.POST.get('medicalAssistanceDurationType') == '0':
+            assistance.medical_assistance_months = int(request.data["medicalAssistanceDuration"]) if request.data['medicalAssistanceDuration'].isdigit() else None
+        if request.POST.get('financialAssistanceDurationType') == '1':
+            assistance.financial_assistance_days = int(request.data["financialAssistanceDuration"]) if request.data['financialAssistanceDuration'].isdigit() else None
+        elif request.POST.get('financialAssistanceDurationType') == '0':
+            assistance.financial_assistance_months = int(request.data["financialAssistanceDuration"]) if request.data['financialAssistanceDuration'].isdigit() else None
+        if request.POST.get('educationAssistanceDurationType') == '1':
+            assistance.education_assistance_days = int(request.data["educationAssistanceDuration"]) if request.data['educationAssistanceDuration'].isdigit() else None
+        elif request.POST.get('educationAssistanceDurationType') == '0':
+            assistance.education_assistance_months = int(request.data["educationAssistanceDuration"]) if request.data['educationAssistanceDuration'].isdigit() else None
+        if request.POST.get('immEmmigrationAssistanceDurationType') == '1':
+            assistance.im_emmigration_assistance_days = int(request.data["immEmmigrationAssistanceDuration"]) if request.data['immEmmigrationAssistanceDuration'].isdigit() else None
+        elif request.POST.get('immEmmigrationAssistanceDurationType') == '0':
+            assistance.im_emmigration_assistance_months = int(request.data["immEmmigrationAssistanceDuration"]) if request.data['immEmmigrationAssistanceDuration'].isdigit() else None
+        if request.POST.get('communityBasedAssistanceDurationType') == '1':
+            assistance.other_community_assistance_days = int(request.data["communityBasedAssistanceDuration"]) if request.data['communityBasedAssistanceDuration'].isdigit() else None
+        elif request.POST.get('communityBasedAssistanceDurationType') == '0':
+            assistance.other_community_assistance_months = int(request.data["communityBasedAssistanceDuration"]) if request.data['communityBasedAssistanceDuration'].isdigit() else None
+        assistance.approval_id = 1
+        assistance.save()
+        for it in request.data['socialAssistanceProvider']:
+            assistance.social_assistance_provider.add(it)
+
+        for it in request.data['medRehabProvider']:
+            assistance.med_rehab_provider.add(it)
+
+        for it in request.data['housingAllowanceProvider']:
+            assistance.housing_allowance_provider.add(it)
+
+        for it in request.data['halfwayHouseProvider']:
+            assistance.halfway_house_providers.add(it)
+
+        for it in request.data['shelterProvider']:
+            assistance.shelter_provider.add(it)
+
+        for it in request.data['vocationalTrainingProvider']:
+            assistance.vocational_training_provider.add(it)
+
+        for it in request.data['incomeGeneratingProjectProvider']:
+            assistance.micro_ent_income_provider.add(it)
+
+        for it in request.data['legalAssistanceProvider']:
+            assistance.legal_assistance_provider.add(it)
+
+        for it in request.data['medicalAssistanceProvider']:
+            assistance.medical_assistance_provider.add(it)
+
+        for it in request.data['financialAssistanceProvider']:
+            assistance.financial_assistance_provider.add(it)
+
+        for it in request.data['educationAssistanceProvider']:
+            assistance.education_assistance_provider.add(it)
+
+        for it in request.data['immEmmigrationAssistanceProvider']:
+            assistance.im_emmigration_assistance_provider.add(it)
+
+        for it in request.data['communityBasedAssistanceProvider']:
+            assistance.other_community_assistance_provider.add(it)
+
+        return Response({"message": "Arrest details created successfully","id":assistance.id}, status=status.HTTP_201_CREATED)
+
+
+class TipSocioAPIView(APIView):
+    def get(self, request, pk = None):
+        socio =SocioEconomic.objects.filter(pk = pk).first()
+        serializer = AssistanceSerializer(socio)
+        return Response(serializer.data)
+
+    def post(self,request):
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+        
+        socio = SocioEconomic()
+        socio.victim_id = request.session["v_id"]
+        socio.family_structure_id = int(request.data['familyStructure']) if request.data['familyStructure'].isdigit() else None
+        socio.living_with_id = int(request.data['livingWith']) if request.data['livingWith'].isdigit() else None
+        socio.violence_prior = request.data['violencePrior']
+        socio.violence_type = request.data['violenceType']
+        socio.education_level_id = int(request.data['educationLevel']) if request.data['educationLevel'].isdigit() else None
+        socio.interviewer_id = interviewer.id
+        socio.approval_id = 1
+        socio.save()
+
+        for it in request.data['lastOccupation']:
+            socio.last_occupation.add(it)
+        
+        return Response({"message": "Arrest details created successfully","id":socio.id}, status=status.HTTP_201_CREATED)
+
+
+
+class TipAggregateAPIView(APIView):
+    def get(self, request, pk = None):
+        pass
+
+    def post(self,request):
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+
+        assistance_aggregate = AssistanceAggregateData()
+        assistance_aggregate.data_supplier_id = int(request.data['dataSupplier']) if request.data['dataSupplier'].isdigit() else None
+        assistance_aggregate.total_tip_annually = request.data['totalTip']
+        assistance_aggregate.total_service = request.data['totalVictim']
+        assistance_aggregate.eligible_family_service = request.data['totalFamily']
+        assistance_aggregate.total_anon_contacts = request.data['totalAnon']
+        assistance_aggregate.interviewer_id = interviewer.id
+        assistance_aggregate.approval_id = 1
+        assistance_aggregate.save()
+
+        return Response({"message": "Aggregate details created successfully","id":assistance_aggregate.id}, status=status.HTTP_201_CREATED)
+
+
