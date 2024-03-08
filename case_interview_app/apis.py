@@ -147,6 +147,50 @@ class TipVictimAPIView(APIView):
         interviewer.victims.add(victim)
         return Response({"message": "Victim created successfully","id":victim.id}, status=status.HTTP_201_CREATED)
 
+    def put(self, request, pk=None):
+        victim = VictimProfile.objects.filter(pk=pk).first()
+        if not victim:
+            return Response({"error": "Victim not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
+        victim.citizenship_id = decrypt_data(request.data['citizenship'])
+        victim.countryOfBirth_id = decrypt_data(request.data['countryOfBirth'])
+        victim.gender_id = request.data['gender']
+        victim.race_id = decrypt_data(request.data['race'])
+        victim.place_of_birth = decrypt_data(request.data['placeOfBirth'])
+        victim.last_place_of_residence_id = decrypt_data(request.data['lastPlaceOfResidence'])
+        victim.identification_number = decrypt_data(request.data['idNumber'])
+        victim.initials = decrypt_data(request.data['initials'])
+        victim.age = decrypt_data(request.data['age'])
+        victim.address = decrypt_data(request.data['address'])
+        victim.email_address = decrypt_data(request.data['email'])
+        victim.interview_country_id = decrypt_data(request.data['interviewCountry'])
+        victim.interview_location = decrypt_data(request.data['interviewerLocation'])
+        victim.interview_date = decrypt_data(request.data['interviewDate'])
+        victim.additional_remarks = decrypt_data(request.data['additionalRemarks'])
+        victim.approval_id = 1
+        victim.consent_share_gov_patner = 1
+        victim.consent_limited_disclosure = 1
+        victim.consent_research = 1
+        victim.consent_abstain_answer = 1
+        victim.save()
+        if interviewer.data_entry_purpose_id == 1:
+            victim.victim_identifier = victim.citizenship.two_code+"-TP-"+str(victim.id)
+        if interviewer.data_entry_purpose_id == 2:
+            victim.victim_identifier = victim.citizenship.two_code+"-IV-"+str(victim.id)
+        if interviewer.data_entry_purpose_id == 3:
+            victim.victim_identifier = victim.citizenship.two_code+"-PR-"+str(victim.id)
+        if interviewer.data_entry_purpose_id == 4:
+            victim.victim_identifier = victim.citizenship.two_code+"-AS-"+str(victim.id)
+        victim.save()
+        for lang in request.data['languages']:
+            victim.languages.add(Language.objects.filter(id= lang).first())
+        
+        for idt in request.data['idType']:
+            victim.identification_type.add(IdType.objects.filter(id = idt).first())
+
+        
+        interviewer.victims.add(victim)
 
 class TipProsecutionAPIView(APIView):
     def get(self, request, pk = None):
@@ -175,6 +219,29 @@ class TipProsecutionAPIView(APIView):
         prosecution.approval_id=1
         prosecution.save()
         return Response({"message": "Prosecution details created successfully","id":prosecution.id}, status=status.HTTP_201_CREATED)
+    
+    def put(self, request, pk=None):
+        prosecution = Prosecution.objects.filter(pk=pk).first()
+        if not prosecution:
+            return Response({"error": "Prosecution not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Update prosecution object with the provided data
+        prosecution.victim_id = request.data.get('v_id', prosecution.victim_id)
+        prosecution.trafficker_id = request.data.get('suspectedTrafficker', prosecution.trafficker_id) if request.data.get('suspectedTrafficker') != "" else None
+        prosecution.status_of_case_id = request.data.get('caseStatus', prosecution.status_of_case_id) if request.data.get('caseStatus') != "" else None
+        prosecution.trial_court_id = request.data.get('trialCourt', prosecution.trial_court_id) if request.data.get('trialCourt') != "" else None
+        prosecution.trial_court_country_id = request.data.get('foreignCourtCountry', prosecution.trial_court_country_id) if request.data.get('foreignCourtCountry') != "" else None
+        prosecution.court_case_no = request.data.get('courtCaseNumber', prosecution.court_case_no)
+        prosecution.verdict_id = request.data.get('verdict', prosecution.verdict_id) if request.data.get('verdict') != "" else None
+        prosecution.guilty_verdict_reason_id = request.data.get('guiltyVerdict', prosecution.guilty_verdict_reason_id) if request.data.get('guiltyVerdict') != "" else None
+        prosecution.prosecution_outcome_id = request.data.get('prosecutionOutcome', prosecution.prosecution_outcome_id) if request.data.get('prosecutionOutcome') != "" else None
+        prosecution.aquital_reason_id = request.data.get('acquittalReason', prosecution.aquital_reason_id) if request.data.get('acquittalReason') != "" else None
+        prosecution.review_appeal_outcome = request.data.get('reviewAppealOutcome', prosecution.review_appeal_outcome)
+        prosecution.sanction_penalty_id = request.data.get('penalty', prosecution.sanction_penalty_id) if request.data.get('penalty') != "" else None
+        prosecution.years_imposed = int(request.data.get('yearsImposed', prosecution.years_imposed)) if request.data.get('yearsImposed') != "" and request.data.get('yearsImposed').isdigit() else None
+        prosecution.save()
+        
+        return Response({"message": "Prosecution details updated successfully"}, status=status.HTTP_200_OK)
 
 class TipSuspectAPIView(APIView):
     def get(self, request, v_id=None, pk=None ):
@@ -233,6 +300,47 @@ class TipSuspectAPIView(APIView):
             suspect.role_in_trafficking.add(RoleInTrafficking.objects.filter(id = rl).first())
 
         return Response({"message": "Suspect created successfully","id":suspect.id}, status=status.HTTP_201_CREATED)
+
+    def put(self, request, v_id=None, pk=None):
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+        suspect = SuspectedTrafficker.objects.filter(victim_id=v_id, pk=pk).first()
+        if not suspect:
+            return Response({"error": "Suspect not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        today = date.today()
+        born = datetime.strptime(request.data['dob'], '%Y-%m-%d')
+        age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+        # Update suspect object with the provided data
+        suspect.first_name = request.data.get('firstName', suspect.first_name)
+        suspect.last_name = request.data.get('surName', suspect.last_name)
+        suspect.dob = request.data.get('dob', suspect.dob)
+        suspect.gender_id = request.data['gender']
+        suspect.race_id = int(request.data['race']) if request.data['race'].isdigit() else None
+        suspect.age = age
+        suspect.country_of_birth_id = int(request.data['countryOfBirth']) if request.data['countryOfBirth'].isdigit() else None 
+        suspect.citizenship_id = int(request.data['citizenship']) if request.data['citizenship'].isdigit() else None
+        suspect.nationality_id = int(request.data['nationality']) if request.data['nationality'].isdigit() else None
+        suspect.id_number = request.data['idNumber']
+        suspect.last_residence = request.data['lastPlaceOfResidence']
+        suspect.address = request.data['address']
+        suspect.date_of_arrest = request.data['dateOfArrest']
+        suspect.traffick_from_country_id = request.data['countryFrom']
+        suspect.traffick_from_place = request.data['placeFrom']
+        suspect.traffick_to_country_id = request.data['countryTo']
+        suspect.traffick_to_place = request.data['placeTo']
+        suspect.interviewer_id=interviewer.id
+        suspect.approval_id=1
+        suspect.id_type_id = request.data['idType']
+        suspect.save()
+
+        for lang in request.data['languages']:
+            suspect.languages.add(Language.objects.filter(id= lang).first())
+
+        
+        for rl in request.data['roleInTrafficking']:
+            suspect.role_in_trafficking.add(RoleInTrafficking.objects.filter(id = rl).first())
+
+        return Response({"message": "Suspect details updated successfully"}, status=status.HTTP_200_OK)
 
 class TipExploitationAPIView(APIView):
     def get(self, request, v_id=None, pk=None ):
@@ -333,6 +441,88 @@ class TipExploitationAPIView(APIView):
 
         return Response({"message": "Exploitation records created successfully","id":exploitation.id}, status=status.HTTP_201_CREATED)
 
+    def put(self, request, v_id=None, pk=None):
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+        exploitation = Exploitation.objects.filter(victim_id=v_id, pk=pk).first()
+        if not exploitation:
+            return Response({"error": "Exploitation record not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Update exploitation object with the provided data
+        exploitation.subject_to_exploitation = request.data.get('subjectToExploitation', exploitation.subject_to_exploitation)
+        exploitation.intent_to_exploit = request.data.get('intentToExploit', exploitation.intent_to_exploit)
+        exploitation.exploitation_length = request.data.get('exploitationLength', exploitation.exploitation_length)
+        exploitation.exploitation_age_id = int(request.data['exploitationAge']) if request.data['exploitationAge'].isdigit() else None
+        exploitation.pay_debt = request.data['paidDebt']
+        exploitation.debt_amount = request.data['debtAmount']
+        exploitation.freed_method_id = int(request.data['freedMethod']) if request.data['freedMethod'].isdigit() else None
+        exploitation.event_description = request.data['eventDescription']
+        exploitation.e_prostitution = request.data['eProstitution']
+        exploitation.e_other_sexual = request.data['eOtherSexual']
+        exploitation.e_other_sexual_online = request.data['eOtherSexualOnline']
+        exploitation.e_online_porno = request.data['eOnlinePorno']
+        exploitation.e_criminal_activity = request.data['eCriminalActivity']
+        exploitation.e_forced_labour = request.data['eForcedLabour']
+        exploitation.e_forced_marriage = request.data['eForcedMarriage']
+        exploitation.e_victim_knew_spouse = request.data['eVictimKnewSpouse']
+        exploitation.e_spouse_nationality_id = int(request.data['eSpouseNationality']) if request.data['eSpouseNationality'].isdigit() else None
+        exploitation.e_bprice_paid_id = int(request.data['eBPricePaid']) if request.data['eBPricePaid'].isdigit() else None
+        exploitation.e_bprice_amount_kind = request.data['eBPriceAmountKind']
+        exploitation.e_child_marriage = request.data['eChildMarriage']
+        exploitation.e_victim_pregnancy = request.data['eVictimPregnancy']
+        exploitation.e_children_from_marriage = int(request.data['eChildFromMarriage']) if request.data['eChildFromMarriage'].isdigit() else 0
+        exploitation.e_maternal_health_issues = request.data['eMaternalHealthIssues']
+        exploitation.e_m_health_issues_description = request.data['eMHealthIssuesDescription']
+        exploitation.e_marriage_violence_id = int(request.data['eMarriageViolence']) if request.data['eMarriageViolence'].isdigit() else None
+        exploitation.e_forced_military_type_id = int(request.data['eForcedMilitaryType']) if request.data['eForcedMilitaryType'].isdigit() else None
+        exploitation.e_armed_group_name = request.data['eArmedGroupName']
+        exploitation.e_child_soldier = request.data['eChildSoldier']
+        exploitation.e_child_soldier_age = int(request.data['eChildSoldierAge'])  if request.data['eChildSoldierAge'].isdigit() else 0
+        exploitation.e_organ_removed = request.data['eOrganRemoved']
+        exploitation.e_operation_location_id = int(request.data['eOperationLocation']) if request.data['eOperationLocation'].isdigit() else None
+        exploitation.e_operation_country_id = int(request.data['eOperationCountry']) if request.data['eOperationCountry'].isdigit() else None
+        exploitation.e_organ_sale_price = request.data['eOrganSalePrice']
+        exploitation.e_organ_paid_to_id = int(request.data['eOrganPaidTo']) if request.data['eOrganPaidTo'].isdigit() else None
+        exploitation.e_remarks = request.data['eRemarks']
+        exploitation.e_recruitment_type_id = int(request.data['eRecruitmentType']) if request.data['eRecruitmentType'].isdigit() else None
+        exploitation.e_recruiter_relationship_id = int(request.data['eRecruiterRelationship']) if request.data['eRecruiterRelationship'].isdigit() else None
+        exploitation.approval_id=1
+        exploitation.save()
+
+        if request.data['eCriminalActivityType']:
+            for ca in request.data('eCriminalActivityType'):
+                exploitation.e_criminal_activity_type.add(ca)
+
+        if request.data['eForcedLabourIndustry']:
+            for ca in request.data['eForcedLabourIndustry']:
+                exploitation.e_forced_labour_industry.add(ca)
+
+        if request.data['eBPriceRecipient']:
+            for ca in request.data['eBPriceRecipient']:
+                exploitation.e_brice_recipient.add(ca)
+
+        if request.data['eChildMarriageReason']:
+            for ca in request.data['eChildMarriageReason']:
+                exploitation.e_child_marriage_reason.add(ca)
+
+        if request.data['eMarriageViolenceType']:
+            for ca in request.data['eMarriageViolenceType']:
+                exploitation.e_marriage_violence_type.add(ca)
+        
+        if request.data['eVictimMilitaryActivities']:
+            for ca in request.data['eVictimMilitaryActivities']:
+                exploitation.e_victim_military_activities.add(ca)
+        
+        if request.data['eBodyPartRemoved']:
+            for ca in request.data['eBodyPartRemoved']:
+                exploitation.e_body_part_removed.add(ca)
+        
+        if request.data['eTraffickingMeans']:
+            for ca in request.data['eTraffickingMeans']:
+                exploitation.e_trafficking_means.add(ca)
+
+        return Response({"message": "Exploitation record updated successfully"}, status=status.HTTP_200_OK)
+    
+
 class TipTransitAPIView(APIView):
     def get(self, request, v_id=None, pk=None ):
         pass
@@ -355,6 +545,29 @@ class TipTransitAPIView(APIView):
                 transit.transport_means.add(int(item))
         return Response({"message": "Transit record created successfully","id":transit.id}, status=status.HTTP_201_CREATED)
 
+    def put(self, request, v_id=None, pk=None):
+        interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
+        transit = TransitRouteDestination.objects.filter(victim_id=v_id, pk=pk).first()
+        if not transit:
+            return Response({"error": "Transit record not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Update transit object with the provided data
+        transit.victim_id = request.data['v_id']
+        transit.country_of_origin_id = int(request.data['countryOfOrigin']) if request.data['countryOfOrigin'].isdigit() else None
+        transit.country_of_dest_id = int(request.data['countryOfDestination']) if request.data['countryOfDestination'].isdigit() else None
+        transit.city_village_of_dest = request.data['cityVillageOfDest']
+        transit.city_village_of_origin = request.data['cityVillageOfOrigin']
+        transit.remarks = request.data['remarks']
+        transit.interviewer_id = interviewer.id
+        transit.approval_id = 1
+        # Save the updated transit object
+        transit.save()
+
+        if request.data('meansOfTransportation') is not None:
+            for item in request.data('meansOfTransportation'):
+                transit.transport_means.add(int(item))
+
+        return Response({"message": "Transit record updated successfully"}, status=status.HTTP_200_OK)
 class TipArrestAPIView(APIView):
     def get(self, request, pk = None):
         arrest =ArrestInvestigation.objects.filter(pk = pk).first()
@@ -383,6 +596,34 @@ class TipArrestAPIView(APIView):
 
         return Response({"message": "Arrest details created successfully","id":arrest.id}, status=status.HTTP_201_CREATED)
 
+    def put(self, request, pk=None):
+        interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
+        arrest = ArrestInvestigation.objects.filter(pk=pk).first()
+        if not arrest:
+            return Response({"error": "Arrest record not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Update arrest object with the provided data
+        arrest.victim_id = request.data.get('v_id', arrest.victim_id)
+        arrest.org_crime = request.data.get('organizedCrime', arrest.org_crime)
+        arrest.suspects_arrested = request.data.get('suspectArrested', arrest.suspects_arrested)
+        arrest.why_no_arrest = request.data.get('whyNoArrest', arrest.why_no_arrest)
+        arrest.victim_smuggled = request.data.get('victimSmuggled', arrest.victim_smuggled)
+        arrest.investigation_done = request.data.get('investigationDone', arrest.investigation_done)
+        arrest.why_no_investigation = request.data.get('whyNoInvestigation', arrest.why_no_investigation)
+        arrest.investigation_status_id = int(request.data.get('investigationStatus', arrest.investigation_status_id)) if request.data.get('investigationStatus') else arrest.investigation_status_id
+        arrest.why_pending = request.data.get('whyPending', arrest.why_pending)
+        arrest.withdrawn_closed_reason = request.data.get('withdrawnClosedReason', arrest.withdrawn_closed_reason)
+        arrest.interviewer_id = interviewer.id
+        arrest.approval_id = 1
+        arrest.save()
+
+        # Update many-to-many relationship
+        arrest.how_traffickers_org.clear()
+        for org in request.data['howTraffickersOrg']:
+            arrest.how_traffickers_org.add(TraffickerOrg.objects.filter(id=org).first())
+
+        return Response({"message": "Arrest details updated successfully"}, status=status.HTTP_200_OK)
+    
 class TipAssistanceAPIView(APIView):
     def get(self, request, pk = None):
         assistance =Assistance.objects.filter(pk = pk).first()
@@ -489,6 +730,90 @@ class TipAssistanceAPIView(APIView):
 
         return Response({"message": "Arrest details created successfully","id":assistance.id}, status=status.HTTP_201_CREATED)
 
+    def put(self, request, pk=None):
+        interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
+        assistance = Assistance.objects.filter(pk=pk).first()
+        if not assistance:
+            return Response({"error": "Assistance record not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Update assistance object with the provided data
+        assistance.victim_id = request.data.get('v_id', assistance.victim_id)
+        assistance.interviewer_id = interviewer.id
+        if request.POST.get('socialAssistanceDurationType') == '1':
+            assistance.social_assistance_days = int(request.data["socialAssistanceDuration"]) if request.data['socialAssistanceDuration'].isdigit() else None
+        elif request.POST.get('socialAssistanceDurationType') == '0':
+            assistance.social_assistance_months = int(request.data["socialAssistanceDuration"]) if request.data['socialAssistanceDuration'].isdigit() else None
+        if request.POST.get('medicalRehabilitationAssistanceDurationType') == '1':
+            assistance.med_rehab_days = int(request.data["medicalRehabilitationAssistanceDuration"]) if request.data['medicalRehabilitationAssistanceDuration'].isdigit() else None
+        elif request.POST.get('medicalRehabilitationAssistanceDurationType') == '0':
+            assistance.med_rehab_months = int(request.data["medicalRehabilitationAssistanceDuration"]) if request.data['medicalRehabilitationAssistanceDuration'].isdigit() else None
+        if request.POST.get('housingAllowanceDurationType') == '1':
+            assistance.housing_allowance_days = int(request.data["housingAllowanceDuration"]) if request.data['housingAllowanceDuration'].isdigit() else None
+        elif request.POST.get('housingAllowanceDurationType') == '0':
+            assistance.housing_allowance_months = int(request.data["housingAllowanceDuration"]) if request.data['housingAllowanceDuration'].isdigit() else None
+        if request.POST.get('halfwayHouseDurationType') == '1':
+            assistance.halfway_house_days = int(request.data["halfwayHouseDuration"]) if request.data['halfwayHouseDuration'].isdigit() else None
+        elif request.POST.get('halfwayHouseDurationType') == '0':
+            assistance.halfway_house_months = int(request.data["halfwayHouseDuration"]) if request.data['halfwayHouseDuration'].isdigit() else None
+        if request.POST.get('shelterDurationType') == '1':
+            assistance.shelter_days = int(request.data["shelterDuration"]) if request.data['shelterDuration'].isdigit() else None
+        elif request.POST.get('shelterDurationType') == '0':
+            assistance.shelter_months = int(request.data["shelterDuration"]) if request.data['shelterDuration'].isdigit() else None
+        if request.POST.get('vocationalTrainingDurationType') == '1':
+            assistance.vocational_training_days = int(request.data["vocationalTrainingDuration"]) if request.data['vocationalTrainingDuration'].isdigit() else None
+        elif request.POST.get('vocationalTrainingDurationType') == '0':
+            assistance.vocational_training_months = int(request.data["vocationalTrainingDuration"]) if request.data['vocationalTrainingDuration'].isdigit() else None
+        if request.POST.get('incomeGeneratingProjectDurationType') == '1':
+            assistance.micro_ent_income_days = int(request.data["incomeGeneratingProjectDuration"]) if request.data['incomeGeneratingProjectDuration'].isdigit() else None
+        elif request.POST.get('incomeGeneratingProjectDurationType') == '0':
+            assistance.micro_ent_income_months = int(request.data["incomeGeneratingProjectDuration"]) if request.data['incomeGeneratingProjectDuration'].isdigit() else None
+        if request.POST.get('legalAssistanceDurationType') == '1':
+            assistance.legal_assistance_days = int(request.data["legalAssistanceDuration"]) if request.data['legalAssistanceDuration'].isdigit() else None
+        elif request.POST.get('legalAssistanceDurationType') == '0':
+            assistance.legal_assistance_months = int(request.data["legalAssistanceDuration"]) if request.data['legalAssistanceDuration'].isdigit() else None
+        if request.POST.get('medicalAssistanceDurationType') == '1':
+            assistance.medical_assistance_days = int(request.data["medicalAssistanceDuration"]) if request.data['medicalAssistanceDuration'].isdigit() else None
+        elif request.POST.get('medicalAssistanceDurationType') == '0':
+            assistance.medical_assistance_months = int(request.data["medicalAssistanceDuration"]) if request.data['medicalAssistanceDuration'].isdigit() else None
+        if request.POST.get('financialAssistanceDurationType') == '1':
+            assistance.financial_assistance_days = int(request.data["financialAssistanceDuration"]) if request.data['financialAssistanceDuration'].isdigit() else None
+        elif request.POST.get('financialAssistanceDurationType') == '0':
+            assistance.financial_assistance_months = int(request.data["financialAssistanceDuration"]) if request.data['financialAssistanceDuration'].isdigit() else None
+        if request.POST.get('educationAssistanceDurationType') == '1':
+            assistance.education_assistance_days = int(request.data["educationAssistanceDuration"]) if request.data['educationAssistanceDuration'].isdigit() else None
+        elif request.POST.get('educationAssistanceDurationType') == '0':
+            assistance.education_assistance_months = int(request.data["educationAssistanceDuration"]) if request.data['educationAssistanceDuration'].isdigit() else None
+        if request.POST.get('immEmmigrationAssistanceDurationType') == '1':
+            assistance.im_emmigration_assistance_days = int(request.data["immEmmigrationAssistanceDuration"]) if request.data['immEmmigrationAssistanceDuration'].isdigit() else None
+        elif request.POST.get('immEmmigrationAssistanceDurationType') == '0':
+            assistance.im_emmigration_assistance_months = int(request.data["immEmmigrationAssistanceDuration"]) if request.data['immEmmigrationAssistanceDuration'].isdigit() else None
+        if request.POST.get('communityBasedAssistanceDurationType') == '1':
+            assistance.other_community_assistance_days = int(request.data["communityBasedAssistanceDuration"]) if request.data['communityBasedAssistanceDuration'].isdigit() else None
+        elif request.POST.get('communityBasedAssistanceDurationType') == '0':
+            assistance.other_community_assistance_months = int(request.data["communityBasedAssistanceDuration"]) if request.data['communityBasedAssistanceDuration'].isdigit() else None
+        assistance.approval_id = 1
+
+        # Your existing code to update the fields based on request data
+
+        assistance.approval_id = 1
+        assistance.save()
+
+        # Update many-to-many relationships
+        assistance.social_assistance_provider.set(request.data.getlist('socialAssistanceProvider'))
+        assistance.med_rehab_provider.set(request.data.getlist('medRehabProvider'))
+        assistance.housing_allowance_provider.set(request.data.getlist('housingAllowanceProvider'))
+        assistance.halfway_house_providers.set(request.data.getlist('halfwayHouseProvider'))
+        assistance.shelter_provider.set(request.data.getlist('shelterProvider'))
+        assistance.vocational_training_provider.set(request.data.getlist('vocationalTrainingProvider'))
+        assistance.micro_ent_income_provider.set(request.data.getlist('incomeGeneratingProjectProvider'))
+        assistance.legal_assistance_provider.set(request.data.getlist('legalAssistanceProvider'))
+        assistance.medical_assistance_provider.set(request.data.getlist('medicalAssistanceProvider'))
+        assistance.financial_assistance_provider.set(request.data.getlist('financialAssistanceProvider'))
+        assistance.education_assistance_provider.set(request.data.getlist('educationAssistanceProvider'))
+        assistance.im_emmigration_assistance_provider.set(request.data.getlist('immEmmigrationAssistanceProvider'))
+        assistance.other_community_assistance_provider.set(request.data.getlist('communityBasedAssistanceProvider'))
+
+        return Response({"message": "Assistance details updated successfully"}, status=status.HTTP_200_OK)
 
 class TipSocioAPIView(APIView):
     def get(self, request, pk = None):
@@ -514,7 +839,28 @@ class TipSocioAPIView(APIView):
             socio.last_occupation.add(it)
         
         return Response({"message": "Arrest details created successfully","id":socio.id}, status=status.HTTP_201_CREATED)
+    
+    def put(self, request, pk=None):
+        interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
+        socio = SocioEconomic.objects.filter(pk=pk).first()
+        if not socio:
+            return Response({"error": "SocioEconomic record not found"}, status=status.HTTP_404_NOT_FOUND)
 
+        # Update socio object with the provided data
+        socio.victim_id = request.session.get("v_id", socio.victim_id)
+        socio.family_structure_id = int(request.data.get('familyStructure', socio.family_structure_id)) if request.data.get('familyStructure').isdigit() else socio.family_structure_id
+        socio.living_with_id = int(request.data.get('livingWith', socio.living_with_id)) if request.data.get('livingWith').isdigit() else socio.living_with_id
+        socio.violence_prior = request.data.get('violencePrior', socio.violence_prior)
+        socio.violence_type = request.data.get('violenceType', socio.violence_type)
+        socio.education_level_id = int(request.data.get('educationLevel', socio.education_level_id)) if request.data.get('educationLevel').isdigit() else socio.education_level_id
+        socio.interviewer_id = interviewer.id
+        socio.approval_id = 1
+        socio.save()
+
+        # Update many-to-many relationships
+        socio.last_occupation.set(request.data.getlist('lastOccupation'))
+
+        return Response({"message": "SocioEconomic details updated successfully"}, status=status.HTTP_200_OK)
 
 
 class TipAggregateAPIView(APIView):
@@ -536,4 +882,21 @@ class TipAggregateAPIView(APIView):
 
         return Response({"message": "Aggregate details created successfully","id":assistance_aggregate.id}, status=status.HTTP_201_CREATED)
 
+    def put(self, request, pk=None):
+        interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
+        assistance_aggregate = AssistanceAggregateData.objects.filter(pk=pk).first()
+        if not assistance_aggregate:
+            return Response({"error": "AssistanceAggregateData not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Update assistance_aggregate object with the provided data
+        assistance_aggregate.data_supplier_id = int(request.data.get('dataSupplier', assistance_aggregate.data_supplier_id)) if request.data.get('dataSupplier').isdigit() else assistance_aggregate.data_supplier_id
+        assistance_aggregate.total_tip_annually = request.data.get('totalTip', assistance_aggregate.total_tip_annually)
+        assistance_aggregate.total_service = request.data.get('totalVictim', assistance_aggregate.total_service)
+        assistance_aggregate.eligible_family_service = request.data.get('totalFamily', assistance_aggregate.eligible_family_service)
+        assistance_aggregate.total_anon_contacts = request.data.get('totalAnon', assistance_aggregate.total_anon_contacts)
+        assistance_aggregate.interviewer_id = interviewer.id
+        assistance_aggregate.approval_id = 1
+        assistance_aggregate.save()
+
+        return Response({"message": "Aggregate details updated successfully"}, status=status.HTTP_200_OK)
 
