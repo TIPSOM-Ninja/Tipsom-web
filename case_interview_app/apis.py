@@ -865,7 +865,9 @@ class TipSocioAPIView(APIView):
 
 class TipAggregateAPIView(APIView):
     def get(self, request, pk = None):
-        pass
+        aggregate =AssistanceAggregateData.objects.filter(pk = pk).first()
+        serializer = AssistanceAggregateDataSerializer(aggregate)
+        return Response(serializer.data)
 
     def post(self,request):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
