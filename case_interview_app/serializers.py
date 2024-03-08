@@ -706,3 +706,14 @@ class ArrestInvestigationSerializer(serializers.ModelSerializer):
             'withdrawnClosedReason': {'source': 'withdrawn_closed_reason'},
             'v_id': {'source':'victim_id'}
         }
+
+class AssistanceAggregateDataSerializer(serializers.ModelSerializer):
+    dataSupplier = serializers.IntegerField(source='data_supplier')
+    totalTip = serializers.IntegerField(source='total_tip_annually')
+    totalVictim = serializers.IntegerField(source='total_service')
+    totalFamily = serializers.IntegerField(source='eligible_family_service')
+    totalAnon = serializers.IntegerField(source='total_anon_contacts')
+
+    class Meta:
+        model = AssistanceAggregateData
+        fields = ('id', 'dataSupplier', 'totalTip', 'totalVictim', 'totalFamily', 'totalAnon', 'approval_comments', 'created_at', 'updated_at')
