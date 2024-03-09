@@ -568,6 +568,7 @@ class TipTransitAPIView(APIView):
                 transit.transport_means.add(int(item))
 
         return Response({"message": "Transit record updated successfully"}, status=status.HTTP_200_OK)
+
 class TipArrestAPIView(APIView):
     def get(self, request, pk = None):
         arrest =ArrestInvestigation.objects.filter(pk = pk).first()
@@ -865,9 +866,15 @@ class TipSocioAPIView(APIView):
 
 class TipAggregateAPIView(APIView):
     def get(self, request, pk = None):
+        if request.GET.get('page') is not None:
+            page = request.GET.get('page')
+        else:
+            page = 1
         if(pk == None):
             aggregate =AssistanceAggregateData.objects.all()
-            serializer = AssistanceAggregateDataSerializer(aggregate,many = True)
+            paginator = Paginator(aggregate, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = AssistanceAggregateDataSerializer(page_object,many = True)
         else:
             aggregate =AssistanceAggregateData.objects.filter(pk = pk).first()
             serializer = AssistanceAggregateDataSerializer(aggregate)
