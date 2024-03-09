@@ -626,9 +626,27 @@ class TipArrestAPIView(APIView):
         return Response({"message": "Arrest details updated successfully"}, status=status.HTTP_200_OK)
     
 class TipAssistanceAPIView(APIView):
-    def get(self, request, pk = None):
-        assistance =Assistance.objects.filter(pk = pk).first()
-        serializer = AssistanceSerializer(assistance)
+    def get(self, request, v_id=None, pk = None):
+        if request.GET.get('page') is not None:
+            page = request.GET.get('page')
+        else:
+            page = 1
+        
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+
+        if(v_id is not None and pk == None):
+            assistance =Assistance.objects.all()
+            paginator = Paginator(assistance, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = AssistanceSerializer(page_object,many = True)
+        elif(v_id is not None and pk == None):
+            assistance =Assistance.objects.filter(v_id = v_id)
+            paginator = Paginator(assistance, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = AssistanceSerializer(page_object,many = True)
+        else:
+            assistance =Assistance.objects.filter(pk = pk).first()
+            serializer = AssistanceSerializer(assistance)
         return Response(serializer.data)
 
     def post(self,request):
