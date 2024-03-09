@@ -904,9 +904,9 @@ class VictimProfileWithRelatedSerializer(serializers.ModelSerializer):
     languages = LanguageNameSerializer(many=True, read_only=True)
     gender = GenderNameSerializer(read_only=True)
     race = RaceNameSerializer(read_only=True)
-    identification_type = IdTypeNameSerializer(many=True, read_only=True)
-    last_place_of_residence = CountryNameSerializer(read_only=True)
-    interview_country = CountryNameSerializer(read_only=True)
+    identification_type = IdTypeNameSerializer(many=True, read_only=True, source = "identification_type")
+    last_place_of_residence = CountryNameSerializer(read_only=True, source = "last_place_of_residence")
+    interview_country = CountryNameSerializer(read_only=True, source = "interview_country")
     approval = ApprovalStatusNameSerializer(read_only=True)
     assistance_count = serializers.SerializerMethodField()
     exploitation_count = serializers.SerializerMethodField()
@@ -919,6 +919,15 @@ class VictimProfileWithRelatedSerializer(serializers.ModelSerializer):
     class Meta:
         model = VictimProfile
         fields = '__all__'
+
+        extra_kwargs = {
+            'emailAddress': {'source': 'email_address'},
+            'interviewDate': {'source': 'interview_date'},
+            'additionalRemarks': {'source': 'additional_remarks'},
+            'identificationNumber': {'source': 'identification_number'},
+            'placeOfBirth': {'source': 'place_of_birth'},
+            'interviewLocation': {'source': 'interview_location'},
+        }
     
     def get_assistance_count(self, obj):
         return obj.assistance.aggregate(Count('id', distinct=True))['id__count']
