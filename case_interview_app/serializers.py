@@ -918,7 +918,8 @@ class VictimProfileWithRelatedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VictimProfile
-        fields = ["victim_identifier","citizenship","countryOfBirth","languages","gender",
+        fields = ["victim_identifier","initials","age","address", 
+                  "citizenship","countryOfBirth","languages","gender",
                   "race","identificationType","lastPlaceOfResidence","interviewCountry",
                   "approval","email","interviewDate","additionalRemarks","identificationNumber",
                   "placeOfBirth","interviewLocation"
@@ -958,7 +959,7 @@ class ProsecutionSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Prosecution
-        fields = ['id', 'suspectedTrafficker', 'courtCaseNumber', 'prosecutionOutcome', 'trialCourt','foreignCourtCountry', 'caseStatus', 'verdict','reviewAppealOutcome',  'penalty', 'guiltyVerdict','yearsImposed', 'acquitalReason','v_id']
+        fields = ['id','suspectedTrafficker', 'courtCaseNumber', 'prosecutionOutcome', 'trialCourt','foreignCourtCountry', 'caseStatus', 'verdict','reviewAppealOutcome',  'penalty', 'guiltyVerdict','yearsImposed', 'acquitalReason','v_id']
         # Specify the field names in camelCase
         extra_kwargs = {
             'suspectedTrafficker': {'source': 'trafficker_id'},
