@@ -850,17 +850,22 @@ class AssistanceSerializer(serializers.ModelSerializer):
     
 
 class SocioEconomicSerializer(serializers.ModelSerializer):
-    victim = VictimProfileSerializer(read_only=True)
-    family_structure = FamilyStructureSerializer(read_only=True)
-    living_with = LivingWithSerializer(read_only=True)
-    education_level = EducationLevelSerializer(read_only=True)
-    last_occupation = OccupationSerializer(many=True, read_only=True)
-    interviewer = InterviewerSerializer(read_only=True)
-    approval = ApprovalStatusSerializer(read_only=True)
+    # victim = VictimProfileSerializer(read_only=True)
+    familyStructure = FamilyStructureSerializer(read_only=True,source ="family_structure")
+    livingWith = LivingWithSerializer(read_only=True, source = "living_with")
+    educationLevel = EducationLevelSerializer(read_only=True, source = "education_level")
+    lastOccupation = OccupationSerializer(many=True, read_only=True, source = "last_occupation")
+    # interviewer = InterviewerSerializer(read_only=True)
+    # approval = ApprovalStatusSerializer(read_only=True)
 
     class Meta:
         model = SocioEconomic
-        fields = '__all__'
+        fields = ["id","familyStructure","livingWith","educationLevel","lastOccupation","violencePrior","violenceType"]
+
+        extra_kwargs = {
+            'violencePrior': {'source': 'violence_prior'},
+            'violenceType': {'source': 'violence_type'}
+        }
 
 
 class VictimProfileWithCountsSerializer(serializers.ModelSerializer):
