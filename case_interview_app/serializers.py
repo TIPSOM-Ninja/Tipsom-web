@@ -921,7 +921,7 @@ class VictimProfileWithRelatedSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
         extra_kwargs = {
-            'emailAddress': {'source': 'email_address'},
+            'emailAddress': {'source': 'email'},
             'interviewDate': {'source': 'interview_date'},
             'additionalRemarks': {'source': 'additional_remarks'},
             'identificationNumber': {'source': 'identification_number'},
