@@ -865,8 +865,12 @@ class TipSocioAPIView(APIView):
 
 class TipAggregateAPIView(APIView):
     def get(self, request, pk = None):
-        aggregate =AssistanceAggregateData.objects.filter(pk = pk).first()
-        serializer = AssistanceAggregateDataSerializer(aggregate)
+        if(pk == None):
+            aggregate =AssistanceAggregateData.objects.all()
+            serializer = AssistanceAggregateDataSerializer(aggregate,many = True)
+        else:
+            aggregate =AssistanceAggregateData.objects.filter(pk = pk).first()
+            serializer = AssistanceAggregateDataSerializer(aggregate)
         return Response(serializer.data)
 
     def post(self,request):
@@ -901,4 +905,3 @@ class TipAggregateAPIView(APIView):
         assistance_aggregate.save()
 
         return Response({"message": "Aggregate details updated successfully"}, status=status.HTTP_200_OK)
-
