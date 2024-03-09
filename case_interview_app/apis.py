@@ -634,7 +634,7 @@ class TipAssistanceAPIView(APIView):
         
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
 
-        if(v_id is not None and pk == None):
+        if(v_id == None and pk == None):
             assistance =Assistance.objects.all()
             paginator = Paginator(assistance, per_page=12)
             page_object = paginator.get_page(page)
