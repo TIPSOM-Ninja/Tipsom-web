@@ -922,7 +922,7 @@ class VictimProfileWithRelatedSerializer(serializers.ModelSerializer):
                   "citizenship","countryOfBirth","languages","gender",
                   "race","identificationType","lastPlaceOfResidence","interviewCountry",
                   "approval","email","interviewDate","additionalRemarks","identificationNumber",
-                  "placeOfBirth","interviewLocation","created_at"
+                  "placeOfBirth","interviewLocation"
                   ]
 
         extra_kwargs = {
