@@ -888,10 +888,10 @@ class TipAggregateAPIView(APIView):
 
         assistance_aggregate = AssistanceAggregateData()
         assistance_aggregate.data_supplier_id = int(request.data['dataSupplier']) if request.data['dataSupplier'].isdigit() else None
-        assistance_aggregate.total_tip_annually = request.data['totalTip']
-        assistance_aggregate.total_service = request.data['totalVictim']
-        assistance_aggregate.eligible_family_service = request.data['totalFamily']
-        assistance_aggregate.total_anon_contacts = request.data['totalAnon']
+        assistance_aggregate.total_tip_annually = int(request.data['totalTip']) if request.data['totalTip'].isdigit() else None
+        assistance_aggregate.total_service = int(request.data['totalVictim']) if request.data['totalVictim'].isdigit() else None
+        assistance_aggregate.eligible_family_service = int(request.data['totalFamily']) if request.data['totalFamily'].isdigit() else None
+        assistance_aggregate.total_anon_contacts = int(request.data['totalAnon']) if request.data['totalAnon'].isdigit() else None
         assistance_aggregate.interviewer_id = interviewer.id
         assistance_aggregate.approval_id = 1
         assistance_aggregate.save()
@@ -906,10 +906,10 @@ class TipAggregateAPIView(APIView):
 
         # Update assistance_aggregate object with the provided data
         assistance_aggregate.data_supplier_id = int(request.data.get('dataSupplier', assistance_aggregate.data_supplier_id)) if request.data.get('dataSupplier').isdigit() else assistance_aggregate.data_supplier_id
-        assistance_aggregate.total_tip_annually = request.data.get('totalTip', assistance_aggregate.total_tip_annually)
-        assistance_aggregate.total_service = request.data.get('totalVictim', assistance_aggregate.total_service)
-        assistance_aggregate.eligible_family_service = request.data.get('totalFamily', assistance_aggregate.eligible_family_service)
-        assistance_aggregate.total_anon_contacts = request.data.get('totalAnon', assistance_aggregate.total_anon_contacts)
+        assistance_aggregate.total_tip_annually = int(request.data.get('totalTip', assistance_aggregate.total_tip_annually))
+        assistance_aggregate.total_service = int(request.data.get('totalVictim', assistance_aggregate.total_service))
+        assistance_aggregate.eligible_family_service = int(request.data.get('totalFamily', assistance_aggregate.eligible_family_service))
+        assistance_aggregate.total_anon_contacts = int(request.data.get('totalAnon', assistance_aggregate.total_anon_contacts))
         assistance_aggregate.interviewer_id = interviewer.id
         assistance_aggregate.approval_id = 1
         assistance_aggregate.save()
