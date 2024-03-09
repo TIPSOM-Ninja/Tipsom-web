@@ -918,7 +918,11 @@ class VictimProfileWithRelatedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VictimProfile
-        fields = '__all__'
+        fields = ["victim_identifier","citizenship","countryOfBirth","languages","gender",
+                  "race","identificationType","lastPlaceOfResidence","interviewCountry",
+                  "approval","email","interviewDate","additionalRemarks","identificationNumber",
+                  "placeOfBirth","interviewLocation"
+                  ]
 
         extra_kwargs = {
             'email': {'source': 'email_address'},
