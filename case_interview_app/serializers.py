@@ -549,30 +549,305 @@ class ExploitationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AssistanceSerializer(serializers.ModelSerializer):
+    
     victim = VictimProfileSerializer(read_only=True)
-    social_assistance_provider = ProviderSerializer(many=True, read_only=True)
-    med_rehab_provider = ProviderSerializer(many=True, read_only=True)
-    housing_allowance_provider = ProviderSerializer(many=True, read_only=True)
-    halfway_house_providers = ProviderSerializer(many=True, read_only=True)
-    shelter_provider = ProviderSerializer(many=True, read_only=True)
-    vocational_training_provider = ProviderSerializer(many=True, read_only=True)
-    micro_ent_income_provider = ProviderSerializer(many=True, read_only=True)
+    socialAssistanceProvider = ProviderSerializer(many=True, read_only=True, source = "social_assistance_provider")
+    medicalRehabilitationAssistanceProvider = ProviderSerializer(many=True, read_only=True, source ="med_rehab_provider")
+    housingAllowanceProvider = ProviderSerializer(many=True, read_only=True, source = "housing_allowance_provider")
+    halfwayHouseProvider = ProviderSerializer(many=True, read_only=True, source = "halfway_house_providers")
+    shelterProvider = ProviderSerializer(many=True, read_only=True, source = "shelter_provider")
+    vocationalTrainingProvider = ProviderSerializer(many=True, read_only=True, source = "vocational_training_provider")
+    incomeGeneratingProjectProvider = ProviderSerializer(many=True, read_only=True, source = "micro_ent_income_provider")
     micro_ent_income_project = IncomeProjectTypeSerializer(read_only=True)
-    legal_assistance_provider = ProviderSerializer(many=True, read_only=True)
-    medical_assistance_provider = ProviderSerializer(many=True, read_only=True)
-    financial_assistance_provider = ProviderSerializer(many=True, read_only=True)
-    education_assistance_provider = ProviderSerializer(many=True, read_only=True)
+    legalAssistanceProvider = ProviderSerializer(many=True, read_only=True, source = "legal_assistance_provider")
+    medicalAssistanceProvider = ProviderSerializer(many=True, read_only=True, source = "medical_assistance_provider")
+    financialAssistanceProvider = ProviderSerializer(many=True, read_only=True, source = "financial_assistance_provider")
+    educationAssistanceProvider = ProviderSerializer(many=True, read_only=True, source = "education_assistance_provider")
     education_assistance_level = EducationLevelSerializer(read_only=True)
-    im_emmigration_assistance_provider = ProviderSerializer(many=True, read_only=True)
+    immEmmigrationAssistanceProvider = ProviderSerializer(many=True, read_only=True, source = "im_emmigration_assistance_provider")
     im_emmigration_assistance_status = ImEmmigrationStatusSerializer(read_only=True)
-    other_community_assistance_provider = ProviderSerializer(many=True, read_only=True)
+    communityBasedAssistanceProvider = ProviderSerializer(many=True, read_only=True, source = "other_community_assistance_provider")
     other_community_assistance_type = CommunityAssistanceTypeSerializer(read_only=True)
+    socialAssistanceDuration = serializers.SerializerMethodField()
+    socialAssistanceDurationType = serializers.SerializerMethodField()
+
+    medicalRehabilitationAssistanceDuration = serializers.SerializerMethodField()
+    medicalRehabilitationAssistanceDurationType = serializers.SerializerMethodField()
+
+    housingAllowanceDuration = serializers.SerializerMethodField()
+    housingAllowanceDurationType = serializers.SerializerMethodField()
+
+    halfwayHouseDuration = serializers.SerializerMethodField()
+    halfwayHouseDurationType = serializers.SerializerMethodField()
+
+    shelterDuration = serializers.SerializerMethodField()
+    shelterDurationType = serializers.SerializerMethodField()
+
+    vocationalTrainingDuration = serializers.SerializerMethodField()
+    vocationalTrainingDurationType = serializers.SerializerMethodField()
+
+    incomeGeneratingProjectDuration = serializers.SerializerMethodField()
+    incomeGeneratingProjectDurationType = serializers.SerializerMethodField()
+
+    legalAssistanceDuration = serializers.SerializerMethodField()
+    legalAssistanceDurationType = serializers.SerializerMethodField()
+
+    medicalAssistanceDuration = serializers.SerializerMethodField()
+    medicalAssistanceDurationType = serializers.SerializerMethodField()
+
+    financialAssistanceDuration = serializers.SerializerMethodField()
+    financialAssistanceDurationType = serializers.SerializerMethodField()
+
+    educationAssistanceDuration = serializers.SerializerMethodField()
+    educationAssistanceDurationType = serializers.SerializerMethodField()
+
+    immEmmigrationAssistanceDuration = serializers.SerializerMethodField()
+    immEmmigrationAssistanceDurationType = serializers.SerializerMethodField()
+
+    communityBasedAssistanceDuration = serializers.SerializerMethodField()
+    communityBasedAssistanceDurationType = serializers.SerializerMethodField()
+
     interviewer = InterviewerSerializer(read_only=True)
     approval = ApprovalStatusSerializer(read_only=True)
 
     class Meta:
         model = Assistance
         fields = '__all__'
+    
+    def get_socialAssistanceDuration(self, obj):
+    # Implementation based on your logic
+        if obj.social_assistance_days is not None:
+            return obj.social_assistance_days
+        elif obj.social_assistance_months is not None:
+            return obj.social_assistance_months
+        else:
+            return None
+
+    def get_socialAssistanceDurationType(self, obj):
+        # Implementation based on your logic
+        if obj.social_assistance_days is not None:
+            return "0"
+        elif obj.social_assistance_months is not None:
+            return "1"
+        else:
+            return None
+
+    def get_medicalRehabilitationAssistanceDuration(self, obj):
+        # Implementation based on your logic
+        if obj.med_rehab_days is not None:
+            return obj.med_rehab_days
+        elif obj.med_rehab_months is not None:
+            return obj.med_rehab_months
+        else:
+            return None
+
+    def get_medicalRehabilitationAssistanceDurationType(self, obj):
+        # Implementation based on your logic
+        if obj.med_rehab_days is not None:
+            return "0"
+        elif obj.med_rehab_months is not None:
+            return "1"
+        else:
+            return None
+
+    def get_housingAllowanceDuration(self, obj):
+        # Implementation based on your logic
+        if obj.housing_allowance_days is not None:
+            return obj.housing_allowance_days
+        elif obj.housing_allowance_months is not None:
+            return obj.housing_allowance_months
+        else:
+            return None
+
+    def get_housingAllowanceDurationType(self, obj):
+        # Implementation based on your logic
+        if obj.housing_allowance_days is not None:
+            return "0"
+        elif obj.housing_allowance_months is not None:
+            return "1"
+        else:
+            return None
+
+    def get_halfwayHouseDuration(self, obj):
+        # Implementation based on your logic
+        if obj.halfway_house_days is not None:
+            return obj.halfway_house_days
+        elif obj.halfway_house_months is not None:
+            return obj.halfway_house_months
+        else:
+            return None
+
+    def get_halfwayHouseDurationType(self, obj):
+        # Implementation based on your logic
+        if obj.halfway_house_days is not None:
+            return "0"
+        elif obj.halfway_house_months is not None:
+            return "1"
+        else:
+            return None
+
+    def get_shelterDuration(self, obj):
+        # Implementation based on your logic
+        if obj.shelter_days is not None:
+            return obj.shelter_days
+        elif obj.shelter_months is not None:
+            return obj.shelter_months
+        else:
+            return None
+
+    def get_shelterDurationType(self, obj):
+        # Implementation based on your logic
+        if obj.shelter_days is not None:
+            return "0"
+        elif obj.shelter_months is not None:
+            return "1"
+        else:
+            return None
+
+    def get_vocationalTrainingDuration(self, obj):
+        # Implementation based on your logic
+        if obj.vocational_training_days is not None:
+            return obj.vocational_training_days
+        elif obj.vocational_training_months is not None:
+            return obj.vocational_training_months
+        else:
+            return None
+
+    def get_vocationalTrainingDurationType(self, obj):
+        # Implementation based on your logic
+        if obj.vocational_training_days is not None:
+            return "0"
+        elif obj.vocational_training_months is not None:
+            return "1"
+        else:
+            return None
+
+    def get_incomeGeneratingProjectDuration(self, obj):
+        # Implementation based on your logic
+        if obj.micro_ent_income_days is not None:
+            return obj.micro_ent_income_days
+        elif obj.micro_ent_income_months is not None:
+            return obj.micro_ent_income_months
+        else:
+            return None
+
+    def get_incomeGeneratingProjectDurationType(self, obj):
+        # Implementation based on your logic
+        if obj.micro_ent_income_days is not None:
+            return "0"
+        elif obj.micro_ent_income_months is not None:
+            return "1"
+        else:
+            return None
+
+    def get_legalAssistanceDuration(self, obj):
+        # Implementation based on your logic
+        if obj.legal_assistance_days is not None:
+            return obj.legal_assistance_days
+        elif obj.legal_assistance_months is not None:
+            return obj.legal_assistance_months
+        else:
+            return None
+
+    def get_legalAssistanceDurationType(self, obj):
+        # Implementation based on your logic
+        if obj.legal_assistance_days is not None:
+            return "0"
+        elif obj.legal_assistance_months is not None:
+            return "1"
+        else:
+            return None
+
+    def get_medicalAssistanceDuration(self, obj):
+        # Implementation based on your logic
+        if obj.medical_assistance_days is not None:
+            return obj.medical_assistance_days
+        elif obj.medical_assistance_months is not None:
+            return obj.medical_assistance_months
+        else:
+            return None
+
+    def get_medicalAssistanceDurationType(self, obj):
+        # Implementation based on your logic
+        if obj.medical_assistance_days is not None:
+            return "0"
+        elif obj.medical_assistance_months is not None:
+            return "1"
+        else:
+            return None
+
+    def get_financialAssistanceDuration(self, obj):
+        # Implementation based on your logic
+        if obj.financial_assistance_days is not None:
+            return obj.financial_assistance_days
+        elif obj.financial_assistance_months is not None:
+            return obj.financial_assistance_months
+        else:
+            return None
+
+    def get_financialAssistanceDurationType(self, obj):
+        # Implementation based on your logic
+        if obj.financial_assistance_days is not None:
+            return "0"
+        elif obj.financial_assistance_months is not None:
+            return "1"
+        else:
+            return None
+
+    def get_educationAssistanceDuration(self, obj):
+        # Implementation based on your logic
+        if obj.education_assistance_days is not None:
+            return obj.education_assistance_days
+        elif obj.education_assistance_months is not None:
+            return obj.education_assistance_months
+        else:
+            return None
+
+    def get_educationAssistanceDurationType(self, obj):
+        # Implementation based on your logic
+        if obj.education_assistance_days is not None:
+            return "0"
+        elif obj.education_assistance_months is not None:
+            return "1"
+        else:
+            return None
+
+    def get_immEmmigrationAssistanceDuration(self, obj):
+        # Implementation based on your logic
+        if obj.im_emmigration_assistance_days is not None:
+            return obj.im_emmigration_assistance_days
+        elif obj.im_emmigration_assistance_months is not None:
+            return obj.im_emmigration_assistance_months
+        else:
+            return None
+
+    def get_immEmmigrationAssistanceDurationType(self, obj):
+        # Implementation based on your logic
+        if obj.im_emmigration_assistance_days is not None:
+            return "0"
+        elif obj.im_emmigration_assistance_months is not None:
+            return "1"
+        else:
+            return None
+
+    def get_communityBasedAssistanceDuration(self, obj):
+        # Implementation based on your logic
+        if obj.other_community_assistance_days is not None:
+            return obj.other_community_assistance_days
+        elif obj.other_community_assistance_months is not None:
+            return obj.other_community_assistance_months
+        else:
+            return None
+
+    def get_communityBasedAssistanceDurationType(self, obj):
+        # Implementation based on your logic
+        if obj.other_community_assistance_days is not None:
+            return "0"
+        elif obj.other_community_assistance_months is not None:
+            return "1"
+        else:
+            return None
+    
 
 class SocioEconomicSerializer(serializers.ModelSerializer):
     victim = VictimProfileSerializer(read_only=True)

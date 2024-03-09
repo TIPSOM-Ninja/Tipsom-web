@@ -638,6 +638,7 @@ class Assistance(models.Model):
         Provider,  related_name = "micro_ent_income", null=True, blank=True
     )
     micro_ent_income_project= models.ForeignKey(IncomeProjectType,  related_name = "micro_ent_income", on_delete=models.CASCADE, null=True, blank=True) 
+    
     legal_assistance_days = models.IntegerField(null=True, blank=True)
     legal_assistance_months = models.IntegerField(null=True, blank=True)
     legal_assistance_provider = models.ManyToManyField(
@@ -659,12 +660,14 @@ class Assistance(models.Model):
         Provider,  related_name = "education_assistance", null=True, blank=True
     )
     education_assistance_level= models.ForeignKey(EducationLevel,  related_name = "education_assistance", on_delete=models.CASCADE, null=True, blank=True)
+    
     im_emmigration_assistance_days = models.IntegerField(null=True, blank=True)
     im_emmigration_assistance_months = models.IntegerField(null=True, blank=True)
     im_emmigration_assistance_provider = models.ManyToManyField(
         Provider,  related_name = "im_emmigration_assistance", null=True, blank=True
     )
     im_emmigration_assistance_status= models.ForeignKey(ImEmmigrationStatus,  related_name = "im_emmigration_assistance", on_delete=models.CASCADE, null=True, blank=True)
+    
     other_community_assistance_days = models.IntegerField(null=True, blank=True)
     other_community_assistance_months = models.IntegerField(null=True, blank=True)
     other_community_assistance_provider = models.ManyToManyField(
