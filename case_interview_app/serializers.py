@@ -708,7 +708,7 @@ class ArrestInvestigationSerializer(serializers.ModelSerializer):
         }
 
 class AssistanceAggregateDataSerializer(serializers.ModelSerializer):
-    dataSupplier = DataSupplierNameSerializer(read_only = True)
+    data_supplier = DataSupplierNameSerializer(read_only = True)
     totalTip = serializers.IntegerField(source='total_tip_annually')
     totalVictim = serializers.IntegerField(source='total_service')
     totalFamily = serializers.IntegerField(source='eligible_family_service')
@@ -717,3 +717,6 @@ class AssistanceAggregateDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssistanceAggregateData
         fields = ('id', 'dataSupplier', 'totalTip', 'totalVictim', 'totalFamily', 'totalAnon', 'approval_comments', 'created_at', 'updated_at')
+        extra_kwargs = {
+            'dataSupplier': {'source': 'data_supplier'},
+        }
