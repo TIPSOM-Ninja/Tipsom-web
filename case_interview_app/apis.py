@@ -870,8 +870,11 @@ class TipAggregateAPIView(APIView):
             page = request.GET.get('page')
         else:
             page = 1
+        
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+
         if(pk == None):
-            aggregate =AssistanceAggregateData.objects.all()
+            aggregate =AssistanceAggregateData.objects.filter(interviewer_id = interviewer.id)
             paginator = Paginator(aggregate, per_page=12)
             page_object = paginator.get_page(page)
             serializer = AssistanceAggregateDataSerializer(page_object,many = True)
