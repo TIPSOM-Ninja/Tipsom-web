@@ -835,9 +835,9 @@ class TipAssistanceAPIView(APIView):
         return Response({"message": "Assistance details updated successfully"}, status=status.HTTP_200_OK)
 
 class TipSocioAPIView(APIView):
-    def get(self, request, pk = None):
-        socio =SocioEconomic.objects.filter(pk = pk).first()
-        serializer = AssistanceSerializer(socio)
+    def get(self, request, v_id = None,pk=None):
+        socio =SocioEconomic.objects.filter(victimId = v_id).first()
+        serializer = SocioEconomicSerializer(socio)
         return Response(serializer.data)
 
     def post(self,request):
