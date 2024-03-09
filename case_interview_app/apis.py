@@ -640,7 +640,7 @@ class TipAssistanceAPIView(APIView):
             page_object = paginator.get_page(page)
             serializer = AssistanceSerializer(page_object,many = True)
         elif(v_id is not None and pk is None):
-            assistance =Assistance.objects.filter(v_id = v_id)
+            assistance =Assistance.objects.filter(victimId = v_id)
             paginator = Paginator(assistance, per_page=12)
             page_object = paginator.get_page(page)
             serializer = AssistanceSerializer(page_object,many = True)
