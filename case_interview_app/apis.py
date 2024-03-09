@@ -836,8 +836,8 @@ class TipAssistanceAPIView(APIView):
 
 class TipSocioAPIView(APIView):
     def get(self, request, v_id = None,pk=None):
-        socio =SocioEconomic.objects.filter(victim_id = v_id).first()
-        serializer = SocioEconomicSerializer(socio)
+        socia =SocioEconomic.objects.filter(victim_id = v_id).first()
+        serializer = SocioEconomicSerializer(socia)
         return Response(serializer.data)
 
     def post(self,request):
