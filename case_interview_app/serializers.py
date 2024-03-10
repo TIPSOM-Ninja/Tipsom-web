@@ -989,7 +989,7 @@ class ArrestInvestigationSerializer(serializers.ModelSerializer):
         fields = ['id', 'suspectArrested', 'organizedCrime', 'whyNoArrest', 'victimSmuggled','investigationDone', 'whyNoInvestigation', 'investigationStatus','whyPending',  'withdrawnClosedReason', 'v_id','howTraffickersOrg']
         # Specify the field names in camelCase
         extra_kwargs = {
-            'suspectArrested': {'source': 'suspects_arrested_id'},
+            'suspectArrested': {'source': 'suspects_arrested'},
             'organizedCrime': {'source': 'org_crime'},
             'whyNoArrest': {'source': 'why_no_arrest'},
             'victimSmuggled': {'source': 'victim_smuggled'},
