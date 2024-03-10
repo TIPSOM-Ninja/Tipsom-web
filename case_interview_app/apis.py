@@ -571,8 +571,8 @@ class TipTransitAPIView(APIView):
 
 class TipArrestAPIView(APIView):
     def get(self, request, pk = None):
-        arrest =ArrestInvestigation.objects.filter(pk = pk).first()
-        serializer = ArrestInvestigationSerializer(arrest)
+        arrest =ArrestInvestigation.objects.filter(pk = pk)
+        serializer = ArrestInvestigationSerializer(arrest,many=True)
         return Response(serializer.data)
 
     def post(self,request):
