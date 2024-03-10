@@ -933,3 +933,50 @@ class TipAggregateAPIView(APIView):
         assistance_aggregate.save()
 
         return Response({"message": "Aggregate details updated successfully"}, status=status.HTTP_200_OK)
+
+
+class VictimSearchAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        # Extract query params
+        query_params = request.query_params
+        initials = query_params.get('initials', None)
+        age = query_params.get('age', None)
+        gender_id = query_params.get('gender', None)
+        race_id = query_params.get('race', None)
+        email = query_params.get('email', None)
+        citizenship_id = query_params.get('citizenship', None)
+        idNumber = query_params.get('idNumber', None)
+        address = query_params.get('address', None)
+        last_place_of_residence_id = query_params.get('lastPlaceOfResidence', None)
+        interview_date = query_params.get('interviewDate', None)
+        interviewer_location = query_params.get('interviewerLocation', None)
+
+        # Build query
+        filters = Q()
+        if initials:
+            filters &= Q(initials__icontains=initials)
+        if age:
+            filters &= Q(age=age)
+        if gender_id:
+            filters &= Q(gender__id=gender_id)
+        if race_id:
+            filters &= Q(race__id=race_id)
+        if email:
+            filters &= Q(email_address__icontains=email)
+        if citizenship_id:
+            filters &= Q(citizenship__id=citizenship_id)
+        if idNumber:
+            filters &= Q(identification_number__icontains=idNumber)
+        if address:
+            filters &= Q(address__icontains=address)
+        if last_place_of_residence_id:
+            filters &= Q(last_place_of_residence__id=last_place_of_residence_id)
+        if interview_date:
+            filters &= Q(interview_date=interview_date)
+        if interviewer_location:
+            filters &= Q(interview_location__icontains=interviewer_location)
+        
+        # Execute query
+        victims = VictimProfile.objects.filter(filters)
+        serializer = VictimProfileSerializer(victims, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

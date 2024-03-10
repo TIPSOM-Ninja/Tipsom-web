@@ -71,7 +71,9 @@ urlpatterns = [
 
     path('api/aggregates/', apis.TipAggregateAPIView.as_view(), name='aggregate-api'),
     path('api/aggregates/<int:pk>/', apis.TipAggregateAPIView.as_view(), name='aggregate-details-api'),
-   
+
+    path('api/victim/search/', apis.VictimSearchAPIView.as_view(), name='victim-search'),
+
     path("som_interviewer_registration", som_views.interviewer_registration, name="som_interviewer_registration"),
     path("som_investigation_form", som_views.investigation_form, name="som_investigation_form"),
     path("som_prosecution_form", som_views.prosecution_form, name="som_prosecution_form"),
