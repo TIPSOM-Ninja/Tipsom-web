@@ -950,7 +950,8 @@ class VictimSearchAPIView(APIView):
         last_place_of_residence_id = query_params.get('lastPlaceOfResidence', None)
         interview_date = query_params.get('interviewDate', None)
         interviewer_location = query_params.get('interviewerLocation', None)
-
+        date_start = query_params.get('dateStart', None)
+        date_end = query_params.get('dateEnd', None)
         # Build query
         filters = Q()
         if initials:
@@ -975,7 +976,8 @@ class VictimSearchAPIView(APIView):
             filters &= Q(interview_date=interview_date)
         if interviewer_location:
             filters &= Q(interview_location__icontains=interviewer_location)
-        
+        if date_start and date_end:
+            filters &= Q(interview_date__range=[date_start, date_end])
         # Execute query
         victims = VictimProfile.objects.filter(filters)
         serializer = VictimProfileSerializer(victims, many=True)
