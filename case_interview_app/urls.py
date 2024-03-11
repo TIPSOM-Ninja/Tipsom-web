@@ -97,6 +97,40 @@ urlpatterns = [
 
     path('som_suspect/<int:suspect_id>/', som_views.suspect_detail, name='som_suspect_detail'),
     path('som_interviewer/<int:interviewer_id>/', som_views.interviewer_detail, name='som_interviewer_detail'),
+
+
+    path('api/som/victims/', apis.SomVictimAPIView.as_view(), name='som-victim-api'),
+    path('api/som/victims/<int:pk>/', apis.SomVictimAPIView.as_view(), name='som-victim-detail-api'),
+
+    path('api/som/prosecutions/', apis.SomProsecutionAPIView.as_view(), name='som-prosecution-api'),
+    path('api/som/prosecutions/<int:pk>/', apis.SomProsecutionAPIView.as_view(), name='som-prosecution-detail-api'),
+
+    path('api/som/cases/', apis.SomCaseAPIView.as_view(), name='som-case-api'),
+    path('api/som/cases/<int:v_id>/', apis.SomCaseAPIView.as_view(), name='som-victim-case-api'),
+    path('api/som/cases/<int:v_id>/<int:pk>/', apis.SomCaseAPIView.as_view(), name='som-case-detail-api'),
+
+    path('api/som/suspects/', apis.SomSuspectAPIView.as_view(), name='som-suspect-api'),
+    path('api/som/suspects/<int:v_id>/', apis.SomSuspectAPIView.as_view(), name='som-victim-suspect-api'),
+    path('api/som/suspects/<int:v_id>/<int:pk>/', apis.SomSuspectAPIView.as_view(), name='som-suspect-detail-api'),
+
+    path('api/som/transits/', apis.SomTransitAPIView.as_view(), name='som-transit-api'),
+    path('api/som/transits/<int:v_id>/', apis.SomTransitAPIView.as_view(), name='som-victim-transit-api'),
+    path('api/som/transits/<int:v_id>/<int:pk>/', apis.SomTransitAPIView.as_view(), name='som-transit-detail-api'),
+
+    path('api/som/arrests/', apis.SomArrestAPIView.as_view(), name='som-arrest-api'),
+    path('api/som/arrests/<int:v_id>/', apis.SomArrestAPIView.as_view(), name='som-victim-arrest-api'),
+    path('api/som/arrests/<int:v_id>/<int:pk>/', apis.SomArrestAPIView.as_view(), name='som-arrest-detail-api'),
+
+    path('api/som/assistances/', apis.SomAssistanceAPIView.as_view(), name='som-assistance-api'),
+    path('api/som/assistances/<int:v_id>/', apis.SomAssistanceAPIView.as_view(), name='som-victim-assistance-api'),
+    path('api/som/assistances/<int:v_id>/<int:pk>/', apis.SomAssistanceAPIView.as_view(), name='som-assistance-detail-api'),
+
+    path('api/som/socios/', apis.SomSocioAPIView.as_view(), name='som-socio-api'),
+    path('api/som/socios/<int:v_id>/', apis.SomSocioAPIView.as_view(), name='som-victim-socio-api'),
+    path('api/som/socios/<int:v_id>/<int:pk>/', apis.SomSocioAPIView.as_view(), name='som-socio-detail-api'),
+    
+    path('api/som/victim/search/', apis.SomVictimSearchAPIView.as_view(), name='som-victim-search'),
+
 ]
     
 

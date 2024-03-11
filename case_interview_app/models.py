@@ -742,3 +742,292 @@ class Faq(models.Model):
     created_at = models.DateTimeField(auto_now_add=True,null = True, blank = True)
     updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
+
+
+
+
+
+class SomVictimProfile(models.Model):
+    victim_identifier = models.CharField(null=True,blank=True)
+    citizenship = models.ForeignKey(
+        Country, related_name = "som_victims_cit",  on_delete=models.CASCADE, null=True, blank=True
+    )
+    countryOfBirth = models.ForeignKey(
+        Country, related_name = "som_victims_country",  on_delete=models.CASCADE, null=True, blank=True
+    )
+    languages = models.ManyToManyField(Language, related_name = "som_victims_lang", null=True, blank=True)
+    gender = models.ForeignKey(Gender, related_name = "som_victims", on_delete=models.CASCADE, null=True, blank=True)
+    race = models.ForeignKey(Race, related_name = "som_victims", on_delete=models.CASCADE, null=True, blank=True)
+    identification_type = models.ManyToManyField(
+        IdType, related_name = "som_victims", null=True, blank=True
+    )
+    place_of_birth = models.CharField(max_length=50, null=True, blank=True)
+    last_place_of_residence = models.ForeignKey(
+        Country, related_name = "som_victims_last_place", on_delete=models.CASCADE, null=True, blank=True
+    )
+    identification_number = models.CharField(max_length=50, null=True, blank=True)
+    initials = models.CharField(max_length=50, null=True, blank=True)
+    age = models.IntegerField(null=True, blank=True)
+    address = models.CharField(max_length=50, null=True, blank=True)
+    email_address = models.EmailField(max_length=150, null=True, blank=True)
+    interview_country = models.ForeignKey(
+        Country, related_name = "som_victim_interview_country", on_delete=models.CASCADE, null=True, blank=True
+    )
+    interview_location = models.CharField(max_length=50, null=True, blank=True)
+    interview_date = models.DateField(
+        auto_now=False, auto_now_add=False, null=True, blank=True
+    )
+    additional_remarks = models.TextField(null=True, blank=True)
+    
+    consent_share_gov_patner = models.BooleanField(null=True, blank=True)
+    consent_limited_disclosure = models.BooleanField(null=True, blank=True)
+    consent_research = models.BooleanField(null=True, blank=True)
+    consent_abstain_answer = models.BooleanField(null=True, blank=True)
+
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "som_victimprofile", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
+    def __str__(self):
+        return f"{self.victim_identifier}"
+
+class SomTransitRouteDestination(models.Model):
+    victim = models.ForeignKey(SomVictimProfile, related_name = "som_destinations", on_delete=models.CASCADE, null=True, blank=True)
+    country_of_origin = models.ForeignKey(
+        Country, related_name = "som_origin_destinations", on_delete=models.CASCADE, null=True, blank=True
+    )
+    city_village_of_dest = models.CharField(max_length=50, null=True, blank=True)
+    city_village_of_origin = models.CharField(max_length=50, null=True, blank=True)
+    country_of_dest = models.ForeignKey(
+        Country, related_name = "som_dest_destinations", on_delete=models.CASCADE, null=True, blank=True
+    )
+    
+    remarks = models.TextField(null=True, blank=True)
+    transport_means = models.ManyToManyField(
+        TransportMean, related_name = "som_transit", null=True, blank=True
+    )
+    interviewer = models.ForeignKey(Interviewer, related_name = "som_destinations", on_delete=models.CASCADE, null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "som_destinations", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
+class SomCase(models.Model):
+    victim = models.ForeignKey(SomVictimProfile,  related_name = "cases",  on_delete=models.CASCADE, null=True, blank=True)
+    date_of_arrest = models.DateField(
+        auto_now=False,   auto_now_add=False, null=True, blank=True
+    )
+    role_in_trafficking = models.ManyToManyField(
+        RoleInTrafficking,  related_name = "cases",  null=True, blank=True
+    )
+    traffick_from_country = models.ForeignKey(
+        Country,  related_name = "from_cases",  on_delete=models.CASCADE, null=True, blank=True
+    )
+    traffick_from_place = models.CharField(max_length=50, null=True, blank=True)
+    traffick_to_country = models.ForeignKey(
+        Country, related_name = "to_cases", on_delete=models.CASCADE, null=True, blank=True
+    )
+    traffick_to_place = models.CharField(null=True, blank=True, max_length=50)
+    interviewer = models.ForeignKey(Interviewer, related_name = "cases", on_delete=models.CASCADE, null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "cases", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
+
+class SomSuspectedTrafficker(models.Model):
+    victim = models.ForeignKey(SomVictimProfile,  related_name = "som_traffickers",  on_delete=models.CASCADE, null=True, blank=True)
+    first_name = models.CharField(max_length=50, null=True, blank=True)
+    last_name = models.CharField(max_length=50, null=True, blank=True)
+    dob = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    gender = models.ForeignKey(Gender, related_name = "som_traffickers",  on_delete=models.CASCADE, null=True, blank=True)
+    race = models.ForeignKey(Race,  related_name = "som_traffickers", on_delete=models.CASCADE, null=True, blank=True)
+    age = models.IntegerField(null=True, blank=True)
+    country_of_birth = models.ForeignKey(
+        Country,  related_name = "som_traffickers", on_delete=models.CASCADE, null=True, blank=True
+    )
+    citizenship = models.ForeignKey(
+        Country,  related_name = "som_cit_traffickers", on_delete=models.CASCADE, null=True, blank=True
+    )
+    nationality = models.ForeignKey(
+        Country,  related_name = "som_nat_traffickers", on_delete=models.CASCADE, null=True, blank=True
+    )
+    id_number = models.CharField(max_length=50,null=True, blank=True)
+    id_type = models.ForeignKey(IdType,  related_name = "som_traffickers",  on_delete=models.CASCADE, null=True, blank=True)
+    languages = models.ManyToManyField(Language, null=True, blank=True)
+    last_residence = models.CharField(max_length=50, null=True, blank=True)
+    address = models.CharField(max_length=50, null=True, blank=True)
+    interviewer = models.ForeignKey(Interviewer, related_name = "som_traffickers", on_delete=models.CASCADE, null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "som_traffickers", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
+class SomArrestInvestigation(models.Model):
+    victim = models.ForeignKey(SomVictimProfile, related_name = "som_investigations", on_delete=models.CASCADE, null=True, blank=True)
+    # clarify on trafficker
+    # trafficker = models.ForeignKey(
+    #     SuspectedTrafficker, related_name = "investigations",  on_delete=models.CASCADE, null=True, blank=True
+    # )
+    org_crime = models.BooleanField(null=True, blank=True)
+    suspects_arrested = models.BooleanField(null=True, blank=True)
+    why_no_arrest = models.TextField(null=True, blank=True)
+    victim_smuggled = models.BooleanField(null=True, blank=True)
+    how_traffickers_org = models.ManyToManyField(
+        TraffickerOrg,  related_name = "som_investigations", null=True, blank=True
+    )
+    investigation_done = models.BooleanField(null=True, blank=True)
+    why_no_investigation = models.TextField(null=True, blank=True)
+    investigation_status = models.ForeignKey(
+        InvestigationStatus, related_name = "som_investigations", on_delete=models.CASCADE, null=True, blank=True
+    )
+    why_pending = models.TextField(null=True, blank=True)
+    withdrawn_closed_reason = models.TextField(null=True, blank=True)
+    interviewer = models.ForeignKey(Interviewer, related_name = "som_investigations", on_delete=models.CASCADE, null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "som_investigations", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
+
+class SomProsecution(models.Model):
+    victim = models.ForeignKey(SomVictimProfile, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True)
+    trafficker = models.ForeignKey(
+        SomSuspectedTrafficker, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True
+    )
+    interviewer = models.ForeignKey(
+        Interviewer, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True
+    )
+    status_of_case = models.ForeignKey(
+        CaseStatus, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True
+    )
+    trial_court = models.ForeignKey(
+        TrialCourt, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True
+    )
+    trial_court_country = models.ForeignKey(
+        Country, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True
+    )
+    court_case_no = models.CharField(max_length=50, null=True, blank=True)
+    guilty_verdict = models.BooleanField(null=True, blank=True)
+    verdict = models.ForeignKey(
+        Verdict, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True
+    )
+    guilty_verdict_reason = models.ForeignKey(
+        GuiltyReason, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True
+    )
+    prosecution_outcome = models.ForeignKey(
+        ProsecutionOutcome, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True
+    )
+    aquital_reason = models.ForeignKey(
+        AquitalReason, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True
+    )
+    review_appeal_outcome = models.CharField(max_length=50, null=True, blank=True)
+    sanction_penalty = models.ForeignKey(
+        SanctionPenalty, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True
+    )
+    years_imposed = models.IntegerField(null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
+
+class SomAssistance(models.Model):
+    victim = models.ForeignKey(SomVictimProfile, related_name = "som_assistance", on_delete=models.CASCADE, null=True, blank=True)
+   
+    social_assistance_provider = models.ManyToManyField(
+        Provider,  related_name = "som_social_assistance", null=True, blank=True
+    )
+   
+    med_rehab_provider = models.ManyToManyField(
+        Provider,  related_name = "som_med_rehab", null=True, blank=True
+    )
+   
+    housing_allowance_provider = models.ManyToManyField(
+        Provider,  related_name = "som_housing_allowance", null=True, blank=True
+    )
+    
+    halfway_house_providers = models.ManyToManyField(
+        Provider,  related_name = "som_halfway_house", null=True, blank=True
+    )
+    
+    shelter_provider = models.ManyToManyField(
+        Provider,  related_name = "som_shelter", null=True, blank=True
+    )
+   
+    vocational_training_provider = models.ManyToManyField(
+        Provider,  related_name = "som_vocational_training", null=True, blank=True
+    )
+    
+    micro_ent_income_provider = models.ManyToManyField(
+        Provider,  related_name = "som_micro_ent_income", null=True, blank=True
+    )
+    micro_ent_income_project= models.ForeignKey(IncomeProjectType,  related_name = "som_micro_ent_income", on_delete=models.CASCADE, null=True, blank=True) 
+    
+    
+    legal_assistance_provider = models.ManyToManyField(
+        Provider,  related_name = "som_legal_assistance", null=True, blank=True
+    )
+    
+    medical_assistance_provider = models.ManyToManyField(
+        Provider,  related_name = "som_medical_assistance", null=True, blank=True
+    )
+    
+    financial_assistance_provider = models.ManyToManyField(
+        Provider,  related_name = "som_financial_assistance", null=True, blank=True
+    )
+    
+    education_assistance_provider = models.ManyToManyField(
+        Provider,  related_name = "som_education_assistance", null=True, blank=True
+    )
+    education_assistance_level= models.ForeignKey(EducationLevel,  related_name = "som_education_assistance", on_delete=models.CASCADE, null=True, blank=True)
+    
+    
+    im_emmigration_assistance_provider = models.ManyToManyField(
+        Provider,  related_name = "som_im_emmigration_assistance", null=True, blank=True
+    )
+    im_emmigration_assistance_status= models.ForeignKey(ImEmmigrationStatus,  related_name = "som_im_emmigration_assistance", on_delete=models.CASCADE, null=True, blank=True)
+    
+    other_community_assistance_provider = models.ManyToManyField(
+        Provider,  related_name = "som_other_community_assistance", null=True, blank=True
+    )
+    other_community_assistance_type= models.ForeignKey(CommunityAssistanceType,  related_name = "som_other_community_assistance", on_delete=models.CASCADE, null=True, blank=True)
+    interviewer = models.ForeignKey(Interviewer, related_name = "som_assistance", on_delete=models.CASCADE, null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "som_assistance", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
+
+class SomSocioEconomic(models.Model):
+    victim = models.ForeignKey(SomVictimProfile, related_name = "som_socio_economic", on_delete=models.CASCADE, null=True, blank=True)
+    family_structure = models.ForeignKey(FamilyStructure,  related_name = "som_socio_economic", on_delete=models.CASCADE, null=True, blank=True)
+    living_with = models.ForeignKey(LivingWith,  related_name = "som_socio_economic", on_delete=models.CASCADE, null=True, blank=True)
+    violence_prior = models.BooleanField(null=True,blank=True)
+    violence_type = models.CharField(max_length=50, null=True, blank=True)
+    education_level = models.ForeignKey(EducationLevel,  related_name = "som_socio_economic", on_delete=models.CASCADE, null=True, blank=True)
+    last_occupation = models.ManyToManyField(
+        Occupation,  related_name = "som_socio_economic", null=True, blank=True
+    )
+    interviewer = models.ForeignKey(Interviewer, related_name = "som_socio_economic", on_delete=models.CASCADE, null=True, blank=True)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "som_socio_economic", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
