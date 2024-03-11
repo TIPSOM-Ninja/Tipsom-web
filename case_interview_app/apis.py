@@ -193,10 +193,26 @@ class TipVictimAPIView(APIView):
         interviewer.victims.add(victim)
 
 class TipProsecutionAPIView(APIView):
-    def get(self, request, pk = None):
-        prosecution =Prosecution.objects.filter(pk = pk).first()
-        serializer = ProsecutionSerializer(prosecution)
+    def get(self, request, v_id = None,pk=None):
+        if request.GET.get('page') is not None:
+            page = request.GET.get('page')
+        else:
+            page = 1
+        if(v_id is None and pk is None):
+            prosecution =Prosecution.objects.all()
+            paginator = Paginator(prosecution, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = ProsecutionSerializer(page_object,many = True)
+        elif(v_id is not None and pk is None):
+            prosecution =Prosecution.objects.filter(victim_id = v_id)
+            paginator = Paginator(prosecution, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = ProsecutionSerializer(page_object,many = True)
+        else:
+            prosecution =Prosecution.objects.filter(pk = pk).first()
+            serializer = ProsecutionSerializer(prosecution)
         return Response(serializer.data)
+        
 
     def post(self,request):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
@@ -525,7 +541,24 @@ class TipExploitationAPIView(APIView):
 
 class TipTransitAPIView(APIView):
     def get(self, request, v_id=None, pk=None ):
-        pass
+        if request.GET.get('page') is not None:
+            page = request.GET.get('page')
+        else:
+            page = 1
+        if(v_id is None and pk is None):
+            transit =TransitRouteDestination.objects.all()
+            paginator = Paginator(transit, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = TransitRouteDestinationSerializer(page_object,many = True)
+        elif(v_id is not None and pk is None):
+            transit =TransitRouteDestination.objects.filter(victim_id = v_id)
+            paginator = Paginator(transit, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = TransitRouteDestinationSerializer(page_object,many = True)
+        else:
+            transit =TransitRouteDestination.objects.filter(pk = pk).first()
+            serializer = TransitRouteDestinationSerializer(transit)
+        return Response(serializer.data)
 
     def post(self, request):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
@@ -570,9 +603,24 @@ class TipTransitAPIView(APIView):
         return Response({"message": "Transit record updated successfully"}, status=status.HTTP_200_OK)
 
 class TipArrestAPIView(APIView):
-    def get(self, request, pk = None):
-        arrest =ArrestInvestigation.objects.filter(pk = pk)
-        serializer = ArrestInvestigationSerializer(arrest,many=True)
+    def get(self, request, v_id = None, pk = None):
+        if request.GET.get('page') is not None:
+                page = request.GET.get('page')
+        else:
+            page = 1
+        if(v_id is None and pk is None):
+            arrest =ArrestInvestigation.objects.all()
+            paginator = Paginator(arrest, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = ArrestInvestigationSerializer(page_object,many = True)
+        elif(v_id is not None and pk is None):
+            arrest =ArrestInvestigation.objects.filter(victim_id = v_id)
+            paginator = Paginator(arrest, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = ArrestInvestigationSerializer(page_object,many = True)
+        else:
+            arrest =ArrestInvestigation.objects.filter(pk = pk).first()
+            serializer = ArrestInvestigationSerializer(arrest)
         return Response(serializer.data)
 
     def post(self,request):
@@ -836,8 +884,23 @@ class TipAssistanceAPIView(APIView):
 
 class TipSocioAPIView(APIView):
     def get(self, request, v_id = None,pk=None):
-        socia =SocioEconomic.objects.filter(victim_id = v_id).first()
-        serializer = SocioEconomicSerializer(socia)
+        if request.GET.get('page') is not None:
+                page = request.GET.get('page')
+        else:
+            page = 1
+        if(v_id is None and pk is None):
+            socia =SocioEconomic.objects.all()
+            paginator = Paginator(socia, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = SocioEconomicSerializer(page_object,many = True)
+        elif(v_id is not None and pk is None):
+            socia =SocioEconomic.objects.filter(victim_id = v_id)
+            paginator = Paginator(socia, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = SocioEconomicSerializer(page_object,many = True)
+        else:
+            socia =SocioEconomic.objects.filter(pk = pk).first()
+            serializer = SocioEconomicSerializer(socia)
         return Response(serializer.data)
 
     def post(self,request):
