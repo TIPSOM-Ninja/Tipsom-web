@@ -1052,3 +1052,31 @@ def signout(request):
     logout(request)
     return redirect('/'+request.LANGUAGE_CODE+"/")
 
+
+def dashboard(request):
+    context = {}
+    exploitation_counts = Exploitation.objects.aggregate(
+        forced_labor=Count('id', filter=Q(e_forced_labour=True)),
+        organ_trafficking=Count('id', filter=Q(e_organ_removed=True)),
+        prostitution=Count('id', filter=Q(e_prostitution=True)),
+        criminal_activity=Count('id', filter=Q(e_criminal_activity=True)),
+        child_marriage=Count('id', filter=Q(e_child_marriage=True)),
+        child_soldier=Count('id', filter=Q(e_child_soldier=True)),
+        
+        # Add other types of exploitation as needed
+    )
+    # Aggregate victim counts by gender
+    gender_counts = VictimProfile.objects.values('gender__name').order_by('gender').annotate(
+        count=Count('gender')
+    )
+
+    # Aggregate victim counts by nationality (assuming 'citizenship' field refers to nationality)
+    nationality_counts = VictimProfile.objects.values('citizenship__name').order_by('citizenship').annotate(
+        count=Count('citizenship')
+    )
+
+    context["exploitation_counts"] = exploitation_counts
+    context['gender_counts'] = list(gender_counts)
+    context['nationality_counts'] = list(nationality_counts)
+
+    return render(request,"dashboard.html",context)

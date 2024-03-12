@@ -1,0 +1,150 @@
+{% extends "layouts/master.html" %}
+{% load i18n %}
+{% block content %}
+<div class="container p-3">
+    <div class=" ">
+        <div class = "card-body">
+            <div style="width: 60%; margin: auto;">
+                <canvas id="exploitationChart"></canvas>
+            </div>
+            <div class="row">
+                <div class="col-sm" style="width: 60%; margin: auto;">
+                    <h2>Gender Demographics</h2>
+                    <canvas id="genderChart"></canvas>
+                </div>
+                <div class="col-sm" style="width: 60%; margin: auto;">
+                    <h2>Nationality Demographics</h2>
+                    <canvas id="nationalityChart"></canvas>
+                </div>
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                // Assuming `exploitation_counts` is passed as a list of dictionaries from the view
+                // Each dictionary in the list contains 'exploitation_type' and 'count'
+                var ctx = document.getElementById('exploitationChart').getContext('2d');
+                var xd = "{{ exploitation_counts|safe }}".replaceAll("\'","\"")
+                console.log(xd)
+                var exploitationData = JSON.parse(xd);
+                console.log(exploitationData)
+                var labels = Object.keys(exploitationData)
+                var data = Object.values(exploitationData)
+        
+                var exploitationChart = new Chart(ctx, {
+                    type: 'bar', // Change to 'line', 'pie', etc. based on preference
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Number of Victims',
+                            data: data,
+                            backgroundColor: [
+                                // Add more colors for each type of exploitation
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                // ...
+                            ],
+                            borderColor: [
+                                // Add more colors for each type of exploitation
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                // ...
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                
+    
+        // Assuming the data is correctly serialized and passed to the template
+        // Gender Chart Data
+        var gtd = "{{ gender_counts|safe }}".replaceAll("\'","\"")
+        var genderData = JSON.parse(gtd);
+        var genderLabels = genderData.map(function(e) { return e.gender__name; });
+        var genderCounts = genderData.map(function(e) { return e.count; });
+
+        var genderCtx = document.getElementById('genderChart').getContext('2d');
+        var genderChart = new Chart(genderCtx, {
+            type: 'pie', // Pie chart to represent gender distribution
+            data: {
+                labels: genderLabels,
+                datasets: [{
+                    label: 'Gender Distribution',
+                    data: genderCounts,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        // Add more colors as needed
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        // Add more colors as needed
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                }
+            },
+        });
+
+        // Nationality Chart Data
+        var ntd = "{{ nationality_counts|safe }}".replaceAll("\'","\"")
+        var nationalityData = JSON.parse(ntd);
+        var nationalityLabels = nationalityData.map(function(e) { return e.citizenship__name; });
+        var nationalityCounts = nationalityData.map(function(e) { return e.count; });
+
+        var nationalityCtx = document.getElementById('nationalityChart').getContext('2d');
+        var nationalityChart = new Chart(nationalityCtx, {
+            type: 'bar', // Bar chart to represent nationality distribution
+            data: {
+                labels: nationalityLabels,
+                datasets: [{
+                    label: 'Nationality Distribution',
+                    data: nationalityCounts,
+                    backgroundColor: [
+                        // Define a color for each nationality or use a pattern
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        // ...
+                    ],
+                    borderColor: [
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        // ...
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                responsive: true
+            },
+        });
+    });
+            </script>
+        </div>
+    </div>
+</div>
+{% endblock content%}
+{% block scripts %}
+<script>
+   
+</script>
+{% endblock scripts %}

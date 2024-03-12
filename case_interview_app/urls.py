@@ -128,8 +128,12 @@ urlpatterns = [
     path('api/som/socios/', apis.SomSocioAPIView.as_view(), name='som-socio-api'),
     path('api/som/socios/<int:v_id>/', apis.SomSocioAPIView.as_view(), name='som-victim-socio-api'),
     path('api/som/socios/<int:v_id>/<int:pk>/', apis.SomSocioAPIView.as_view(), name='som-socio-detail-api'),
-    
+
     path('api/som/victim/search/', apis.SomVictimSearchAPIView.as_view(), name='som-victim-search'),
+
+
+
+    path("dashboard", views.dashboard, name="dashboard"),
 
 ]
     
