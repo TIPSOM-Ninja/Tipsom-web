@@ -1011,4 +1011,17 @@ class AssistanceAggregateDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssistanceAggregateData
         fields = ('id', 'dataSupplier', 'totalTip', 'totalVictim', 'totalFamily', 'totalAnon', 'approval_comments', 'created_at', 'updated_at')
-        
+
+class SomTransitRouteDestinationSerializer(serializers.ModelSerializer):
+    victim = VictimProfileSerializer(read_only=True)
+    country_of_origin = CountrySerializer(read_only=True)
+    country_of_dest = CountrySerializer(read_only=True)
+    country_of_interception = CountrySerializer(read_only=True)
+    countries_of_transit = CountrySerializer(many=True, read_only=True)
+    transport_means = TransportMeanSerializer(many=True, read_only=True)
+    interviewer = InterviewerSerializer(read_only=True)
+    approval = ApprovalStatusSerializer(read_only=True)
+
+    class Meta:
+        model = TransitRouteDestination
+        fields = '__all__'

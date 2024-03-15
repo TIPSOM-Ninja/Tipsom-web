@@ -1402,8 +1402,7 @@ class SomTransitAPIView(APIView):
         transit.victim_id = request.data['v_id']
         transit.country_of_origin_id = int(request.data['countryOfOrigin']) if request.data['countryOfOrigin'].isdigit() else None
         transit.country_of_dest_id = int(request.data['countryOfDestination']) if request.data['countryOfDestination'].isdigit() else None
-        transit.city_village_of_dest = request.data['cityVillageOfDest']
-        transit.city_village_of_origin = request.data['cityVillageOfOrigin']
+        transit.country_of_interception_id = int(request.data['countryOfInterception']) if request.data['countryOfInterception'].isdigit() else None
         transit.remarks = request.data['remarks']
         transit.interviewer_id = interviewer.id
         transit.approval_id = 1
@@ -1412,6 +1411,11 @@ class SomTransitAPIView(APIView):
         if request.data('meansOfTransportation') is not None:
             for item in request.data('meansOfTransportation'):
                 transit.transport_means.add(int(item))
+        
+        if request.data('countriesOfTransit') is not None:
+            for item in request.data('countriesOfTransit'):
+                transit.countries_of_transit.add(int(item))
+
         return Response({"message": "Transit record created successfully","id":transit.id}, status=status.HTTP_201_CREATED)
 
     def put(self, request, v_id=None, pk=None):
@@ -1424,8 +1428,7 @@ class SomTransitAPIView(APIView):
         transit.victim_id = request.data['v_id']
         transit.country_of_origin_id = int(request.data['countryOfOrigin']) if request.data['countryOfOrigin'].isdigit() else None
         transit.country_of_dest_id = int(request.data['countryOfDestination']) if request.data['countryOfDestination'].isdigit() else None
-        transit.city_village_of_dest = request.data['cityVillageOfDest']
-        transit.city_village_of_origin = request.data['cityVillageOfOrigin']
+        transit.country_of_interception_id = int(request.data['countryOfInterception']) if request.data['countryOfInterception'].isdigit() else None
         transit.remarks = request.data['remarks']
         transit.interviewer_id = interviewer.id
         transit.approval_id = 1
@@ -1435,7 +1438,10 @@ class SomTransitAPIView(APIView):
         if request.data('meansOfTransportation') is not None:
             for item in request.data('meansOfTransportation'):
                 transit.transport_means.add(int(item))
-
+        if request.data('countriesOfTransit') is not None:
+            for item in request.data('countriesOfTransit'):
+                transit.countries_of_transit.add(int(item))
+                
         return Response({"message": "Transit record updated successfully"}, status=status.HTTP_200_OK)
 
 class SomArrestAPIView(APIView):

@@ -799,8 +799,13 @@ class SomTransitRouteDestination(models.Model):
     country_of_origin = models.ForeignKey(
         Country, related_name = "som_origin_destinations", on_delete=models.CASCADE, null=True, blank=True
     )
-    city_village_of_dest = models.CharField(max_length=50, null=True, blank=True)
-    city_village_of_origin = models.CharField(max_length=50, null=True, blank=True)
+    countries_of_transit = models.ManyToManyField(
+        Country, related_name = "som_transit_countries",  null=True, blank=True
+    )
+    country_of_interception = models.ForeignKey(
+        Country, related_name = "som_interception_destinations", on_delete=models.CASCADE, null=True, blank=True
+    )
+    
     country_of_dest = models.ForeignKey(
         Country, related_name = "som_dest_destinations", on_delete=models.CASCADE, null=True, blank=True
     )

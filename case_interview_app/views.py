@@ -1065,6 +1065,9 @@ def dashboard(request):
         
         # Add other types of exploitation as needed
     )
+    # trafficking_means_counts = Exploitation.objects.values('trafficking_mean__name').order_by('trafficking_mean').annotate(
+    #     count=Count('trafficking_mean')
+    # )
     # Aggregate victim counts by gender
     gender_counts = VictimProfile.objects.values('gender__name').order_by('gender').annotate(
         count=Count('gender')
