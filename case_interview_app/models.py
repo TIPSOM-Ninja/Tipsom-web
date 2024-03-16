@@ -349,6 +349,53 @@ class VictimProfile(models.Model):
     def __str__(self):
         return f"{self.victim_identifier}"
 
+class SomVictimProfile(models.Model):
+    victim_identifier = models.CharField(null=True,blank=True)
+    citizenship = models.ForeignKey(
+        Country, related_name = "som_victims_cit",  on_delete=models.CASCADE, null=True, blank=True
+    )
+    countryOfBirth = models.ForeignKey(
+        Country, related_name = "som_victims_country",  on_delete=models.CASCADE, null=True, blank=True
+    )
+    languages = models.ManyToManyField(Language, related_name = "som_victims_lang", null=True, blank=True)
+    gender = models.ForeignKey(Gender, related_name = "som_victims", on_delete=models.CASCADE, null=True, blank=True)
+    race = models.ForeignKey(Race, related_name = "som_victims", on_delete=models.CASCADE, null=True, blank=True)
+    identification_type = models.ManyToManyField(
+        IdType, related_name = "som_victims", null=True, blank=True
+    )
+    place_of_birth = models.CharField(max_length=50, null=True, blank=True)
+    last_place_of_residence = models.ForeignKey(
+        Country, related_name = "som_victims_last_place", on_delete=models.CASCADE, null=True, blank=True
+    )
+    identification_number = models.CharField(max_length=50, null=True, blank=True)
+    initials = models.CharField(max_length=50, null=True, blank=True)
+    age = models.IntegerField(null=True, blank=True)
+    address = models.CharField(max_length=50, null=True, blank=True)
+    email_address = models.EmailField(max_length=150, null=True, blank=True)
+    interview_country = models.ForeignKey(
+        Country, related_name = "som_victim_interview_country", on_delete=models.CASCADE, null=True, blank=True
+    )
+    interview_location = models.CharField(max_length=50, null=True, blank=True)
+    interview_date = models.DateField(
+        auto_now=False, auto_now_add=False, null=True, blank=True
+    )
+    additional_remarks = models.TextField(null=True, blank=True)
+    
+    consent_share_gov_patner = models.BooleanField(null=True, blank=True)
+    consent_limited_disclosure = models.BooleanField(null=True, blank=True)
+    consent_research = models.BooleanField(null=True, blank=True)
+    consent_abstain_answer = models.BooleanField(null=True, blank=True)
+
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "som_victimprofile", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
+    def __str__(self):
+        return f"{self.victim_identifier}"
+
 class Interviewer(models.Model):
     country = models.ForeignKey(
         Country, related_name = "interviewers", on_delete=models.CASCADE, null=True, blank=True
@@ -367,6 +414,7 @@ class Interviewer(models.Model):
     )
     approval_comments = models.TextField( null=True, blank=True)
     victims = models.ManyToManyField(VictimProfile, null=True, blank=True)
+    som_victims = models.ManyToManyField(SomVictimProfile, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
     updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
@@ -748,53 +796,6 @@ class Faq(models.Model):
 
 
 
-
-class SomVictimProfile(models.Model):
-    victim_identifier = models.CharField(null=True,blank=True)
-    citizenship = models.ForeignKey(
-        Country, related_name = "som_victims_cit",  on_delete=models.CASCADE, null=True, blank=True
-    )
-    countryOfBirth = models.ForeignKey(
-        Country, related_name = "som_victims_country",  on_delete=models.CASCADE, null=True, blank=True
-    )
-    languages = models.ManyToManyField(Language, related_name = "som_victims_lang", null=True, blank=True)
-    gender = models.ForeignKey(Gender, related_name = "som_victims", on_delete=models.CASCADE, null=True, blank=True)
-    race = models.ForeignKey(Race, related_name = "som_victims", on_delete=models.CASCADE, null=True, blank=True)
-    identification_type = models.ManyToManyField(
-        IdType, related_name = "som_victims", null=True, blank=True
-    )
-    place_of_birth = models.CharField(max_length=50, null=True, blank=True)
-    last_place_of_residence = models.ForeignKey(
-        Country, related_name = "som_victims_last_place", on_delete=models.CASCADE, null=True, blank=True
-    )
-    identification_number = models.CharField(max_length=50, null=True, blank=True)
-    initials = models.CharField(max_length=50, null=True, blank=True)
-    age = models.IntegerField(null=True, blank=True)
-    address = models.CharField(max_length=50, null=True, blank=True)
-    email_address = models.EmailField(max_length=150, null=True, blank=True)
-    interview_country = models.ForeignKey(
-        Country, related_name = "som_victim_interview_country", on_delete=models.CASCADE, null=True, blank=True
-    )
-    interview_location = models.CharField(max_length=50, null=True, blank=True)
-    interview_date = models.DateField(
-        auto_now=False, auto_now_add=False, null=True, blank=True
-    )
-    additional_remarks = models.TextField(null=True, blank=True)
-    
-    consent_share_gov_patner = models.BooleanField(null=True, blank=True)
-    consent_limited_disclosure = models.BooleanField(null=True, blank=True)
-    consent_research = models.BooleanField(null=True, blank=True)
-    consent_abstain_answer = models.BooleanField(null=True, blank=True)
-
-    approval = models.ForeignKey(
-        ApprovalStatus, related_name = "som_victimprofile", on_delete=models.CASCADE, null=True, blank=True
-    )
-    approval_comments = models.TextField( null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
-    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
-
-    def __str__(self):
-        return f"{self.victim_identifier}"
 
 class SomTransitRouteDestination(models.Model):
     victim = models.ForeignKey(SomVictimProfile, related_name = "som_destinations", on_delete=models.CASCADE, null=True, blank=True)

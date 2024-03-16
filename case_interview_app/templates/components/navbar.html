@@ -41,9 +41,14 @@
                     <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/account/login?next=/en/cases">{% translate "SIGN IN" %}</a>
                 </li>
                 {% elif user.is_authenticated %}
-                
                 <li class="nav-item">
-                  <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/cases">{% translate "ALL CASES" %}</a>
+                  <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/dashboard">{% translate "DASHBOARD" %}</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/cases">{% translate "TIP CASES" %}</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/som_cases">{% translate "SOM CASES" %}</a>
                 </li>
                 
                 {% if user.is_staff %}
@@ -51,9 +56,7 @@
                   <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/search">{% translate "SEARCH" %}</a>
                 </li>
                 {% endif %}
-                <li class="nav-item">
-                  <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/dashboard">{% translate "DASHBOARD" %}</a>
-                </li>
+                
                 <li class="nav-item">
                     <a class="nav-link text-light" href="/{{request.LANGUAGE_CODE}}/interviewer_registration">{% translate "PROFILE" %}</a>
                 </li>

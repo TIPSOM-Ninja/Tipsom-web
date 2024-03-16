@@ -15,74 +15,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.admin.views.decorators import staff_member_required
 
 # Create your views here.
-def interviewer_registration(request):
-
-    if request.GET.get('language') is not None:
-        activate(request.GET.get('language'))
-    countries = Country.objects.all().order_by('name','is_sadc').values()
-    purposes = DataEntryPurpose.objects.all()
-
-    context = {
-        "countries":countries,
-        "purposes":purposes
-    }
-    if(request.user.is_authenticated):
-        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
-    else:
-        interviewer=None
-    if request.method == "POST":
-        
-        if (not request.user.is_authenticated) and (Interviewer.objects.filter(email_address = request.POST['email_address']).first()!=None):
-            messages.error(request,"Please login first to complete the action.")
-        else:
-            if(interviewer == None):
-                interviewer = Interviewer()
-            interviewer.first_name = request.POST['first_name']
-            interviewer.last_name = request.POST['last_name']
-            interviewer.position = request.POST['position']
-            interviewer.organization = request.POST['organization']
-            interviewer.address = request.POST['address']
-            interviewer.email_address = request.POST['email_address'] if not request.user.is_authenticated else request.user.email
-            interviewer.country_id = request.POST['country']
-            interviewer.data_entry_purpose_id = request.POST['purpose']
-            interviewer.save()
-            if not request.user.is_authenticated:
-                user = User.objects.create_user(request.POST['email_address'],request.POST['email_address'],request.POST['password'])
-                user.first_name = request.POST['first_name']
-                user.last_name =  request.POST['last_name']
-                user.groups.add(1)
-                user.save()
-                if(EmailDevice.objects.filter(user = user).first() is None):
-                    dev = EmailDevice()
-                    dev.user = user
-                    dev.name = "default"
-                    dev.confirmed = True
-                    dev.save()
-                messages.success(request,"Account successfully created. Please login with your email and password to proceed.")
-                return redirect('/'+request.LANGUAGE_CODE+'/account/login?next=/en/cases')
-            elif request.user.is_authenticated:
-                # if(EmailDevice.objects.filter(user = request.user).first() is None):
-                #     dev = EmailDevice()
-                #     dev.user = request.user
-                #     dev.name = "default"
-                #     dev.confirmed = True
-                #     dev.save()
-                    
-                if (request.POST['password'] is not None and not request.POST['password'] == ""):
-                    user = request.user
-                    user.set_password(request.POST['password'])
-                    user.save()
-                    login(request,user)
-                    messages.success(request,"Credentials successfully modified.")
-                messages.success(request,"Interviewer data successfully modified.")
-                return redirect('/'+request.LANGUAGE_CODE+'/cases')
-            interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
-
-    context['interviewer']=interviewer
-
-    return render(request,"som_registration_form.html",context)
-
-
 @login_required
 def investigation_form(request):
     if request.GET.get('language') is not None:
@@ -119,7 +51,7 @@ def investigation_form(request):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
 
         if request.GET.get("v_id") is not None:
-            victim = VictimProfile.objects.filter(id = request.GET.get("v_id")).first()
+            victim = SomVictimProfile.objects.filter(id = request.GET.get("v_id")).first()
             if victim is None:
                 messages.error(request,'Victim does not exist. Please create a new victim.')
             else:
@@ -140,16 +72,17 @@ def investigation_form(request):
 
         if 'v_id' in request.session:
             context['v_id'] = request.session['v_id']
-            context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
-            context['arrest'] = ArrestInvestigation.objects.filter(victim_id = request.session['v_id']).first()
-            context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = request.session['v_id'])
+            context['victim'] = SomVictimProfile.objects.filter(id=request.session['v_id']).first()
+            context['arrest'] = SomArrestInvestigation.objects.filter(victim_id = request.session['v_id']).first()
+            context['suspects'] = SomSuspectedTrafficker.objects.filter(victim_id = request.session['v_id'])
             context['suspect_count'] = len(context['suspects']) if len(context['suspects'])>0 else 1
             context['suspect_add'] = 0
 
         context['interviewer']=interviewer
     
 
-    return render(request,"som_investigation_form.html",context)
+    return render(request,"investigation_form.html",context)
+
 @login_required
 def save_victim(request):
     if 'consent_given' not in request.session:
@@ -162,7 +95,7 @@ def save_victim(request):
             #victim = VictimProfile.objects.filter(id=request.POST['victim_id']).first()
             pass
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
-        victim = VictimProfile()
+        victim = SomVictimProfile()
         victim.citizenship_id = request.POST['citizenship']
         victim.countryOfBirth_id = request.POST['country_of_birth']
         victim.gender_id = request.POST['gender']
@@ -230,9 +163,9 @@ def save_arrest(request):
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     if request.method == "POST":
         if request.POST.get("arrest_id"):
-            arrest = ArrestInvestigation.objects.filter(id = int(request.POST.get("arrest_id"))).first()
+            arrest = SomArrestInvestigation.objects.filter(id = int(request.POST.get("arrest_id"))).first()
         else:
-            arrest = ArrestInvestigation()
+            arrest = SomArrestInvestigation()
         arrest.victim_id =  request.POST['v_id']
         arrest.org_crime=request.POST['org_crime']
         arrest.suspects_arrested = request.POST['suspects_arrested']
@@ -270,7 +203,7 @@ def save_suspect(request):
     age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     if request.method == "POST":
-        suspect = SuspectedTrafficker()
+        suspect = SomSuspectedTrafficker()
         suspect.victim_id = request.session['v_id']
         suspect.first_name = request.POST['first_name'] if request.POST.get('first_name') is not None and not request.POST.get('first_name') == '' else None
         suspect.last_name = request.POST['last_name'] if request.POST.get('last_name') is not None and not request.POST.get('last_name') == '' else None
@@ -350,7 +283,7 @@ def prosecution_form(request):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
 
         if request.GET.get("v_id") is not None:
-            victim = VictimProfile.objects.filter(id = request.GET.get("v_id")).first()
+            victim = SomVictimProfile.objects.filter(id = request.GET.get("v_id")).first()
             if victim is None:
                 messages.error(request,'Victim does not exist. Please create a new victim.')
             else:
@@ -371,9 +304,9 @@ def prosecution_form(request):
              
         if 'v_id' in request.session:
             context['v_id'] = request.session['v_id']
-            context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
-            context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = request.session['v_id'])
-            context['prosecutions'] = Prosecution.objects.filter(interviewer_id = interviewer.id, victim_id = request.session['v_id'])
+            context['victim'] = SomVictimProfile.objects.filter(id=request.session['v_id']).first()
+            context['suspects'] = SomSuspectedTrafficker.objects.filter(victim_id = request.session['v_id'])
+            context['prosecutions'] = SomProsecution.objects.filter(interviewer_id = interviewer.id, victim_id = request.session['v_id'])
             context['case_statuses'] = CaseStatus.objects.all()
             context['trial_courts'] = TrialCourt.objects.all()
             context['verdicts'] = Verdict.objects.all()
@@ -397,7 +330,7 @@ def save_prosecution(request):
         messages.error(request,"Victim consent not given")
         return redirect('/'+request.LANGUAGE_CODE+"/cases")
     if request.method == "POST":
-        prosecution = Prosecution()
+        prosecution = SomProsecution()
         prosecution.victim_id = request.session['v_id']
         prosecution.interviewer_id = interviewer.id
         prosecution.trafficker_id = request.POST['trafficker_id']
@@ -420,7 +353,7 @@ def save_prosecution(request):
     return redirect('/'+request.LANGUAGE_CODE+'/cases')
 
 @login_required
-def tip_form(request):
+def som_form(request):
     if(request.user.is_authenticated):
         countries = Country.objects.all().order_by('name').values()
         purposes = DataEntryPurpose.objects.all()
@@ -444,7 +377,7 @@ def tip_form(request):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
 
         if request.GET.get("v_id") is not None:
-            victim = VictimProfile.objects.filter(id = request.GET.get("v_id")).first()
+            victim = SomVictimProfile.objects.filter(id = request.GET.get("v_id")).first()
             if victim is None:
                 messages.error(request,'Victim does not exist. Please create a new victim.')
             else:
@@ -465,9 +398,8 @@ def tip_form(request):
              
         if 'v_id' in request.session:
             context['v_id'] = request.session['v_id']
-            context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
-            context['exploitations'] = Exploitation.objects.filter(victim_id = request.session['v_id'])
-            context['transit'] = TransitRouteDestination.objects.filter(victim_id = request.session['v_id'])
+            context['victim'] = SomVictimProfile.objects.filter(id=request.session['v_id']).first()
+            context['transit'] = SomTransitRouteDestination.objects.filter(victim_id = request.session['v_id'])
             context['exploitation_ages'] = ExploitationAge.objects.all()
             context['freed_methods'] = FreedMethod.objects.all()
             context['criminal_activity_types'] = CriminalActivityType.objects.all()
@@ -494,93 +426,6 @@ def tip_form(request):
 
     return render(request,"som_form.html",context)
 
-@login_required
-def save_exploitation(request):
-    if 'consent_given' not in request.session:
-        messages.error(request,"Victim consent not given")
-        return redirect('/'+request.LANGUAGE_CODE+"/cases")
-    interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
-    
-    if request.method == "POST":
-        exploitation = Exploitation()
-        exploitation.victim_id = request.session['v_id']
-        exploitation.interviewer_id = interviewer.id
-        exploitation.subject_to_exploitation = request.POST['subject_to_exploitation'] if request.POST.get('subject_to_exploitation') is not None and not request.POST.get('subject_to_exploitation') == '' else None
-        exploitation.intent_to_exploit = request.POST['intent_to_exploit'] if request.POST.get('intent_to_exploit') is not None and not request.POST.get('intent_to_exploit') == '' else None
-        exploitation.exploitation_length = request.POST['exploitation_length'] if request.POST.get('exploitation_length') is not None and not request.POST.get('exploitation_length') == '' else None
-        exploitation.exploitation_age_id = request.POST['exploitation_age_id'] if request.POST.get('exploitation_age_id') is not None and not request.POST.get('exploitation_age_id') == '' else None
-        exploitation.pay_debt = request.POST['pay_debt'] if request.POST.get('pay_debt') is not None and not request.POST.get('pay_debt') == '' else None
-        exploitation.debt_amount = request.POST['debt_amount'] if request.POST.get('debt_amount') is not None and not request.POST.get('debt_amount') == '' else None
-        exploitation.freed_method_id = request.POST['freed_method_id'] if request.POST.get('freed_method_id') is not None and not request.POST.get('freed_method_id') == '' else None
-        exploitation.event_description = request.POST['event_description'] if request.POST.get('event_description') is not None and not request.POST.get('event_description') == '' else None
-        exploitation.e_prostitution = request.POST['e_prostitution'] if request.POST.get('e_prostitution') is not None and not request.POST.get('e_prostitution') == '' else None
-        exploitation.e_other_sexual = request.POST['e_other_sexual'] if request.POST.get('e_other_sexual') is not None and not request.POST.get('e_other_sexual') == '' else None
-        exploitation.e_other_sexual_online = request.POST['e_other_sexual_online'] if request.POST.get('e_other_sexual_online') is not None and not request.POST.get('e_other_sexual_online') == '' else None
-        exploitation.e_online_porno = request.POST['e_online_porno'] if request.POST.get('e_online_porno') is not None and not request.POST.get('e_online_porno') == '' else None
-        exploitation.e_criminal_activity = request.POST['e_criminal_activity'] if request.POST.get('e_criminal_activity') is not None and not request.POST.get('e_criminal_activity') == '' else None
-        exploitation.e_forced_labour = request.POST['e_forced_labour'] if request.POST.get('e_forced_labour') is not None and not request.POST.get('e_forced_labour') == '' else None
-        exploitation.e_forced_marriage = request.POST['e_forced_marriage'] if request.POST.get('e_forced_marriage') is not None and not request.POST.get('e_forced_marriage') == '' else None
-        exploitation.e_victim_knew_spouse = request.POST['e_victim_knew_spouse'] if request.POST.get('e_victim_knew_spouse') is not None and not request.POST.get('e_victim_knew_spouse') == '' else None
-        exploitation.e_spouse_nationality_id = request.POST['e_spouse_nationality_id'] if request.POST.get('e_spouse_nationality_id') is not None and not request.POST.get('e_spouse_nationality_id') == '' else None
-        exploitation.e_bprice_paid_id = request.POST['e_bprice_paid_id'] if request.POST.get('e_bprice_paid_id') is not None and not request.POST.get('e_bprice_paid_id') == '' else None
-        exploitation.e_bprice_amount_kind = request.POST['e_bprice_amount_kind'] if request.POST.get('e_bprice_amount_kind') is not None and not request.POST.get('e_bprice_amount_kind') == '' else None
-        exploitation.e_child_marriage = request.POST['e_child_marriage'] if request.POST.get('e_child_marriage') is not None and not request.POST.get('e_child_marriage') == '' else None
-        exploitation.e_victim_pregnancy = request.POST['e_victim_pregnancy'] if request.POST.get('e_victim_pregnancy') is not None and not request.POST.get('e_victim_pregnancy') == '' else None
-        exploitation.e_children_from_marriage = request.POST['e_children_from_marriage'] if request.POST.get('e_children_from_marriage') is not None and not request.POST.get('e_children_from_marriage') == '' else None
-        exploitation.e_maternal_health_issues = request.POST['e_maternal_health_issues'] if request.POST.get('e_maternal_health_issues') is not None and not request.POST.get('e_maternal_health_issues') == '' else None
-        exploitation.e_m_health_issues_description = request.POST['e_m_health_issues_description'] if request.POST.get('e_m_health_issues_description') is not None and not request.POST.get('e_m_health_issues_description') == '' else None
-        exploitation.e_marriage_violence_id = request.POST['e_marriage_violence_id'] if request.POST.get('e_marriage_violence_id') is not None and not request.POST.get('e_marriage_violence_id') == '' else None
-        exploitation.e_forced_military_type_id = request.POST['e_forced_military_type_id'] if request.POST.get('e_forced_military_type_id') is not None and not request.POST.get('e_forced_military_type_id') == '' else None
-        exploitation.e_armed_group_name = request.POST['e_armed_group_name'] if request.POST.get('e_armed_group_name') is not None and not request.POST.get('e_armed_group_name') == '' else None
-        exploitation.e_child_soldier = request.POST['e_child_soldier'] if request.POST.get('e_child_soldier') is not None and not request.POST.get('e_child_soldier') == '' else None
-        exploitation.e_child_soldier_age = request.POST['e_child_soldier_age'] if request.POST.get('e_child_soldier_age') is not None and not request.POST.get('e_child_soldier_age') == '' else None
-        exploitation.e_organ_removed = request.POST['e_organ_removed'] if request.POST.get('e_organ_removed') is not None and not request.POST.get('e_organ_removed') == '' else None
-        exploitation.e_operation_location_id = request.POST['e_operation_location_id'] if request.POST.get('e_operation_location_id') is not None and not request.POST.get('e_operation_location_id') == '' else None
-        exploitation.e_operation_country_id = request.POST['e_operation_country_id'] if request.POST.get('e_operation_country_id') is not None and not request.POST.get('e_operation_country_id') == '' else None
-        exploitation.e_organ_sale_price = request.POST['e_organ_sale_price'] if request.POST.get('e_organ_sale_price') is not None and not request.POST.get('e_organ_sale_price') == '' else None
-        exploitation.e_organ_paid_to_id = request.POST['e_organ_paid_to_id'] if request.POST.get('e_organ_paid_to_id') is not None and not request.POST.get('e_organ_paid_to_id') == '' else None
-        exploitation.e_remarks = request.POST['e_remarks'] if request.POST.get('e_remarks') is not None and not request.POST.get('e_remarks') == '' else None
-        exploitation.e_recruitment_type_id = request.POST['e_recruitment_type_id'] if request.POST.get('e_recruitment_type_id') is not None and not request.POST.get('e_recruitment_type_id') == '' else None
-        exploitation.e_recruiter_relationship_id = request.POST['e_recruiter_relationship_id'] if request.POST.get('e_recruiter_relationship_id') is not None and not request.POST.get('e_recruiter_relationship_id') == '' else None
-        exploitation.approval_id=1
-        exploitation.save()
-
-        if request.POST.get('e_criminal_activity_type[]'):
-            for ca in request.POST.getlist('e_criminal_activity_type[]'):
-                exploitation.e_criminal_activity_type.add(ca)
-
-        if request.POST.get('e_forced_labour_industry[]'):
-            for ca in request.POST.getlist('e_forced_labour_industry[]'):
-                exploitation.e_forced_labour_industry.add(ca)
-
-        if request.POST.get('e_brice_recipient[]'):
-            for ca in request.POST.getlist('e_brice_recipient[]'):
-                exploitation.e_brice_recipient.add(ca)
-
-        if request.POST.get('e_child_marriage_reason[]'):
-            for ca in request.POST.getlist('e_child_marriage_reason[]'):
-                exploitation.e_child_marriage_reason.add(ca)
-
-        if request.POST.get('e_marriage_violence_type[]'):
-            for ca in request.POST.getlist('e_marriage_violence_type[]'):
-                exploitation.e_marriage_violence_type.add(ca)
-        
-        if request.POST.get('e_victim_military_activities[]'):
-            for ca in request.POST.getlist('e_victim_military_activities[]'):
-                exploitation.e_victim_military_activities.add(ca)
-        
-        if request.POST.get('e_body_part_removed[]'):
-            for ca in request.POST.getlist('e_body_part_removed[]'):
-                exploitation.e_body_part_removed.add(ca)
-        
-        if request.POST.get('e_trafficking_means[]'):
-            for ca in request.POST.getlist('e_trafficking_means[]'):
-                exploitation.e_trafficking_means.add(ca)
-        
-        messages.success(request,"Exploitation data successfully saved")
-        
-        formulate_get="?step=3"
-        return redirect('/'+request.LANGUAGE_CODE+'/tip_form'+formulate_get)
 
 @login_required
 def save_transit(request):
@@ -590,7 +435,7 @@ def save_transit(request):
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     
     if request.method == "POST":
-        transit = TransitRouteDestination()
+        transit = SomTransitRouteDestination()
         transit.victim_id = request.session['v_id']
         transit.country_of_origin_id = request.POST['country_of_origin_id']
         transit.country_of_dest_id = request.POST['country_of_dest_id']
@@ -655,7 +500,7 @@ def assistance_form(request):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
 
         if request.GET.get("v_id") is not None:
-            victim = VictimProfile.objects.filter(id = request.GET.get("v_id")).first()
+            victim = SomVictimProfile.objects.filter(id = request.GET.get("v_id")).first()
             
             if victim is None:
                 messages.error(request,'Victim does not exist. Please create a new victim.')
@@ -676,7 +521,7 @@ def assistance_form(request):
           
         if 'v_id' in request.session:
             context['v_id'] = request.session['v_id']
-            context['victim'] = VictimProfile.objects.filter(id=request.session['v_id']).first()
+            context['victim'] = SomVictimProfile.objects.filter(id=request.session['v_id']).first()
             
 
         context['interviewer']=interviewer
@@ -692,7 +537,7 @@ def save_assistance_types(request):
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     
     if request.method == "POST":
-        assistance = Assistance()
+        assistance = SomAssistance()
         assistance.victim_id = request.session['v_id']
         assistance.interviewer_id = interviewer.id
         if request.POST.get('social_assistance_d_type') == '1':
@@ -799,7 +644,7 @@ def save_socio_economic(request):
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     
     if request.method == "POST":
-        socio = SocioEconomic()
+        socio = SomSocioEconomic()
         socio.victim_id = request.session["v_id"]
         socio.family_structure_id = request.POST.get('family_structure') if request.POST.get('family_structure') is not None and not request.POST.get('family_structure') == None else None
         socio.living_with_id = request.POST.get('living_with') if request.POST.get('living_with') is not None and not request.POST.get('living_with') == None else None
@@ -818,50 +663,15 @@ def save_socio_economic(request):
         formulate_get="?step=4"
         return redirect('/'+request.LANGUAGE_CODE+'/som_assistance_form'+formulate_get)
 
-@login_required
-def save_assistance_aggregate(request):
-    interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
-    
-    if request.method == "POST":
-        assistance_aggregate = AssistanceAggregateData()
-        assistance_aggregate.data_supplier_id = request.POST.get('data_supplier') if request.POST.get('data_supplier') is not None and not request.POST.get('data_supplier') == '' else None
-        assistance_aggregate.total_tip_annually = request.POST.get('total_tip_annually') if request.POST.get('total_tip_annually') is not None and not request.POST.get('total_tip_annually') == '' else None
-        assistance_aggregate.total_service = request.POST.get('total_service') if request.POST.get('total_service') is not None and not request.POST.get('total_service') == '' else None
-        assistance_aggregate.eligible_family_service = request.POST.get('eligible_family_service') if request.POST.get('eligible_family_service') is not None and not request.POST.get('eligible_family_service') == '' else None
-        assistance_aggregate.total_anon_contacts = request.POST.get('total_anon_contacts') if request.POST.get('total_anon_contacts') is not None and not request.POST.get('total_anon_contacts') == '' else None
-        assistance_aggregate.interviewer_id = interviewer.id
-        assistance_aggregate.approval_id = 1
-        assistance_aggregate.save()
 
-        messages.success(request,"Assistance aggregates saved.")
 
-        return redirect('/'+request.LANGUAGE_CODE+'/cases')
-
-@login_required
-def process_consent(request):
-    if request.POST.get('consent_share_gov_patner') == '1' and request.POST.get('consent_limited_disclosure') == '1' and request.POST.get('consent_research') == '1' and request.POST.get('consent_abstain_answer') == '1':
-        request.session['consent_given'] = 1
-        messages.success(request,"Consent granted. You can proceed.")
-        return redirect(request.POST.get('next'))
-    else:
-        messages.error(request,"Victim denied consent. You cannot add their details.")
-        return redirect('/'+request.LANGUAGE_CODE+'/cases')
 @login_required
 def process_approval(request):
     if request.user.is_staff:
-        if request.POST.get("form_model") == "exploitation":
+        if request.POST.get("form_model") == "destination":
             oid = request.POST.get("id")
             approval_id = request.POST.get("approval")
-            obj = Exploitation.objects.filter(id=oid).first()
-            obj.approval_id = approval_id
-            obj.save()
-            victim_id = obj.victim_id
-            messages.success(request,"Approval successful")
-
-        elif request.POST.get("form_model") == "destination":
-            oid = request.POST.get("id")
-            approval_id = request.POST.get("approval")
-            obj = TransitRouteDestination.objects.filter(id=oid).first()
+            obj = SomTransitRouteDestination.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
             victim_id = obj.victim_id
@@ -870,7 +680,7 @@ def process_approval(request):
         elif request.POST.get("form_model") == "prosecution":
             oid = request.POST.get("id")
             approval_id = request.POST.get("approval")
-            obj = Prosecution.objects.filter(id=oid).first()
+            obj = SomProsecution.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
             victim_id = obj.victim_id
@@ -879,7 +689,7 @@ def process_approval(request):
         elif request.POST.get("form_model") == "suspect":
             oid = request.POST.get("id")
             approval_id = request.POST.get("approval")
-            obj = SuspectedTrafficker.objects.filter(id=oid).first()
+            obj = SomSuspectedTrafficker.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
             victim_id = obj.victim_id
@@ -888,7 +698,7 @@ def process_approval(request):
         elif request.POST.get("form_model") == "arrest":
             oid = request.POST.get("id")
             approval_id = request.POST.get("approval")
-            obj = ArrestInvestigation.objects.filter(id=oid).first()
+            obj = SomArrestInvestigation.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
             victim_id = obj.victim_id
@@ -897,7 +707,7 @@ def process_approval(request):
         elif request.POST.get("form_model") == "victim":
             oid = request.POST.get("id")
             approval_id = request.POST.get("approval")
-            obj = VictimProfile.objects.filter(id=oid).first()
+            obj = SomVictimProfile.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
             victim_id = obj.victim_id
@@ -921,11 +731,11 @@ def cases(request):
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     if request.user.is_staff:
         if request.GET.get('pending') is None:
-            victims = VictimProfile.objects.filter(interviewer__id = interviewer.id).order_by('id').annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))|VictimProfile.objects.filter(interview_country_id = interviewer.country_id).order_by('id').annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))
+            victims = SomVictimProfile.objects.filter(interviewer__id = interviewer.id).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True))|SomVictimProfile.objects.filter(interview_country_id = interviewer.country_id).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True))
         else:
-            victims = VictimProfile.objects.filter(interview_country_id = interviewer.country_id,approval_id = 1).order_by('id').annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))
+            victims = SomVictimProfile.objects.filter(interview_country_id = interviewer.country_id,approval_id = 1).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True))
     else:
-        victims = interviewer.victims.order_by('id').annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True))
+        victims = interviewer.som_victims.order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True))
 
     
     paginator = Paginator(victims, per_page=12)
@@ -963,7 +773,7 @@ def search_view(request):
         for field, value in victim_form.cleaned_data.items():
             if value:
                 query |= Q(**{field: value})
-        results = VictimProfile.objects.filter(query)
+        results = SomVictimProfile.objects.filter(query)
         current_search = 1
 
     elif interviewer_form.is_valid() and 'interviewer_search' in request.GET:
@@ -978,7 +788,7 @@ def search_view(request):
         for field, value in trafficker_form.cleaned_data.items():
             if value:
                 query |= Q(**{field: value})
-        results = SuspectedTrafficker.objects.filter(query)
+        results = SomSuspectedTrafficker.objects.filter(query)
         current_search = 3
 
     page = request.GET.get('page', 1)
@@ -1001,7 +811,7 @@ def search_view(request):
 
 def suspect_detail(request, suspect_id):
     # Fetch the suspect object based on the provided ID
-    suspect = get_object_or_404(SuspectedTrafficker, pk=suspect_id)
+    suspect = get_object_or_404(SomSuspectedTrafficker, pk=suspect_id)
 
     return render(request, 'suspect_detail.html', {'suspect': suspect})
 
@@ -1010,11 +820,21 @@ def interviewer_detail(request, interviewer_id):
     return render(request, 'interviewer_detail.html', {'interviewer': interviewer})
 
 @login_required
+def process_consent(request):
+    if request.POST.get('consent_share_gov_patner') == '1' and request.POST.get('consent_limited_disclosure') == '1' and request.POST.get('consent_research') == '1' and request.POST.get('consent_abstain_answer') == '1':
+        request.session['consent_given'] = 1
+        messages.success(request,"Consent granted. You can proceed.")
+        return redirect(request.POST.get('next'))
+    else:
+        messages.error(request,"Victim denied consent. You cannot add their details.")
+        return redirect('/'+request.LANGUAGE_CODE+'/som_cases')
+
+@login_required
 def victim_view(request,id):
     if(request.user.is_authenticated):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     if request.user.is_staff:
-        victim = VictimProfile.objects.filter(id=id).first()
+        victim = SomVictimProfile.objects.filter(id=id).first()
     else:
         victim = interviewer.victims.filter(id=id ).first()
 
@@ -1023,15 +843,14 @@ def victim_view(request,id):
         # "suspects":suspects
     }
     
-    context['suspects'] = SuspectedTrafficker.objects.filter(victim_id = id)
-    context['arrest'] = ArrestInvestigation.objects.filter(victim_id = id).first()
-    context['prosecutions'] = Prosecution.objects.filter(victim_id = id)
-    context['exploitations'] = Exploitation.objects.filter(victim_id = id)
+    context['suspects'] = SomSuspectedTrafficker.objects.filter(victim_id = id)
+    context['arrest'] = SomArrestInvestigation.objects.filter(victim_id = id).first()
+    context['prosecutions'] = SomProsecution.objects.filter(victim_id = id)
     context['destination'] = TransitRouteDestination.objects.filter(victim_id = id).first()
     context['assistance'] = Assistance.objects.filter(victim_id = id).first()
     context['socio_economic'] = SocioEconomic.objects.filter(victim_id = id).first()
 
-    return render(request,"victim-view.html",context)
+    return render(request,"som-victim-view.html",context)
 
 
 @login_required

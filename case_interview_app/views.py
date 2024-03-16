@@ -163,6 +163,7 @@ def investigation_form(request):
     
 
     return render(request,"investigation_form.html",context)
+
 @login_required
 def save_victim(request):
     if 'consent_given' not in request.session:
@@ -859,6 +860,7 @@ def process_consent(request):
     else:
         messages.error(request,"Victim denied consent. You cannot add their details.")
         return redirect('/'+request.LANGUAGE_CODE+'/cases')
+
 @login_required
 def process_approval(request):
     if request.user.is_staff:

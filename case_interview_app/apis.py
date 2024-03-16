@@ -1050,7 +1050,7 @@ class VictimSearchAPIView(APIView):
     
 class SomVictimAPIView(APIView):
     def get(self, request, pk=None):
-        victim =SomVictimProfile.objects.filter(pk = pk).annotate(Count('assistance', distinct=True),Count('exploitation', distinct=True),Count('investigations', distinct=True),Count('prosecutions', distinct=True),Count('socio_economic', distinct=True),Count('traffickers', distinct=True),Count('destinations', distinct=True)).first()
+        victim =SomVictimProfile.objects.filter(pk = pk).annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True)).first()
         serializer = VictimProfileWithRelatedSerializer(victim)
         return Response(serializer.data)
     def post(self,request):
@@ -1744,7 +1744,7 @@ class SomVictimSearchAPIView(APIView):
         if date_start and date_end:
             filters &= Q(interview_date__range=[date_start, date_end])
         # Execute query
-        victims = VictimProfile.objects.filter(filters)
+        victims = SomVictimProfile.objects.filter(filters)
         serializer = VictimProfileSerializer(victims, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     

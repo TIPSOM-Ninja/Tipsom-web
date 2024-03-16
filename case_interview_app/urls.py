@@ -74,10 +74,9 @@ urlpatterns = [
 
     path('api/victim/search/', apis.VictimSearchAPIView.as_view(), name='victim-search'),
 
-    path("som_interviewer_registration", som_views.interviewer_registration, name="som_interviewer_registration"),
     path("som_investigation_form", som_views.investigation_form, name="som_investigation_form"),
     path("som_prosecution_form", som_views.prosecution_form, name="som_prosecution_form"),
-    path("som_form", som_views.tip_form, name="som_tip_form"),
+    path("som_form", som_views.som_form, name="som_tip_form"),
     path("som_assistance_form", som_views.assistance_form, name="som_assistance_form"),
 
     path("som_cases", som_views.cases, name="som_cases"),
@@ -85,11 +84,9 @@ urlpatterns = [
     path("som_save_arrest", som_views.save_arrest, name="som_save_arrest"),
     path("som_save_suspect", som_views.save_suspect, name="som_save_suspect"),
     path("som_save_prosecution", som_views.save_prosecution, name="som_save_prosecution"),
-    path("som_save_exploitation", som_views.save_exploitation, name="som_save_exploitation"),
     path("som_save_transit", som_views.save_transit, name="som_save_transit"),
     path("som_save_assistance_types", som_views.save_assistance_types, name="som_save_assistance_types"),
     path("som_save_socio_economic", som_views.save_socio_economic, name="som_save_socio_economic"),
-    path("som_save_assistance_aggregate", som_views.save_assistance_aggregate, name="som_save_assistance_aggregate"),
     path("som_process_consent", som_views.process_consent, name="som_process_consent"),
     path("som_process_approval", som_views.process_approval, name="som_process_approval"),
 

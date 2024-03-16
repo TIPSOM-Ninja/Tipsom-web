@@ -1052,6 +1052,20 @@ class SomAssistanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Assistance
         fields = '__all__'
-    
+
+class VictimProfileSerializer(serializers.ModelSerializer):
+    citizenship = CountrySerializer(read_only=True)
+    countryOfBirth = CountrySerializer(read_only=True)
+    languages = LanguageSerializer(many=True, read_only=True)
+    gender = GenderSerializer(read_only=True)
+    race = RaceSerializer(read_only=True)
+    identification_type = IdTypeSerializer(many=True, read_only=True)
+    lastPlaceOfResidence = CountrySerializer(read_only=True)
+    interviewCountry = CountrySerializer(read_only=True)
+    approval = ApprovalStatusSerializer(read_only=True)
+
+    class Meta:
+        model = SomVictimProfile
+        fields = '__all__' 
  
  
