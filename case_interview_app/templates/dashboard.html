@@ -59,7 +59,7 @@
     </div>    
     <div class="card w-100">
         <div class="card-title border-bottom">
-            <h3>Perpetrator Prosecution and Conviction</h3>
+            <h3>Suspect Prosecution and Conviction</h3>
         </div>
         <div class="card-body">
             <canvas id="prosecutionChart"></canvas>
@@ -68,16 +68,7 @@
 
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
-                // Assuming `exploitation_counts` is passed as a list of dictionaries from the view
-                // Each dictionary in the list contains 'exploitation_type' and 'count'
-                var ctx = document.getElementById('exploitationChart').getContext('2d');
-                var xd = "{{ exploitation_counts|safe }}".replaceAll("\'","\"")
-                console.log(xd)
-                var exploitationData = JSON.parse(xd);
-                console.log(exploitationData)
-                var labels = Object.keys(exploitationData)
-                var data = Object.values(exploitationData)
-                // Define a palette of colors for the bars
+                //colors
                 var backgroundColors = [
                     'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 
                     'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)',
@@ -90,6 +81,17 @@
                     'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)',
                     'rgba(199, 199, 199, 1)' // Add more as needed
                 ];
+                // Assuming `exploitation_counts` is passed as a list of dictionaries from the view
+                // Each dictionary in the list contains 'exploitation_type' and 'count'
+                var ctx = document.getElementById('exploitationChart').getContext('2d');
+                var xd = "{{ exploitation_counts|safe }}".replaceAll("\'","\"")
+                console.log(xd)
+                var exploitationData = JSON.parse(xd);
+                console.log(exploitationData)
+                var labels = Object.keys(exploitationData)
+                var data = Object.values(exploitationData)
+                // Define a palette of colors for the bars
+                
                 var exploitationChart = new Chart(ctx, {
                     type: 'bar', // Change to 'line', 'pie', etc. based on preference
                     data: {
