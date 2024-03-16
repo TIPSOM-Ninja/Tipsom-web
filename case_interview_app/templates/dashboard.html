@@ -3,9 +3,75 @@
 {% block content %}
 <div class="container p-3">
     
-    
+    <div class="row g-3">
+        <div  class=" col-md-3">
+            <div class="card" style="background-color: #1860c3;">
+                <div class="card-body text-light">
+                    <div class = "row">
+                        <div class="col-9">
+                            <h4 class="text-light text-uppercase">Victims</h4>
+                
+                            <p>{{v_count}}</p>
+                        </div>
+                        <div class="col-3">
+                            <i class="fa-solid fa-person-circle-exclamation fa-4x text-warning" ></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div  class=" col-md-3">
+            <div class="card" style="background-color: #1860c3;">
+                <div class="card-body text-light">
+                    <div class = "row">
+                        <div class="col-9">
+                            <h4 class="text-light text-uppercase">Suspects</h4>
+                
+                            <p>{{s_count}}</p>
+                        </div>
+                        <div class="col-3">
+                            <i class="fa-solid fa-user-ninja fa-4x text-warning" ></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div  class=" col-md-3">
+            <div class="card" style="background-color: #1860c3;">
+                <div class="card-body text-light">
+                    <div class = "row">
+                        <div class="col-9">
+                            <h4 class="text-light text-uppercase">Prosecutions</h4>
+                
+                            <p>{{prosecuted_counts.total_prosecuted}}</p>
+                        </div>
+                        <div class="col-3">
+                            <i class="fa-solid fa-gavel fa-4x text-warning" ></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class=" col-md-3">
+            <div class="card" style="background-color: #1860c3;">
+                <div class="card-body text-light">
+                    <div class = "row">
+                        <div class="col-9">
+                            <h4 class="text-light text-uppercase">Convictions</h4>
+                
+                            <p>{{prosecuted_counts.total_convicted}}</p>
+                        </div>
+                        <div class="col-3">
+                            <i class="fa-solid fa-landmark fa-4x text-warning" ></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
     <div class=" card w-100">
-        <div class="card-title border-bottom">
+        <div class="card-title border-bottom px-3">
             <h3>Victim Demographics</h3>
            
         </div>
@@ -26,7 +92,7 @@
     <br>
         
     <div class=" card w-100">
-        <div class="card-title border-bottom">
+        <div class="card-title border-bottom px-3">
             <h3>Exploitation Analysis</h3>
        
         </div>
@@ -39,7 +105,7 @@
     <br>
 
     <div class=" card w-100">
-        <div class="card-title border-bottom">
+        <div class="card-title border-bottom px-3">
             <h3>Suspect Demographics</h3>
            
         </div>
@@ -59,7 +125,7 @@
     </div>
     <br>
     <div class="card w-100">
-        <div class="card-title border-bottom">
+        <div class="card-title border-bottom px-3">
             <h3>Suspect Prosecution and Conviction</h3>
         </div>
         <div class="card-body">

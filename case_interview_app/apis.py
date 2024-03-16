@@ -1268,7 +1268,6 @@ class SomCaseAPIView(APIView):
 
         return Response({"message": "Suspect details updated successfully"}, status=status.HTTP_200_OK)
 
-
 class SomSuspectAPIView(APIView):
     def get(self, request, v_id=None, pk=None ):
         if request.GET.get('page') is not None:
@@ -1700,7 +1699,6 @@ class SomSocioAPIView(APIView):
         socio.last_occupation.set(request.data.getlist('lastOccupation'))
 
         return Response({"message": "SocioEconomic details updated successfully"}, status=status.HTTP_200_OK)
-
 
 class SomVictimSearchAPIView(APIView):
     def get(self, request, *args, **kwargs):

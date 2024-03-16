@@ -1055,6 +1055,10 @@ def signout(request):
 
 def dashboard(request):
     context = {}
+
+    v_count = VictimProfile.objects.count()
+    s_count = SuspectedTrafficker.objects.count()
+
     exploitation_counts = Exploitation.objects.aggregate(
         forced_labor=Count('id', filter=Q(e_forced_labour=True)),
         organ_trafficking=Count('id', filter=Q(e_organ_removed=True)),
@@ -1066,10 +1070,7 @@ def dashboard(request):
         
         # Add other types of exploitation as needed
     )
-    # trafficking_means_counts = Exploitation.objects.values('trafficking_mean__name').order_by('trafficking_mean').annotate(
-    #     count=Count('trafficking_mean')
-    # )
-    # Aggregate victim counts by gender
+
     gender_counts = VictimProfile.objects.values('gender__name').order_by('gender').annotate(
         count=Count('gender')
     )
@@ -1094,6 +1095,8 @@ def dashboard(request):
         count=Count('role_in_trafficking')
     ).order_by('role_in_trafficking')
 
+    context['v_count'] = v_count
+    context["s_count"] = s_count
     context['gender_counts'] = list(gender_counts)
     context["exploitation_counts"] = exploitation_counts
     context['gender_counts'] = list(gender_counts)
