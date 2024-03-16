@@ -1543,6 +1543,19 @@ class SomAssistanceAPIView(APIView):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         assistance = SomAssistance()
         assistance.victim_id = request.data['v_id']
+        assistance.social_assistance = request.data['socialAssistance']
+        assistance.med_rehab = request.data['medRehab']
+        assistance.housing_allowance = request.data['housingAllowance']
+        assistance.halfway_house = request.data['halfwayHouse']
+        assistance.shelter = request.data['shelter']
+        assistance.vocational_training = request.data['vocationalTraining']
+        assistance.micro_ent_income = request.data['incomeGeneratingProject']
+        assistance.legal_assistance = request.data['legalAssistance']
+        assistance.medical_assistance = request.data['medicalAssistance']
+        assistance.financial_assistance = request.data['financialAssistance']
+        assistance.education_assistance = request.data['educationAssistance']
+        assistance.im_emmigration_assistance = request.data['immEmmigrationAssistance']
+        assistance.other_community_assistance = request.data['communityBasedAssistance']
         assistance.interviewer_id = interviewer.id
         assistance.approval_id = 1
         assistance.save()
@@ -1595,6 +1608,19 @@ class SomAssistanceAPIView(APIView):
 
         # Update assistance object with the provided data
         assistance.victim_id = request.data.get('v_id', assistance.victim_id)
+        assistance.social_assistance =  request.data.get('socialAssistance',assistance.social_assistance)
+        assistance.med_rehab =  request.data.get('medRehab',assistance.med_rehab)
+        assistance.housing_allowance =  request.data.get('housingAllowance',assistance.housing_allowance)
+        assistance.halfway_house =  request.data.get('halfwayHouse',assistance.halfway_house)
+        assistance.shelter =  request.data.get('shelter',assistance.shelter)
+        assistance.vocational_training =  request.data.get('vocationalTraining',assistance.vocational_training)
+        assistance.micro_ent_income =  request.data.get('incomeGeneratingProject',assistance.micro_ent_income)
+        assistance.legal_assistance =  request.data.get('legalAssistance',assistance.legal_assistance)
+        assistance.medical_assistance =  request.data.get('medicalAssistance',assistance.medical_assistance)
+        assistance.financial_assistance =  request.data.get('financialAssistance',assistance.financial_assistance)
+        assistance.education_assistance =  request.data.get('educationAssistance',assistance.education_assistance)
+        assistance.im_emmigration_assistance =  request.data.get('immEmmigrationAssistance',assistance.im_emmigration_assistance)
+        assistance.other_community_assistance =  request.data.get('communityBasedAssistance',assistance.other_community_assistance)
         assistance.interviewer_id = interviewer.id
         assistance.approval_id = 1
 

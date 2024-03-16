@@ -1025,3 +1025,33 @@ class SomTransitRouteDestinationSerializer(serializers.ModelSerializer):
     class Meta:
         model = TransitRouteDestination
         fields = '__all__'
+
+class SomAssistanceSerializer(serializers.ModelSerializer):
+    
+    victim = VictimProfileSerializer(read_only=True)
+    socialAssistanceProvider = ProviderSerializer(many=True, read_only=True, source = "social_assistance_provider")
+    medicalRehabilitationAssistanceProvider = ProviderSerializer(many=True, read_only=True, source ="med_rehab_provider")
+    housingAllowanceProvider = ProviderSerializer(many=True, read_only=True, source = "housing_allowance_provider")
+    halfwayHouseProvider = ProviderSerializer(many=True, read_only=True, source = "halfway_house_providers")
+    shelterProvider = ProviderSerializer(many=True, read_only=True, source = "shelter_provider")
+    vocationalTrainingProvider = ProviderSerializer(many=True, read_only=True, source = "vocational_training_provider")
+    incomeGeneratingProjectProvider = ProviderSerializer(many=True, read_only=True, source = "micro_ent_income_provider")
+    micro_ent_income_project = IncomeProjectTypeSerializer(read_only=True)
+    legalAssistanceProvider = ProviderSerializer(many=True, read_only=True, source = "legal_assistance_provider")
+    medicalAssistanceProvider = ProviderSerializer(many=True, read_only=True, source = "medical_assistance_provider")
+    financialAssistanceProvider = ProviderSerializer(many=True, read_only=True, source = "financial_assistance_provider")
+    educationAssistanceProvider = ProviderSerializer(many=True, read_only=True, source = "education_assistance_provider")
+    education_assistance_level = EducationLevelSerializer(read_only=True)
+    immEmmigrationAssistanceProvider = ProviderSerializer(many=True, read_only=True, source = "im_emmigration_assistance_provider")
+    im_emmigration_assistance_status = ImEmmigrationStatusSerializer(read_only=True)
+    communityBasedAssistanceProvider = ProviderSerializer(many=True, read_only=True, source = "other_community_assistance_provider")
+    otherCommunityAssistanceType = CommunityAssistanceTypeSerializer(read_only=True)
+    interviewer = InterviewerSerializer(read_only=True)
+    approval = ApprovalStatusSerializer(read_only=True)
+
+    class Meta:
+        model = Assistance
+        fields = '__all__'
+    
+ 
+ 

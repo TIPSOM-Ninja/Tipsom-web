@@ -952,64 +952,76 @@ class SomProsecution(models.Model):
 
 class SomAssistance(models.Model):
     victim = models.ForeignKey(SomVictimProfile, related_name = "som_assistance", on_delete=models.CASCADE, null=True, blank=True)
-   
+    
+    social_assistance = models.BooleanField(null=True, blank=True)
     social_assistance_provider = models.ManyToManyField(
         Provider,  related_name = "som_social_assistance", null=True, blank=True
     )
-   
+
+    med_rehab = models.BooleanField(null=True, blank=True)
     med_rehab_provider = models.ManyToManyField(
         Provider,  related_name = "som_med_rehab", null=True, blank=True
     )
-   
+
+    housing_allowance = models.BooleanField(null=True, blank=True)
     housing_allowance_provider = models.ManyToManyField(
         Provider,  related_name = "som_housing_allowance", null=True, blank=True
     )
-    
+
+    halfway_house = models.BooleanField(null=True, blank=True)
     halfway_house_providers = models.ManyToManyField(
         Provider,  related_name = "som_halfway_house", null=True, blank=True
     )
-    
+
+    shelter = models.BooleanField(null=True, blank=True)
     shelter_provider = models.ManyToManyField(
         Provider,  related_name = "som_shelter", null=True, blank=True
     )
-   
+
+    vocational_training = models.BooleanField(null=True, blank=True)
     vocational_training_provider = models.ManyToManyField(
         Provider,  related_name = "som_vocational_training", null=True, blank=True
     )
-    
+
+    micro_ent_income = models.BooleanField(null=True, blank=True)
     micro_ent_income_provider = models.ManyToManyField(
         Provider,  related_name = "som_micro_ent_income", null=True, blank=True
     )
     micro_ent_income_project= models.ForeignKey(IncomeProjectType,  related_name = "som_micro_ent_income", on_delete=models.CASCADE, null=True, blank=True) 
     
-    
+    legal_assistance = models.BooleanField(null=True, blank=True)
     legal_assistance_provider = models.ManyToManyField(
         Provider,  related_name = "som_legal_assistance", null=True, blank=True
     )
     
+    medical_assistance = models.BooleanField(null=True, blank=True)
     medical_assistance_provider = models.ManyToManyField(
         Provider,  related_name = "som_medical_assistance", null=True, blank=True
     )
     
+    financial_assistance = models.BooleanField(null=True, blank=True)
     financial_assistance_provider = models.ManyToManyField(
         Provider,  related_name = "som_financial_assistance", null=True, blank=True
     )
     
+    education_assistance = models.BooleanField(null=True, blank=True)
     education_assistance_provider = models.ManyToManyField(
         Provider,  related_name = "som_education_assistance", null=True, blank=True
     )
     education_assistance_level= models.ForeignKey(EducationLevel,  related_name = "som_education_assistance", on_delete=models.CASCADE, null=True, blank=True)
     
-    
+    im_emmigration_assistance = models.BooleanField(null=True, blank=True)
     im_emmigration_assistance_provider = models.ManyToManyField(
         Provider,  related_name = "som_im_emmigration_assistance", null=True, blank=True
     )
     im_emmigration_assistance_status= models.ForeignKey(ImEmmigrationStatus,  related_name = "som_im_emmigration_assistance", on_delete=models.CASCADE, null=True, blank=True)
     
+    other_community_assistance = models.BooleanField(null=True, blank=True)
     other_community_assistance_provider = models.ManyToManyField(
         Provider,  related_name = "som_other_community_assistance", null=True, blank=True
     )
     other_community_assistance_type= models.ForeignKey(CommunityAssistanceType,  related_name = "som_other_community_assistance", on_delete=models.CASCADE, null=True, blank=True)
+    
     interviewer = models.ForeignKey(Interviewer, related_name = "som_assistance", on_delete=models.CASCADE, null=True, blank=True)
     approval = models.ForeignKey(
         ApprovalStatus, related_name = "som_assistance", on_delete=models.CASCADE, null=True, blank=True
