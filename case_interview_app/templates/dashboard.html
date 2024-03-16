@@ -238,8 +238,9 @@
             },
         });
 
-        var ctxRole = document.getElementById('roleInTraffickingChart').getContext('2d');
-        var rolesData = JSON.parse("{{ role_counts|safe }}".replaceAll(/'/g, '"'));
+        var ctxRole = document.getElementById('roleProsecutionChart').getContext('2d');
+        var roldt = "{{ role_counts|safe }}".replaceAll("\'", '\"').replaceAll("None", '\"None\"')
+        var rolesData = JSON.parse(roldt);
         var rolesLabels = rolesData.map(function(e) { return e.role_in_trafficking__name; });
         var rolesCounts = rolesData.map(function(e) { return e.count; });
 
