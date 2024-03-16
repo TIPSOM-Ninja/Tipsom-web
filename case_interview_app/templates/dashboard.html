@@ -36,7 +36,14 @@
             </div>
         </div>
     </div>
-    
+    <div class="card w-100">
+        <div class="card-title border-bottom">
+            <h3>Perpetrator Prosecution and Conviction</h3>
+        </div>
+        <div class="card-body">
+            <canvas id="prosecutionChart"></canvas>
+        </div>
+    </div>
 
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
@@ -149,6 +156,35 @@
                 },
                 responsive: true
             },
+        });
+        var ctxProc = document.getElementById('prosecutionChart').getContext('2d');
+        var prosecutedData = JSON.parse('{{ prosecuted_counts|safe }}'.replace(/'/g, '"'));
+    
+        var prosecutionChart = new Chart(ctxProc, {
+            type: 'bar',
+            data: {
+                labels: ['Prosecuted', 'Convicted'],
+                datasets: [{
+                    label: 'Count',
+                    data: [prosecutedData.total_prosecuted, prosecutedData.total_convicted],
+                    backgroundColor: [
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(153, 102, 255, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
         });
     });
             </script>
