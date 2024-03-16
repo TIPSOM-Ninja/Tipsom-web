@@ -215,16 +215,8 @@
                 datasets: [{
                     label: 'Gender Distribution',
                     data: genderCounts,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        // Add more colors as needed
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        // Add more colors as needed
-                    ],
+                    backgroundColor: backgroundColors.slice(0, genderLabels.length),
+                    borderColor: borderColors.slice(0, genderLabels.length),
                     borderWidth: 1
                 }]
             },
@@ -251,14 +243,8 @@
                 datasets: [{
                     label: 'Roles in Trafficking',
                     data: rolesCounts,
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)',
-                        // Add more colors as needed, considering the number of roles
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        // Add more borders as needed
-                    ],
+                    backgroundColor: backgroundColors.slice(0, rolesLabels.length),
+                    borderColor: borderColors.slice(0, rolesLabels.length),
                     borderWidth: 1
                 }]
             },
