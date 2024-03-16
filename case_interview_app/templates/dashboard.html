@@ -208,8 +208,8 @@
 
         var genderData = JSON.parse("{{ gender_counts|safe }}".replaceAll(/'/g, '"'));
         var genderLabels = genderData.map(function(item) { return item['trafficker__gender__name']; });
-        var genderProsecuted = genderData.map(function(item) { return item.total_prosecuted; });
-        var genderConvicted = genderData.map(function(item) { return item.total_convicted; });
+        var genderLabels = genderData.map(function(e) { return e.gender__name; });
+        var genderCounts = genderData.map(function(e) { return e.count; });
 
         var ctxGender = document.getElementById('genderProsecutionChart').getContext('2d');
         var genderChart = new Chart(ctxGender, {
