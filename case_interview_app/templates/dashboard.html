@@ -158,7 +158,7 @@
             },
         });
         var ctxProc = document.getElementById('prosecutionChart').getContext('2d');
-        var prosecutedData = JSON.parse('{{ prosecuted_counts|safe }}'.replace(/'/g, '"'));
+        var prosecutedData = JSON.parse('{{ prosecuted_counts|safe }}'.replace("\'", '"'));
     
         var prosecutionChart = new Chart(ctxProc, {
             type: 'bar',
@@ -167,14 +167,8 @@
                 datasets: [{
                     label: 'Count',
                     data: [prosecutedData.total_prosecuted, prosecutedData.total_convicted],
-                    backgroundColor: [
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(153, 102, 255, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(153, 102, 255, 1)'
-                    ],
+                    backgroundColor: backgroundColors.slice(0, labels.length),
+                    borderColor: borderColors.slice(0, labels.length),
                     borderWidth: 1
                 }]
             },
