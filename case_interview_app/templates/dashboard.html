@@ -157,7 +157,8 @@
                 responsive: true
             },
         });
-        var protd="{{ prosecuted_counts|safe }}".replace("\'", '\"')
+        var protd="{{ prosecuted_counts|safe }}".replaceAll("\'", '\"')
+        console.log(protd)
         var ctxProc = document.getElementById('prosecutionChart').getContext('2d');
         var prosecutedData = JSON.parse(protd);
     
