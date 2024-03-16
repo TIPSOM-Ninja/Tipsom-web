@@ -1245,10 +1245,6 @@ class SomCaseAPIView(APIView):
         case.approval_id=1
         case.save()
 
-        
-        for rl in request.data['roleInTrafficking']:
-            case.role_in_trafficking.add(RoleInTrafficking.objects.filter(id = rl).first())
-
         return Response({"message": "Suspect created successfully","id":case.id}, status=status.HTTP_201_CREATED)
 
     def put(self, request, pk=None):
@@ -1269,9 +1265,6 @@ class SomCaseAPIView(APIView):
         case.approval_id=1
         case.save()
 
-       
-        for rl in request.data['roleInTrafficking']:
-            case.role_in_trafficking.add(RoleInTrafficking.objects.filter(id = rl).first())
 
         return Response({"message": "Suspect details updated successfully"}, status=status.HTTP_200_OK)
 

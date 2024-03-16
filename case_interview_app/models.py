@@ -572,6 +572,7 @@ class Exploitation(models.Model):
     e_marriage_violence_type = models.ManyToManyField(
         MarriageViolenceType,  related_name = "exploitation", null=True, blank=True
     )
+    e_forced_military = models.BooleanField(null=True,blank=True)
     e_forced_military_type = models.ForeignKey(MilitaryType, related_name="exploitation", on_delete=models.CASCADE,null=True,blank=True)
     e_armed_group_name = models.CharField(max_length=250,null=True,blank=True)
     e_victim_military_activities = models.ManyToManyField(
@@ -715,6 +716,8 @@ class SocioEconomic(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
     updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
+
+
 class Search(models.Model):
     search_text = models.CharField(null = True, blank = True)
     search_description = models.CharField(null = True, blank = True)
@@ -733,7 +736,6 @@ class Search(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True,null = True, blank = True)
     updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
-
 
 class Faq(models.Model):
     question = models.CharField(null = True, blank = True)
@@ -827,9 +829,6 @@ class SomCase(models.Model):
     date_of_arrest = models.DateField(
         auto_now=False,   auto_now_add=False, null=True, blank=True
     )
-    role_in_trafficking = models.ManyToManyField(
-        RoleInTrafficking,  related_name = "cases",  null=True, blank=True
-    )
     traffick_from_country = models.ForeignKey(
         Country,  related_name = "from_cases",  on_delete=models.CASCADE, null=True, blank=True
     )
@@ -870,6 +869,12 @@ class SomSuspectedTrafficker(models.Model):
     last_residence = models.CharField(max_length=50, null=True, blank=True)
     address = models.CharField(max_length=50, null=True, blank=True)
     interviewer = models.ForeignKey(Interviewer, related_name = "som_traffickers", on_delete=models.CASCADE, null=True, blank=True)
+    role_in_trafficking = models.ManyToManyField(
+        RoleInTrafficking,  related_name = "cases",  null=True, blank=True
+    )
+    date_of_arrest = models.DateField(
+        auto_now=False,   auto_now_add=False, null=True, blank=True
+    )
     approval = models.ForeignKey(
         ApprovalStatus, related_name = "som_traffickers", on_delete=models.CASCADE, null=True, blank=True
     )
@@ -1021,7 +1026,7 @@ class SomAssistance(models.Model):
         Provider,  related_name = "som_other_community_assistance", null=True, blank=True
     )
     other_community_assistance_type= models.ForeignKey(CommunityAssistanceType,  related_name = "som_other_community_assistance", on_delete=models.CASCADE, null=True, blank=True)
-    
+
     interviewer = models.ForeignKey(Interviewer, related_name = "som_assistance", on_delete=models.CASCADE, null=True, blank=True)
     approval = models.ForeignKey(
         ApprovalStatus, related_name = "som_assistance", on_delete=models.CASCADE, null=True, blank=True

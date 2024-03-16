@@ -1062,6 +1062,7 @@ def dashboard(request):
         criminal_activity=Count('id', filter=Q(e_criminal_activity=True)),
         child_marriage=Count('id', filter=Q(e_child_marriage=True)),
         child_soldier=Count('id', filter=Q(e_child_soldier=True)),
+        forced_military=Count('id', filter=Q(e_forced_military=True)),
         
         # Add other types of exploitation as needed
     )
@@ -1078,8 +1079,16 @@ def dashboard(request):
         count=Count('citizenship')
     )
 
+    prosecuted_counts = Prosecution.objects.aggregate(
+        total_prosecuted=Count('id'),
+        total_convicted=Count('id', filter=Q(guilty_verdict=True)),
+        # Optionally, add more breakdowns here
+    )
+
+    
     context["exploitation_counts"] = exploitation_counts
     context['gender_counts'] = list(gender_counts)
     context['nationality_counts'] = list(nationality_counts)
+    context['prosecuted_counts'] = prosecuted_counts
 
     return render(request,"dashboard.html",context)
