@@ -1085,15 +1085,14 @@ def dashboard(request):
         # Optionally, add more breakdowns here
     )
 
-    gender_counts = Prosecution.objects.values('trafficker__gender__name').annotate(
-        total_prosecuted=Count('trafficker__id'),
-        total_convicted=Count('trafficker__id', filter=Q(guilty_verdict=True))
-    ).order_by('trafficker__gender')
+    gender_counts = SuspectedTrafficker.objects.values('gender__name').annotate(
+        count=Count('gender')
+    ).order_by('gender')
 
-    role_counts = Prosecution.objects.values('trafficker__role_in_trafficking__name').annotate(
-        total_prosecuted=Count('trafficker__id', distinct=True),
-        total_convicted=Count('trafficker__id', filter=Q(guilty_verdict=True), distinct=True)
-    ).order_by('trafficker__role_in_trafficking')
+    # Aggregate counts of suspects by role in trafficking
+    role_counts = SuspectedTrafficker.objects.values('role_in_trafficking__name').annotate(
+        count=Count('role_in_trafficking')
+    ).order_by('role_in_trafficking')
 
     context['gender_counts'] = list(gender_counts)
     context["exploitation_counts"] = exploitation_counts
