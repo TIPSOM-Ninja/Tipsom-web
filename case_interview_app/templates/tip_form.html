@@ -715,11 +715,15 @@
 <script>
 {% if not request.session.v_id %}
 const languages = document.querySelector('#languages');
-const choices_0 = new Choices(languages,{
-    classNames: {
-        containerInner: 'choices_inner',
-    }
-});
+if(languages!=undefined){
+    const choices_0 = new Choices(languages,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+}
+if(languages!=undefined){
+}
 const idtypes = document.querySelector('#idtypes');
 const choices_1 = new Choices(idtypes,{
     classNames: {
@@ -727,68 +731,91 @@ const choices_1 = new Choices(idtypes,{
     }
 });
 {% endif %}
+
 const e_criminal_activity_type = document.querySelector('#e_criminal_activity_type');
-const choices = new Choices(e_criminal_activity_type,{
-    classNames: {
-        containerInner: 'choices_inner',
-    }
-});
+if(e_criminal_activity_type!=undefined){
+    const choices = new Choices(e_criminal_activity_type,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+}
+
 
 const e_forced_labour_industry = document.querySelector('#e_forced_labour_industry');
-const choices1 = new Choices(e_forced_labour_industry,{
-    classNames: {
-        containerInner: 'choices_inner',
-    }
-});
+if(e_forced_labour_industry!=undefined){
+    
+    const choices1 = new Choices(e_forced_labour_industry,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+}
 
 const e_brice_recipient = document.querySelector('#e_brice_recipient');
-const choices2 = new Choices(e_brice_recipient,{
-    classNames: {
-        containerInner: 'choices_inner',
-    }
-});
+if(e_brice_recipient!=undefined){
+    const choices2 = new Choices(e_brice_recipient,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+}
 
 const e_child_marriage_reason = document.querySelector('#e_child_marriage_reason');
-const choices3 = new Choices(e_child_marriage_reason,{
-    classNames: {
-        containerInner: 'choices_inner',
-    }
-});
+if(e_child_marriage_reason!=undefined){
+    const choices3 = new Choices(e_child_marriage_reason,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+}
 
 const e_marriage_violence_type = document.querySelector('#e_marriage_violence_type');
-const choices4 = new Choices(e_marriage_violence_type,{
-    classNames: {
-        containerInner: 'choices_inner',
-    }
-});
+if(e_marriage_violence_type!=undefined){
+    const choices4 = new Choices(e_marriage_violence_type,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+}
 
 const e_victim_military_activities = document.querySelector('#e_victim_military_activities');
-const choices5 = new Choices(e_victim_military_activities,{
-    classNames: {
-        containerInner: 'choices_inner',
-    }
-});
+if(e_victim_military_activities!=undefined){
+    const choices5 = new Choices(e_victim_military_activities,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+}
+
 
 const e_body_part_removed = document.querySelector('#e_body_part_removed');
-const choices6 = new Choices(e_body_part_removed,{
-    classNames: {
-        containerInner: 'choices_inner',
-    }
-});
+if(e_body_part_removed!=undefined){
+    const choices6 = new Choices(e_body_part_removed,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+}
 
 const e_trafficking_means = document.querySelector('#e_trafficking_means');
-const choices7 = new Choices(e_trafficking_means,{
-    classNames: {
-        containerInner: 'choices_inner',
-    }
-});
+if(languages!=undefined){
+    const choices7 = new Choices(e_trafficking_means,{
+        classNames: {
+            containerInner: 'choices_inner',
+        }
+    });
+}
 
 const means_of_transport = document.querySelector('#means_of_transport');
-const choices8 = new Choices(means_of_transport,{
+if(means_of_transport!=undefined){  
+    const choices8 = new Choices(means_of_transport,{
     classNames: {
         containerInner: 'choices_inner',
     }
 });
+}
+
 
 
 </script>
