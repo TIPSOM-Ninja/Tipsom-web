@@ -1385,15 +1385,15 @@ class SomTransitAPIView(APIView):
             transit =SomTransitRouteDestination.objects.all()
             paginator = Paginator(transit, per_page=12)
             page_object = paginator.get_page(page)
-            serializer = TransitRouteDestinationSerializer(page_object,many = True)
+            serializer = SomTransitRouteDestinationSerializer(page_object,many = True)
         elif(v_id is not None and pk is None):
             transit =SomTransitRouteDestination.objects.filter(victim_id = v_id)
             paginator = Paginator(transit, per_page=12)
             page_object = paginator.get_page(page)
-            serializer = TransitRouteDestinationSerializer(page_object,many = True)
+            serializer = SomTransitRouteDestinationSerializer(page_object,many = True)
         else:
             transit =SomTransitRouteDestination.objects.filter(pk = pk).first()
-            serializer = TransitRouteDestinationSerializer(transit)
+            serializer = SomTransitRouteDestinationSerializer(transit)
         return Response(serializer.data)
 
     def post(self, request):
