@@ -157,8 +157,9 @@
                 responsive: true
             },
         });
+        var protd='{{ prosecuted_counts|safe }}'.replace("\'", '"')
         var ctxProc = document.getElementById('prosecutionChart').getContext('2d');
-        var prosecutedData = JSON.parse('{{ prosecuted_counts|safe }}'.replace("\'", '"'));
+        var prosecutedData = JSON.parse(protd);
     
         var prosecutionChart = new Chart(ctxProc, {
             type: 'bar',
