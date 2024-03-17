@@ -1053,7 +1053,7 @@ class SomAssistanceSerializer(serializers.ModelSerializer):
         model = Assistance
         fields = '__all__'
 
-class VictimProfileSerializer(serializers.ModelSerializer):
+class SomVictimProfileSerializer(serializers.ModelSerializer):
     citizenship = CountrySerializer(read_only=True)
     countryOfBirth = CountrySerializer(read_only=True)
     languages = LanguageSerializer(many=True, read_only=True)
@@ -1068,4 +1068,60 @@ class VictimProfileSerializer(serializers.ModelSerializer):
         model = SomVictimProfile
         fields = '__all__' 
  
- 
+class SomVictimProfileWithRelatedSerializer(serializers.ModelSerializer):
+    citizenship = CountryNameSerializer(read_only=True)
+    countryOfBirth = CountryNameSerializer(read_only=True)
+    languages = LanguageNameSerializer(many=True, read_only=True)
+    gender = GenderNameSerializer(read_only=True)
+    race = RaceNameSerializer(read_only=True)
+    identificationType = IdTypeNameSerializer(many=True, read_only=True, source = "identification_type")
+    lastPlaceOfResidence = CountryNameSerializer(read_only=True, source = "last_place_of_residence")
+    interviewCountry = CountryNameSerializer(read_only=True, source = "interview_country")
+    approval = ApprovalStatusNameSerializer(read_only=True)
+    # assistance_count = serializers.SerializerMethodField()
+    # exploitation_count = serializers.SerializerMethodField()
+    # investigations_count = serializers.SerializerMethodField()
+    # prosecutions_count = serializers.SerializerMethodField()
+    # socio_economic_count = serializers.SerializerMethodField()
+    # traffickers_count = serializers.SerializerMethodField()
+    # destinations_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = SomVictimProfile
+        fields = ["victim_identifier","initials","age","address", 
+                  "citizenship","countryOfBirth","languages","gender",
+                  "race","identificationType","lastPlaceOfResidence","interviewCountry",
+                  "approval","email","interviewDate","additionalRemarks","identificationNumber",
+                  "placeOfBirth","interviewLocation"
+                  ]
+
+        extra_kwargs = {
+            'email': {'source': 'email_address'},
+            'interviewDate': {'source': 'interview_date'},
+            'additionalRemarks': {'source': 'additional_remarks'},
+            'identificationNumber': {'source': 'identification_number'},
+            'placeOfBirth': {'source': 'place_of_birth'},
+            'interviewLocation': {'source': 'interview_location'},
+        }
+    
+    # def get_assistance_count(self, obj):
+    #     return obj.assistance.aggregate(Count('id', distinct=True))['id__count']
+
+    # def get_exploitation_count(self, obj):
+    #     return obj.exploitation.aggregate(Count('id', distinct=True))['id__count']
+
+    # def get_investigations_count(self, obj):
+    #     return obj.investigations.aggregate(Count('id', distinct=True))['id__count']
+
+    # def get_prosecutions_count(self, obj):
+    #     return obj.prosecutions.aggregate(Count('id', distinct=True))['id__count']
+
+    # def get_socio_economic_count(self, obj):
+    #     return obj.socio_economic.aggregate(Count('id', distinct=True))['id__count']
+
+    # def get_traffickers_count(self, obj):
+    #     return obj.traffickers.aggregate(Count('id', distinct=True))['id__count']
+
+    # def get_destinations_count(self, obj):
+    #     return obj.destinations.aggregate(Count('id', distinct=True))['id__count']
+  

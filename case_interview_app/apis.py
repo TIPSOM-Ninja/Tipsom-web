@@ -1745,7 +1745,7 @@ class SomVictimSearchAPIView(APIView):
             filters &= Q(interview_date__range=[date_start, date_end])
         # Execute query
         victims = SomVictimProfile.objects.filter(filters)
-        serializer = VictimProfileSerializer(victims, many=True)
+        serializer = SomVictimProfileSerializer(victims, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
