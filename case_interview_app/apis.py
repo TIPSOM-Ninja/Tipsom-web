@@ -1096,7 +1096,7 @@ class SomVictimAPIView(APIView):
             victim.identification_type.add(IdType.objects.filter(id = idt).first())
 
         
-        interviewer.victims.add(victim)
+        interviewer.som_victims.add(victim)
         return Response({"message": "Victim created successfully","id":victim.id}, status=status.HTTP_201_CREATED)
 
     def put(self, request, pk=None):

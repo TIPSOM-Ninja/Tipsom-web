@@ -380,6 +380,7 @@ class SomVictimProfile(models.Model):
         auto_now=False, auto_now_add=False, null=True, blank=True
     )
     additional_remarks = models.TextField(null=True, blank=True)
+    # is_agg = models.BooleanField(null=True, blank=True)
     
     consent_share_gov_patner = models.BooleanField(null=True, blank=True)
     consent_limited_disclosure = models.BooleanField(null=True, blank=True)
