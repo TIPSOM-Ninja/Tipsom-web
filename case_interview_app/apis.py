@@ -1243,10 +1243,10 @@ class SomCaseAPIView(APIView):
         case.traffick_from_place = request.data['placeFrom']
         case.traffick_to_country_id = request.data['countryTo']
         case.traffick_to_place = request.data['placeTo']
-        case.interviewer_id=interviewer.id
         case.approval_id=1
         case.save()
 
+        interviewer.som_cases.add(case)
         return Response({"message": "Suspect created successfully","id":case.id}, status=status.HTTP_201_CREATED)
 
     def put(self, request, pk=None):
