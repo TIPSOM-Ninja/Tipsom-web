@@ -1124,4 +1124,8 @@ class SomVictimProfileWithRelatedSerializer(serializers.ModelSerializer):
 
     # def get_destinations_count(self, obj):
     #     return obj.destinations.aggregate(Count('id', distinct=True))['id__count']
-  
+
+class SomCaseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SomCase
+        fields = '__all__' 

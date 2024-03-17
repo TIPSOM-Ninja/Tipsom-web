@@ -1061,6 +1061,7 @@ class SomVictimAPIView(APIView):
         victim = SomVictimProfile()
         victim.citizenship_id = decrypt_data(request.data['citizenship'])
         victim.countryOfBirth_id = decrypt_data(request.data['countryOfBirth'])
+        victim.case_id = request.data['case_id']
         victim.gender_id = request.data['gender']
         victim.race_id = decrypt_data(request.data['race'])
         victim.place_of_birth = decrypt_data(request.data['placeOfBirth'])
@@ -1213,29 +1214,30 @@ class SomProsecutionAPIView(APIView):
 
 class SomCaseAPIView(APIView):
     def get(self, request, v_id=None, pk=None ):
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+
         if request.GET.get('page') is not None:
             page = request.GET.get('page')
         else:
             page = 1
         if(v_id is None):
-            suspect =SomCase.objects.all()
+            suspect =SomCase.objects.filter(interviewer__id = interviewer.id)
             paginator = Paginator(suspect, per_page=12)
             page_object = paginator.get_page(page)
-            serializer = SuspectedTraffickerSerializer(page_object, many = True)
+            serializer = SomCaseSerializer(page_object, many = True)
 
         elif(v_id is not None and pk is None):
-            suspect =SomCase.objects.filter(victim_id = v_id)
-            serializer = SuspectedTraffickerSerializer(suspect, many = True)
+            suspect =SomCase.objects.filter(som_victim__id = v_id)
+            serializer = SomCaseSerializer(suspect, many = True)
         elif pk is not None:
-            suspect =SomCase.objects.filter(victim_id = v_id).first()
-            serializer = SuspectedTraffickerSerializer(suspect)
+            suspect =SomCase.objects.filter(pk = pk).first()
+            serializer = SomCaseSerializer(suspect)
         return Response(serializer.data)
     
     def post(self,request):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         
         case = SomCase()
-        case.victim_id = request.data['v_id']
         case.date_of_arrest = request.data['dateOfArrest']
         case.traffick_from_country_id = request.data['countryFrom']
         case.traffick_from_place = request.data['placeFrom']

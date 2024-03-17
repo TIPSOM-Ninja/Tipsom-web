@@ -349,6 +349,26 @@ class VictimProfile(models.Model):
     def __str__(self):
         return f"{self.victim_identifier}"
 
+class SomCase(models.Model):
+    date_of_arrest = models.DateField(
+        auto_now=False,   auto_now_add=False, null=True, blank=True
+    )
+    traffick_from_country = models.ForeignKey(
+        Country,  related_name = "from_cases",  on_delete=models.CASCADE, null=True, blank=True
+    )
+    traffick_from_place = models.CharField(max_length=50, null=True, blank=True)
+    traffick_to_country = models.ForeignKey(
+        Country, related_name = "to_cases", on_delete=models.CASCADE, null=True, blank=True
+    )
+    traffick_to_place = models.CharField(null=True, blank=True, max_length=50)
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "cases", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
+
 class SomVictimProfile(models.Model):
     victim_identifier = models.CharField(null=True,blank=True)
     citizenship = models.ForeignKey(
@@ -381,7 +401,9 @@ class SomVictimProfile(models.Model):
     )
     additional_remarks = models.TextField(null=True, blank=True)
     # is_agg = models.BooleanField(null=True, blank=True)
-    
+    case = models.ForeignKey(
+        SomCase, related_name = "som_victimprofile", on_delete=models.CASCADE, null=True, blank=True
+    )
     consent_share_gov_patner = models.BooleanField(null=True, blank=True)
     consent_limited_disclosure = models.BooleanField(null=True, blank=True)
     consent_research = models.BooleanField(null=True, blank=True)
@@ -415,7 +437,7 @@ class Interviewer(models.Model):
     )
     approval_comments = models.TextField( null=True, blank=True)
     victims = models.ManyToManyField(VictimProfile, null=True, blank=True)
-    som_victims = models.ManyToManyField(SomVictimProfile, null=True, blank=True)
+    som_cases = models.ManyToManyField(SomCase, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
     updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
@@ -826,26 +848,6 @@ class SomTransitRouteDestination(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
     updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
-class SomCase(models.Model):
-    victim = models.ForeignKey(SomVictimProfile,  related_name = "cases",  on_delete=models.CASCADE, null=True, blank=True)
-    date_of_arrest = models.DateField(
-        auto_now=False,   auto_now_add=False, null=True, blank=True
-    )
-    traffick_from_country = models.ForeignKey(
-        Country,  related_name = "from_cases",  on_delete=models.CASCADE, null=True, blank=True
-    )
-    traffick_from_place = models.CharField(max_length=50, null=True, blank=True)
-    traffick_to_country = models.ForeignKey(
-        Country, related_name = "to_cases", on_delete=models.CASCADE, null=True, blank=True
-    )
-    traffick_to_place = models.CharField(null=True, blank=True, max_length=50)
-    interviewer = models.ForeignKey(Interviewer, related_name = "cases", on_delete=models.CASCADE, null=True, blank=True)
-    approval = models.ForeignKey(
-        ApprovalStatus, related_name = "cases", on_delete=models.CASCADE, null=True, blank=True
-    )
-    approval_comments = models.TextField( null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
-    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
 
 class SomSuspectedTrafficker(models.Model):
