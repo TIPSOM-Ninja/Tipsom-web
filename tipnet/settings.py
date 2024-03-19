@@ -32,7 +32,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost","api.sadic-tipsom-test.net",env('DJANGO_HOST')]
+ALLOWED_HOSTS = ["localhost","api.sadic-tipsom-test.net","sadc.sadic-tipsom-test.net",env('DJANGO_HOST')]
 
 
 # Application definition
