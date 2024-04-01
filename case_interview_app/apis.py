@@ -459,7 +459,7 @@ class TipExploitationAPIView(APIView):
 
     def put(self, request, v_id=None, pk=None):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
-        exploitation = Exploitation.objects.filter(victim_id=v_id, pk=pk).first()
+        exploitation = Exploitation.objects.filter( pk=pk).first()
         if not exploitation:
             return Response({"error": "Exploitation record not found"}, status=status.HTTP_404_NOT_FOUND)
 
