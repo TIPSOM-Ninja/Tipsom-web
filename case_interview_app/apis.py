@@ -467,7 +467,7 @@ class TipExploitationAPIView(APIView):
         exploitation.subject_to_exploitation = request.data.get('subjectToExploitation', exploitation.subject_to_exploitation)
         exploitation.intent_to_exploit = request.data.get('intentToExploit', exploitation.intent_to_exploit)
         exploitation.exploitation_length = request.data.get('exploitationLength', exploitation.exploitation_length)
-        exploitation.exploitation_age_id = int(request.data['exploitationAge']) if request.data.get('exploitationAge').isdigit() else None
+        exploitation.exploitation_age_id = int(request.data['exploitationAge']) if request.data.get('exploitationAge') is not None and request.data.get('exploitationAge').isdigit() else None
         exploitation.pay_debt = request.data['paidDebt']
         exploitation.debt_amount = request.data['debtAmount']
         exploitation.freed_method_id = int(request.data['freedMethod']) if request.data['freedMethod'].isdigit() else None
