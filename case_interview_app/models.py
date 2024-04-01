@@ -301,7 +301,20 @@ class Tag(models.Model):
 
     def __str__(self):
         return f"{self.name}"
-     
+
+class VictimQuestions(models.Model):
+    choices = [
+        ("gender","Gender"),
+        ("age","Age"),
+        ("race","Race"),
+        ("language","Language")
+    ]
+    name = models.CharField(max_length=50)
+    category = models.CharField(max_length=50, choices = choices)
+    ordering = models.IntegerField(null=True,blank=True)
+
+    def __str__(self):
+        return f"{self.name}"  
 class VictimProfile(models.Model):
     victim_identifier = models.CharField(null=True,blank=True)
     citizenship = models.ForeignKey(
@@ -418,6 +431,46 @@ class SomVictimProfile(models.Model):
 
     def __str__(self):
         return f"{self.victim_identifier}"
+
+class SomMultiVictimProfile(models.Model):
+    victim_identifier = models.CharField(null=True,blank=True)
+    victim_count = models.IntegerField(null= True, blank = True)
+    countries_of_origin = models.ManyToManyField(Country, related_name = "som_multi_victim_origin_country", null=True, blank=True)
+    interview_country = models.ForeignKey(
+        Country, related_name = "som_multi_victim_interview_country", on_delete=models.CASCADE, null=True, blank=True
+    )
+    interview_location = models.CharField(max_length=50, null=True, blank=True)
+    interview_date = models.DateField(
+        auto_now=False, auto_now_add=False, null=True, blank=True
+    )
+    additional_remarks = models.TextField(null=True, blank=True)
+    # is_agg = models.BooleanField(null=True, blank=True)
+    case = models.ForeignKey(
+        SomCase, related_name = "som_multi_victimprofile", on_delete=models.CASCADE, null=True, blank=True
+    )
+    consent_share_gov_patner = models.BooleanField(null=True, blank=True)
+    consent_limited_disclosure = models.BooleanField(null=True, blank=True)
+    consent_research = models.BooleanField(null=True, blank=True)
+    consent_abstain_answer = models.BooleanField(null=True, blank=True)
+
+    approval = models.ForeignKey(
+        ApprovalStatus, related_name = "som_multi_victimprofile", on_delete=models.CASCADE, null=True, blank=True
+    )
+    approval_comments = models.TextField( null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
+    updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
+
+    def __str__(self):
+        return f"{self.victim_identifier}"
+    
+class SomVictimAnswers(models.Model):
+    victim = models.ForeignKey(
+        SomMultiVictimProfile, related_name = "som_victim_answer", on_delete=models.CASCADE, null=True, blank=True
+    )
+    question = models.ForeignKey(
+        VictimQuestions, related_name = "som_victim_answer", on_delete=models.CASCADE, null=True, blank=True
+    )
+    answer = models.IntegerField(null = True, blank = True)
 
 class Interviewer(models.Model):
     country = models.ForeignKey(
