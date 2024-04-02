@@ -373,6 +373,7 @@ class TipExploitationAPIView(APIView):
         elif(v_id is not None and pk is None):
             exploitation =Exploitation.objects.filter(victim_id = v_id)
             serializer = ExploitationSerializer(exploitation, many = True)
+            
         elif pk is not None:
             exploitation =Exploitation.objects.filter(victim_id = v_id).first()
             serializer = ExploitationSerializer(exploitation)
