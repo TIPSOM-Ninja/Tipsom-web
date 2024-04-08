@@ -153,21 +153,21 @@ class TipVictimAPIView(APIView):
             return Response({"error": "Victim not found"}, status=status.HTTP_404_NOT_FOUND)
 
         interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
-        victim.citizenship_id = decrypt_data(request.get('citizenship',victim.citizenship_id))
-        victim.countryOfBirth_id = decrypt_data(request.get('countryOfBirth',victim.countryOfBirth_id))
-        victim.gender_id = request.get('gender',victim.gender_id)
-        victim.race_id = decrypt_data(request.get('race',victim.race_id))
-        victim.place_of_birth = decrypt_data(request.get('placeOfBirth',victim.place_of_birth))
-        victim.last_place_of_residence_id = decrypt_data(request.get('lastPlaceOfResidence',victim.last_place_of_residence_id))
-        victim.identification_number = decrypt_data(request.get('idNumber',victim.identification_number))
-        victim.initials = decrypt_data(request.get('initials',victim.initials))
-        victim.age = decrypt_data(request.get('age',victim.age))
-        victim.address = decrypt_data(request.get('address',victim.address))
-        victim.email_address = decrypt_data(request.get('email',victim.email_address))
-        victim.interview_country_id = decrypt_data(request.get('interviewCountry',victim.interview_country_id))
-        victim.interview_location = decrypt_data(request.get('interviewerLocation',victim.interview_location))
-        victim.interview_date = decrypt_data(request.get('interviewDate',victim.interview_date))
-        victim.additional_remarks = decrypt_data(request.get('additionalRemarks',victim.additional_remarks))
+        victim.citizenship_id = decrypt_data(request.data.get('citizenship',victim.citizenship_id))
+        victim.countryOfBirth_id = decrypt_data(request.data.get('countryOfBirth',victim.countryOfBirth_id))
+        victim.gender_id = request.get('gender',victim.data.gender_id)
+        victim.race_id = decrypt_data(request.data.get('race',victim.race_id))
+        victim.place_of_birth = decrypt_data(request.data.get('placeOfBirth',victim.place_of_birth))
+        victim.last_place_of_residence_id = decrypt_data(request.data.get('lastPlaceOfResidence',victim.last_place_of_residence_id))
+        victim.identification_number = decrypt_data(request.data.get('idNumber',victim.identification_number))
+        victim.initials = decrypt_data(request.data.get('initials',victim.initials))
+        victim.age = decrypt_data(request.data.get('age',victim.age))
+        victim.address = decrypt_data(request.data.get('address',victim.address))
+        victim.email_address = decrypt_data(request.data.get('email',victim.email_address))
+        victim.interview_country_id = decrypt_data(request.data.get('interviewCountry',victim.interview_country_id))
+        victim.interview_location = decrypt_data(request.data.get('interviewerLocation',victim.interview_location))
+        victim.interview_date = decrypt_data(request.data.get('interviewDate',victim.interview_date))
+        victim.additional_remarks = decrypt_data(request.data.get('additionalRemarks',victim.additional_remarks))
         victim.approval_id = 1
         victim.consent_share_gov_patner = 1
         victim.consent_limited_disclosure = 1
@@ -183,11 +183,11 @@ class TipVictimAPIView(APIView):
         if interviewer.data_entry_purpose_id == 4:
             victim.victim_identifier = victim.citizenship.two_code+"-AS-"+str(victim.id)
         victim.save()
-        for lang in request.data['languages']:
-            victim.languages.add(Language.objects.filter(id= lang).first())
+        if request.data.get('languages'):
+            victim.languages.set(request.data.get('languages'))
         
-        for idt in request.data['idType']:
-            victim.identification_type.add(IdType.objects.filter(id = idt).first())
+        if request.data.get('idType'):
+            victim.identification_type.set(request.data.get('idType'))
 
         
         interviewer.victims.add(victim)
