@@ -155,7 +155,7 @@ class TipVictimAPIView(APIView):
         interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
         victim.citizenship_id = decrypt_data(request.data.get('citizenship')) if request.data.get('citizenship') else victim.citizenship_id
         victim.countryOfBirth_id = decrypt_data(request.data.get('countryOfBirth')) if request.data.get('countryOfBirth') else victim.countryOfBirth_id
-        victim.gender_id = request.data.get('gender',victim.gender_id)
+        victim.gender_id = decrypt_data(request.data.get('gender')) if request.data.get('gender') else victim.gender_id
         victim.race_id = decrypt_data(request.data.get('race')) if request.data.get('race') else victim.race_id
         victim.place_of_birth = decrypt_data(request.data.get('placeOfBirth')) if request.data.get('placeOfBirth') else victim.place_of_birth
         victim.last_place_of_residence_id = decrypt_data(request.data.get('lastPlaceOfResidence')) if request.data.get('lastPlaceOfResidence') else victim.last_place_of_residence_id
