@@ -927,7 +927,7 @@ class VictimProfileWithRelatedSerializer(serializers.ModelSerializer):
                   "citizenship","countryOfBirth","languages","gender",
                   "race","identificationType","lastPlaceOfResidence","interviewCountry",
                   "approval","email","interviewDate","additionalRemarks","idNumber",
-                  "placeOfBirth","interviewLocation"
+                  "placeOfBirth","interviewerLocation"
                   ]
 
         extra_kwargs = {
@@ -936,7 +936,7 @@ class VictimProfileWithRelatedSerializer(serializers.ModelSerializer):
             'additionalRemarks': {'source': 'additional_remarks'},
             'idNumber': {'source': 'identification_number'},
             'placeOfBirth': {'source': 'place_of_birth'},
-            'interviewLocation': {'source': 'interview_location'},
+            'interviewerLocation': {'source': 'interview_location'},
         }
     
     # def get_assistance_count(self, obj):
