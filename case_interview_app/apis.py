@@ -189,8 +189,8 @@ class TipVictimAPIView(APIView):
         if request.data.get('idType'):
             victim.identification_type.set(request.data.get('idType'))
 
-        
-        interviewer.victims.add(victim)
+        return Response({"message": "Victim updated successfully","id":victim.id}, status=status.HTTP_201_CREATED)
+
 
 class TipProsecutionAPIView(APIView):
     def get(self, request, v_id = None,pk=None):
