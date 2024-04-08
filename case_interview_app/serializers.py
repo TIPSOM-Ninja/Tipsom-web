@@ -926,7 +926,7 @@ class VictimProfileWithRelatedSerializer(serializers.ModelSerializer):
         fields = ["victim_identifier","initials","age","address", 
                   "citizenship","countryOfBirth","languages","gender",
                   "race","identificationType","lastPlaceOfResidence","interviewCountry",
-                  "approval","email","interviewDate","additionalRemarks","identificationNumber",
+                  "approval","email","interviewDate","additionalRemarks","idNumber",
                   "placeOfBirth","interviewLocation"
                   ]
 
@@ -934,7 +934,7 @@ class VictimProfileWithRelatedSerializer(serializers.ModelSerializer):
             'email': {'source': 'email_address'},
             'interviewDate': {'source': 'interview_date'},
             'additionalRemarks': {'source': 'additional_remarks'},
-            'identificationNumber': {'source': 'identification_number'},
+            'idNumber': {'source': 'identification_number'},
             'placeOfBirth': {'source': 'place_of_birth'},
             'interviewLocation': {'source': 'interview_location'},
         }
