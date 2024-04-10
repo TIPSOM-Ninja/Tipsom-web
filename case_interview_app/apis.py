@@ -581,7 +581,7 @@ class TipTransitAPIView(APIView):
         transit.save()
 
         if request.data.get('meansOfTransportation') is not None:
-            transit.transport_means.set(request.data.getlist('meansOfTransportation'))
+            transit.transport_means.set(request.data.get('meansOfTransportation'))
 
         return Response({"message": "Transit record updated successfully"}, status=status.HTTP_200_OK)
 
