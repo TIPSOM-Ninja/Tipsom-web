@@ -565,7 +565,7 @@ class TipTransitAPIView(APIView):
 
     def put(self, request, v_id=None, pk=None):
         interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
-        transit = TransitRouteDestination.objects.filter(victim_id=v_id, pk=pk).first()
+        transit = TransitRouteDestination.objects.filter( pk=pk).first()
         if not transit:
             return Response({"error": "Transit record not found"}, status=status.HTTP_404_NOT_FOUND)
 
