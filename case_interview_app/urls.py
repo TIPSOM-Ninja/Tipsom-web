@@ -103,8 +103,7 @@ urlpatterns = [
     path('api/som/prosecutions/<int:pk>/', apis.SomProsecutionAPIView.as_view(), name='som-prosecution-detail-api'),
 
     path('api/som/cases/', apis.SomCaseAPIView.as_view(), name='som-case-api'),
-    path('api/som/cases/<int:v_id>/', apis.SomCaseAPIView.as_view(), name='som-victim-case-api'),
-    path('api/som/cases/<int:v_id>/<int:pk>/', apis.SomCaseAPIView.as_view(), name='som-case-detail-api'),
+    path('api/som/cases/<int:pk>/', apis.SomCaseAPIView.as_view(), name='som-victim-case-api'),
 
     path('api/som/suspects/', apis.SomSuspectAPIView.as_view(), name='som-suspect-api'),
     path('api/som/suspects/<int:v_id>/', apis.SomSuspectAPIView.as_view(), name='som-victim-suspect-api'),

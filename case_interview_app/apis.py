@@ -1189,22 +1189,19 @@ class SomProsecutionAPIView(APIView):
         return Response({"message": "Prosecution details updated successfully"}, status=status.HTTP_200_OK)
 
 class SomCaseAPIView(APIView):
-    def get(self, request, v_id=None, pk=None ):
+    def get(self, request, pk=None ):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
 
         if request.GET.get('page') is not None:
             page = request.GET.get('page')
         else:
             page = 1
-        if(v_id is None):
+        if(pk is None):
             suspect =SomCase.objects.filter(interviewer__id = interviewer.id)
             paginator = Paginator(suspect, per_page=12)
             page_object = paginator.get_page(page)
             serializer = SomCaseSerializer(page_object, many = True)
 
-        elif(v_id is not None and pk is None):
-            suspect =SomCase.objects.filter(som_victim__id = v_id)
-            serializer = SomCaseSerializer(suspect, many = True)
         elif pk is not None:
             suspect =SomCase.objects.filter(pk = pk).first()
             serializer = SomCaseSerializer(suspect)
