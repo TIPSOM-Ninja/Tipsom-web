@@ -1360,18 +1360,18 @@ class SomSuspectAPIView(APIView):
         return Response({"message": "Suspect details updated successfully"}, status=status.HTTP_200_OK)
 
 class SomTransitAPIView(APIView):
-    def get(self, request, v_id=None, pk=None ):
+    def get(self, request, c_id=None, pk=None ):
         if request.GET.get('page') is not None:
             page = request.GET.get('page')
         else:
             page = 1
-        if(v_id is None and pk is None):
+        if(c_id is None and pk is None):
             transit =SomTransitRouteDestination.objects.all()
             paginator = Paginator(transit, per_page=12)
             page_object = paginator.get_page(page)
             serializer = SomTransitRouteDestinationSerializer(page_object,many = True)
-        elif(v_id is not None and pk is None):
-            transit =SomTransitRouteDestination.objects.filter(victim_id = v_id)
+        elif(c_id is not None and pk is None):
+            transit =SomTransitRouteDestination.objects.filter(victim_id = c_id)
             paginator = Paginator(transit, per_page=12)
             page_object = paginator.get_page(page)
             serializer = SomTransitRouteDestinationSerializer(page_object,many = True)
@@ -1383,7 +1383,7 @@ class SomTransitAPIView(APIView):
     def post(self, request):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         transit = SomTransitRouteDestination()
-        transit.victim_id = request.data['v_id']
+        transit.case_id = request.data['case_id']
         transit.country_of_origin_id = int(request.data['countryOfOrigin']) if request.data['countryOfOrigin'].isdigit() else None
         transit.country_of_dest_id = int(request.data['countryOfDestination']) if request.data['countryOfDestination'].isdigit() else None
         transit.country_of_interception_id = int(request.data['countryOfInterception']) if request.data['countryOfInterception'].isdigit() else None
