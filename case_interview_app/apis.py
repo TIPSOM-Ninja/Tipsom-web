@@ -174,20 +174,12 @@ class TipVictimAPIView(APIView):
         victim.consent_research = 1
         victim.consent_abstain_answer = 1
         victim.save()
-        if interviewer.data_entry_purpose_id == 1:
-            victim.victim_identifier = victim.citizenship.two_code+"-TP-"+str(victim.id)
-        if interviewer.data_entry_purpose_id == 2:
-            victim.victim_identifier = victim.citizenship.two_code+"-IV-"+str(victim.id)
-        if interviewer.data_entry_purpose_id == 3:
-            victim.victim_identifier = victim.citizenship.two_code+"-PR-"+str(victim.id)
-        if interviewer.data_entry_purpose_id == 4:
-            victim.victim_identifier = victim.citizenship.two_code+"-AS-"+str(victim.id)
-        victim.save()
+
         if request.data.get('languages'):
-            victim.languages.set(request.data.get('languages'))
+            victim.languages.set(request.data.getlist('languages'))
         
         if request.data.get('idType'):
-            victim.identification_type.set(request.data.get('idType'))
+            victim.identification_type.set(request.data.getlist('idType'))
 
         return Response({"message": "Victim updated successfully","id":victim.id}, status=status.HTTP_201_CREATED)
 
@@ -324,37 +316,37 @@ class TipSuspectAPIView(APIView):
             return Response({"error": "Suspect not found"}, status=status.HTTP_404_NOT_FOUND)
 
         today = date.today()
-        born = datetime.strptime(request.data['dob'], '%Y-%m-%d')
+        born = datetime.strptime(request.data.get('dob',suspect.dob), '%Y-%m-%d')
         age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
         # Update suspect object with the provided data
         suspect.first_name = request.data.get('firstName', suspect.first_name)
         suspect.last_name = request.data.get('surName', suspect.last_name)
         suspect.dob = request.data.get('dob', suspect.dob)
-        suspect.gender_id = request.data['gender']
-        suspect.race_id = int(request.data['race']) if request.data['race'].isdigit() else None
+        suspect.gender_id = request.data.get('gender',suspect.gender_id)
+        suspect.race_id = int(request.data.get('race')) if request.data.get('race') else suspect.race_id
         suspect.age = age
-        suspect.country_of_birth_id = int(request.data['countryOfBirth']) if request.data['countryOfBirth'].isdigit() else None 
-        suspect.citizenship_id = int(request.data['citizenship']) if request.data['citizenship'].isdigit() else None
-        suspect.nationality_id = int(request.data['nationality']) if request.data['nationality'].isdigit() else None
-        suspect.id_number = request.data['idNumber']
-        suspect.last_residence = request.data['lastPlaceOfResidence']
-        suspect.address = request.data['address']
-        suspect.date_of_arrest = request.data['dateOfArrest']
-        suspect.traffick_from_country_id = request.data['countryFrom']
-        suspect.traffick_from_place = request.data['placeFrom']
-        suspect.traffick_to_country_id = request.data['countryTo']
-        suspect.traffick_to_place = request.data['placeTo']
+        suspect.country_of_birth_id = int(request.data.get('countryOfBirth')) if request.data.get('countryOfBirth') and request.data.get('countryOfBirth').isdigit() else suspect.country_of_birth_id 
+        suspect.citizenship_id = int(request.data.get('citizenship')) if request.data.get('citizenship') and request.data.get('citizenship').isdigit() else suspect.citizenship_id
+        suspect.nationality_id = int(request.data.get('nationality')) if request.data.get('nationality') and request.data.get('nationality').isdigit() else suspect.nationality_id
+        suspect.id_number = request.data.get('idNumber',suspect.id_number)
+        suspect.last_residence = request.data.get('lastPlaceOfResidence',suspect.last_residence)
+        suspect.address = request.data.get('address',suspect.address)
+        suspect.date_of_arrest = request.data.get('dateOfArrest',suspect.date_of_arrest)
+        suspect.traffick_from_country_id = request.data.get('countryFrom',suspect.traffick_from_country_id)
+        suspect.traffick_from_place = request.data.get('placeFrom',suspect.traffick_from_place)
+        suspect.traffick_to_country_id = request.data.get('countryTo',suspect.traffick_to_country_id)
+        suspect.traffick_to_place = request.data.get('placeTo',suspect.traffick_to_place)
         suspect.interviewer_id=interviewer.id
         suspect.approval_id=1
-        suspect.id_type_id = request.data['idType']
+        suspect.id_type_id = request.data.get('idType',suspect.id_type_id)
         suspect.save()
 
-        for lang in request.data['languages']:
-            suspect.languages.add(Language.objects.filter(id= lang).first())
+        if request.data.get('languages'):
+            suspect.languages.set(request.data.getlist('languages'))
 
         
-        for rl in request.data['roleInTrafficking']:
-            suspect.role_in_trafficking.add(RoleInTrafficking.objects.filter(id = rl).first())
+        if request.data.get('roleInTrafficking'):
+            suspect.role_in_trafficking.set(request.data.getlist('roleInTrafficking'))
 
         return Response({"message": "Suspect details updated successfully"}, status=status.HTTP_200_OK)
 
@@ -468,10 +460,10 @@ class TipExploitationAPIView(APIView):
         exploitation.subject_to_exploitation = request.data.get('subjectToExploitation', exploitation.subject_to_exploitation)
         exploitation.intent_to_exploit = request.data.get('intentToExploit', exploitation.intent_to_exploit)
         exploitation.exploitation_length = request.data.get('exploitationLength', exploitation.exploitation_length)
-        exploitation.exploitation_age_id = int(request.data['exploitationAge']) if request.data.get('exploitationAge') is not None and request.data.get('exploitationAge').isdigit() else None
+        exploitation.exploitation_age_id = int(request.data.get('exploitationAge')) if request.data.get('exploitationAge') is not None and request.data.get('exploitationAge').isdigit() else exploitation.exploitation_age_id
         exploitation.pay_debt = request.data.get('paidDebt',exploitation.pay_debt)
         exploitation.debt_amount = request.data.get('debtAmount',exploitation.debt_amount)
-        exploitation.freed_method_id = int(request.data.get('freedMethod',exploitation.freed_method_id)) if request.data.get('freedMethod') is not None else None
+        exploitation.freed_method_id = int(request.data.get('freedMethod',exploitation.freed_method_id)) if request.data.get('freedMethod') is not None else exploitation.freed_method_id
         exploitation.event_description = request.data.get('eventDescription',exploitation.event_description)
         exploitation.e_prostitution = request.data.get('eProstitution',exploitation.e_prostitution)
         exploitation.e_other_sexual = request.data.get('eOtherSexual',exploitation.e_other_sexual)
@@ -481,53 +473,53 @@ class TipExploitationAPIView(APIView):
         exploitation.e_forced_labour = request.data.get('eForcedLabour',exploitation.e_criminal_activity)
         exploitation.e_forced_marriage = request.data.get('eForcedMarriage',exploitation.e_forced_marriage)
         exploitation.e_victim_knew_spouse = request.data.get('eVictimKnewSpouse',exploitation.e_victim_knew_spouse)
-        exploitation.e_spouse_nationality_id = int(request.data.get('eSpouseNationality',exploitation.e_spouse_nationality_id)) if request.data.get('eSpouseNationality') is not None and request.data['eSpouseNationality'].isdigit() else None
-        exploitation.e_bprice_paid_id = int(request.data.get('eBPricePaid',exploitation.e_bprice_paid_id)) if request.data.get('eBPricePaid') is not None and request.data['eBPricePaid'].isdigit() else None
+        exploitation.e_spouse_nationality_id = int(request.data.get('eSpouseNationality',exploitation.e_spouse_nationality_id)) if request.data.get('eSpouseNationality') is not None and request.data['eSpouseNationality'].isdigit() else exploitation.e_spouse_nationality_id
+        exploitation.e_bprice_paid_id = int(request.data.get('eBPricePaid',exploitation.e_bprice_paid_id)) if request.data.get('eBPricePaid') is not None and request.data['eBPricePaid'].isdigit() else exploitation.e_bprice_paid_id
         exploitation.e_bprice_amount_kind = request.data.get('eBPriceAmountKind',exploitation.e_bprice_amount_kind)
         exploitation.e_child_marriage = request.data.get('eChildMarriage',exploitation.e_child_marriage)
         exploitation.e_victim_pregnancy = request.data.get('eVictimPregnancy',exploitation.e_victim_pregnancy)
-        exploitation.e_children_from_marriage = int(request.data.get('eChildFromMarriage',exploitation.e_children_from_marriage)) if  request.data.get('eChildFromMarriage') is not None and request.data['eChildFromMarriage'].isdigit() else 0
+        exploitation.e_children_from_marriage = int(request.data.get('eChildFromMarriage',exploitation.e_children_from_marriage)) if  request.data.get('eChildFromMarriage') is not None and request.data['eChildFromMarriage'].isdigit() else exploitation.e_children_from_marriage
         exploitation.e_maternal_health_issues = request.data.get('eMaternalHealthIssues',exploitation.e_maternal_health_issues)
         exploitation.e_m_health_issues_description = request.data.get('eMHealthIssuesDescription',exploitation.e_m_health_issues_description)
-        exploitation.e_marriage_violence_id = int(request.data.get('eMarriageViolence',exploitation.e_marriage_violence_id)) if request.data.get('eMarriageViolence') is not None and request.data['eMarriageViolence'].isdigit() else None
-        exploitation.e_forced_military_type_id = int(request.data.get('eForcedMilitaryType',exploitation.e_forced_military_type_id)) if request.data.get('eForcedMilitaryType') is not None and request.data['eForcedMilitaryType'].isdigit() else None
+        exploitation.e_marriage_violence_id = int(request.data.get('eMarriageViolence',exploitation.e_marriage_violence_id)) if request.data.get('eMarriageViolence') is not None and request.data['eMarriageViolence'].isdigit() else exploitation.e_marriage_violence_id
+        exploitation.e_forced_military_type_id = int(request.data.get('eForcedMilitaryType',exploitation.e_forced_military_type_id)) if request.data.get('eForcedMilitaryType') is not None and request.data['eForcedMilitaryType'].isdigit() else exploitation.e_forced_military_type_id
         exploitation.e_armed_group_name = request.data.get('eArmedGroupName',exploitation.e_armed_group_name)
         exploitation.e_child_soldier = request.data.get('eChildSoldier',exploitation.e_child_soldier)
-        exploitation.e_child_soldier_age = int(request.data.get('eChildSoldierAge',exploitation.e_child_soldier_age))  if request.data.get('eChildSoldierAge') is not None and request.data['eChildSoldierAge'].isdigit() else 0
+        exploitation.e_child_soldier_age = int(request.data.get('eChildSoldierAge',exploitation.e_child_soldier_age))  if request.data.get('eChildSoldierAge') is not None and request.data['eChildSoldierAge'].isdigit() else exploitation.e_child_soldier_age
         exploitation.e_organ_removed = request.data.get('eOrganRemoved',exploitation.e_organ_removed)
-        exploitation.e_operation_location_id = int(request.data.get('eOperationLocation',exploitation.e_operation_location_id)) if request.data.get('eOperationLocation') is not None and request.data['eOperationLocation'].isdigit() else None
-        exploitation.e_operation_country_id = int(request.data.get('eOperationCountry',exploitation.e_operation_country_id)) if request.data.get('eOperationCountry') is not None and request.data['eOperationCountry'].isdigit() else None
+        exploitation.e_operation_location_id = int(request.data.get('eOperationLocation',exploitation.e_operation_location_id)) if request.data.get('eOperationLocation') is not None and request.data['eOperationLocation'].isdigit() else exploitation.e_operation_location_id
+        exploitation.e_operation_country_id = int(request.data.get('eOperationCountry',exploitation.e_operation_country_id)) if request.data.get('eOperationCountry') is not None and request.data['eOperationCountry'].isdigit() else exploitation.e_operation_country_id
         exploitation.e_organ_sale_price = request.data.get('eOrganSalePrice',exploitation.e_organ_sale_price)
-        exploitation.e_organ_paid_to_id = int(request.data.get('eOrganPaidTo',exploitation.e_organ_paid_to_id)) if request.data.get('eOrganPaidTo') is not None and request.data['eOrganPaidTo'].isdigit() else None
+        exploitation.e_organ_paid_to_id = int(request.data.get('eOrganPaidTo',exploitation.e_organ_paid_to_id)) if request.data.get('eOrganPaidTo') is not None and request.data['eOrganPaidTo'].isdigit() else exploitation.e_organ_paid_to_id
         exploitation.e_remarks = request.data.get('eRemarks',exploitation.e_remarks)
-        exploitation.e_recruitment_type_id = int(request.data.get('eRecruitmentType',exploitation.e_recruitment_type_id)) if request.data.get('eRecruitmentType') is not None and request.data['eRecruitmentType'].isdigit() else None
-        exploitation.e_recruiter_relationship_id = int(request.data.get('eRecruiterRelationship',exploitation.e_recruiter_relationship_id)) if request.data.get('eRecruiterRelationship') is not None and request.data['eRecruiterRelationship'].isdigit() else None
+        exploitation.e_recruitment_type_id = int(request.data.get('eRecruitmentType',exploitation.e_recruitment_type_id)) if request.data.get('eRecruitmentType') is not None and request.data['eRecruitmentType'].isdigit() else exploitation.e_recruitment_type_id
+        exploitation.e_recruiter_relationship_id = int(request.data.get('eRecruiterRelationship',exploitation.e_recruiter_relationship_id)) if request.data.get('eRecruiterRelationship') is not None and request.data['eRecruiterRelationship'].isdigit() else exploitation.e_recruiter_relationship_id
         exploitation.approval_id=1
         exploitation.save()
 
         if request.data.get('eCriminalActivityType'):
-            exploitation.e_criminal_activity_type.set(request.data.get('eCriminalActivityType'))
+            exploitation.e_criminal_activity_type.set(request.data.getlist('eCriminalActivityType'))
 
         if request.data.get('eForcedLabourIndustry'):
-            exploitation.e_forced_labour_industry.set(request.data.get('eForcedLabourIndustry'))
+            exploitation.e_forced_labour_industry.set(request.data.getlist('eForcedLabourIndustry'))
 
         if request.data.get('eBPriceRecipient'):
-            exploitation.e_brice_recipient.set(request.data.get('eBPriceRecipient'))
+            exploitation.e_brice_recipient.set(request.data.getlist('eBPriceRecipient'))
 
         if request.data.get('eChildMarriageReason'):
-            exploitation.e_child_marriage_reason.set(request.data.get('eChildMarriageReason'))
+            exploitation.e_child_marriage_reason.set(request.data.getlist('eChildMarriageReason'))
 
         if request.data.get('eMarriageViolenceType'):
-            exploitation.e_marriage_violence_type.set(request.data.get('eMarriageViolenceType'))
+            exploitation.e_marriage_violence_type.set(request.data.getlist('eMarriageViolenceType'))
         
         if request.data.get('eVictimMilitaryActivities'):
-            exploitation.e_victim_military_activities.set(request.data.get('eVictimMilitaryActivities'))
+            exploitation.e_victim_military_activities.set(request.data.getlist('eVictimMilitaryActivities'))
         
         if request.data.get('eBodyPartRemoved'):
-            exploitation.e_body_part_removed.set(request.data.get('eBodyPartRemoved'))
+            exploitation.e_body_part_removed.set(request.data.getlist('eBodyPartRemoved'))
         
         if request.data.get('eTraffickingMeans'):
-            exploitation.e_trafficking_means.set(request.data.get('eTraffickingMeans'))
+            exploitation.e_trafficking_means.set(request.data.getlist('eTraffickingMeans'))
 
         return Response({"message": "Exploitation record updated successfully"}, status=status.HTTP_200_OK)
     
@@ -578,20 +570,18 @@ class TipTransitAPIView(APIView):
             return Response({"error": "Transit record not found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Update transit object with the provided data
-        transit.victim_id = request.data['v_id']
-        transit.country_of_origin_id = int(request.data['countryOfOrigin']) if request.data['countryOfOrigin'].isdigit() else None
-        transit.country_of_dest_id = int(request.data['countryOfDestination']) if request.data['countryOfDestination'].isdigit() else None
-        transit.city_village_of_dest = request.data['cityVillageOfDest']
-        transit.city_village_of_origin = request.data['cityVillageOfOrigin']
+        transit.country_of_origin_id = int(request.data.get('countryOfOrigin',transit.country_of_origin_id)) if request.data.get('countryOfOrigin') and request.data.get('countryOfOrigin').isdigit() else transit.country_of_origin_id
+        transit.country_of_dest_id = int(request.data.get('countryOfDestination',transit.country_of_dest_id)) if request.data.get('countryOfDestination') and request.data.get('countryOfDestination').isdigit() else transit.country_of_dest_id
+        transit.city_village_of_dest = request.data.get('cityVillageOfDest',transit.city_village_of_dest)
+        transit.city_village_of_origin = request.data.get('cityVillageOfOrigin',transit.city_village_of_origin)
         transit.remarks = request.data['remarks']
         transit.interviewer_id = interviewer.id
         transit.approval_id = 1
         # Save the updated transit object
         transit.save()
 
-        if request.data('meansOfTransportation') is not None:
-            for item in request.data('meansOfTransportation'):
-                transit.transport_means.add(int(item))
+        if request.data.get('meansOfTransportation') is not None:
+            transit.transport_means.set(request.data.getlist('meansOfTransportation'))
 
         return Response({"message": "Transit record updated successfully"}, status=status.HTTP_200_OK)
 
@@ -660,9 +650,9 @@ class TipArrestAPIView(APIView):
         arrest.save()
 
         # Update many-to-many relationship
-        arrest.how_traffickers_org.clear()
-        for org in request.data['howTraffickersOrg']:
-            arrest.how_traffickers_org.add(TraffickerOrg.objects.filter(id=org).first())
+        # arrest.how_traffickers_org.clear()
+        if request.data.get('howTraffickersOrg'):
+            arrest.how_traffickers_org.set(request.data.getlist('howTraffickersOrg'))
 
         return Response({"message": "Arrest details updated successfully"}, status=status.HTTP_200_OK)
     
@@ -800,57 +790,57 @@ class TipAssistanceAPIView(APIView):
         assistance.victim_id = request.data.get('v_id', assistance.victim_id)
         assistance.interviewer_id = interviewer.id
         if request.POST.get('socialAssistanceDurationType') == '1':
-            assistance.social_assistance_days = int(request.data["socialAssistanceDuration"]) if request.data['socialAssistanceDuration'].isdigit() else None
+            assistance.social_assistance_days = int(request.data.get('socialAssistanceDuration')) if request.data.get('socialAssistanceDuration') and request.data['socialAssistanceDuration'].isdigit() else assistance.social_assistance_days
         elif request.POST.get('socialAssistanceDurationType') == '0':
-            assistance.social_assistance_months = int(request.data["socialAssistanceDuration"]) if request.data['socialAssistanceDuration'].isdigit() else None
+            assistance.social_assistance_months = int(request.data["socialAssistanceDuration"]) if request.data.get('socialAssistanceDuration') and request.data['socialAssistanceDuration'].isdigit() else assistance.social_assistance_months
         if request.POST.get('medicalRehabilitationAssistanceDurationType') == '1':
-            assistance.med_rehab_days = int(request.data["medicalRehabilitationAssistanceDuration"]) if request.data['medicalRehabilitationAssistanceDuration'].isdigit() else None
+            assistance.med_rehab_days = int(request.data["medicalRehabilitationAssistanceDuration"]) if request.data.get('medicalRehabilitationAssistanceDuration') and request.data['medicalRehabilitationAssistanceDuration'].isdigit() else assistance.med_rehab_days
         elif request.POST.get('medicalRehabilitationAssistanceDurationType') == '0':
-            assistance.med_rehab_months = int(request.data["medicalRehabilitationAssistanceDuration"]) if request.data['medicalRehabilitationAssistanceDuration'].isdigit() else None
+            assistance.med_rehab_months = int(request.data["medicalRehabilitationAssistanceDuration"]) if request.data.get('medicalRehabilitationAssistanceDuration') and request.data['medicalRehabilitationAssistanceDuration'].isdigit() else assistance.med_rehab_months
         if request.POST.get('housingAllowanceDurationType') == '1':
-            assistance.housing_allowance_days = int(request.data["housingAllowanceDuration"]) if request.data['housingAllowanceDuration'].isdigit() else None
+            assistance.housing_allowance_days = int(request.data["housingAllowanceDuration"]) if request.data.get('housingAllowanceDuration') and request.data['housingAllowanceDuration'].isdigit() else assistance.housing_allowance_days
         elif request.POST.get('housingAllowanceDurationType') == '0':
-            assistance.housing_allowance_months = int(request.data["housingAllowanceDuration"]) if request.data['housingAllowanceDuration'].isdigit() else None
+            assistance.housing_allowance_months = int(request.data["housingAllowanceDuration"]) if request.data.get('housingAllowanceDuration') and request.data['housingAllowanceDuration'].isdigit() else assistance.housing_allowance_months
         if request.POST.get('halfwayHouseDurationType') == '1':
-            assistance.halfway_house_days = int(request.data["halfwayHouseDuration"]) if request.data['halfwayHouseDuration'].isdigit() else None
+            assistance.halfway_house_days = int(request.data["halfwayHouseDuration"]) if request.data.get('halfwayHouseDuration') and request.data['halfwayHouseDuration'].isdigit() else assistance.halfway_house_days
         elif request.POST.get('halfwayHouseDurationType') == '0':
-            assistance.halfway_house_months = int(request.data["halfwayHouseDuration"]) if request.data['halfwayHouseDuration'].isdigit() else None
+            assistance.halfway_house_months = int(request.data["halfwayHouseDuration"]) if request.data.get('halfwayHouseDuration') and request.data['halfwayHouseDuration'].isdigit() else assistance.halfway_house_months
         if request.POST.get('shelterDurationType') == '1':
-            assistance.shelter_days = int(request.data["shelterDuration"]) if request.data['shelterDuration'].isdigit() else None
+            assistance.shelter_days = int(request.data["shelterDuration"]) if request.data.get('shelterDuration') and request.data['shelterDuration'].isdigit() else assistance.shelter_days
         elif request.POST.get('shelterDurationType') == '0':
-            assistance.shelter_months = int(request.data["shelterDuration"]) if request.data['shelterDuration'].isdigit() else None
+            assistance.shelter_months = int(request.data["shelterDuration"]) if request.data.get('shelterDuration') and request.data['shelterDuration'].isdigit() else assistance.shelter_months
         if request.POST.get('vocationalTrainingDurationType') == '1':
-            assistance.vocational_training_days = int(request.data["vocationalTrainingDuration"]) if request.data['vocationalTrainingDuration'].isdigit() else None
+            assistance.vocational_training_days = int(request.data["vocationalTrainingDuration"]) if request.data.get('vocationalTrainingDuration') and request.data['vocationalTrainingDuration'].isdigit() else assistance.vocational_training_days
         elif request.POST.get('vocationalTrainingDurationType') == '0':
-            assistance.vocational_training_months = int(request.data["vocationalTrainingDuration"]) if request.data['vocationalTrainingDuration'].isdigit() else None
+            assistance.vocational_training_months = int(request.data["vocationalTrainingDuration"]) if request.data.get('vocationalTrainingDuration') and request.data['vocationalTrainingDuration'].isdigit() else assistance.vocational_training_months
         if request.POST.get('incomeGeneratingProjectDurationType') == '1':
-            assistance.micro_ent_income_days = int(request.data["incomeGeneratingProjectDuration"]) if request.data['incomeGeneratingProjectDuration'].isdigit() else None
+            assistance.micro_ent_income_days = int(request.data["incomeGeneratingProjectDuration"]) if request.data.get('incomeGeneratingProjectDuration') and request.data['incomeGeneratingProjectDuration'].isdigit() else assistance.micro_ent_income_days
         elif request.POST.get('incomeGeneratingProjectDurationType') == '0':
-            assistance.micro_ent_income_months = int(request.data["incomeGeneratingProjectDuration"]) if request.data['incomeGeneratingProjectDuration'].isdigit() else None
+            assistance.micro_ent_income_months = int(request.data["incomeGeneratingProjectDuration"]) if request.data.get('incomeGeneratingProjectDuration') and request.data['incomeGeneratingProjectDuration'].isdigit() else assistance.micro_ent_income_months
         if request.POST.get('legalAssistanceDurationType') == '1':
-            assistance.legal_assistance_days = int(request.data["legalAssistanceDuration"]) if request.data['legalAssistanceDuration'].isdigit() else None
+            assistance.legal_assistance_days = int(request.data["legalAssistanceDuration"]) if request.data.get('legalAssistanceDuration') and request.data['legalAssistanceDuration'].isdigit() else assistance.legal_assistance_days
         elif request.POST.get('legalAssistanceDurationType') == '0':
-            assistance.legal_assistance_months = int(request.data["legalAssistanceDuration"]) if request.data['legalAssistanceDuration'].isdigit() else None
+            assistance.legal_assistance_months = int(request.data["legalAssistanceDuration"]) if request.data.get('legalAssistanceDuration') and request.data['legalAssistanceDuration'].isdigit() else assistance.legal_assistance_months
         if request.POST.get('medicalAssistanceDurationType') == '1':
-            assistance.medical_assistance_days = int(request.data["medicalAssistanceDuration"]) if request.data['medicalAssistanceDuration'].isdigit() else None
+            assistance.medical_assistance_days = int(request.data["medicalAssistanceDuration"]) if request.data.get('medicalAssistanceDuration') and request.data['medicalAssistanceDuration'].isdigit() else assistance.medical_assistance_days
         elif request.POST.get('medicalAssistanceDurationType') == '0':
-            assistance.medical_assistance_months = int(request.data["medicalAssistanceDuration"]) if request.data['medicalAssistanceDuration'].isdigit() else None
+            assistance.medical_assistance_months = int(request.data["medicalAssistanceDuration"]) if request.data.get('medicalAssistanceDuration') and request.data['medicalAssistanceDuration'].isdigit() else assistance.medical_assistance_months
         if request.POST.get('financialAssistanceDurationType') == '1':
-            assistance.financial_assistance_days = int(request.data["financialAssistanceDuration"]) if request.data['financialAssistanceDuration'].isdigit() else None
+            assistance.financial_assistance_days = int(request.data["financialAssistanceDuration"]) if request.data.get('financialAssistanceDuration') and request.data['financialAssistanceDuration'].isdigit() else assistance.financial_assistance_days
         elif request.POST.get('financialAssistanceDurationType') == '0':
-            assistance.financial_assistance_months = int(request.data["financialAssistanceDuration"]) if request.data['financialAssistanceDuration'].isdigit() else None
+            assistance.financial_assistance_months = int(request.data["financialAssistanceDuration"]) if request.data.get('financialAssistanceDuration') and request.data['financialAssistanceDuration'].isdigit() else assistance.financial_assistance_months
         if request.POST.get('educationAssistanceDurationType') == '1':
-            assistance.education_assistance_days = int(request.data["educationAssistanceDuration"]) if request.data['educationAssistanceDuration'].isdigit() else None
+            assistance.education_assistance_days = int(request.data["educationAssistanceDuration"]) if request.data.get('educationAssistanceDuration') and request.data['educationAssistanceDuration'].isdigit() else assistance.education_assistance_days
         elif request.POST.get('educationAssistanceDurationType') == '0':
-            assistance.education_assistance_months = int(request.data["educationAssistanceDuration"]) if request.data['educationAssistanceDuration'].isdigit() else None
+            assistance.education_assistance_months = int(request.data["educationAssistanceDuration"]) if request.data.get('educationAssistanceDuration') and request.data['educationAssistanceDuration'].isdigit() else assistance.education_assistance_months
         if request.POST.get('immEmmigrationAssistanceDurationType') == '1':
-            assistance.im_emmigration_assistance_days = int(request.data["immEmmigrationAssistanceDuration"]) if request.data['immEmmigrationAssistanceDuration'].isdigit() else None
+            assistance.im_emmigration_assistance_days = int(request.data["immEmmigrationAssistanceDuration"]) if request.data.get('immEmmigrationAssistanceDuration') and request.data['immEmmigrationAssistanceDuration'].isdigit() else assistance.im_emmigration_assistance_days
         elif request.POST.get('immEmmigrationAssistanceDurationType') == '0':
-            assistance.im_emmigration_assistance_months = int(request.data["immEmmigrationAssistanceDuration"]) if request.data['immEmmigrationAssistanceDuration'].isdigit() else None
+            assistance.im_emmigration_assistance_months = int(request.data["immEmmigrationAssistanceDuration"]) if request.data.get('immEmmigrationAssistanceDuration') and request.data['immEmmigrationAssistanceDuration'].isdigit() else assistance.im_emmigration_assistance_months
         if request.POST.get('communityBasedAssistanceDurationType') == '1':
-            assistance.other_community_assistance_days = int(request.data["communityBasedAssistanceDuration"]) if request.data['communityBasedAssistanceDuration'].isdigit() else None
+            assistance.other_community_assistance_days = int(request.data["communityBasedAssistanceDuration"]) if request.data.get('communityBasedAssistanceDuration') and request.data['communityBasedAssistanceDuration'].isdigit() else assistance.other_community_assistance_days
         elif request.POST.get('communityBasedAssistanceDurationType') == '0':
-            assistance.other_community_assistance_months = int(request.data["communityBasedAssistanceDuration"]) if request.data['communityBasedAssistanceDuration'].isdigit() else None
+            assistance.other_community_assistance_months = int(request.data["communityBasedAssistanceDuration"]) if request.data.get('communityBasedAssistanceDuration') and request.data['communityBasedAssistanceDuration'].isdigit() else assistance.other_community_assistance_months
         assistance.approval_id = 1
 
         # Your existing code to update the fields based on request data
@@ -1099,44 +1089,36 @@ class SomVictimAPIView(APIView):
             return Response({"error": "Victim not found"}, status=status.HTTP_404_NOT_FOUND)
 
         interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
-        victim.citizenship_id = decrypt_data(request.data['citizenship'])
-        victim.countryOfBirth_id = decrypt_data(request.data['countryOfBirth'])
-        victim.gender_id = request.data['gender']
-        victim.race_id = decrypt_data(request.data['race'])
-        victim.place_of_birth = decrypt_data(request.data['placeOfBirth'])
-        victim.last_place_of_residence_id = decrypt_data(request.data['lastPlaceOfResidence'])
-        victim.identification_number = decrypt_data(request.data['idNumber'])
-        victim.initials = decrypt_data(request.data['initials'])
-        victim.age = decrypt_data(request.data['age'])
-        victim.address = decrypt_data(request.data['address'])
-        victim.email_address = decrypt_data(request.data['email'])
-        victim.interview_country_id = decrypt_data(request.data['interviewCountry'])
-        victim.interview_location = decrypt_data(request.data['interviewerLocation'])
-        victim.interview_date = decrypt_data(request.data['interviewDate'])
-        victim.additional_remarks = decrypt_data(request.data['additionalRemarks'])
+        victim.citizenship_id = decrypt_data(request.data.get('citizenship')) if request.data.get('citizenship') else victim.citizenship_id
+        victim.countryOfBirth_id = decrypt_data(request.data.get('countryOfBirth')) if request.data.get('countryOfBirth') else victim.countryOfBirth_id
+        victim.gender_id = decrypt_data(request.data.get('gender')) if request.data.get('gender') else victim.gender_id
+        victim.race_id = decrypt_data(request.data.get('race')) if request.data.get('race') else victim.race_id
+        victim.place_of_birth = decrypt_data(request.data.get('placeOfBirth')) if request.data.get('placeOfBirth') else victim.place_of_birth
+        victim.last_place_of_residence_id = decrypt_data(request.data.get('lastPlaceOfResidence')) if request.data.get('lastPlaceOfResidence') else victim.last_place_of_residence_id
+        victim.identification_number = decrypt_data(request.data.get('idNumber')) if request.data.get('idNumber') else victim.identification_number
+        victim.initials = decrypt_data(request.data.get('initials')) if request.data.get('initials') else victim.initials
+        victim.age = decrypt_data(request.data.get('age')) if request.data.get('age') else victim.age
+        victim.address = decrypt_data(request.data.get('address')) if request.data.get('address') else victim.address
+        victim.email_address = decrypt_data(request.data.get('email')) if request.data.get('email') else victim.email_address
+        victim.interview_country_id = decrypt_data(request.data.get('interviewCountry')) if request.data.get('interviewCountry') else victim.interview_country_id
+        victim.interview_location = decrypt_data(request.data.get('interviewerLocation')) if request.data.get('interviewerLocation') else victim.interview_location
+        victim.interview_date = decrypt_data(request.data.get('interviewDate')) if request.data.get('interviewDate') else victim.interview_date
+        victim.additional_remarks = decrypt_data(request.data.get('additionalRemarks')) if request.data.get('additionalRemarks') else victim.additional_remarks
         victim.approval_id = 1
         victim.consent_share_gov_patner = 1
         victim.consent_limited_disclosure = 1
         victim.consent_research = 1
         victim.consent_abstain_answer = 1
         victim.save()
-        if interviewer.data_entry_purpose_id == 1:
-            victim.victim_identifier = victim.citizenship.two_code+"-TP-"+str(victim.id)
-        if interviewer.data_entry_purpose_id == 2:
-            victim.victim_identifier = victim.citizenship.two_code+"-IV-"+str(victim.id)
-        if interviewer.data_entry_purpose_id == 3:
-            victim.victim_identifier = victim.citizenship.two_code+"-PR-"+str(victim.id)
-        if interviewer.data_entry_purpose_id == 4:
-            victim.victim_identifier = victim.citizenship.two_code+"-AS-"+str(victim.id)
-        victim.save()
-        for lang in request.data['languages']:
-            victim.languages.add(Language.objects.filter(id= lang).first())
-        
-        for idt in request.data['idType']:
-            victim.identification_type.add(IdType.objects.filter(id = idt).first())
 
+        if request.data.get('languages'):
+            victim.languages.set(request.data.getlist('languages'))
         
-        interviewer.victims.add(victim)
+        if request.data.get('idType'):
+            victim.identification_type.set(request.data.getlist('idType'))
+
+        return Response({"message": "Victim updated successfully","id":victim.id}, status=status.HTTP_201_CREATED)
+
 
 class SomProsecutionAPIView(APIView):
     def get(self, request, v_id = None,pk=None):
@@ -1251,11 +1233,11 @@ class SomCaseAPIView(APIView):
         
         # Update suspect object with the provided data
        
-        case.date_of_arrest = request.data['dateOfArrest']
-        case.traffick_from_country_id = request.data['countryFrom']
-        case.traffick_from_place = request.data['placeFrom']
-        case.traffick_to_country_id = request.data['countryTo']
-        case.traffick_to_place = request.data['placeTo']
+        case.date_of_arrest = request.data.get('dateOfArrest')
+        case.traffick_from_country_id = request.data.get('countryFrom')
+        case.traffick_from_place = request.data.get('placeFrom')
+        case.traffick_to_country_id = request.data.get('countryTo')
+        case.traffick_to_place = request.data.get('placeTo')
         case.interviewer_id=interviewer.id
         case.approval_id=1
         case.save()
@@ -1328,37 +1310,37 @@ class SomSuspectAPIView(APIView):
             return Response({"error": "Suspect not found"}, status=status.HTTP_404_NOT_FOUND)
 
         today = date.today()
-        born = datetime.strptime(request.data['dob'], '%Y-%m-%d')
+        born = datetime.strptime(request.data.get('dob'), '%Y-%m-%d')
         age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
         # Update suspect object with the provided data
         suspect.first_name = request.data.get('firstName', suspect.first_name)
         suspect.last_name = request.data.get('surName', suspect.last_name)
         suspect.dob = request.data.get('dob', suspect.dob)
-        suspect.gender_id = request.data['gender']
-        suspect.race_id = int(request.data['race']) if request.data['race'].isdigit() else None
+        suspect.gender_id = request.data.get('gender',suspect.gender_id)
+        suspect.race_id = int(request.data.get('race')) if request.data.get('race') else suspect.race_id
         suspect.age = age
-        suspect.country_of_birth_id = int(request.data['countryOfBirth']) if request.data['countryOfBirth'].isdigit() else None 
-        suspect.citizenship_id = int(request.data['citizenship']) if request.data['citizenship'].isdigit() else None
-        suspect.nationality_id = int(request.data['nationality']) if request.data['nationality'].isdigit() else None
-        suspect.id_number = request.data['idNumber']
-        suspect.last_residence = request.data['lastPlaceOfResidence']
-        suspect.address = request.data['address']
-        suspect.date_of_arrest = request.data['dateOfArrest']
-        suspect.traffick_from_country_id = request.data['countryFrom']
-        suspect.traffick_from_place = request.data['placeFrom']
-        suspect.traffick_to_country_id = request.data['countryTo']
-        suspect.traffick_to_place = request.data['placeTo']
+        suspect.country_of_birth_id = int(request.data.get('countryOfBirth')) if request.data.get('countryOfBirth') and request.data.get('countryOfBirth').isdigit() else suspect.country_of_birth_id 
+        suspect.citizenship_id = int(request.data.get('citizenship')) if request.data.get('citizenship') and request.data.get('citizenship').isdigit() else suspect.citizenship_id
+        suspect.nationality_id = int(request.data.get('nationality')) if request.data.get('nationality') and request.data.get('nationality').isdigit() else suspect.nationality_id
+        suspect.id_number = request.data.get('idNumber',suspect.id_number)
+        suspect.last_residence = request.data.get('lastPlaceOfResidence',suspect.last_residence)
+        suspect.address = request.data.get('address',suspect.address)
+        suspect.date_of_arrest = request.data.get('dateOfArrest',suspect.date_of_arrest)
+        suspect.traffick_from_country_id = request.data.get('countryFrom',suspect.traffick_from_country_id)
+        suspect.traffick_from_place = request.data.get('placeFrom',suspect.traffick_from_place)
+        suspect.traffick_to_country_id = request.data.get('countryTo',suspect.traffick_to_country_id)
+        suspect.traffick_to_place = request.data.get('placeTo',suspect.traffick_to_place)
         suspect.interviewer_id=interviewer.id
         suspect.approval_id=1
-        suspect.id_type_id = request.data['idType']
+        suspect.id_type_id = request.data.get('idType')
         suspect.save()
 
-        for lang in request.data['languages']:
-            suspect.languages.add(Language.objects.filter(id= lang).first())
+        if request.data.get('languages'):
+            suspect.languages.set(request.data.getlist('languages'))
 
         
-        for rl in request.data['roleInTrafficking']:
-            suspect.role_in_trafficking.add(RoleInTrafficking.objects.filter(id = rl).first())
+        if request.data.get('roleInTrafficking'):
+            suspect.role_in_trafficking.set(request.data.getlist('roleInTrafficking'))
 
         return Response({"message": "Suspect details updated successfully"}, status=status.HTTP_200_OK)
 
@@ -1412,11 +1394,11 @@ class SomTransitAPIView(APIView):
             return Response({"error": "Transit record not found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Update transit object with the provided data
-        transit.victim_id = request.data['v_id']
-        transit.country_of_origin_id = int(request.data['countryOfOrigin']) if request.data['countryOfOrigin'].isdigit() else None
-        transit.country_of_dest_id = int(request.data['countryOfDestination']) if request.data['countryOfDestination'].isdigit() else None
-        transit.country_of_interception_id = int(request.data['countryOfInterception']) if request.data['countryOfInterception'].isdigit() else None
-        transit.remarks = request.data['remarks']
+
+        transit.country_of_origin_id = int(request.data['countryOfOrigin']) if request.data.get('countryOfOrigin') and request.data.get('countryOfOrigin').isdigit() else transit.country_of_origin_id
+        transit.country_of_dest_id = int(request.data['countryOfDestination']) if request.data.get('countryOfDestination') and request.data.get('countryOfDestination').isdigit() else transit.country_of_dest_id
+        transit.country_of_interception_id = int(request.data['countryOfInterception']) if request.data.get('countryOfInterception') and request.data.get('countryOfInterception').isdigit() else transit.country_of_interception_id
+        transit.remarks = request.data.get('remarks',transit.remarks)
         transit.interviewer_id = interviewer.id
         transit.approval_id = 1
         # Save the updated transit object
@@ -1497,8 +1479,8 @@ class SomArrestAPIView(APIView):
 
         # Update many-to-many relationship
         arrest.how_traffickers_org.clear()
-        for org in request.data['howTraffickersOrg']:
-            arrest.how_traffickers_org.add(TraffickerOrg.objects.filter(id=org).first())
+        if request.data.get('howTraffickersOrg'):
+            arrest.how_traffickers_org.set(request.data.getlist('howTraffickersOrg'))
 
         return Response({"message": "Arrest details updated successfully"}, status=status.HTTP_200_OK)
     
@@ -1681,11 +1663,11 @@ class SomSocioAPIView(APIView):
 
         # Update socio object with the provided data
         socio.victim_id = request.session.get("v_id", socio.victim_id)
-        socio.family_structure_id = int(request.data.get('familyStructure', socio.family_structure_id)) if request.data.get('familyStructure').isdigit() else socio.family_structure_id
-        socio.living_with_id = int(request.data.get('livingWith', socio.living_with_id)) if request.data.get('livingWith').isdigit() else socio.living_with_id
+        socio.family_structure_id = int(request.data.get('familyStructure', socio.family_structure_id)) if request.data.get('familyStructure') and request.data.get('familyStructure').isdigit() else socio.family_structure_id
+        socio.living_with_id = int(request.data.get('livingWith', socio.living_with_id)) if request.data.get('livingWith') and request.data.get('livingWith').isdigit() else socio.living_with_id
         socio.violence_prior = request.data.get('violencePrior', socio.violence_prior)
         socio.violence_type = request.data.get('violenceType', socio.violence_type)
-        socio.education_level_id = int(request.data.get('educationLevel', socio.education_level_id)) if request.data.get('educationLevel').isdigit() else socio.education_level_id
+        socio.education_level_id = int(request.data.get('educationLevel', socio.education_level_id)) if request.data.get('educationLevel') and request.data.get('educationLevel').isdigit() else socio.education_level_id
         socio.interviewer_id = interviewer.id
         socio.approval_id = 1
         socio.save()

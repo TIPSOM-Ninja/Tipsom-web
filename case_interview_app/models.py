@@ -875,7 +875,9 @@ class Faq(models.Model):
 
 
 class SomTransitRouteDestination(models.Model):
-    victim = models.ForeignKey(SomVictimProfile, related_name = "som_destinations", on_delete=models.CASCADE, null=True, blank=True)
+    case = models.ForeignKey(
+        SomCase, related_name = "som_transit", on_delete=models.CASCADE, null=True, blank=True
+    )
     country_of_origin = models.ForeignKey(
         Country, related_name = "som_origin_destinations", on_delete=models.CASCADE, null=True, blank=True
     )
@@ -905,7 +907,9 @@ class SomTransitRouteDestination(models.Model):
 
 
 class SomSuspectedTrafficker(models.Model):
-    victim = models.ForeignKey(SomVictimProfile,  related_name = "som_traffickers",  on_delete=models.CASCADE, null=True, blank=True)
+    case = models.ForeignKey(
+        SomCase, related_name = "som_traffickers", on_delete=models.CASCADE, null=True, blank=True
+    )
     first_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
     dob = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
@@ -941,7 +945,9 @@ class SomSuspectedTrafficker(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
 class SomArrestInvestigation(models.Model):
-    victim = models.ForeignKey(SomVictimProfile, related_name = "som_investigations", on_delete=models.CASCADE, null=True, blank=True)
+    case = models.ForeignKey(
+        SomCase, related_name = "som_investigations", on_delete=models.CASCADE, null=True, blank=True
+    )
     # clarify on trafficker
     # trafficker = models.ForeignKey(
     #     SuspectedTrafficker, related_name = "investigations",  on_delete=models.CASCADE, null=True, blank=True
@@ -970,7 +976,9 @@ class SomArrestInvestigation(models.Model):
 
 
 class SomProsecution(models.Model):
-    victim = models.ForeignKey(SomVictimProfile, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True)
+    case = models.ForeignKey(
+        SomCase, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True
+    )
     trafficker = models.ForeignKey(
         SomSuspectedTrafficker, related_name = "som_prosecutions", on_delete=models.CASCADE, null=True, blank=True
     )
@@ -1014,8 +1022,9 @@ class SomProsecution(models.Model):
 
 
 class SomAssistance(models.Model):
-    victim = models.ForeignKey(SomVictimProfile, related_name = "som_assistance", on_delete=models.CASCADE, null=True, blank=True)
-    
+    case = models.ForeignKey(
+        SomCase, related_name = "som_assistance", on_delete=models.CASCADE, null=True, blank=True
+    )    
     social_assistance = models.BooleanField(null=True, blank=True)
     social_assistance_provider = models.ManyToManyField(
         Provider,  related_name = "som_social_assistance", null=True, blank=True
@@ -1095,6 +1104,9 @@ class SomAssistance(models.Model):
 
 
 class SomSocioEconomic(models.Model):
+    case = models.ForeignKey(
+        SomCase, related_name = "som_socio_economic", on_delete=models.CASCADE, null=True, blank=True
+    )
     victim = models.ForeignKey(SomVictimProfile, related_name = "som_socio_economic", on_delete=models.CASCADE, null=True, blank=True)
     family_structure = models.ForeignKey(FamilyStructure,  related_name = "som_socio_economic", on_delete=models.CASCADE, null=True, blank=True)
     living_with = models.ForeignKey(LivingWith,  related_name = "som_socio_economic", on_delete=models.CASCADE, null=True, blank=True)
