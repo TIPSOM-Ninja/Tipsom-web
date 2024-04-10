@@ -1196,7 +1196,7 @@ class SomCaseAPIView(APIView):
             page = request.GET.get('page')
         else:
             page = 1
-        if(pk is None):
+        if (pk is None):
             som_case =SomCase.objects.filter(interviewer__id = interviewer.id)
             paginator = Paginator(som_case, per_page=12)
             page_object = paginator.get_page(page)
@@ -1205,6 +1205,7 @@ class SomCaseAPIView(APIView):
         elif pk is not None:
             som_case =SomCase.objects.filter(pk = pk).first()
             serializer = SomCaseSerializer(som_case)
+            
         return Response(serializer.data)
     
     def post(self,request):
