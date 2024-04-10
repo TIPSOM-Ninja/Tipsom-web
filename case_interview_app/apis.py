@@ -1371,7 +1371,7 @@ class SomTransitAPIView(APIView):
             page_object = paginator.get_page(page)
             serializer = SomTransitRouteDestinationSerializer(page_object,many = True)
         elif(c_id is not None and pk is None):
-            transit =SomTransitRouteDestination.objects.filter(victim_id = c_id)
+            transit =SomTransitRouteDestination.objects.filter(case_id = c_id)
             paginator = Paginator(transit, per_page=12)
             page_object = paginator.get_page(page)
             serializer = SomTransitRouteDestinationSerializer(page_object,many = True)
