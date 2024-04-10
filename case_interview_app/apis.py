@@ -581,7 +581,7 @@ class TipTransitAPIView(APIView):
         transit.save()
 
         if request.data.get('meansOfTransportation'):
-            transport_means = request.data.get('meansOfTransportation')
+            transport_means = request.data.get('meansOfTransportation',[])
             transit.transport_means.set(transport_means)
 
         return Response({"message": "Transit record updated successfully"}, status=status.HTTP_200_OK)
