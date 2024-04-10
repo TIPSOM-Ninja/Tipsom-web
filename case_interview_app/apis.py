@@ -1033,9 +1033,25 @@ class VictimSearchAPIView(APIView):
 
     
 class SomVictimAPIView(APIView):
-    def get(self, request, pk=None):
-        victim =SomVictimProfile.objects.filter(pk = pk).annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True)).first()
-        serializer = VictimProfileWithRelatedSerializer(victim)
+    def get(self, request, c_id = None, pk=None):
+        if request.GET.get('page') is not None:
+            page = request.GET.get('page')
+        else:
+            page = 1
+        if(c_id is None and pk is None):
+            victim =SomVictimProfile.objects.all()
+            paginator = Paginator(victim, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = VictimProfileWithRelatedSerializer(page_object,many = True)
+        elif(c_id is not None and pk is None):
+            victim =SomVictimProfile.objects.filter(case_id = c_id)
+            paginator = Paginator(victim, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = VictimProfileWithRelatedSerializer(page_object,many = True)
+        else:
+            victim =SomVictimProfile.objects.filter(pk = pk).annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True)).first()
+            serializer = VictimProfileWithRelatedSerializer(victim)
+        
         return Response(serializer.data)
     def post(self,request):
         print(request.POST)
@@ -1205,7 +1221,7 @@ class SomCaseAPIView(APIView):
         elif pk is not None:
             som_case =SomCase.objects.filter(pk = pk).first()
             serializer = SomCaseSerializer(som_case)
-            
+
         return Response(serializer.data)
     
     def post(self,request):

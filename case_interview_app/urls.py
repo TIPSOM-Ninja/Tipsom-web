@@ -97,7 +97,8 @@ urlpatterns = [
 
 
     path('api/som/victims/', apis.SomVictimAPIView.as_view(), name='som-victim-api'),
-    path('api/som/victims/<int:pk>/', apis.SomVictimAPIView.as_view(), name='som-victim-detail-api'),
+    path('api/som/victims/<int:c_id>/', apis.SomVictimAPIView.as_view(), name='som-victim-detail-api'),
+    path('api/som/victims/<int:c_id>/<int:pk>/', apis.SomVictimAPIView.as_view(), name='som-case-victim-api'),
 
     path('api/som/prosecutions/', apis.SomProsecutionAPIView.as_view(), name='som-prosecution-api'),
     path('api/som/prosecutions/<int:pk>/', apis.SomProsecutionAPIView.as_view(), name='som-prosecution-detail-api'),
@@ -110,8 +111,8 @@ urlpatterns = [
     path('api/som/suspects/<int:v_id>/<int:pk>/', apis.SomSuspectAPIView.as_view(), name='som-suspect-detail-api'),
 
     path('api/som/transits/', apis.SomTransitAPIView.as_view(), name='som-transit-api'),
-    path('api/som/transits/<int:v_id>/', apis.SomTransitAPIView.as_view(), name='som-victim-transit-api'),
-    path('api/som/transits/<int:v_id>/<int:pk>/', apis.SomTransitAPIView.as_view(), name='som-transit-detail-api'),
+    path('api/som/transits/<int:c_id>/', apis.SomTransitAPIView.as_view(), name='som-victim-transit-api'),
+    path('api/som/transits/<int:c_id>/<int:pk>/', apis.SomTransitAPIView.as_view(), name='som-transit-detail-api'),
 
     path('api/som/arrests/', apis.SomArrestAPIView.as_view(), name='som-arrest-api'),
     path('api/som/arrests/<int:v_id>/', apis.SomArrestAPIView.as_view(), name='som-victim-arrest-api'),
