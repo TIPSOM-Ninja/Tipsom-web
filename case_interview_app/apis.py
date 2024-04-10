@@ -1197,14 +1197,14 @@ class SomCaseAPIView(APIView):
         else:
             page = 1
         if(pk is None):
-            suspect =SomCase.objects.filter(interviewer__id = interviewer.id)
-            paginator = Paginator(suspect, per_page=12)
+            som_case =SomCase.objects.filter(interviewer__id = interviewer.id)
+            paginator = Paginator(som_case, per_page=12)
             page_object = paginator.get_page(page)
             serializer = SomCaseSerializer(page_object, many = True)
 
         elif pk is not None:
-            suspect =SomCase.objects.filter(pk = pk).first()
-            serializer = SomCaseSerializer(suspect)
+            som_case =SomCase.objects.filter(pk = pk).first()
+            serializer = SomCaseSerializer(som_case)
         return Response(serializer.data)
     
     def post(self,request):
