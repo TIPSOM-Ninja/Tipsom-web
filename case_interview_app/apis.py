@@ -1402,9 +1402,9 @@ class SomTransitAPIView(APIView):
 
         return Response({"message": "Transit record created successfully","id":transit.id}, status=status.HTTP_201_CREATED)
 
-    def put(self, request, v_id=None, pk=None):
+    def put(self, request, c_id=None, pk=None):
         interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
-        transit = SomTransitRouteDestination.objects.filter(victim_id=v_id, pk=pk).first()
+        transit = SomTransitRouteDestination.objects.filter( pk=pk).first()
         if not transit:
             return Response({"error": "Transit record not found"}, status=status.HTTP_404_NOT_FOUND)
 
