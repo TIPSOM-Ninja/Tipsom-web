@@ -1023,7 +1023,7 @@ class SomTransitRouteDestinationSerializer(serializers.ModelSerializer):
     approval = ApprovalStatusSerializer(read_only=True)
 
     class Meta:
-        model = TransitRouteDestination
+        model = SomTransitRouteDestination
         fields = '__all__'
 
 class SomAssistanceSerializer(serializers.ModelSerializer):
