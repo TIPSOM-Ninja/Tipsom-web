@@ -1392,12 +1392,12 @@ class SomTransitAPIView(APIView):
         transit.approval_id = 1
         transit.save()
 
-        if request.data('meansOfTransportation') is not None:
-            for item in request.data('meansOfTransportation'):
+        if request.data.get('meansOfTransportation') is not None:
+            for item in request.data.get('meansOfTransportation'):
                 transit.transport_means.add(int(item))
         
-        if request.data('countriesOfTransit') is not None:
-            for item in request.data('countriesOfTransit'):
+        if request.data.get('countriesOfTransit') is not None:
+            for item in request.data.get('countriesOfTransit'):
                 transit.countries_of_transit.add(int(item))
 
         return Response({"message": "Transit record created successfully","id":transit.id}, status=status.HTTP_201_CREATED)
