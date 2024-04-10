@@ -1392,11 +1392,11 @@ class SomTransitAPIView(APIView):
         transit.approval_id = 1
         transit.save()
 
-        if request.data.get('meansOfTransportation') is not None:
+        if request.data.get('meansOfTransportation'):
             for item in request.data.get('meansOfTransportation'):
                 transit.transport_means.add(int(item))
         
-        if request.data.get('countriesOfTransit') is not None:
+        if request.data.get('countriesOfTransit'):
             for item in request.data.get('countriesOfTransit'):
                 transit.countries_of_transit.add(int(item))
 
@@ -1419,9 +1419,9 @@ class SomTransitAPIView(APIView):
         # Save the updated transit object
         transit.save()
 
-        if request.data.get('meansOfTransportation') is not None:
-            transit.transport_means.set(request.data.get('meansOfTransportation'))
-        if request.data.get('countriesOfTransit') is not None:
+        if request.data.get('meansOfTransportation'):
+            transit.transport_means.set(request.PUT.getlist('meansOfTransportation'))
+        if request.data.get('countriesOfTransit'):
             transit.countries_of_transit.set(request.data.get('countriesOfTransit'))
                 
         return Response({"message": "Transit record updated successfully"}, status=status.HTTP_200_OK)
