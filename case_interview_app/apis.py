@@ -1419,9 +1419,9 @@ class SomTransitAPIView(APIView):
         # Save the updated transit object
         transit.save()
 
-        if request.data.get('meansOfTransportation'):
+        if request.POST.getlist('meansOfTransportation'):
             transit.transport_means.set(request.POST.getlist('meansOfTransportation'))
-        if request.data.get('countriesOfTransit'):
+        if request.POST.getlist('countriesOfTransit'):
             transit.countries_of_transit.set(request.POST.getlist('countriesOfTransit'))
         transit.save()
                 
