@@ -176,10 +176,10 @@ class TipVictimAPIView(APIView):
         victim.save()
 
         if request.data.get('languages'):
-            victim.languages.set(request.data.getlist('languages'))
+            victim.languages.set(request.data.get('languages'))
         
         if request.data.get('idType'):
-            victim.identification_type.set(request.data.getlist('idType'))
+            victim.identification_type.set(request.data.get('idType'))
 
         return Response({"message": "Victim updated successfully","id":victim.id}, status=status.HTTP_201_CREATED)
 
@@ -342,11 +342,11 @@ class TipSuspectAPIView(APIView):
         suspect.save()
 
         if request.data.get('languages'):
-            suspect.languages.set(request.data.getlist('languages'))
+            suspect.languages.set(request.data.get('languages'))
 
         
         if request.data.get('roleInTrafficking'):
-            suspect.role_in_trafficking.set(request.data.getlist('roleInTrafficking'))
+            suspect.role_in_trafficking.set(request.data.get('roleInTrafficking'))
 
         return Response({"message": "Suspect details updated successfully"}, status=status.HTTP_200_OK)
 
@@ -498,28 +498,28 @@ class TipExploitationAPIView(APIView):
         exploitation.save()
 
         if request.data.get('eCriminalActivityType'):
-            exploitation.e_criminal_activity_type.set(request.data.getlist('eCriminalActivityType'))
+            exploitation.e_criminal_activity_type.set(request.data.get('eCriminalActivityType'))
 
         if request.data.get('eForcedLabourIndustry'):
-            exploitation.e_forced_labour_industry.set(request.data.getlist('eForcedLabourIndustry'))
+            exploitation.e_forced_labour_industry.set(request.data.get('eForcedLabourIndustry'))
 
         if request.data.get('eBPriceRecipient'):
-            exploitation.e_brice_recipient.set(request.data.getlist('eBPriceRecipient'))
+            exploitation.e_brice_recipient.set(request.data.get('eBPriceRecipient'))
 
         if request.data.get('eChildMarriageReason'):
-            exploitation.e_child_marriage_reason.set(request.data.getlist('eChildMarriageReason'))
+            exploitation.e_child_marriage_reason.set(request.data.get('eChildMarriageReason'))
 
         if request.data.get('eMarriageViolenceType'):
-            exploitation.e_marriage_violence_type.set(request.data.getlist('eMarriageViolenceType'))
+            exploitation.e_marriage_violence_type.set(request.data.get('eMarriageViolenceType'))
         
         if request.data.get('eVictimMilitaryActivities'):
-            exploitation.e_victim_military_activities.set(request.data.getlist('eVictimMilitaryActivities'))
+            exploitation.e_victim_military_activities.set(request.data.get('eVictimMilitaryActivities'))
         
         if request.data.get('eBodyPartRemoved'):
-            exploitation.e_body_part_removed.set(request.data.getlist('eBodyPartRemoved'))
+            exploitation.e_body_part_removed.set(request.data.get('eBodyPartRemoved'))
         
         if request.data.get('eTraffickingMeans'):
-            exploitation.e_trafficking_means.set(request.data.getlist('eTraffickingMeans'))
+            exploitation.e_trafficking_means.set(request.data.get('eTraffickingMeans'))
 
         return Response({"message": "Exploitation record updated successfully"}, status=status.HTTP_200_OK)
     
@@ -624,7 +624,7 @@ class TipArrestAPIView(APIView):
         arrest.interviewer_id = interviewer.id
         arrest.approval_id=1
         arrest.save()
-        for org in request.POST.getlist('howTraffickersOrg'):
+        for org in request.POST.get('howTraffickersOrg'):
             arrest.how_traffickers_org.add(TraffickerOrg.objects.filter(id= org).first())
 
         return Response({"message": "Arrest details created successfully","id":arrest.id}, status=status.HTTP_201_CREATED)
@@ -653,7 +653,7 @@ class TipArrestAPIView(APIView):
         # Update many-to-many relationship
         # arrest.how_traffickers_org.clear()
         if request.data.get('howTraffickersOrg'):
-            arrest.how_traffickers_org.set(request.data.getlist('howTraffickersOrg'))
+            arrest.how_traffickers_org.set(request.data.get('howTraffickersOrg'))
 
         return Response({"message": "Arrest details updated successfully"}, status=status.HTTP_200_OK)
     
@@ -850,19 +850,19 @@ class TipAssistanceAPIView(APIView):
         assistance.save()
 
         # Update many-to-many relationships
-        assistance.social_assistance_provider.set(request.data.getlist('socialAssistanceProvider'))
-        assistance.med_rehab_provider.set(request.data.getlist('medRehabProvider'))
-        assistance.housing_allowance_provider.set(request.data.getlist('housingAllowanceProvider'))
-        assistance.halfway_house_providers.set(request.data.getlist('halfwayHouseProvider'))
-        assistance.shelter_provider.set(request.data.getlist('shelterProvider'))
-        assistance.vocational_training_provider.set(request.data.getlist('vocationalTrainingProvider'))
-        assistance.micro_ent_income_provider.set(request.data.getlist('incomeGeneratingProjectProvider'))
-        assistance.legal_assistance_provider.set(request.data.getlist('legalAssistanceProvider'))
-        assistance.medical_assistance_provider.set(request.data.getlist('medicalAssistanceProvider'))
-        assistance.financial_assistance_provider.set(request.data.getlist('financialAssistanceProvider'))
-        assistance.education_assistance_provider.set(request.data.getlist('educationAssistanceProvider'))
-        assistance.im_emmigration_assistance_provider.set(request.data.getlist('immEmmigrationAssistanceProvider'))
-        assistance.other_community_assistance_provider.set(request.data.getlist('communityBasedAssistanceProvider'))
+        assistance.social_assistance_provider.set(request.data.get('socialAssistanceProvider'))
+        assistance.med_rehab_provider.set(request.data.get('medRehabProvider'))
+        assistance.housing_allowance_provider.set(request.data.get('housingAllowanceProvider'))
+        assistance.halfway_house_providers.set(request.data.get('halfwayHouseProvider'))
+        assistance.shelter_provider.set(request.data.get('shelterProvider'))
+        assistance.vocational_training_provider.set(request.data.get('vocationalTrainingProvider'))
+        assistance.micro_ent_income_provider.set(request.data.get('incomeGeneratingProjectProvider'))
+        assistance.legal_assistance_provider.set(request.data.get('legalAssistanceProvider'))
+        assistance.medical_assistance_provider.set(request.data.get('medicalAssistanceProvider'))
+        assistance.financial_assistance_provider.set(request.data.get('financialAssistanceProvider'))
+        assistance.education_assistance_provider.set(request.data.get('educationAssistanceProvider'))
+        assistance.im_emmigration_assistance_provider.set(request.data.get('immEmmigrationAssistanceProvider'))
+        assistance.other_community_assistance_provider.set(request.data.get('communityBasedAssistanceProvider'))
 
         return Response({"message": "Assistance details updated successfully"}, status=status.HTTP_200_OK)
 
@@ -924,7 +924,7 @@ class TipSocioAPIView(APIView):
         socio.save()
 
         # Update many-to-many relationships
-        socio.last_occupation.set(request.data.getlist('lastOccupation'))
+        socio.last_occupation.set(request.data.get('lastOccupation'))
 
         return Response({"message": "SocioEconomic details updated successfully"}, status=status.HTTP_200_OK)
 
@@ -1113,10 +1113,10 @@ class SomVictimAPIView(APIView):
         victim.save()
 
         if request.data.get('languages'):
-            victim.languages.set(request.data.getlist('languages'))
+            victim.languages.set(request.data.get('languages'))
         
         if request.data.get('idType'):
-            victim.identification_type.set(request.data.getlist('idType'))
+            victim.identification_type.set(request.data.get('idType'))
 
         return Response({"message": "Victim updated successfully","id":victim.id}, status=status.HTTP_201_CREATED)
 
@@ -1337,11 +1337,11 @@ class SomSuspectAPIView(APIView):
         suspect.save()
 
         if request.data.get('languages'):
-            suspect.languages.set(request.data.getlist('languages'))
+            suspect.languages.set(request.data.get('languages'))
 
         
         if request.data.get('roleInTrafficking'):
-            suspect.role_in_trafficking.set(request.data.getlist('roleInTrafficking'))
+            suspect.role_in_trafficking.set(request.data.get('roleInTrafficking'))
 
         return Response({"message": "Suspect details updated successfully"}, status=status.HTTP_200_OK)
 
@@ -1452,7 +1452,7 @@ class SomArrestAPIView(APIView):
         arrest.interviewer_id = interviewer.id
         arrest.approval_id=1
         arrest.save()
-        for org in request.POST.getlist('howTraffickersOrg'):
+        for org in request.POST.get('howTraffickersOrg'):
             arrest.how_traffickers_org.add(TraffickerOrg.objects.filter(id= org).first())
 
         return Response({"message": "Arrest details created successfully","id":arrest.id}, status=status.HTTP_201_CREATED)
@@ -1481,7 +1481,7 @@ class SomArrestAPIView(APIView):
         # Update many-to-many relationship
         arrest.how_traffickers_org.clear()
         if request.data.get('howTraffickersOrg'):
-            arrest.how_traffickers_org.set(request.data.getlist('howTraffickersOrg'))
+            arrest.how_traffickers_org.set(request.data.get('howTraffickersOrg'))
 
         return Response({"message": "Arrest details updated successfully"}, status=status.HTTP_200_OK)
     
@@ -1600,19 +1600,19 @@ class SomAssistanceAPIView(APIView):
         assistance.save()
 
         # Update many-to-many relationships
-        assistance.social_assistance_provider.set(request.data.getlist('socialAssistanceProvider'))
-        assistance.med_rehab_provider.set(request.data.getlist('medRehabProvider'))
-        assistance.housing_allowance_provider.set(request.data.getlist('housingAllowanceProvider'))
-        assistance.halfway_house_providers.set(request.data.getlist('halfwayHouseProvider'))
-        assistance.shelter_provider.set(request.data.getlist('shelterProvider'))
-        assistance.vocational_training_provider.set(request.data.getlist('vocationalTrainingProvider'))
-        assistance.micro_ent_income_provider.set(request.data.getlist('incomeGeneratingProjectProvider'))
-        assistance.legal_assistance_provider.set(request.data.getlist('legalAssistanceProvider'))
-        assistance.medical_assistance_provider.set(request.data.getlist('medicalAssistanceProvider'))
-        assistance.financial_assistance_provider.set(request.data.getlist('financialAssistanceProvider'))
-        assistance.education_assistance_provider.set(request.data.getlist('educationAssistanceProvider'))
-        assistance.im_emmigration_assistance_provider.set(request.data.getlist('immEmmigrationAssistanceProvider'))
-        assistance.other_community_assistance_provider.set(request.data.getlist('communityBasedAssistanceProvider'))
+        assistance.social_assistance_provider.set(request.data.get('socialAssistanceProvider'))
+        assistance.med_rehab_provider.set(request.data.get('medRehabProvider'))
+        assistance.housing_allowance_provider.set(request.data.get('housingAllowanceProvider'))
+        assistance.halfway_house_providers.set(request.data.get('halfwayHouseProvider'))
+        assistance.shelter_provider.set(request.data.get('shelterProvider'))
+        assistance.vocational_training_provider.set(request.data.get('vocationalTrainingProvider'))
+        assistance.micro_ent_income_provider.set(request.data.get('incomeGeneratingProjectProvider'))
+        assistance.legal_assistance_provider.set(request.data.get('legalAssistanceProvider'))
+        assistance.medical_assistance_provider.set(request.data.get('medicalAssistanceProvider'))
+        assistance.financial_assistance_provider.set(request.data.get('financialAssistanceProvider'))
+        assistance.education_assistance_provider.set(request.data.get('educationAssistanceProvider'))
+        assistance.im_emmigration_assistance_provider.set(request.data.get('immEmmigrationAssistanceProvider'))
+        assistance.other_community_assistance_provider.set(request.data.get('communityBasedAssistanceProvider'))
 
         return Response({"message": "Assistance details updated successfully"}, status=status.HTTP_200_OK)
 
@@ -1674,7 +1674,7 @@ class SomSocioAPIView(APIView):
         socio.save()
 
         # Update many-to-many relationships
-        socio.last_occupation.set(request.data.getlist('lastOccupation'))
+        socio.last_occupation.set(request.data.get('lastOccupation'))
 
         return Response({"message": "SocioEconomic details updated successfully"}, status=status.HTTP_200_OK)
 
