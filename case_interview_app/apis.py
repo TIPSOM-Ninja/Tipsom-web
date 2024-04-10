@@ -1420,9 +1420,9 @@ class SomTransitAPIView(APIView):
         transit.save()
 
         if request.data.get('meansOfTransportation'):
-            transit.transport_means.set(request.PUT.getlist('meansOfTransportation'))
+            transit.transport_means.set(request.POST.getlist('meansOfTransportation'))
         if request.data.get('countriesOfTransit'):
-            transit.countries_of_transit.set(request.data.get('countriesOfTransit'))
+            transit.countries_of_transit.set(request.POST.getlist('countriesOfTransit'))
                 
         return Response({"message": "Transit record updated successfully"}, status=status.HTTP_200_OK)
 
