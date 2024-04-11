@@ -460,7 +460,7 @@ class TipExploitationAPIView(APIView):
         exploitation.subject_to_exploitation = request.data.get('subjectToExploitation', exploitation.subject_to_exploitation)
         exploitation.intent_to_exploit = request.data.get('intentToExploit', exploitation.intent_to_exploit)
         exploitation.exploitation_length = request.data.get('exploitationLength', exploitation.exploitation_length)
-        exploitation.exploitation_age_id = int(request.data.get('exploitationAge')) if request.data.get('exploitationAge') is not None and request.data.get('exploitationAge').isdigit() else exploitation.exploitation_age_id
+        exploitation.exploitation_age_id = int(request.data.get('exploitationAge')) if request.data.get('exploitationAge') is not None and str(request.data.get('exploitationAge')).isdigit() else exploitation.exploitation_age_id
         exploitation.pay_debt = request.data.get('paidDebt',exploitation.pay_debt)
         exploitation.debt_amount = request.data.get('debtAmount',exploitation.debt_amount)
         exploitation.freed_method_id = int(request.data.get('freedMethod',exploitation.freed_method_id)) if request.data.get('freedMethod') is not None else exploitation.freed_method_id
@@ -1286,7 +1286,7 @@ class SomSuspectAPIView(APIView):
         born = datetime.strptime(request.data['dob'], '%Y-%m-%d')
         age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
         suspect = SomSuspectedTrafficker()
-        suspect.victim_id = request.data['v_id']
+        suspect.case_id = request.data['case_id']
         suspect.first_name = request.data['firstName']
         suspect.last_name = request.data['surName'] 
         suspect.dob = request.data['dob']
@@ -1452,7 +1452,7 @@ class SomArrestAPIView(APIView):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         
         arrest = SomArrestInvestigation()
-        arrest.victim_id = request.data['v_id']
+        arrest.case_id = request.data['case_id']
         arrest.org_crime=request.data['organizedCrime']
         arrest.suspects_arrested = request.data['suspectArrested']
         arrest.why_no_arrest=request.data['whyNoArrest']
@@ -1477,7 +1477,6 @@ class SomArrestAPIView(APIView):
             return Response({"error": "Arrest record not found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Update arrest object with the provided data
-        arrest.victim_id = request.data.get('v_id', arrest.victim_id)
         arrest.org_crime = request.data.get('organizedCrime', arrest.org_crime)
         arrest.suspects_arrested = request.data.get('suspectArrested', arrest.suspects_arrested)
         arrest.why_no_arrest = request.data.get('whyNoArrest', arrest.why_no_arrest)
@@ -1654,12 +1653,13 @@ class SomSocioAPIView(APIView):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         
         socio = SomSocioEconomic()
-        socio.victim_id = request.session["v_id"]
-        socio.family_structure_id = int(request.data['familyStructure']) if request.data['familyStructure'].isdigit() else None
-        socio.living_with_id = int(request.data['livingWith']) if request.data['livingWith'].isdigit() else None
+        socio.case_id = request.data.get("case_id")
+        socio.victim_id = request.data.get("v_id")
+        socio.family_structure_id = int(request.data['familyStructure']) if request.data.get('familyStructure') and request.data['familyStructure'].isdigit() else None
+        socio.living_with_id = int(request.data['livingWith']) if request.data.get('livingWith') and request.data['livingWith'].isdigit() else None
         socio.violence_prior = request.data['violencePrior']
         socio.violence_type = request.data['violenceType']
-        socio.education_level_id = int(request.data['educationLevel']) if request.data['educationLevel'].isdigit() else None
+        socio.education_level_id = int(request.data['educationLevel']) if request.data.get('educationLevel') and request.data['educationLevel'].isdigit() else None
         socio.interviewer_id = interviewer.id
         socio.approval_id = 1
         socio.save()
@@ -1676,7 +1676,7 @@ class SomSocioAPIView(APIView):
             return Response({"error": "SocioEconomic record not found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Update socio object with the provided data
-        socio.victim_id = request.session.get("v_id", socio.victim_id)
+        socio.victim_id = request.data.get("v_id", socio.victim_id)
         socio.family_structure_id = int(request.data.get('familyStructure', socio.family_structure_id)) if request.data.get('familyStructure') and request.data.get('familyStructure').isdigit() else socio.family_structure_id
         socio.living_with_id = int(request.data.get('livingWith', socio.living_with_id)) if request.data.get('livingWith') and request.data.get('livingWith').isdigit() else socio.living_with_id
         socio.violence_prior = request.data.get('violencePrior', socio.violence_prior)
