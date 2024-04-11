@@ -485,7 +485,7 @@ class TipExploitationAPIView(APIView):
         exploitation.e_forced_military_type_id = int(request.data.get('eForcedMilitaryType',exploitation.e_forced_military_type_id)) if request.data.get('eForcedMilitaryType') is not None and request.data['eForcedMilitaryType'].isdigit() else exploitation.e_forced_military_type_id
         exploitation.e_armed_group_name = request.data.get('eArmedGroupName',exploitation.e_armed_group_name)
         exploitation.e_child_soldier = request.data.get('eChildSoldier',exploitation.e_child_soldier)
-        exploitation.e_child_soldier_age = int(request.data.get('eChildSoldierAge',exploitation.e_child_soldier_age))  if request.data.get('eChildSoldierAge') is not None and request.data['eChildSoldierAge'].isdigit() else exploitation.e_child_soldier_age
+        exploitation.e_child_soldier_age = int(request.data.get('eChildSoldierAge',exploitation.e_child_soldier_age))  if request.data.get('eChildSoldierAge') is not None and str(request.data['eChildSoldierAge']).isdigit() else exploitation.e_child_soldier_age
         exploitation.e_organ_removed = request.data.get('eOrganRemoved',exploitation.e_organ_removed)
         exploitation.e_operation_location_id = int(request.data.get('eOperationLocation',exploitation.e_operation_location_id)) if request.data.get('eOperationLocation') is not None and request.data['eOperationLocation'].isdigit() else exploitation.e_operation_location_id
         exploitation.e_operation_country_id = int(request.data.get('eOperationCountry',exploitation.e_operation_country_id)) if request.data.get('eOperationCountry') is not None and request.data['eOperationCountry'].isdigit() else exploitation.e_operation_country_id
