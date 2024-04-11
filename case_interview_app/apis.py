@@ -473,27 +473,27 @@ class TipExploitationAPIView(APIView):
         exploitation.e_forced_labour = request.data.get('eForcedLabour',exploitation.e_criminal_activity)
         exploitation.e_forced_marriage = request.data.get('eForcedMarriage',exploitation.e_forced_marriage)
         exploitation.e_victim_knew_spouse = request.data.get('eVictimKnewSpouse',exploitation.e_victim_knew_spouse)
-        exploitation.e_spouse_nationality_id = int(request.data.get('eSpouseNationality',exploitation.e_spouse_nationality_id)) if request.data.get('eSpouseNationality') is not None and request.data['eSpouseNationality'].isdigit() else exploitation.e_spouse_nationality_id
-        exploitation.e_bprice_paid_id = int(request.data.get('eBPricePaid',exploitation.e_bprice_paid_id)) if request.data.get('eBPricePaid') is not None and request.data['eBPricePaid'].isdigit() else exploitation.e_bprice_paid_id
+        exploitation.e_spouse_nationality_id = int(request.data.get('eSpouseNationality',exploitation.e_spouse_nationality_id)) if request.data.get('eSpouseNationality') is not None and str(request.data['eSpouseNationality']).isdigit() else exploitation.e_spouse_nationality_id
+        exploitation.e_bprice_paid_id = int(request.data.get('eBPricePaid',exploitation.e_bprice_paid_id)) if request.data.get('eBPricePaid') is not None and str(request.data['eBPricePaid']).isdigit() else exploitation.e_bprice_paid_id
         exploitation.e_bprice_amount_kind = request.data.get('eBPriceAmountKind',exploitation.e_bprice_amount_kind)
         exploitation.e_child_marriage = request.data.get('eChildMarriage',exploitation.e_child_marriage)
         exploitation.e_victim_pregnancy = request.data.get('eVictimPregnancy',exploitation.e_victim_pregnancy)
-        exploitation.e_children_from_marriage = int(request.data.get('eChildFromMarriage',exploitation.e_children_from_marriage)) if  request.data.get('eChildFromMarriage') is not None and request.data['eChildFromMarriage'].isdigit() else exploitation.e_children_from_marriage
+        exploitation.e_children_from_marriage = int(request.data.get('eChildFromMarriage',exploitation.e_children_from_marriage)) if  request.data.get('eChildFromMarriage') is not None and str(request.data['eChildFromMarriage']).isdigit() else exploitation.e_children_from_marriage
         exploitation.e_maternal_health_issues = request.data.get('eMaternalHealthIssues',exploitation.e_maternal_health_issues)
         exploitation.e_m_health_issues_description = request.data.get('eMHealthIssuesDescription',exploitation.e_m_health_issues_description)
-        exploitation.e_marriage_violence_id = int(request.data.get('eMarriageViolence',exploitation.e_marriage_violence_id)) if request.data.get('eMarriageViolence') is not None and request.data['eMarriageViolence'].isdigit() else exploitation.e_marriage_violence_id
-        exploitation.e_forced_military_type_id = int(request.data.get('eForcedMilitaryType',exploitation.e_forced_military_type_id)) if request.data.get('eForcedMilitaryType') is not None and request.data['eForcedMilitaryType'].isdigit() else exploitation.e_forced_military_type_id
+        exploitation.e_marriage_violence_id = int(request.data.get('eMarriageViolence',exploitation.e_marriage_violence_id)) if request.data.get('eMarriageViolence') is not None and str(request.data['eMarriageViolence']).isdigit() else exploitation.e_marriage_violence_id
+        exploitation.e_forced_military_type_id = int(request.data.get('eForcedMilitaryType',exploitation.e_forced_military_type_id)) if request.data.get('eForcedMilitaryType') is not None and str(request.data['eForcedMilitaryType']).isdigit() else exploitation.e_forced_military_type_id
         exploitation.e_armed_group_name = request.data.get('eArmedGroupName',exploitation.e_armed_group_name)
         exploitation.e_child_soldier = request.data.get('eChildSoldier',exploitation.e_child_soldier)
         exploitation.e_child_soldier_age = int(request.data.get('eChildSoldierAge',exploitation.e_child_soldier_age))  if request.data.get('eChildSoldierAge') is not None and str(request.data['eChildSoldierAge']).isdigit() else exploitation.e_child_soldier_age
         exploitation.e_organ_removed = request.data.get('eOrganRemoved',exploitation.e_organ_removed)
-        exploitation.e_operation_location_id = int(request.data.get('eOperationLocation',exploitation.e_operation_location_id)) if request.data.get('eOperationLocation') is not None and request.data['eOperationLocation'].isdigit() else exploitation.e_operation_location_id
-        exploitation.e_operation_country_id = int(request.data.get('eOperationCountry',exploitation.e_operation_country_id)) if request.data.get('eOperationCountry') is not None and request.data['eOperationCountry'].isdigit() else exploitation.e_operation_country_id
+        exploitation.e_operation_location_id = int(request.data.get('eOperationLocation',exploitation.e_operation_location_id)) if request.data.get('eOperationLocation') is not None and str(request.data['eOperationLocation']).isdigit() else exploitation.e_operation_location_id
+        exploitation.e_operation_country_id = int(request.data.get('eOperationCountry',exploitation.e_operation_country_id)) if request.data.get('eOperationCountry') is not None and str(request.data['eOperationCountry']).isdigit() else exploitation.e_operation_country_id
         exploitation.e_organ_sale_price = request.data.get('eOrganSalePrice',exploitation.e_organ_sale_price)
-        exploitation.e_organ_paid_to_id = int(request.data.get('eOrganPaidTo',exploitation.e_organ_paid_to_id)) if request.data.get('eOrganPaidTo') is not None and request.data['eOrganPaidTo'].isdigit() else exploitation.e_organ_paid_to_id
+        exploitation.e_organ_paid_to_id = int(request.data.get('eOrganPaidTo',exploitation.e_organ_paid_to_id)) if request.data.get('eOrganPaidTo') is not None and str(request.data['eOrganPaidTo']).isdigit() else exploitation.e_organ_paid_to_id
         exploitation.e_remarks = request.data.get('eRemarks',exploitation.e_remarks)
-        exploitation.e_recruitment_type_id = int(request.data.get('eRecruitmentType',exploitation.e_recruitment_type_id)) if request.data.get('eRecruitmentType') is not None and request.data['eRecruitmentType'].isdigit() else exploitation.e_recruitment_type_id
-        exploitation.e_recruiter_relationship_id = int(request.data.get('eRecruiterRelationship',exploitation.e_recruiter_relationship_id)) if request.data.get('eRecruiterRelationship') is not None and request.data['eRecruiterRelationship'].isdigit() else exploitation.e_recruiter_relationship_id
+        exploitation.e_recruitment_type_id = int(request.data.get('eRecruitmentType',exploitation.e_recruitment_type_id)) if request.data.get('eRecruitmentType') is not None and str(request.data['eRecruitmentType']).isdigit() else exploitation.e_recruitment_type_id
+        exploitation.e_recruiter_relationship_id = int(request.data.get('eRecruiterRelationship',exploitation.e_recruiter_relationship_id)) if request.data.get('eRecruiterRelationship') is not None and str(request.data['eRecruiterRelationship']).isdigit() else exploitation.e_recruiter_relationship_id
         exploitation.approval_id=1
         exploitation.save()
 
