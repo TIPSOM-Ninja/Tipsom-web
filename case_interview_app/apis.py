@@ -636,7 +636,6 @@ class TipArrestAPIView(APIView):
             return Response({"error": "Arrest record not found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Update arrest object with the provided data
-        arrest.victim_id = request.data.get('v_id', arrest.victim_id)
         arrest.org_crime = request.data.get('organizedCrime', arrest.org_crime)
         arrest.suspects_arrested = request.data.get('suspectArrested', arrest.suspects_arrested)
         arrest.why_no_arrest = request.data.get('whyNoArrest', arrest.why_no_arrest)
@@ -1419,11 +1418,13 @@ class SomTransitAPIView(APIView):
         # Save the updated transit object
         transit.save()
 
-        if request.POST.getlist('meansOfTransportation'):
-            transit.transport_means.set(request.POST.getlist('meansOfTransportation'))
-        if request.POST.getlist('countriesOfTransit'):
-            transit.countries_of_transit.set(request.POST.getlist('countriesOfTransit'))
-        transit.save()
+        if request.data.get('meansOfTransportation'):
+            tr = request.data.get('meansOfTransportation',[])
+            transit.transport_means.set(tr)
+        if request.data.get('countriesOfTransit'):
+            ct = request.data.get('countriesOfTransit')
+            transit.countries_of_transit.set(ct)
+
                 
         return Response({"message": "Transit record updated successfully"}, status=status.HTTP_200_OK)
 
