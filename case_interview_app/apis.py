@@ -309,7 +309,7 @@ class TipSuspectAPIView(APIView):
 
         return Response({"message": "Suspect created successfully","id":suspect.id}, status=status.HTTP_201_CREATED)
 
-    def put(self, request, pk=None):
+    def put(self, request, v_id = None, pk=None):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         suspect = SuspectedTrafficker.objects.filter( pk=pk).first()
         if not suspect:
