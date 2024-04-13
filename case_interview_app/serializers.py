@@ -995,7 +995,7 @@ class ArrestInvestigationSerializer(serializers.ModelSerializer):
             'victimSmuggled': {'source': 'victim_smuggled'},
             'investigationDone': {'source': 'investigation_done'},
             'whyNoInvestigation': {'source': 'why_no_investigation'},
-            'investigationStatus': {'source': 'investigation_status_id'},
+            'investigationStatus': {'source': 'investigation_status'},
             'whyPending': {'source': 'why_pending'},
             'withdrawnClosedReason': {'source': 'withdrawn_closed_reason'},
             'v_id': {'source':'victim_id'}
