@@ -983,7 +983,7 @@ class ProsecutionSerializer(serializers.ModelSerializer):
         }
 
 class ArrestInvestigationSerializer(serializers.ModelSerializer):
-    howTraffickersOrg = TraffickerOrgNameSerializer(many=True,read_only = True)
+    howTraffickersOrg = TraffickerOrgNameSerializer(source="how_traffickers_org", many=True,read_only = True)
     class Meta:
         model = ArrestInvestigation
         fields = ['id', 'suspectArrested', 'organizedCrime', 'whyNoArrest', 'victimSmuggled','investigationDone', 'whyNoInvestigation', 'investigationStatus','whyPending',  'withdrawnClosedReason', 'v_id','howTraffickersOrg']
