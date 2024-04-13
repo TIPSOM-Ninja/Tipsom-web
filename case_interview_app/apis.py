@@ -624,7 +624,7 @@ class TipArrestAPIView(APIView):
         arrest.interviewer_id = interviewer.id
         arrest.approval_id=1
         arrest.save()
-        for org in request.POST.get('howTraffickersOrg'):
+        for org in request.POST.getlist('howTraffickersOrg',[]):
             arrest.how_traffickers_org.add(TraffickerOrg.objects.filter(id= org).first())
 
         return Response({"message": "Arrest details created successfully","id":arrest.id}, status=status.HTTP_201_CREATED)
