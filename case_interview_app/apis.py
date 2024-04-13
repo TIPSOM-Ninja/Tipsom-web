@@ -1272,10 +1272,10 @@ class SomSuspectAPIView(APIView):
             serializer = SuspectedTraffickerSerializer(page_object, many = True)
 
         elif(v_id is not None and pk is None):
-            suspect =SomSuspectedTrafficker.objects.filter(victim_id = v_id)
+            suspect =SomSuspectedTrafficker.objects.filter(case_id = v_id)
             serializer = SuspectedTraffickerSerializer(suspect, many = True)
         elif pk is not None:
-            suspect =SomSuspectedTrafficker.objects.filter(victim_id = v_id).first()
+            suspect =SomSuspectedTrafficker.objects.filter(case_id = v_id).first()
             serializer = SuspectedTraffickerSerializer(suspect)
         return Response(serializer.data)
     
