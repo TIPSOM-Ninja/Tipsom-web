@@ -984,6 +984,7 @@ class ProsecutionSerializer(serializers.ModelSerializer):
 
 class ArrestInvestigationSerializer(serializers.ModelSerializer):
     howTraffickersOrg = TraffickerOrgNameSerializer(source="how_traffickers_org", many=True,read_only = True)
+    investigationStatus = InvestigationStatusSerializer(source=  'investigation_status',read_only = True) 
     class Meta:
         model = ArrestInvestigation
         fields = ['id', 'suspectArrested', 'organizedCrime', 'whyNoArrest', 'victimSmuggled','investigationDone', 'whyNoInvestigation', 'investigationStatus','whyPending',  'withdrawnClosedReason', 'v_id','howTraffickersOrg','created_at']
@@ -995,7 +996,7 @@ class ArrestInvestigationSerializer(serializers.ModelSerializer):
             'victimSmuggled': {'source': 'victim_smuggled'},
             'investigationDone': {'source': 'investigation_done'},
             'whyNoInvestigation': {'source': 'why_no_investigation'},
-            'investigationStatus': {'source': 'investigation_status'},
+            
             'whyPending': {'source': 'why_pending'},
             'withdrawnClosedReason': {'source': 'withdrawn_closed_reason'},
             'v_id': {'source':'victim_id'}
