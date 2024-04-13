@@ -1440,7 +1440,7 @@ class SomArrestAPIView(APIView):
             page_object = paginator.get_page(page)
             serializer = SomArrestInvestigationSerializer(page_object,many = True)
         elif(v_id is not None and pk is None):
-            arrest =SomArrestInvestigation.objects.filter(victim_id = v_id)
+            arrest =SomArrestInvestigation.objects.filter(case_id = v_id)
             paginator = Paginator(arrest, per_page=12)
             page_object = paginator.get_page(page)
             serializer = SomArrestInvestigationSerializer(page_object,many = True)
