@@ -1129,3 +1129,23 @@ class SomCaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = SomCase
         fields = '__all__' 
+
+class SomArrestInvestigationSerializer(serializers.ModelSerializer):
+    howTraffickersOrg = TraffickerOrgNameSerializer(source="how_traffickers_org", many=True,read_only = True)
+    investigationStatus = InvestigationStatusSerializer(source=  'investigation_status',read_only = True) 
+    class Meta:
+        model = SomArrestInvestigation
+        fields = ['id', 'suspectArrested', 'organizedCrime', 'whyNoArrest', 'victimSmuggled','investigationDone', 'whyNoInvestigation', 'investigationStatus','whyPending',  'withdrawnClosedReason','howTraffickersOrg','created_at']
+        # Specify the field names in camelCase
+        extra_kwargs = {
+            'suspectArrested': {'source': 'suspects_arrested'},
+            'organizedCrime': {'source': 'org_crime'},
+            'whyNoArrest': {'source': 'why_no_arrest'},
+            'victimSmuggled': {'source': 'victim_smuggled'},
+            'investigationDone': {'source': 'investigation_done'},
+            'whyNoInvestigation': {'source': 'why_no_investigation'},
+            
+            'whyPending': {'source': 'why_pending'},
+            'withdrawnClosedReason': {'source': 'withdrawn_closed_reason'},
+            
+        }
