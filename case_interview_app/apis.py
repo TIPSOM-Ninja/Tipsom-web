@@ -1146,15 +1146,15 @@ class SomProsecutionAPIView(APIView):
             prosecution =SomProsecution.objects.all()
             paginator = Paginator(prosecution, per_page=12)
             page_object = paginator.get_page(page)
-            serializer = ProsecutionSerializer(page_object,many = True)
+            serializer = SomProsecutionSerializer(page_object,many = True)
         elif(v_id is not None and pk is None):
             prosecution =SomProsecution.objects.filter(case_id = v_id)
             paginator = Paginator(prosecution, per_page=12)
             page_object = paginator.get_page(page)
-            serializer = ProsecutionSerializer(page_object,many = True)
+            serializer = SomProsecutionSerializer(page_object,many = True)
         else:
             prosecution =SomProsecution.objects.filter(pk = pk).first()
-            serializer = ProsecutionSerializer(prosecution)
+            serializer = SomProsecutionSerializer(prosecution)
         return Response(serializer.data)
         
 
