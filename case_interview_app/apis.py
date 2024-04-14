@@ -1533,15 +1533,15 @@ class SomAssistanceAPIView(APIView):
             assistance =SomAssistance.objects.all()
             paginator = Paginator(assistance, per_page=12)
             page_object = paginator.get_page(page)
-            serializer = AssistanceSerializer(page_object,many = True)
+            serializer = SomAssistanceSerializer(page_object,many = True)
         elif(v_id is not None and pk is None):
-            assistance =SomAssistance.objects.filter(victim_id = v_id)
+            assistance =SomAssistance.objects.filter(case_id = v_id)
             paginator = Paginator(assistance, per_page=12)
             page_object = paginator.get_page(page)
-            serializer = AssistanceSerializer(page_object,many = True)
+            serializer = SomAssistanceSerializer(page_object,many = True)
         else:
             assistance =SomAssistance.objects.filter(pk = pk).first()
-            serializer = AssistanceSerializer(assistance)
+            serializer = SomAssistanceSerializer(assistance)
         return Response(serializer.data)
 
     def post(self,request):
@@ -1605,14 +1605,13 @@ class SomAssistanceAPIView(APIView):
 
         return Response({"message": "Arrest details created successfully","id":assistance.id}, status=status.HTTP_201_CREATED)
 
-    def put(self, request, pk=None):
+    def put(self, request, v_id = None, pk=None):
         interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
         assistance = SomAssistance.objects.filter(pk=pk).first()
         if not assistance:
             return Response({"error": "Assistance record not found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Update assistance object with the provided data
-        assistance.victim_id = request.data.get('v_id', assistance.victim_id)
         assistance.social_assistance =  request.data.get('socialAssistance',assistance.social_assistance)
         assistance.med_rehab =  request.data.get('medRehab',assistance.med_rehab)
         assistance.housing_allowance =  request.data.get('housingAllowance',assistance.housing_allowance)
@@ -1663,10 +1662,8 @@ class SomSocioAPIView(APIView):
             page_object = paginator.get_page(page)
             serializer = SocioEconomicSerializer(page_object,many = True)
         elif(v_id is not None and pk is None):
-            socia =SomSocioEconomic.objects.filter(victim_id = v_id)
-            paginator = Paginator(socia, per_page=12)
-            page_object = paginator.get_page(page)
-            serializer = SocioEconomicSerializer(page_object,many = True)
+            socia =SomSocioEconomic.objects.filter(case_id = v_id).first()
+            serializer = SocioEconomicSerializer(socia)
         else:
             socia =SomSocioEconomic.objects.filter(pk = pk).first()
             serializer = SocioEconomicSerializer(socia)
@@ -1677,7 +1674,7 @@ class SomSocioAPIView(APIView):
         
         socio = SomSocioEconomic()
         socio.case_id = request.data.get("case_id")
-        socio.victim_id = request.data.get("v_id")
+        # socio.victim_id = request.data.get("v_id")
         socio.family_structure_id = int(request.data['familyStructure']) if request.data.get('familyStructure') and request.data['familyStructure'].isdigit() else None
         socio.living_with_id = int(request.data['livingWith']) if request.data.get('livingWith') and request.data['livingWith'].isdigit() else None
         socio.violence_prior = request.data['violencePrior']
@@ -1692,14 +1689,14 @@ class SomSocioAPIView(APIView):
         
         return Response({"message": "Arrest details created successfully","id":socio.id}, status=status.HTTP_201_CREATED)
     
-    def put(self, request, pk=None):
+    def put(self, request, v_id = None, pk=None):
         interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
         socio = SomSocioEconomic.objects.filter(pk=pk).first()
         if not socio:
             return Response({"error": "SocioEconomic record not found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Update socio object with the provided data
-        socio.victim_id = request.data.get("v_id", socio.victim_id)
+        # socio.victim_id = request.data.get("v_id", socio.victim_id)
         socio.family_structure_id = int(request.data.get('familyStructure', socio.family_structure_id)) if request.data.get('familyStructure') and request.data.get('familyStructure').isdigit() else socio.family_structure_id
         socio.living_with_id = int(request.data.get('livingWith', socio.living_with_id)) if request.data.get('livingWith') and request.data.get('livingWith').isdigit() else socio.living_with_id
         socio.violence_prior = request.data.get('violencePrior', socio.violence_prior)
