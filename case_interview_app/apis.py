@@ -1674,7 +1674,7 @@ class SomSocioAPIView(APIView):
         
         socio = SomSocioEconomic()
         socio.case_id = request.data.get("case_id")
-        # socio.victim_id = request.data.get("v_id")
+        socio.victim_id = request.data.get("v_id")
         socio.family_structure_id = int(request.data['familyStructure']) if request.data.get('familyStructure') and request.data['familyStructure'].isdigit() else None
         socio.living_with_id = int(request.data['livingWith']) if request.data.get('livingWith') and request.data['livingWith'].isdigit() else None
         socio.violence_prior = request.data['violencePrior']
@@ -1696,7 +1696,7 @@ class SomSocioAPIView(APIView):
             return Response({"error": "SocioEconomic record not found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Update socio object with the provided data
-        # socio.victim_id = request.data.get("v_id", socio.victim_id)
+        socio.victim_id = request.data.get("v_id", socio.victim_id)
         socio.family_structure_id = int(request.data.get('familyStructure', socio.family_structure_id)) if request.data.get('familyStructure') and request.data.get('familyStructure').isdigit() else socio.family_structure_id
         socio.living_with_id = int(request.data.get('livingWith', socio.living_with_id)) if request.data.get('livingWith') and request.data.get('livingWith').isdigit() else socio.living_with_id
         socio.violence_prior = request.data.get('violencePrior', socio.violence_prior)
