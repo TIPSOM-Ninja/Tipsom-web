@@ -1678,7 +1678,7 @@ class SomSocioAPIView(APIView):
         socio.family_structure_id = int(request.data['familyStructure']) if request.data.get('familyStructure') and request.data['familyStructure'].isdigit() else None
         socio.living_with_id = int(request.data['livingWith']) if request.data.get('livingWith') and request.data['livingWith'].isdigit() else None
         socio.violence_prior = request.data['violencePrior']
-        socio.violence_type = request.data['violenceType']
+        # socio.violence_type = request.data['violenceType']
         socio.education_level_id = int(request.data['educationLevel']) if request.data.get('educationLevel') and request.data['educationLevel'].isdigit() else None
         socio.interviewer_id = interviewer.id
         socio.approval_id = 1
@@ -1700,7 +1700,7 @@ class SomSocioAPIView(APIView):
         socio.family_structure_id = int(request.data.get('familyStructure', socio.family_structure_id)) if request.data.get('familyStructure') and request.data.get('familyStructure').isdigit() else socio.family_structure_id
         socio.living_with_id = int(request.data.get('livingWith', socio.living_with_id)) if request.data.get('livingWith') and request.data.get('livingWith').isdigit() else socio.living_with_id
         socio.violence_prior = request.data.get('violencePrior', socio.violence_prior)
-        socio.violence_type = request.data.get('violenceType', socio.violence_type)
+        # socio.violence_type = request.data.get('violenceType', socio.violence_type)
         socio.education_level_id = int(request.data.get('educationLevel', socio.education_level_id)) if request.data.get('educationLevel') and request.data.get('educationLevel').isdigit() else socio.education_level_id
         socio.interviewer_id = interviewer.id
         socio.approval_id = 1
