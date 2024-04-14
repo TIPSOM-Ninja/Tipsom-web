@@ -1299,10 +1299,10 @@ class SomSuspectAPIView(APIView):
         suspect.last_residence = request.data['lastPlaceOfResidence']
         suspect.address = request.data['address']
         suspect.date_of_arrest = request.data['dateOfArrest']
-        suspect.traffick_from_country_id = request.data['countryFrom']
-        suspect.traffick_from_place = request.data['placeFrom']
-        suspect.traffick_to_country_id = request.data['countryTo']
-        suspect.traffick_to_place = request.data['placeTo']
+        # suspect.traffick_from_country_id = request.data['countryFrom']
+        # suspect.traffick_from_place = request.data['placeFrom']
+        # suspect.traffick_to_country_id = request.data['countryTo']
+        # suspect.traffick_to_place = request.data['placeTo']
         suspect.interviewer_id=interviewer.id
         suspect.approval_id=1
         suspect.id_type_id = request.data['idType']
@@ -1317,7 +1317,7 @@ class SomSuspectAPIView(APIView):
 
         return Response({"message": "Suspect created successfully","id":suspect.id}, status=status.HTTP_201_CREATED)
 
-    def put(self, request, pk=None):
+    def put(self, request, v_id = None, pk=None):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         suspect = SomSuspectedTrafficker.objects.filter( pk=pk).first()
         if not suspect:
@@ -1340,10 +1340,10 @@ class SomSuspectAPIView(APIView):
         suspect.last_residence = request.data.get('lastPlaceOfResidence',suspect.last_residence)
         suspect.address = request.data.get('address',suspect.address)
         suspect.date_of_arrest = request.data.get('dateOfArrest',suspect.date_of_arrest)
-        suspect.traffick_from_country_id = request.data.get('countryFrom',suspect.traffick_from_country_id)
-        suspect.traffick_from_place = request.data.get('placeFrom',suspect.traffick_from_place)
-        suspect.traffick_to_country_id = request.data.get('countryTo',suspect.traffick_to_country_id)
-        suspect.traffick_to_place = request.data.get('placeTo',suspect.traffick_to_place)
+        # suspect.traffick_from_country_id = request.data.get('countryFrom',suspect.traffick_from_country_id)
+        # suspect.traffick_from_place = request.data.get('placeFrom',suspect.traffick_from_place)
+        # suspect.traffick_to_country_id = request.data.get('countryTo',suspect.traffick_to_country_id)
+        # suspect.traffick_to_place = request.data.get('placeTo',suspect.traffick_to_place)
         suspect.interviewer_id=interviewer.id
         suspect.approval_id=1
         suspect.id_type_id = request.data.get('idType')
