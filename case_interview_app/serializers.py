@@ -966,7 +966,7 @@ class ProsecutionSerializer(serializers.ModelSerializer):
     prosecutionOutcome = ProsecutionOutcomeSerializer(source = "prosecution_outcome", read_only=True)
     foreignCourtCountry = CountrySerializer(source = "trial_court_country", read_only=True)
     caseStatus = CaseStatusSerializer(source = "status_of_case", read_only=True)
-    verdict = VerdictSerializer(source = "verdict", read_only=True)
+    verdict = VerdictSerializer(read_only=True)
     penalty = SanctionPenaltySerializer(source = "sanction_penalty", read_only=True)
     acquitalReason = AquitalReasonSerializer(source = "aquital_reason", read_only=True)
 
