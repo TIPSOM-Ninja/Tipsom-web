@@ -246,7 +246,7 @@ class TipProsecutionAPIView(APIView):
         prosecution.aquital_reason_id = request.data.get('acquittalReason', prosecution.aquital_reason_id) if request.data.get('acquittalReason') != "" else None
         prosecution.review_appeal_outcome = request.data.get('reviewAppealOutcome', prosecution.review_appeal_outcome)
         prosecution.sanction_penalty_id = request.data.get('penalty', prosecution.sanction_penalty_id) if request.data.get('penalty') != "" else None
-        prosecution.years_imposed = int(request.data.get('yearsImposed', prosecution.years_imposed)) if request.data.get('yearsImposed') != "" and request.data.get('yearsImposed').isdigit() else None
+        prosecution.years_imposed = int(request.data.get('yearsImposed', prosecution.years_imposed)) if request.data.get('yearsImposed') != None and request.data.get('yearsImposed').isdigit() else None
         prosecution.save()
         
         return Response({"message": "Prosecution details updated successfully"}, status=status.HTTP_200_OK)
