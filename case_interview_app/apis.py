@@ -1547,19 +1547,19 @@ class SomAssistanceAPIView(APIView):
     def post(self,request):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         assistance = SomAssistance()
-        assistance.social_assistance = request.data['socialAssistance']
-        assistance.med_rehab = request.data['medRehab']
-        assistance.housing_allowance = request.data['housingAllowance']
-        assistance.halfway_house = request.data['halfwayHouse']
-        assistance.shelter = request.data['shelter']
-        assistance.vocational_training = request.data['vocationalTraining']
-        assistance.micro_ent_income = request.data['incomeGeneratingProject']
-        assistance.legal_assistance = request.data['legalAssistance']
-        assistance.medical_assistance = request.data['medicalAssistance']
-        assistance.financial_assistance = request.data['financialAssistance']
-        assistance.education_assistance = request.data['educationAssistance']
-        assistance.im_emmigration_assistance = request.data['immEmmigrationAssistance']
-        assistance.other_community_assistance = request.data['communityBasedAssistance']
+        assistance.social_assistance = request.data.get('socialAssistance')
+        assistance.med_rehab = request.data.get('medRehab')
+        assistance.housing_allowance = request.data.get('housingAllowance')
+        assistance.halfway_house = request.data.get('halfwayHouse')
+        assistance.shelter = request.data.get('shelter')
+        assistance.vocational_training = request.data.get('vocationalTraining')
+        assistance.micro_ent_income = request.data.get('incomeGeneratingProject')
+        assistance.legal_assistance = request.data.get('legalAssistance')
+        assistance.medical_assistance = request.data.get('medicalAssistance')
+        assistance.financial_assistance = request.data.get('financialAssistance')
+        assistance.education_assistance = request.data.get('educationAssistance')
+        assistance.im_emmigration_assistance = request.data.get('immEmmigrationAssistance')
+        assistance.other_community_assistance = request.data.get('communityBasedAssistance')
         assistance.interviewer_id = interviewer.id
         assistance.approval_id = 1
         assistance.save()
