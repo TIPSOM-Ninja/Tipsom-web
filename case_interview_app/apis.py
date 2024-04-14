@@ -1547,7 +1547,6 @@ class SomAssistanceAPIView(APIView):
     def post(self,request):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         assistance = SomAssistance()
-        assistance.victim_id = request.data['v_id']
         assistance.social_assistance = request.data['socialAssistance']
         assistance.med_rehab = request.data['medRehab']
         assistance.housing_allowance = request.data['housingAllowance']
