@@ -1017,8 +1017,8 @@ class SomTransitRouteDestinationSerializer(serializers.ModelSerializer):
     country_of_origin = CountrySerializer(read_only=True)
     country_of_dest = CountrySerializer(read_only=True)
     country_of_interception = CountrySerializer(read_only=True)
-    countries_of_transit = CountrySerializer(source="countries_of_transit",many=True, read_only=True)
-    transport_means = TransportMeanSerializer(source="transport_means",many=True, read_only=True)
+    countries_of_transit = CountrySerializer(many=True, read_only=True)
+    transport_means = TransportMeanSerializer(many=True, read_only=True)
     interviewer = InterviewerSerializer(read_only=True)
     approval = ApprovalStatusSerializer(read_only=True)
 
