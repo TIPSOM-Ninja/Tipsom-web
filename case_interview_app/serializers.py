@@ -961,14 +961,14 @@ class VictimProfileWithRelatedSerializer(serializers.ModelSerializer):
     #     return obj.destinations.aggregate(Count('id', distinct=True))['id__count']
     
 class ProsecutionSerializer(serializers.ModelSerializer):
-    trialCourt = TrialCourtSerializer(read_only=True)
-    suspectedTrafficker = SuspectedTraffickerSerializer(read_only=True)
-    prosecutionOutcome = ProsecutionOutcomeSerializer(read_only=True)
-    foreignCourtCountry = CountrySerializer(read_only=True)
-    caseStatus = CaseStatusSerializer(read_only=True)
-    verdict = VerdictSerializer(read_only=True)
-    penalty = SanctionPenaltySerializer(read_only=True)
-    acquitalReason = AquitalReasonSerializer(read_only=True)
+    trialCourt = TrialCourtSerializer(source="trial_court", read_only=True)
+    suspectedTrafficker = SuspectedTraffickerSerializer(source = "trafficker", read_only=True)
+    prosecutionOutcome = ProsecutionOutcomeSerializer(source = "prosecution_outcome", read_only=True)
+    foreignCourtCountry = CountrySerializer(source = "trial_court_country", read_only=True)
+    caseStatus = CaseStatusSerializer(source = "status_of_case", read_only=True)
+    verdict = VerdictSerializer(source = "verdict", read_only=True)
+    penalty = SanctionPenaltySerializer(source = "sanction_penalty", read_only=True)
+    acquitalReason = AquitalReasonSerializer(source = "aquital_reason", read_only=True)
 
     class Meta:
         model = Prosecution
