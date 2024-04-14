@@ -1563,43 +1563,43 @@ class SomAssistanceAPIView(APIView):
         assistance.interviewer_id = interviewer.id
         assistance.approval_id = 1
         assistance.save()
-        for it in request.data['socialAssistanceProvider']:
+        for it in request.data.get('socialAssistanceProvider',[]):
             assistance.social_assistance_provider.add(it)
 
-        for it in request.data['medRehabProvider']:
+        for it in request.data.get('medRehabProvider',[]):
             assistance.med_rehab_provider.add(it)
 
-        for it in request.data['housingAllowanceProvider']:
+        for it in request.data.get('housingAllowanceProvider',[]):
             assistance.housing_allowance_provider.add(it)
 
-        for it in request.data['halfwayHouseProvider']:
+        for it in request.data.get('halfwayHouseProvider',[]):
             assistance.halfway_house_providers.add(it)
 
-        for it in request.data['shelterProvider']:
+        for it in request.data.get('shelterProvider',[]):
             assistance.shelter_provider.add(it)
 
-        for it in request.data['vocationalTrainingProvider']:
+        for it in request.data.get('vocationalTrainingProvider',[]):
             assistance.vocational_training_provider.add(it)
 
-        for it in request.data['incomeGeneratingProjectProvider']:
+        for it in request.data.get('incomeGeneratingProjectProvider',[]):
             assistance.micro_ent_income_provider.add(it)
 
-        for it in request.data['legalAssistanceProvider']:
+        for it in request.data.get('legalAssistanceProvider',[]):
             assistance.legal_assistance_provider.add(it)
 
-        for it in request.data['medicalAssistanceProvider']:
+        for it in request.data.get('medicalAssistanceProvider',[]):
             assistance.medical_assistance_provider.add(it)
 
-        for it in request.data['financialAssistanceProvider']:
+        for it in request.data.get('financialAssistanceProvider',[]):
             assistance.financial_assistance_provider.add(it)
 
-        for it in request.data['educationAssistanceProvider']:
+        for it in request.data.get('educationAssistanceProvider',[]):
             assistance.education_assistance_provider.add(it)
 
-        for it in request.data['immEmmigrationAssistanceProvider']:
+        for it in request.data.get('immEmmigrationAssistanceProvider',[]):
             assistance.im_emmigration_assistance_provider.add(it)
 
-        for it in request.data['communityBasedAssistanceProvider']:
+        for it in request.data.get('communityBasedAssistanceProvider',[]):
             assistance.other_community_assistance_provider.add(it)
 
         return Response({"message": "Arrest details created successfully","id":assistance.id}, status=status.HTTP_201_CREATED)
