@@ -1148,7 +1148,7 @@ class SomProsecutionAPIView(APIView):
             page_object = paginator.get_page(page)
             serializer = ProsecutionSerializer(page_object,many = True)
         elif(v_id is not None and pk is None):
-            prosecution =SomProsecution.objects.filter(victim_id = v_id)
+            prosecution =SomProsecution.objects.filter(case_id = v_id)
             paginator = Paginator(prosecution, per_page=12)
             page_object = paginator.get_page(page)
             serializer = ProsecutionSerializer(page_object,many = True)
@@ -1162,7 +1162,7 @@ class SomProsecutionAPIView(APIView):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         
         prosecution = SomProsecution()
-        prosecution.victim_id = request.data['v_id']
+        prosecution.case_id = request.data['case_id']
         prosecution.interviewer_id = interviewer.id
         prosecution.trafficker_id = request.data['suspectedTrafficker'] if not request.data['suspectedTrafficker'] == ""  else None
         prosecution.status_of_case_id = request.data['caseStatus'] if not request.data['caseStatus']  == "" else None
@@ -1186,7 +1186,6 @@ class SomProsecutionAPIView(APIView):
             return Response({"error": "Prosecution not found"}, status=status.HTTP_404_NOT_FOUND)
         
         # Update prosecution object with the provided data
-        prosecution.victim_id = request.data.get('v_id', prosecution.victim_id)
         prosecution.trafficker_id = request.data.get('suspectedTrafficker', prosecution.trafficker_id) if request.data.get('suspectedTrafficker') != "" else None
         prosecution.status_of_case_id = request.data.get('caseStatus', prosecution.status_of_case_id) if request.data.get('caseStatus') != "" else None
         prosecution.trial_court_id = request.data.get('trialCourt', prosecution.trial_court_id) if request.data.get('trialCourt') != "" else None
