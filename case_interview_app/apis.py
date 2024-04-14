@@ -228,7 +228,7 @@ class TipProsecutionAPIView(APIView):
         prosecution.save()
         return Response({"message": "Prosecution details created successfully","id":prosecution.id}, status=status.HTTP_201_CREATED)
     
-    def put(self, request, pk=None):
+    def put(self, request, v_id=None, pk=None):
         prosecution = Prosecution.objects.filter(pk=pk).first()
         if not prosecution:
             return Response({"error": "Prosecution not found"}, status=status.HTTP_404_NOT_FOUND)
