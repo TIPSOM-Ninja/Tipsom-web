@@ -685,57 +685,57 @@ class TipAssistanceAPIView(APIView):
         assistance = Assistance()
         assistance.victim_id = request.data['v_id']
         assistance.interviewer_id = interviewer.id
-        if request.POST.get('socialAssistanceDurationType') == '1':
+        if request.data.get('socialAssistanceDurationType') == '1':
             assistance.social_assistance_days = int(request.data["socialAssistanceDuration"]) if request.data['socialAssistanceDuration'].isdigit() else None
-        elif request.POST.get('socialAssistanceDurationType') == '0':
+        elif request.data.get('socialAssistanceDurationType') == '0':
             assistance.social_assistance_months = int(request.data["socialAssistanceDuration"]) if request.data['socialAssistanceDuration'].isdigit() else None
-        if request.POST.get('medicalRehabilitationAssistanceDurationType') == '1':
+        if request.data.get('medicalRehabilitationAssistanceDurationType') == '1':
             assistance.med_rehab_days = int(request.data["medicalRehabilitationAssistanceDuration"]) if request.data['medicalRehabilitationAssistanceDuration'].isdigit() else None
-        elif request.POST.get('medicalRehabilitationAssistanceDurationType') == '0':
+        elif request.data.get('medicalRehabilitationAssistanceDurationType') == '0':
             assistance.med_rehab_months = int(request.data["medicalRehabilitationAssistanceDuration"]) if request.data['medicalRehabilitationAssistanceDuration'].isdigit() else None
-        if request.POST.get('housingAllowanceDurationType') == '1':
+        if request.data.get('housingAllowanceDurationType') == '1':
             assistance.housing_allowance_days = int(request.data["housingAllowanceDuration"]) if request.data['housingAllowanceDuration'].isdigit() else None
-        elif request.POST.get('housingAllowanceDurationType') == '0':
+        elif request.data.get('housingAllowanceDurationType') == '0':
             assistance.housing_allowance_months = int(request.data["housingAllowanceDuration"]) if request.data['housingAllowanceDuration'].isdigit() else None
-        if request.POST.get('halfwayHouseDurationType') == '1':
+        if request.data.get('halfwayHouseDurationType') == '1':
             assistance.halfway_house_days = int(request.data["halfwayHouseDuration"]) if request.data['halfwayHouseDuration'].isdigit() else None
-        elif request.POST.get('halfwayHouseDurationType') == '0':
+        elif request.data.get('halfwayHouseDurationType') == '0':
             assistance.halfway_house_months = int(request.data["halfwayHouseDuration"]) if request.data['halfwayHouseDuration'].isdigit() else None
-        if request.POST.get('shelterDurationType') == '1':
+        if request.data.get('shelterDurationType') == '1':
             assistance.shelter_days = int(request.data["shelterDuration"]) if request.data['shelterDuration'].isdigit() else None
-        elif request.POST.get('shelterDurationType') == '0':
+        elif request.data.get('shelterDurationType') == '0':
             assistance.shelter_months = int(request.data["shelterDuration"]) if request.data['shelterDuration'].isdigit() else None
-        if request.POST.get('vocationalTrainingDurationType') == '1':
+        if request.data.get('vocationalTrainingDurationType') == '1':
             assistance.vocational_training_days = int(request.data["vocationalTrainingDuration"]) if request.data['vocationalTrainingDuration'].isdigit() else None
-        elif request.POST.get('vocationalTrainingDurationType') == '0':
+        elif request.data.get('vocationalTrainingDurationType') == '0':
             assistance.vocational_training_months = int(request.data["vocationalTrainingDuration"]) if request.data['vocationalTrainingDuration'].isdigit() else None
-        if request.POST.get('incomeGeneratingProjectDurationType') == '1':
+        if request.data.get('incomeGeneratingProjectDurationType') == '1':
             assistance.micro_ent_income_days = int(request.data["incomeGeneratingProjectDuration"]) if request.data['incomeGeneratingProjectDuration'].isdigit() else None
-        elif request.POST.get('incomeGeneratingProjectDurationType') == '0':
+        elif request.data.get('incomeGeneratingProjectDurationType') == '0':
             assistance.micro_ent_income_months = int(request.data["incomeGeneratingProjectDuration"]) if request.data['incomeGeneratingProjectDuration'].isdigit() else None
-        if request.POST.get('legalAssistanceDurationType') == '1':
+        if request.data.get('legalAssistanceDurationType') == '1':
             assistance.legal_assistance_days = int(request.data["legalAssistanceDuration"]) if request.data['legalAssistanceDuration'].isdigit() else None
-        elif request.POST.get('legalAssistanceDurationType') == '0':
+        elif request.data.get('legalAssistanceDurationType') == '0':
             assistance.legal_assistance_months = int(request.data["legalAssistanceDuration"]) if request.data['legalAssistanceDuration'].isdigit() else None
-        if request.POST.get('medicalAssistanceDurationType') == '1':
+        if request.data.get('medicalAssistanceDurationType') == '1':
             assistance.medical_assistance_days = int(request.data["medicalAssistanceDuration"]) if request.data['medicalAssistanceDuration'].isdigit() else None
-        elif request.POST.get('medicalAssistanceDurationType') == '0':
+        elif request.data.get('medicalAssistanceDurationType') == '0':
             assistance.medical_assistance_months = int(request.data["medicalAssistanceDuration"]) if request.data['medicalAssistanceDuration'].isdigit() else None
-        if request.POST.get('financialAssistanceDurationType') == '1':
+        if request.data.get('financialAssistanceDurationType') == '1':
             assistance.financial_assistance_days = int(request.data["financialAssistanceDuration"]) if request.data['financialAssistanceDuration'].isdigit() else None
-        elif request.POST.get('financialAssistanceDurationType') == '0':
+        elif request.data.get('financialAssistanceDurationType') == '0':
             assistance.financial_assistance_months = int(request.data["financialAssistanceDuration"]) if request.data['financialAssistanceDuration'].isdigit() else None
-        if request.POST.get('educationAssistanceDurationType') == '1':
+        if request.data.get('educationAssistanceDurationType') == '1':
             assistance.education_assistance_days = int(request.data["educationAssistanceDuration"]) if request.data['educationAssistanceDuration'].isdigit() else None
-        elif request.POST.get('educationAssistanceDurationType') == '0':
+        elif request.data.get('educationAssistanceDurationType') == '0':
             assistance.education_assistance_months = int(request.data["educationAssistanceDuration"]) if request.data['educationAssistanceDuration'].isdigit() else None
-        if request.POST.get('immEmmigrationAssistanceDurationType') == '1':
+        if request.data.get('immEmmigrationAssistanceDurationType') == '1':
             assistance.im_emmigration_assistance_days = int(request.data["immEmmigrationAssistanceDuration"]) if request.data['immEmmigrationAssistanceDuration'].isdigit() else None
-        elif request.POST.get('immEmmigrationAssistanceDurationType') == '0':
+        elif request.data.get('immEmmigrationAssistanceDurationType') == '0':
             assistance.im_emmigration_assistance_months = int(request.data["immEmmigrationAssistanceDuration"]) if request.data['immEmmigrationAssistanceDuration'].isdigit() else None
-        if request.POST.get('communityBasedAssistanceDurationType') == '1':
+        if request.data.get('communityBasedAssistanceDurationType') == '1':
             assistance.other_community_assistance_days = int(request.data["communityBasedAssistanceDuration"]) if request.data['communityBasedAssistanceDuration'].isdigit() else None
-        elif request.POST.get('communityBasedAssistanceDurationType') == '0':
+        elif request.data.get('communityBasedAssistanceDurationType') == '0':
             assistance.other_community_assistance_months = int(request.data["communityBasedAssistanceDuration"]) if request.data['communityBasedAssistanceDuration'].isdigit() else None
         assistance.approval_id = 1
         assistance.save()
@@ -787,59 +787,58 @@ class TipAssistanceAPIView(APIView):
             return Response({"error": "Assistance record not found"}, status=status.HTTP_404_NOT_FOUND)
 
         # Update assistance object with the provided data
-        assistance.victim_id = request.data.get('v_id', assistance.victim_id)
         assistance.interviewer_id = interviewer.id
-        if request.POST.get('socialAssistanceDurationType') == '1':
+        if request.data.get('socialAssistanceDurationType') == '1':
             assistance.social_assistance_days = int(request.data.get('socialAssistanceDuration')) if request.data.get('socialAssistanceDuration') and request.data['socialAssistanceDuration'].isdigit() else assistance.social_assistance_days
-        elif request.POST.get('socialAssistanceDurationType') == '0':
+        elif request.data.get('socialAssistanceDurationType') == '0':
             assistance.social_assistance_months = int(request.data["socialAssistanceDuration"]) if request.data.get('socialAssistanceDuration') and request.data['socialAssistanceDuration'].isdigit() else assistance.social_assistance_months
-        if request.POST.get('medicalRehabilitationAssistanceDurationType') == '1':
+        if request.data.get('medicalRehabilitationAssistanceDurationType') == '1':
             assistance.med_rehab_days = int(request.data["medicalRehabilitationAssistanceDuration"]) if request.data.get('medicalRehabilitationAssistanceDuration') and request.data['medicalRehabilitationAssistanceDuration'].isdigit() else assistance.med_rehab_days
-        elif request.POST.get('medicalRehabilitationAssistanceDurationType') == '0':
+        elif request.data.get('medicalRehabilitationAssistanceDurationType') == '0':
             assistance.med_rehab_months = int(request.data["medicalRehabilitationAssistanceDuration"]) if request.data.get('medicalRehabilitationAssistanceDuration') and request.data['medicalRehabilitationAssistanceDuration'].isdigit() else assistance.med_rehab_months
-        if request.POST.get('housingAllowanceDurationType') == '1':
+        if request.data.get('housingAllowanceDurationType') == '1':
             assistance.housing_allowance_days = int(request.data["housingAllowanceDuration"]) if request.data.get('housingAllowanceDuration') and request.data['housingAllowanceDuration'].isdigit() else assistance.housing_allowance_days
-        elif request.POST.get('housingAllowanceDurationType') == '0':
+        elif request.data.get('housingAllowanceDurationType') == '0':
             assistance.housing_allowance_months = int(request.data["housingAllowanceDuration"]) if request.data.get('housingAllowanceDuration') and request.data['housingAllowanceDuration'].isdigit() else assistance.housing_allowance_months
-        if request.POST.get('halfwayHouseDurationType') == '1':
+        if request.data.get('halfwayHouseDurationType') == '1':
             assistance.halfway_house_days = int(request.data["halfwayHouseDuration"]) if request.data.get('halfwayHouseDuration') and request.data['halfwayHouseDuration'].isdigit() else assistance.halfway_house_days
-        elif request.POST.get('halfwayHouseDurationType') == '0':
+        elif request.data.get('halfwayHouseDurationType') == '0':
             assistance.halfway_house_months = int(request.data["halfwayHouseDuration"]) if request.data.get('halfwayHouseDuration') and request.data['halfwayHouseDuration'].isdigit() else assistance.halfway_house_months
-        if request.POST.get('shelterDurationType') == '1':
+        if request.data.get('shelterDurationType') == '1':
             assistance.shelter_days = int(request.data["shelterDuration"]) if request.data.get('shelterDuration') and request.data['shelterDuration'].isdigit() else assistance.shelter_days
-        elif request.POST.get('shelterDurationType') == '0':
+        elif request.data.get('shelterDurationType') == '0':
             assistance.shelter_months = int(request.data["shelterDuration"]) if request.data.get('shelterDuration') and request.data['shelterDuration'].isdigit() else assistance.shelter_months
-        if request.POST.get('vocationalTrainingDurationType') == '1':
+        if request.data.get('vocationalTrainingDurationType') == '1':
             assistance.vocational_training_days = int(request.data["vocationalTrainingDuration"]) if request.data.get('vocationalTrainingDuration') and request.data['vocationalTrainingDuration'].isdigit() else assistance.vocational_training_days
-        elif request.POST.get('vocationalTrainingDurationType') == '0':
+        elif request.data.get('vocationalTrainingDurationType') == '0':
             assistance.vocational_training_months = int(request.data["vocationalTrainingDuration"]) if request.data.get('vocationalTrainingDuration') and request.data['vocationalTrainingDuration'].isdigit() else assistance.vocational_training_months
-        if request.POST.get('incomeGeneratingProjectDurationType') == '1':
+        if request.data.get('incomeGeneratingProjectDurationType') == '1':
             assistance.micro_ent_income_days = int(request.data["incomeGeneratingProjectDuration"]) if request.data.get('incomeGeneratingProjectDuration') and request.data['incomeGeneratingProjectDuration'].isdigit() else assistance.micro_ent_income_days
-        elif request.POST.get('incomeGeneratingProjectDurationType') == '0':
+        elif request.data.get('incomeGeneratingProjectDurationType') == '0':
             assistance.micro_ent_income_months = int(request.data["incomeGeneratingProjectDuration"]) if request.data.get('incomeGeneratingProjectDuration') and request.data['incomeGeneratingProjectDuration'].isdigit() else assistance.micro_ent_income_months
-        if request.POST.get('legalAssistanceDurationType') == '1':
+        if request.data.get('legalAssistanceDurationType') == '1':
             assistance.legal_assistance_days = int(request.data["legalAssistanceDuration"]) if request.data.get('legalAssistanceDuration') and request.data['legalAssistanceDuration'].isdigit() else assistance.legal_assistance_days
-        elif request.POST.get('legalAssistanceDurationType') == '0':
+        elif request.data.get('legalAssistanceDurationType') == '0':
             assistance.legal_assistance_months = int(request.data["legalAssistanceDuration"]) if request.data.get('legalAssistanceDuration') and request.data['legalAssistanceDuration'].isdigit() else assistance.legal_assistance_months
-        if request.POST.get('medicalAssistanceDurationType') == '1':
+        if request.data.get('medicalAssistanceDurationType') == '1':
             assistance.medical_assistance_days = int(request.data["medicalAssistanceDuration"]) if request.data.get('medicalAssistanceDuration') and request.data['medicalAssistanceDuration'].isdigit() else assistance.medical_assistance_days
-        elif request.POST.get('medicalAssistanceDurationType') == '0':
+        elif request.data.get('medicalAssistanceDurationType') == '0':
             assistance.medical_assistance_months = int(request.data["medicalAssistanceDuration"]) if request.data.get('medicalAssistanceDuration') and request.data['medicalAssistanceDuration'].isdigit() else assistance.medical_assistance_months
-        if request.POST.get('financialAssistanceDurationType') == '1':
+        if request.data.get('financialAssistanceDurationType') == '1':
             assistance.financial_assistance_days = int(request.data["financialAssistanceDuration"]) if request.data.get('financialAssistanceDuration') and request.data['financialAssistanceDuration'].isdigit() else assistance.financial_assistance_days
-        elif request.POST.get('financialAssistanceDurationType') == '0':
+        elif request.data.get('financialAssistanceDurationType') == '0':
             assistance.financial_assistance_months = int(request.data["financialAssistanceDuration"]) if request.data.get('financialAssistanceDuration') and request.data['financialAssistanceDuration'].isdigit() else assistance.financial_assistance_months
-        if request.POST.get('educationAssistanceDurationType') == '1':
+        if request.data.get('educationAssistanceDurationType') == '1':
             assistance.education_assistance_days = int(request.data["educationAssistanceDuration"]) if request.data.get('educationAssistanceDuration') and request.data['educationAssistanceDuration'].isdigit() else assistance.education_assistance_days
-        elif request.POST.get('educationAssistanceDurationType') == '0':
+        elif request.data.get('educationAssistanceDurationType') == '0':
             assistance.education_assistance_months = int(request.data["educationAssistanceDuration"]) if request.data.get('educationAssistanceDuration') and request.data['educationAssistanceDuration'].isdigit() else assistance.education_assistance_months
-        if request.POST.get('immEmmigrationAssistanceDurationType') == '1':
+        if request.data.get('immEmmigrationAssistanceDurationType') == '1':
             assistance.im_emmigration_assistance_days = int(request.data["immEmmigrationAssistanceDuration"]) if request.data.get('immEmmigrationAssistanceDuration') and request.data['immEmmigrationAssistanceDuration'].isdigit() else assistance.im_emmigration_assistance_days
-        elif request.POST.get('immEmmigrationAssistanceDurationType') == '0':
+        elif request.data.get('immEmmigrationAssistanceDurationType') == '0':
             assistance.im_emmigration_assistance_months = int(request.data["immEmmigrationAssistanceDuration"]) if request.data.get('immEmmigrationAssistanceDuration') and request.data['immEmmigrationAssistanceDuration'].isdigit() else assistance.im_emmigration_assistance_months
-        if request.POST.get('communityBasedAssistanceDurationType') == '1':
+        if request.data.get('communityBasedAssistanceDurationType') == '1':
             assistance.other_community_assistance_days = int(request.data["communityBasedAssistanceDuration"]) if request.data.get('communityBasedAssistanceDuration') and request.data['communityBasedAssistanceDuration'].isdigit() else assistance.other_community_assistance_days
-        elif request.POST.get('communityBasedAssistanceDurationType') == '0':
+        elif request.data.get('communityBasedAssistanceDurationType') == '0':
             assistance.other_community_assistance_months = int(request.data["communityBasedAssistanceDuration"]) if request.data.get('communityBasedAssistanceDuration') and request.data['communityBasedAssistanceDuration'].isdigit() else assistance.other_community_assistance_months
         assistance.approval_id = 1
 
