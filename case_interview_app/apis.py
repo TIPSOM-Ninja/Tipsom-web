@@ -1137,18 +1137,18 @@ class SomVictimAPIView(APIView):
 
 
 class SomProsecutionAPIView(APIView):
-    def get(self, request, v_id = None,pk=None):
+    def get(self, request, c_id = None,pk=None):
         if request.GET.get('page') is not None:
             page = request.GET.get('page')
         else:
             page = 1
-        if(v_id is None and pk is None):
+        if(c_id is None and pk is None):
             prosecution =SomProsecution.objects.all()
             paginator = Paginator(prosecution, per_page=12)
             page_object = paginator.get_page(page)
             serializer = SomProsecutionSerializer(page_object,many = True)
-        elif(v_id is not None and pk is None):
-            prosecution =SomProsecution.objects.filter(case_id = v_id)
+        elif(c_id is not None and pk is None):
+            prosecution =SomProsecution.objects.filter(case_id = c_id)
             paginator = Paginator(prosecution, per_page=12)
             page_object = paginator.get_page(page)
             serializer = SomProsecutionSerializer(page_object,many = True)
@@ -1180,7 +1180,7 @@ class SomProsecutionAPIView(APIView):
         prosecution.save()
         return Response({"message": "Prosecution details created successfully","id":prosecution.id}, status=status.HTTP_201_CREATED)
     
-    def put(self, request, pk=None):
+    def put(self, request,  c_id = None, pk=None):
         prosecution = SomProsecution.objects.filter(pk=pk).first()
         if not prosecution:
             return Response({"error": "Prosecution not found"}, status=status.HTTP_404_NOT_FOUND)
