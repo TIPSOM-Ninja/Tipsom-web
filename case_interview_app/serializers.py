@@ -972,7 +972,7 @@ class ProsecutionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Prosecution
-        fields = ['id','suspectedTrafficker', 'courtCaseNumber', 'prosecutionOutcome', 'trialCourt','foreignCourtCountry', 'caseStatus', 'verdict','reviewAppealOutcome',  'penalty', 'guiltyVerdict','yearsImposed', 'acquitalReason','v_id']
+        fields = ['id','suspectedTrafficker', 'courtCaseNumber', 'prosecutionOutcome', 'trialCourt','foreignCourtCountry', 'caseStatus', 'verdict','reviewAppealOutcome',  'penalty', 'guiltyVerdict','yearsImposed', 'acquitalReason','v_id','created_at']
         # Specify the field names in camelCase
         extra_kwargs = {
             'courtCaseNumber': {'source': 'court_case_no'},
