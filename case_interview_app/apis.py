@@ -902,10 +902,8 @@ class TipSocioAPIView(APIView):
             page_object = paginator.get_page(page)
             serializer = SocioEconomicSerializer(page_object,many = True)
         elif(v_id is not None and pk is None):
-            socia =SocioEconomic.objects.filter(victim_id = v_id)
-            paginator = Paginator(socia, per_page=12)
-            page_object = paginator.get_page(page)
-            serializer = SocioEconomicSerializer(page_object,many = True)
+            socia =SocioEconomic.objects.filter(victim_id = v_id).first()
+            serializer = SocioEconomicSerializer(socia)
         else:
             socia =SocioEconomic.objects.filter(pk = pk).first()
             serializer = SocioEconomicSerializer(socia)
