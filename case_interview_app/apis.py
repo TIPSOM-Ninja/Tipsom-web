@@ -1275,7 +1275,7 @@ class SomSuspectAPIView(APIView):
             suspect =SomSuspectedTrafficker.objects.filter(case_id = v_id)
             serializer = SuspectedTraffickerSerializer(suspect, many = True)
         elif pk is not None:
-            suspect =SomSuspectedTrafficker.objects.filter(case_id = v_id).first()
+            suspect =SomSuspectedTrafficker.objects.filter(pk=pk).first()
             serializer = SuspectedTraffickerSerializer(suspect)
         return Response(serializer.data)
     
