@@ -1151,3 +1151,25 @@ class SomArrestInvestigationSerializer(serializers.ModelSerializer):
             'withdrawnClosedReason': {'source': 'withdrawn_closed_reason'},
             
         }
+
+class SomProsecutionSerializer(serializers.ModelSerializer):
+    trialCourt = TrialCourtSerializer(source="trial_court", read_only=True)
+    suspectedTrafficker = SuspectedTraffickerSerializer(source = "trafficker", read_only=True)
+    prosecutionOutcome = ProsecutionOutcomeSerializer(source = "prosecution_outcome", read_only=True)
+    foreignCourtCountry = CountrySerializer(source = "trial_court_country", read_only=True)
+    caseStatus = CaseStatusSerializer(source = "status_of_case", read_only=True)
+    verdict = VerdictSerializer(read_only=True)
+    penalty = SanctionPenaltySerializer(source = "sanction_penalty", read_only=True)
+    acquitalReason = AquitalReasonSerializer(source = "aquital_reason", read_only=True)
+
+    class Meta:
+        model = SomProsecution
+        fields = ['id','suspectedTrafficker', 'courtCaseNumber', 'prosecutionOutcome', 'trialCourt','foreignCourtCountry', 'caseStatus', 'verdict','reviewAppealOutcome',  'penalty', 'guiltyVerdict','yearsImposed', 'acquitalReason','created_at']
+        # Specify the field names in camelCase
+        extra_kwargs = {
+            'courtCaseNumber': {'source': 'court_case_no'},
+            'reviewAppealOutcome': {'source': 'review_appeal_outcome'},
+            'guiltyVerdict': {'source': 'guilty_verdict'},
+            'yearsImposed': {'source': 'years_imposed'},
+            
+        }
