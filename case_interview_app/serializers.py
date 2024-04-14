@@ -974,7 +974,7 @@ class ProsecutionSerializer(serializers.ModelSerializer):
             'foreignCourtCountry': {'source': 'trial_court_country_id'},
             'caseStatus': {'source': 'status_of_case_id'},
             'verdict': {'source': 'verdict_id'},
-            'reviewAppealOutcome': {'source': 'review_appeal_outcome_id'},
+            'reviewAppealOutcome': {'source': 'review_appeal_outcome'},
             'penalty': {'source': 'sanction_penalty_id'},
             'guiltyVerdict': {'source': 'guilty_verdict'},
             'yearsImposed': {'source': 'years_imposed'},
