@@ -860,11 +860,12 @@ class SocioEconomicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SocioEconomic
-        fields = ["id","familyStructure","livingWith","educationLevel","lastOccupation","violencePrior","violenceType","victim_id"]
+        fields = ["id","familyStructure","livingWith","educationLevel","lastOccupation","violencePrior","violenceType","v_id"]
 
         extra_kwargs = {
             'violencePrior': {'source': 'violence_prior'},
-            'violenceType': {'source': 'violence_type'}
+            'violenceType': {'source': 'violence_type'},
+            'v_id': {'source': 'victim_id'}
         }
 
 
