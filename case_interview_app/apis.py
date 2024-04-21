@@ -1613,7 +1613,7 @@ class SomAssistanceAPIView(APIView):
 
         # Update assistance object with the provided data
         assistance.social_assistance =  request.data.get('socialAssistance',assistance.social_assistance)
-        assistance.med_rehab =  request.data.get('medRehab',assistance.med_rehab)
+        assistance.med_rehab =  request.data.get('medicalRehabilitationAssistance',assistance.med_rehab)
         assistance.housing_allowance =  request.data.get('housingAllowance',assistance.housing_allowance)
         assistance.halfway_house =  request.data.get('halfwayHouse',assistance.halfway_house)
         assistance.shelter =  request.data.get('shelter',assistance.shelter)
@@ -1635,7 +1635,7 @@ class SomAssistanceAPIView(APIView):
 
         # Update many-to-many relationships
         assistance.social_assistance_provider.set(request.data.get('socialAssistanceProvider'))
-        assistance.med_rehab_provider.set(request.data.get('medRehabProvider'))
+        assistance.med_rehab_provider.set(request.data.get('medicalRehabilitationAssistanceProvider'))
         assistance.housing_allowance_provider.set(request.data.get('housingAllowanceProvider'))
         assistance.halfway_house_providers.set(request.data.get('halfwayHouseProvider'))
         assistance.shelter_provider.set(request.data.get('shelterProvider'))
