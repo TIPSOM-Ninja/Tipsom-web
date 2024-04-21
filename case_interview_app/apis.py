@@ -1549,7 +1549,7 @@ class SomAssistanceAPIView(APIView):
         assistance = SomAssistance()
         assistance.case_id = request.data.get('case_id')
         assistance.social_assistance = request.data.get('socialAssistance')
-        assistance.med_rehab = request.data.get('medRehab')
+        assistance.med_rehab = request.data.get('medicalRehabilitationAssistance')
         assistance.housing_allowance = request.data.get('housingAllowance')
         assistance.halfway_house = request.data.get('halfwayHouse')
         assistance.shelter = request.data.get('shelter')
@@ -1567,7 +1567,7 @@ class SomAssistanceAPIView(APIView):
         for it in request.data.get('socialAssistanceProvider',[]):
             assistance.social_assistance_provider.add(it)
 
-        for it in request.data.get('medRehabProvider',[]):
+        for it in request.data.get('medicalRehabilitationAssistanceProvider',[]):
             assistance.med_rehab_provider.add(it)
 
         for it in request.data.get('housingAllowanceProvider',[]):
