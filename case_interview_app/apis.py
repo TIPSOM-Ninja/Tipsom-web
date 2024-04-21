@@ -1064,15 +1064,15 @@ class SomVictimAPIView(APIView):
             victim =SomVictimProfile.objects.all()
             paginator = Paginator(victim, per_page=12)
             page_object = paginator.get_page(page)
-            serializer = VictimProfileWithRelatedSerializer(page_object,many = True)
+            serializer = SomVictimProfileWithRelatedSerializer(page_object,many = True)
         elif(c_id is not None and pk is None):
             victim =SomVictimProfile.objects.filter(case_id = c_id)
             paginator = Paginator(victim, per_page=12)
             page_object = paginator.get_page(page)
-            serializer = VictimProfileWithRelatedSerializer(page_object,many = True)
+            serializer = SomVictimProfileWithRelatedSerializer(page_object,many = True)
         else:
             victim =SomVictimProfile.objects.filter(pk = pk).annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True)).first()
-            serializer = VictimProfileWithRelatedSerializer(victim)
+            serializer = SomVictimProfileWithRelatedSerializer(victim)
         
         return Response(serializer.data)
     def post(self,request):
