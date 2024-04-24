@@ -76,7 +76,7 @@
                     {% comment %} <p><strong>{% trans "STATUS" %}:</strong> {% translate "Pending Approval" %}</p> {% endcomment %}
                     <div class="d-flex g-3 justify-content-start">
                         <div class="col">
-                            <a href="/{{request.LANGUAGE_CODE}}/som_cases/{{case.id}}"><small><i class="fa-solid fa-eye"></i> {% translate "View" %}</small></a>
+                            <a href="/{{request.LANGUAGE_CODE}}/som_case/{{case.id}}"><small><i class="fa-solid fa-eye"></i> {% translate "View" %}</small></a>
                         </div>
                         <div class="col">
                             {% if interviewer %}
