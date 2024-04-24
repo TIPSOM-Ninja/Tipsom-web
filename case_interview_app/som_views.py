@@ -674,7 +674,7 @@ def process_approval(request):
             obj = SomTransitRouteDestination.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
-            victim_id = obj.victim_id
+            case_id = obj.case_id
             messages.success(request,"Approval successful")
 
         elif request.POST.get("form_model") == "prosecution":
@@ -683,7 +683,7 @@ def process_approval(request):
             obj = SomProsecution.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
-            victim_id = obj.victim_id
+            case_id = obj.case_id
             messages.success(request,"Approval successful")
 
         elif request.POST.get("form_model") == "suspect":
@@ -692,7 +692,7 @@ def process_approval(request):
             obj = SomSuspectedTrafficker.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
-            victim_id = obj.victim_id
+            case_id = obj.case_id
             messages.success(request,"Approval successful")
 
         elif request.POST.get("form_model") == "arrest":
@@ -701,7 +701,7 @@ def process_approval(request):
             obj = SomArrestInvestigation.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
-            victim_id = obj.victim_id
+            case_id = obj.case_id
             messages.success(request,"Approval successful")
 
         elif request.POST.get("form_model") == "victim":
@@ -710,7 +710,7 @@ def process_approval(request):
             obj = SomVictimProfile.objects.filter(id=oid).first()
             obj.approval_id = approval_id
             obj.save()
-            victim_id = obj.victim_id
+            case_id = obj.case_id
             messages.success(request,"Approval successful")
 
         elif request.POST.get("form_model") == "socio":
@@ -718,7 +718,7 @@ def process_approval(request):
         elif request.POST.get("form_model") == "aggregate":
             pass
         
-    return redirect('/'+request.LANGUAGE_CODE+'/victim/'+str(victim_id))
+    return redirect('/'+request.LANGUAGE_CODE+'/som_case/'+str(case_id))
 
 @login_required
 def cases(request):
@@ -731,11 +731,11 @@ def cases(request):
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     if request.user.is_staff:
         if request.GET.get('pending') is None:
-            victims = SomVictimProfile.objects.filter(interviewer__id = interviewer.id).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True))|SomVictimProfile.objects.filter(interview_country_id = interviewer.country_id).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True))
+            victims = SomCase.objects.filter(interviewer__id = interviewer.id).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True))|SomVictimProfile.objects.filter(interview_country_id = interviewer.country_id).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True))
         else:
-            victims = SomVictimProfile.objects.filter(interview_country_id = interviewer.country_id,approval_id = 1).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True))
+            victims = SomCase.objects.filter(interview_country_id = interviewer.country_id,approval_id = 1).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True))
     else:
-        victims = interviewer.som_victims.order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True))
+        victims = interviewer.som_cases.order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True))
 
     
     paginator = Paginator(victims, per_page=12)
@@ -834,21 +834,22 @@ def victim_view(request,id):
     if(request.user.is_authenticated):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     if request.user.is_staff:
-        victim = SomVictimProfile.objects.filter(id=id).first()
+        case = SomCase.objects.filter(id=id).first()
     else:
-        victim = interviewer.victims.filter(id=id ).first()
+        case = interviewer.som_cases.filter(id=id).first()
 
     context = {
-        "victim":victim,
+        "case":case,
+        "victim":SomVictimProfile.objects.filter(case_id = id).first(),
         # "suspects":suspects
     }
     
-    context['suspects'] = SomSuspectedTrafficker.objects.filter(victim_id = id)
-    context['arrest'] = SomArrestInvestigation.objects.filter(victim_id = id).first()
-    context['prosecutions'] = SomProsecution.objects.filter(victim_id = id)
-    context['destination'] = TransitRouteDestination.objects.filter(victim_id = id).first()
-    context['assistance'] = Assistance.objects.filter(victim_id = id).first()
-    context['socio_economic'] = SocioEconomic.objects.filter(victim_id = id).first()
+    context['suspects'] = SomSuspectedTrafficker.objects.filter(case_id = id)
+    context['arrest'] = SomArrestInvestigation.objects.filter(case_id = id).first()
+    context['prosecutions'] = SomProsecution.objects.filter(case_id = id)
+    context['destination'] = TransitRouteDestination.objects.filter(case_id = id).first()
+    context['assistance'] = Assistance.objects.filter(case_id = id).first()
+    context['socio_economic'] = SocioEconomic.objects.filter(case_id = id).first()
 
     return render(request,"som-victim-view.html",context)
 

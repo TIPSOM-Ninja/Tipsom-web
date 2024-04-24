@@ -92,7 +92,7 @@ urlpatterns = [
     path("som_process_consent", som_views.process_consent, name="som_process_consent"),
     path("som_process_approval", som_views.process_approval, name="som_process_approval"),
 
-    path("som_victim/<id>", som_views.victim_view, name="som_victim_view"),
+    path("som_case/<id>", som_views.victim_view, name="som_victim_view"),
 
     path('som_suspect/<int:suspect_id>/', som_views.suspect_detail, name='som_suspect_detail'),
     path('som_interviewer/<int:interviewer_id>/', som_views.interviewer_detail, name='som_interviewer_detail'),
