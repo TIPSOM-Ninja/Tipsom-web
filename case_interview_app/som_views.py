@@ -847,9 +847,9 @@ def victim_view(request,id):
     context['suspects'] = SomSuspectedTrafficker.objects.filter(case_id = id)
     context['arrest'] = SomArrestInvestigation.objects.filter(case_id = id).first()
     context['prosecutions'] = SomProsecution.objects.filter(case_id = id)
-    context['destination'] = TransitRouteDestination.objects.filter(case_id = id).first()
-    context['assistance'] = Assistance.objects.filter(case_id = id).first()
-    context['socio_economic'] = SocioEconomic.objects.filter(case_id = id).first()
+    context['destination'] = SomTransitRouteDestination.objects.filter(case_id = id).first()
+    context['assistance'] = SomAssistance.objects.filter(case_id = id).first()
+    context['socio_economic'] = SomSocioEconomic.objects.filter(case_id = id).first()
 
     return render(request,"som-victim-view.html",context)
 
