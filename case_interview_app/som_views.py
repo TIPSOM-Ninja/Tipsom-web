@@ -499,29 +499,31 @@ def assistance_form(request):
         
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
 
-        if request.GET.get("v_id") is not None:
-            victim = SomVictimProfile.objects.filter(id = request.GET.get("v_id")).first()
+        if request.GET.get("c_id") is not None:
+            case = SomCase.objects.filter(id = request.GET.get("c_id")).first()
+            victim = SomVictimProfile.objects.filter(case_id = case.id).first()
             
             if victim is None:
                 messages.error(request,'Victim does not exist. Please create a new victim.')
             else:
-                if interviewer.victims.filter(id = victim.id).first() is not None:
-                    request.session['v_id'] = victim.id
+                if interviewer.som_victims.filter(id = victim.id).first() is not None:
+                    request.session['c_id'] = case.id
                     request.session['consent_given'] = 1
                 else:
                     permission = VictimPermissions.objects.filter(interviewer_id = interviewer.id, victim_id = victim.id).first()
                     if permission is None:
                         if request.user.is_staff:
-                            request.session['v_id'] = victim.id
+                            request.session['c_id'] = case.id
                             request.session['consent_given'] = 1
                         # TODO: check if permision is granted
                         # TODO: remove autopermission below
                         else:
                             messages.error(request,"You do not have access to this record. Please create a request.")
           
-        if 'v_id' in request.session:
-            context['v_id'] = request.session['v_id']
-            context['victim'] = SomVictimProfile.objects.filter(id=request.session['v_id']).first()
+        if 'c_id' in request.session:
+            context['c_id'] = request.session['c_id']
+            context['case'] = SomCase.objects.filter(id=request.session['c_id']).first()
+            context['victim'] = SomVictimProfile.objects.filter(case_id=request.session['c_id']).first()
             
 
         context['interviewer']=interviewer

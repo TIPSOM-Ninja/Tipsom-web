@@ -81,13 +81,13 @@
                         <div class="col">
                             {% if interviewer %}
                                 {% if interviewer.data_entry_purpose_id == 1 %}
-                                    <a href="/{{request.LANGUAGE_CODE}}/som_form?v_id={{case.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
+                                    <a href="/{{request.LANGUAGE_CODE}}/som_form?c_id={{case.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
                                 {% elif interviewer.data_entry_purpose_id == 2 %}
-                                    <a href="/{{request.LANGUAGE_CODE}}/som_investigation_form?v_id={{case.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
+                                    <a href="/{{request.LANGUAGE_CODE}}/som_investigation_form?c_id={{case.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
                                 {% elif interviewer.data_entry_purpose_id == 3 %}
-                                    <a href="/{{request.LANGUAGE_CODE}}/som_prosecution_form?v_id={{case.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
+                                    <a href="/{{request.LANGUAGE_CODE}}/som_prosecution_form?c_id={{case.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
                                 {% elif interviewer.data_entry_purpose_id == 4 %}
-                                    <a href="/{{request.LANGUAGE_CODE}}/som_assistance_form?v_id={{case.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
+                                    <a href="/{{request.LANGUAGE_CODE}}/som_assistance_form?c_id={{case.id}}" class=""><small><i class="fa-solid fa-pen"></i> {% translate "Modify" %}</small></a>
                                 {% endif %}
                             {% else %}
                             
