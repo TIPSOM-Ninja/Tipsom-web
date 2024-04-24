@@ -169,7 +169,7 @@
         <div class="col-md-6">
             <div class="">
                 <label for="interviewDate" class="form-label">{% trans "Interview Date:" %}</label>
-                <input type="date" name = "interview_date" value = "{{victim.interview_date}}" class="form-control" id="interviewDate" aria-describedby="interviewDateHelp" max="{% now 'm/d/Y' %}" required>
+                <input type="date" name = "interview_date" value = "{{victim.interview_date|date:"m/d/Y"}}" class="form-control" id="interviewDate" aria-describedby="interviewDateHelp" max="{% now 'm/d/Y' %}" required>
             </div>
         </div>
         <div class="col-md-6">

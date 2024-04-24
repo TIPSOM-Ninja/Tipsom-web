@@ -26,7 +26,7 @@
                 <div>
                     {% for gender in genders %}
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gender" id="gender_{{gender.id}}" value="{{gender.id}}">
+                            <input class="form-check-input" type="radio" name="gender" id="gender_{{gender.id}}" value="{{gender.id}}" {% if gender.id == victim.gender_id %}checked{% endif %}>
                             <label class="form-check-label" for="gender_{{gender.id}}">{{gender.name}}</label>
                         </div>
                     {% endfor %}
@@ -40,7 +40,7 @@
                 <div>
                     {% for race in races %}
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="race" id="race_{{race.id}}" value="{{race.id}}" required>
+                            <input class="form-check-input" type="radio" name="race" id="race_{{race.id}}" value="{{race.id}}" required  {% if race.id == victim.race_id %}checked{% endif %}>
                             <label class="form-check-label" for="race_{{race.id}}">{{race.name}}</label>
                         </div>
                     {% endfor %}
@@ -52,7 +52,7 @@
                 <label for="languages" class="form-label">{% trans "Languages:" %}</label>
                 <select class="form-select" name="languages[]" id="languages" aria-label="Default select example" required multiple>
                     {% for language in languages %}
-                        <option {% if language.id in victim.languages %}selected{% endif %} value="{{language.id}}">{% trans language.name %}</option>
+                        <option {% if language in victim.languages %}selected{% endif %} value="{{language.id}}">{% trans language.name %}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -96,7 +96,7 @@
                 <label for="idtypes" class="form-label">{% trans "ID Type:" %}</label>
                 <select class="form-select" name="idtypes[]" id="idtypes" aria-label="Default select example" required multiple>
                     {% for idtype in idtypes %}
-                        <option {% if idtype.id in victim.idtypes %}selected{% endif %} value="{{idtype.id}}">{% trans idtype.name %}</option>
+                        <option {% if idtype in victim.identification_type %}selected{% endif %} value="{{idtype.id}}">{% trans idtype.name %}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -105,7 +105,7 @@
         <div class="col-md-6" style="display:none;">
             <div class="">
                 <label for="idNumber" class="form-label">{% trans "ID number:" %}</label>
-                <input type="text" name = "id_number" value = "{{victim.id_number}}"class="form-control" id="idNumber" aria-describedby="IdNumberHelp" required>
+                <input type="text" name = "id_number" value = "{{victim.identification_number}}"class="form-control" id="idNumber" aria-describedby="IdNumberHelp" required>
             </div>
         </div>
         {% comment %} Deprecated {% endcomment %}
@@ -159,7 +159,7 @@
         <div class="col-md-6" style="display:none;">
             <div class="">
                 <label for="placeOfBirth" class="form-label">{% trans "Place of Birth:" %}</label>
-                <input type="text" name = "place_of_birth" value = "{{victim.placeOfBirth}}" class="form-control" id="placeOfBirth" aria-describedby="placeOfBirthHelp" required>
+                <input type="text" name = "place_of_birth" value = "{{victim.place_of_birth}}" class="form-control" id="placeOfBirth" aria-describedby="placeOfBirthHelp" required>
             </div>
         </div>
         
@@ -172,7 +172,7 @@
         <div class="col-md-6">
             <div class="">
                 <label for="interviewDate" class="form-label">{% trans "Interview Date:" %}</label>
-                <input type="date" name = "interview_date" value = "{{victim.interview_date}}" class="form-control" id="interviewDate" aria-describedby="interviewDateHelp" max="{% now 'm/d/Y' %}" required>
+                <input type="date" name = "interview_date" value = "{{victim.interview_date|date:"m/d/Y"}}" class="form-control" id="interviewDate" aria-describedby="interviewDateHelp" max="{% now 'm/d/Y' %}" required>
             </div>
         </div>
         <div class="col-md-6">
