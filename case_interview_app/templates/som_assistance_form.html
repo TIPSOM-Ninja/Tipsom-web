@@ -22,10 +22,10 @@
                     {% if request.session.v_id %}
                         {% include "components/victimprofile.html"%}
                         <div class="container text-center">
-                            <a href="/{{request.LANGUAGE_CODE}}/assistance_form?step=2" class="btn btn-primary mt-3 text-warning">{% translate "NEXT" %}</a>
+                            <a href="/{{request.LANGUAGE_CODE}}/som_assistance_form?step=2" class="btn btn-primary mt-3 text-warning">{% translate "NEXT" %}</a>
                         </div>
                     {% else %}
-                        {% include "components/victim_form.html"%}
+                        {% include "components/single_victim_form_som.html"%}
                     {% endif %}
                 </div>
                 <div class="tab-pane fade {% if step is not None and step == '2' %} show active  {% endif %}" id="nav-assistance" role="tabpanel" aria-labelledby="nav-assistance-tab" tabindex="1">
