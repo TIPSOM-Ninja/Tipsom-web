@@ -746,7 +746,7 @@ def cases(request):
     if request.session.get('consent_given') is not None:
         del request.session['consent_given']
     context = {
-        "victims":page_object.object_list,
+        "cases":page_object.object_list,
         "page": {
 
             "current": page_object.number,
