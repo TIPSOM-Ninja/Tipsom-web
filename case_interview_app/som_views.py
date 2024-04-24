@@ -731,18 +731,18 @@ def cases(request):
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     if request.user.is_staff:
         if request.GET.get('pending') is None:
-            victims = SomCase.objects.filter(interviewer__id = interviewer.id).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_transit', distinct=True))|SomVictimProfile.objects.filter(interview_country_id = interviewer.country_id).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_transit', distinct=True))
+            cases = SomCase.objects.filter(interviewer__id = interviewer.id).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_transit', distinct=True))|SomVictimProfile.objects.filter(interview_country_id = interviewer.country_id).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_transit', distinct=True))
         else:
-            victims = SomCase.objects.filter(interview_country_id = interviewer.country_id,approval_id = 1).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_transit', distinct=True))
+            cases = SomCase.objects.filter(interview_country_id = interviewer.country_id,approval_id = 1).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_transit', distinct=True))
     else:
-        victims = interviewer.som_cases.order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_transit', distinct=True))
+        cases = interviewer.som_cases.order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_transit', distinct=True))
 
     
-    paginator = Paginator(victims, per_page=12)
+    paginator = Paginator(cases, per_page=12)
 
     page_object = paginator.get_page(page)
-    if request.session.get('v_id') != None:
-        del request.session['v_id']
+    if request.session.get('c_id') != None:
+        del request.session['c_id']
     if request.session.get('consent_given') is not None:
         del request.session['consent_given']
     context = {
