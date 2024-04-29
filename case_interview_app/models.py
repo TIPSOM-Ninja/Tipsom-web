@@ -378,6 +378,13 @@ class SomCase(models.Model):
         ApprovalStatus, related_name = "cases", on_delete=models.CASCADE, null=True, blank=True
     )
     approval_comments = models.TextField( null=True, blank=True)
+    interview_country = models.ForeignKey(
+        Country, related_name = "som_case_interview_country", on_delete=models.CASCADE, null=True, blank=True
+    )
+    interview_location = models.CharField(max_length=50, null=True, blank=True)
+    interview_date = models.DateField(
+        auto_now=False, auto_now_add=False, null=True, blank=True
+    )
     created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
     updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 
