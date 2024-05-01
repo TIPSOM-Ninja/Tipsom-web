@@ -1760,7 +1760,7 @@ class SomVictimSearchAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
-class VictimBulkCreateAPI(APIView):
+class SomMultiVictimAPIView(APIView):
     def get(self, request, c_id = None, pk=None):
         if request.GET.get('page') is not None:
             page = request.GET.get('page')
