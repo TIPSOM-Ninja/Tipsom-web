@@ -1777,7 +1777,8 @@ class SomMultiVictimAPIView(APIView):
             page_object = paginator.get_page(page)
             serializer = SomMultiVictimProfileSerializer(page_object,many = True)
         else:
-            victim =SomMultiVictimProfile.objects.filter(pk = pk).annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True)).first()
+            victim =SomMultiVictimProfile.objects.filter(pk = pk)
+            # .annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True)).first()
             serializer = SomMultiVictimProfileSerializer(victim)
         
         return Response(serializer.data)
