@@ -1810,7 +1810,7 @@ class SomMultiVictimAPIView(APIView):
         for cont in request.data['countries']:
             victim.countries_of_origin.add(Country.objects.filter(id= cont).first())
         
-        for key,value in request.data.get('answers',{}):
+        for key,value in request.data.get('answers',{}).items():
             answerobj = SomVictimAnswers()
             answerobj.victim_id = victim.id
             answerobj.question_id = int(key)
@@ -1848,7 +1848,7 @@ class SomMultiVictimAPIView(APIView):
         if request.data.get('countries'):
             victim.countries_of_origin.set(request.data.get('countries',[]))
         
-        for key,value in request.data.get('answers',{}):
+        for key,value in request.data.get('answers',{}).items():
             answerobj, created = SomVictimAnswers.objects.get_or_create(victim_id = victim.id,question_id = int(key))
             answerobj.victim_id = victim.id
             answerobj.question_id = int(key)
