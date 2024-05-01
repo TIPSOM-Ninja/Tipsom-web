@@ -1799,13 +1799,13 @@ class SomMultiVictimAPIView(APIView):
         victim.consent_abstain_answer = 1
         victim.save()
         if interviewer.data_entry_purpose_id == 1:
-            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-TP-"+str(victim.id)
+            victim.victim_identifier = "SOM-"+victim.interview_country.two_code+"-TP-"+str(victim.id)
         if interviewer.data_entry_purpose_id == 2:
-            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-IV-"+str(victim.id)
+            victim.victim_identifier = "SOM-"+victim.interview_country.two_code+"-IV-"+str(victim.id)
         if interviewer.data_entry_purpose_id == 3:
-            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-PR-"+str(victim.id)
+            victim.victim_identifier = "SOM-"+victim.interview_country.two_code+"-PR-"+str(victim.id)
         if interviewer.data_entry_purpose_id == 4:
-            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-AS-"+str(victim.id)
+            victim.victim_identifier = "SOM-"+victim.interview_country.two_code+"-AS-"+str(victim.id)
         victim.save()
         for cont in request.data['countriesOfOrigin']:
             victim.countries_of_origin.add(Country.objects.filter(id= cont).first())
