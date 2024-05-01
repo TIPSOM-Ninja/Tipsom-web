@@ -464,6 +464,11 @@ class TagNameNameSerializer(serializers.ModelSerializer):
         model = Tag
         fields = '__all__'
 
+class VictimQuestionseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VictimQuestions
+        fields = '__all__'
+
 class VictimProfileSerializer(serializers.ModelSerializer):
     citizenship = CountrySerializer(read_only=True)
     countryOfBirth = CountrySerializer(read_only=True)
@@ -1175,9 +1180,13 @@ class SomProsecutionSerializer(serializers.ModelSerializer):
             
         }
 
+class VictimAnswersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SomVictimAnswers
+        fields = '__all__'
 
 class SomMultiVictimProfileSerializer(serializers.ModelSerializer):
+    answers = VictimAnswersSerializer(source="som_victim_answer.all", many=True)
     class Meta:
         model = SomMultiVictimProfile
         fields = '__all__'
-        
