@@ -1707,7 +1707,7 @@ class SomSocioAPIView(APIView):
         socio.save()
 
         # Update many-to-many relationships
-        socio.last_occupation.set(request.data.get('lastOccupation'))
+        socio.last_occupation.set(request.data.get('lastOccupation',[]))
 
         return Response({"message": "SocioEconomic details updated successfully"}, status=status.HTTP_200_OK)
 
@@ -1760,3 +1760,99 @@ class SomVictimSearchAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
+class VictimBulkCreateAPI(APIView):
+    def get(self, request, c_id = None, pk=None):
+        if request.GET.get('page') is not None:
+            page = request.GET.get('page')
+        else:
+            page = 1
+        if(c_id is None and pk is None):
+            victim =SomMultiVictimProfile.objects.all()
+            paginator = Paginator(victim, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = SomMultiVictimProfileSerializer(page_object,many = True)
+        elif(c_id is not None and pk is None):
+            victim =SomMultiVictimProfile.objects.filter(case_id = c_id)
+            paginator = Paginator(victim, per_page=12)
+            page_object = paginator.get_page(page)
+            serializer = SomMultiVictimProfileSerializer(page_object,many = True)
+        else:
+            victim =SomMultiVictimProfile.objects.filter(pk = pk).annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_destinations', distinct=True)).first()
+            serializer = SomMultiVictimProfileSerializer(victim)
+        
+        return Response(serializer.data)
+    def post(self,request):
+        print(request.POST)
+        print("+++++++")
+        print(request.data)
+        interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
+        victim = SomMultiVictimProfile()
+        victim.case_id = request.data['case_id']
+        victim.interview_country_id = decrypt_data(request.data['interviewCountry'])
+        victim.interview_location = decrypt_data(request.data['interviewerLocation'])
+        victim.interview_date = decrypt_data(request.data['interviewDate'])
+        victim.additional_remarks = decrypt_data(request.data['additionalRemarks'])
+        victim.approval_id = 1
+        victim.consent_share_gov_patner = 1
+        victim.consent_limited_disclosure = 1
+        victim.consent_research = 1
+        victim.consent_abstain_answer = 1
+        victim.save()
+        if interviewer.data_entry_purpose_id == 1:
+            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-TP-"+str(victim.id)
+        if interviewer.data_entry_purpose_id == 2:
+            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-IV-"+str(victim.id)
+        if interviewer.data_entry_purpose_id == 3:
+            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-PR-"+str(victim.id)
+        if interviewer.data_entry_purpose_id == 4:
+            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-AS-"+str(victim.id)
+        victim.save()
+        for cont in request.data['countriesOfOrigin']:
+            victim.countries_of_origin.add(Country.objects.filter(id= cont).first())
+        
+        for item in request.data.get('answers'):
+            answerobj = SomVictimAnswers()
+            answerobj.victim_id = victim.id
+            answerobj.question_id = item.id
+            answerobj.answer = item.value
+            answerobj.save()
+        
+        interviewer.som_multi_victims.add(victim)
+        return Response({"message": "Victim created successfully","id":victim.id}, status=status.HTTP_201_CREATED)
+
+    def put(self, request, pk=None):
+        victim = SomVictimProfile.objects.filter(pk=pk).first()
+        if not victim:
+            return Response({"error": "Victim not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
+        victim.interview_country_id = decrypt_data(request.data.get('interviewCountry'))
+        victim.interview_location = decrypt_data(request.data.get('interviewerLocation'))
+        victim.interview_date = decrypt_data(request.data.get('interviewDate'))
+        victim.additional_remarks = decrypt_data(request.data.get('additionalRemarks'))
+        victim.approval_id = 1
+        victim.consent_share_gov_patner = 1
+        victim.consent_limited_disclosure = 1
+        victim.consent_research = 1
+        victim.consent_abstain_answer = 1
+        victim.save()
+        if interviewer.data_entry_purpose_id == 1:
+            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-TP-"+str(victim.id)
+        if interviewer.data_entry_purpose_id == 2:
+            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-IV-"+str(victim.id)
+        if interviewer.data_entry_purpose_id == 3:
+            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-PR-"+str(victim.id)
+        if interviewer.data_entry_purpose_id == 4:
+            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-AS-"+str(victim.id)
+        victim.save()
+        if request.data.get('countriesOfOrigin'):
+            victim.countries_of_origin.set(request.data.get('countriesOfOrigin',[]))
+        
+        for item in request.data.get('answers'):
+            answerobj, created = SomVictimAnswers.objects.get_or_create(victim_id = victim.id,question_id = item.id)
+            answerobj.victim_id = victim.id
+            answerobj.question_id = item.id
+            answerobj.answer = item.value
+            answerobj.save()
+
+        return Response({"message": "Victim updated successfully","id":victim.id}, status=status.HTTP_201_CREATED)

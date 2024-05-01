@@ -499,6 +499,7 @@ class Interviewer(models.Model):
     victims = models.ManyToManyField(VictimProfile, null=True, blank=True)
     som_cases = models.ManyToManyField(SomCase, null=True, blank=True)
     som_victims = models.ManyToManyField(SomVictimProfile, null=True, blank=True)
+    som_multi_victims = models.ManyToManyField(SomMultiVictimProfile, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null = True, blank = True)
     updated_at = models.DateTimeField(auto_now=True, null = True, blank = True)
 

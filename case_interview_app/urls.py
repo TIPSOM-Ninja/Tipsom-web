@@ -132,6 +132,10 @@ urlpatterns = [
 
     path('api/som/victim/search/', apis.SomVictimSearchAPIView.as_view(), name='som-victim-search'),
 
+    path('api/som/multi_victims/', apis.SomMultiVictimAPIView.as_view(), name='som-multivictim-api'),
+    path('api/som/multi_victims/<int:c_id>/', apis.SomMultiVictimAPIView.as_view(), name='som-multivictim-detail-api'),
+    path('api/som/multi_victims/<int:c_id>/<int:pk>/', apis.SomMultiVictimAPIView.as_view(), name='som-case-multivictim-api'),
+
 
 
     path("dashboard", views.dashboard, name="dashboard"),

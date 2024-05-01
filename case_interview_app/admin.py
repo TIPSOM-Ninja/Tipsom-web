@@ -219,7 +219,10 @@ class OccupationAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     pass
 
-
+@admin.register(VictimQuestions)
+class VictimQuestionsAdmin(admin.ModelAdmin):
+    list_display = ['name','category','ordering']
+    list_filter = ['category']
 
 
 @admin.register(VictimProfile)
@@ -308,6 +311,16 @@ class FaqAdmin(admin.ModelAdmin):
     list_display = ['question','answer','is_active']
     list_filter = ['is_active']
 
+@admin.register(SomVictimProfile)
+class SomVictimProfile(admin.ModelAdmin):
+    pass
 
+@admin.register(SomMultiVictimProfile)
+class SomMultiVictimProfile(admin.ModelAdmin):
+    list_display = ['victim_identifier','interview_location','interview_date']
+    list_filter = ["interview_location"]
 
+@admin.register(SomVictimAnswers)
+class SomVictimAnswersAdmin(admin.ModelAdmin):
+    pass
 

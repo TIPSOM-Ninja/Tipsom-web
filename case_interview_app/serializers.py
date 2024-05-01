@@ -1176,3 +1176,8 @@ class SomProsecutionSerializer(serializers.ModelSerializer):
         }
 
 
+class SomMultiVictimProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SomMultiVictimProfile
+        fields = '__all__'
+        
