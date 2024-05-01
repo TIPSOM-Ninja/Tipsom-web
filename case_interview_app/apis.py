@@ -1788,10 +1788,10 @@ class SomMultiVictimAPIView(APIView):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         victim = SomMultiVictimProfile()
         victim.case_id = request.data['case_id']
-        victim.interview_country_id = decrypt_data(request.data['interviewCountry'])
-        victim.interview_location = decrypt_data(request.data['interviewerLocation'])
-        victim.interview_date = decrypt_data(request.data['interviewDate'])
-        victim.additional_remarks = decrypt_data(request.data['additionalRemarks'])
+        victim.interview_country_id = request.data['interviewCountry']
+        victim.interview_location = request.data['interviewerLocation']
+        victim.interview_date = request.data['interviewDate']
+        victim.additional_remarks = request.data['additionalRemarks']
         victim.approval_id = 1
         victim.consent_share_gov_patner = 1
         victim.consent_limited_disclosure = 1
@@ -1810,11 +1810,11 @@ class SomMultiVictimAPIView(APIView):
         for cont in request.data['countriesOfOrigin']:
             victim.countries_of_origin.add(Country.objects.filter(id= cont).first())
         
-        for item in request.data.get('answers'):
+        for key,value in request.data.get('answers',{}):
             answerobj = SomVictimAnswers()
             answerobj.victim_id = victim.id
-            answerobj.question_id = item.id
-            answerobj.answer = item.value
+            answerobj.question_id = int(key)
+            answerobj.answer = value
             answerobj.save()
         
         interviewer.som_multi_victims.add(victim)
@@ -1826,10 +1826,10 @@ class SomMultiVictimAPIView(APIView):
             return Response({"error": "Victim not found"}, status=status.HTTP_404_NOT_FOUND)
 
         interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
-        victim.interview_country_id = decrypt_data(request.data.get('interviewCountry'))
-        victim.interview_location = decrypt_data(request.data.get('interviewerLocation'))
-        victim.interview_date = decrypt_data(request.data.get('interviewDate'))
-        victim.additional_remarks = decrypt_data(request.data.get('additionalRemarks'))
+        victim.interview_country_id = request.data.get('interviewCountry')
+        victim.interview_location = request.data.get('interviewerLocation')
+        victim.interview_date = request.data.get('interviewDate')
+        victim.additional_remarks = request.data.get('additionalRemarks')
         victim.approval_id = 1
         victim.consent_share_gov_patner = 1
         victim.consent_limited_disclosure = 1
@@ -1848,11 +1848,11 @@ class SomMultiVictimAPIView(APIView):
         if request.data.get('countriesOfOrigin'):
             victim.countries_of_origin.set(request.data.get('countriesOfOrigin',[]))
         
-        for item in request.data.get('answers'):
-            answerobj, created = SomVictimAnswers.objects.get_or_create(victim_id = victim.id,question_id = item.id)
+        for key,value in request.data.get('answers',{}):
+            answerobj, created = SomVictimAnswers.objects.get_or_create(victim_id = victim.id,question_id = int(key))
             answerobj.victim_id = victim.id
-            answerobj.question_id = item.id
-            answerobj.answer = item.value
+            answerobj.question_id = int(key)
+            answerobj.answer = value
             answerobj.save()
 
         return Response({"message": "Victim updated successfully","id":victim.id}, status=status.HTTP_201_CREATED)
