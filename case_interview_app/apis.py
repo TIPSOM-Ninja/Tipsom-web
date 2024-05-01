@@ -1789,6 +1789,7 @@ class SomMultiVictimAPIView(APIView):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
         victim = SomMultiVictimProfile()
         victim.case_id = request.data['case_id']
+        victim.victim_count = request.data['numberOfVictims']
         victim.interview_country_id = request.data['interviewCountry']
         victim.interview_location = request.data['interviewerLocation']
         victim.interview_date = request.data['interviewDate']
@@ -1827,6 +1828,7 @@ class SomMultiVictimAPIView(APIView):
             return Response({"error": "Victim not found"}, status=status.HTTP_404_NOT_FOUND)
 
         interviewer = Interviewer.objects.filter(email_address=request.user.email).first()
+        victim.victim_count = request.data.get('numberOfVictims')
         victim.interview_country_id = request.data.get('interviewCountry')
         victim.interview_location = request.data.get('interviewerLocation')
         victim.interview_date = request.data.get('interviewDate')
