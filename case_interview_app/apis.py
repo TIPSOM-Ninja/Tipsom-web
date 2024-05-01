@@ -1807,7 +1807,7 @@ class SomMultiVictimAPIView(APIView):
         if interviewer.data_entry_purpose_id == 4:
             victim.victim_identifier = "SOM-"+victim.interview_country.two_code+"-AS-"+str(victim.id)
         victim.save()
-        for cont in request.data['countriesOfOrigin']:
+        for cont in request.data['countries']:
             victim.countries_of_origin.add(Country.objects.filter(id= cont).first())
         
         for key,value in request.data.get('answers',{}):
@@ -1837,16 +1837,16 @@ class SomMultiVictimAPIView(APIView):
         victim.consent_abstain_answer = 1
         victim.save()
         if interviewer.data_entry_purpose_id == 1:
-            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-TP-"+str(victim.id)
+            victim.victim_identifier = "SOM-"+victim.interview_country.two_code+"-TP-"+str(victim.id)
         if interviewer.data_entry_purpose_id == 2:
-            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-IV-"+str(victim.id)
+            victim.victim_identifier = "SOM-"+victim.interview_country.two_code+"-IV-"+str(victim.id)
         if interviewer.data_entry_purpose_id == 3:
-            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-PR-"+str(victim.id)
+            victim.victim_identifier = "SOM-"+victim.interview_country.two_code+"-PR-"+str(victim.id)
         if interviewer.data_entry_purpose_id == 4:
-            victim.victim_identifier = "SOM-"+victim.citizenship.two_code+"-AS-"+str(victim.id)
+            victim.victim_identifier = "SOM-"+victim.interview_country.two_code+"-AS-"+str(victim.id)
         victim.save()
-        if request.data.get('countriesOfOrigin'):
-            victim.countries_of_origin.set(request.data.get('countriesOfOrigin',[]))
+        if request.data.get('countries'):
+            victim.countries_of_origin.set(request.data.get('countries',[]))
         
         for key,value in request.data.get('answers',{}):
             answerobj, created = SomVictimAnswers.objects.get_or_create(victim_id = victim.id,question_id = int(key))
