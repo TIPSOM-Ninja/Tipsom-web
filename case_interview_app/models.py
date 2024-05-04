@@ -314,7 +314,9 @@ class VictimQuestions(models.Model):
     ordering = models.IntegerField(null=True,blank=True)
 
     def __str__(self):
-        return f"{self.name}"  
+        return f"{self.name}"
+    
+
 class VictimProfile(models.Model):
     victim_identifier = models.CharField(null=True,blank=True)
     citizenship = models.ForeignKey(

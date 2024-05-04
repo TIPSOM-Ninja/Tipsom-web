@@ -521,7 +521,7 @@ class TipExploitationAPIView(APIView):
         if request.data.get('eTraffickingMeans'):
             exploitation.e_trafficking_means.set(request.data.get('eTraffickingMeans'))
 
-        return Response({"message": "Exploitation record updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Exploitation record updated successfully","id":exploitation.id}, status=status.HTTP_200_OK)
     
 
 class TipTransitAPIView(APIView):
