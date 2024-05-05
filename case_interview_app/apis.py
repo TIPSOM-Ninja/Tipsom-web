@@ -249,7 +249,7 @@ class TipProsecutionAPIView(APIView):
         prosecution.years_imposed = int(request.data.get('yearsImposed', prosecution.years_imposed)) if request.data.get('yearsImposed') != None and request.data.get('yearsImposed').isdigit() else None
         prosecution.save()
         
-        return Response({"message": "Prosecution details updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Prosecution details updated successfully","id":prosecution.id}, status=status.HTTP_200_OK)
 
 class TipSuspectAPIView(APIView):
     def get(self, request, v_id=None, pk=None ):
@@ -348,7 +348,7 @@ class TipSuspectAPIView(APIView):
         if request.data.get('roleInTrafficking'):
             suspect.role_in_trafficking.set(request.data.get('roleInTrafficking'))
 
-        return Response({"message": "Suspect details updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Suspect details updated successfully","id":suspect.id}, status=status.HTTP_200_OK)
 
 class TipExploitationAPIView(APIView):
     def get(self, request, v_id=None, pk=None ):
@@ -584,7 +584,7 @@ class TipTransitAPIView(APIView):
             transport_means = request.data.get('meansOfTransportation',[])
             transit.transport_means.set(transport_means)
 
-        return Response({"message": "Transit record updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Transit record updated successfully","id":transit.id}, status=status.HTTP_200_OK)
 
 class TipArrestAPIView(APIView):
     def get(self, request, v_id = None, pk = None):
@@ -654,7 +654,7 @@ class TipArrestAPIView(APIView):
         if request.data.get('howTraffickersOrg'):
             arrest.how_traffickers_org.set(request.data.get('howTraffickersOrg'))
 
-        return Response({"message": "Arrest details updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Arrest details updated successfully","id":arrest.id}, status=status.HTTP_200_OK)
     
 class TipAssistanceAPIView(APIView):
     def get(self, request, v_id=None, pk = None):
@@ -888,7 +888,7 @@ class TipAssistanceAPIView(APIView):
         assistance.im_emmigration_assistance_provider.set(request.data.get('immEmmigrationAssistanceProvider',[]))
         assistance.other_community_assistance_provider.set(request.data.get('communityBasedAssistanceProvider',[]))
 
-        return Response({"message": "Assistance details updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Assistance details updated successfully","id":assistance.id}, status=status.HTTP_200_OK)
 
 class TipSocioAPIView(APIView):
     def get(self, request, v_id = None,pk=None):
@@ -948,7 +948,7 @@ class TipSocioAPIView(APIView):
         # Update many-to-many relationships
         socio.last_occupation.set(request.data.get('lastOccupation',[]))
 
-        return Response({"message": "SocioEconomic details updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "SocioEconomic details updated successfully","id":socio.id}, status=status.HTTP_200_OK)
 
 
 class TipAggregateAPIView(APIView):
@@ -1001,7 +1001,7 @@ class TipAggregateAPIView(APIView):
         assistance_aggregate.approval_id = 1
         assistance_aggregate.save()
 
-        return Response({"message": "Aggregate details updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Aggregate details updated successfully","id":assistance_aggregate.id}, status=status.HTTP_200_OK)
 
 
 class VictimSearchAPIView(APIView):
@@ -1223,7 +1223,7 @@ class SomProsecutionAPIView(APIView):
         prosecution.years_imposed = int(request.data.get('yearsImposed', prosecution.years_imposed)) if request.data.get('yearsImposed') != "" and request.data.get('yearsImposed').isdigit() else None
         prosecution.save()
         
-        return Response({"message": "Prosecution details updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Prosecution details updated successfully","id":prosecution.id}, status=status.HTTP_200_OK)
 
 class SomCaseAPIView(APIView):
     def get(self, request, pk=None ):
@@ -1258,7 +1258,7 @@ class SomCaseAPIView(APIView):
         case.save()
 
         interviewer.som_cases.add(case)
-        return Response({"message": "Suspect created successfully","id":case.id}, status=status.HTTP_201_CREATED)
+        return Response({"message": "Case created successfully","id":case.id}, status=status.HTTP_201_CREATED)
 
     def put(self, request, pk=None):
         interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
@@ -1279,7 +1279,7 @@ class SomCaseAPIView(APIView):
         case.save()
 
 
-        return Response({"message": "Suspect details updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Case details updated successfully","id":case.id}, status=status.HTTP_200_OK)
 
 class SomSuspectAPIView(APIView):
     def get(self, request, v_id=None, pk=None ):
@@ -1378,7 +1378,7 @@ class SomSuspectAPIView(APIView):
         if request.data.get('roleInTrafficking'):
             suspect.role_in_trafficking.set(request.data.get('roleInTrafficking'))
 
-        return Response({"message": "Suspect details updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Suspect details updated successfully","id":suspect.id}, status=status.HTTP_200_OK)
 
 class SomTransitAPIView(APIView):
     def get(self, request, c_id=None, pk=None ):
@@ -1448,7 +1448,7 @@ class SomTransitAPIView(APIView):
             transit.countries_of_transit.set(ct)
 
                 
-        return Response({"message": "Transit record updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Transit record updated successfully","id":transit.id}, status=status.HTTP_200_OK)
 
 class SomArrestAPIView(APIView):
     def get(self, request, v_id = None, pk = None):
@@ -1518,7 +1518,7 @@ class SomArrestAPIView(APIView):
         if request.data.get('howTraffickersOrg'):
             arrest.how_traffickers_org.set(request.data.get('howTraffickersOrg',[]))
 
-        return Response({"message": "Arrest details updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Arrest details updated successfully","id":arrest.id}, status=status.HTTP_200_OK)
     
 class SomAssistanceAPIView(APIView):
     def get(self, request, v_id=None, pk = None):
@@ -1648,7 +1648,7 @@ class SomAssistanceAPIView(APIView):
         assistance.im_emmigration_assistance_provider.set(request.data.get('immEmmigrationAssistanceProvider',[]))
         assistance.other_community_assistance_provider.set(request.data.get('communityBasedAssistanceProvider',[]))
 
-        return Response({"message": "Assistance details updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "Assistance details updated successfully","id":assistance.id}, status=status.HTTP_200_OK)
 
 class SomSocioAPIView(APIView):
     def get(self, request, v_id = None,pk=None):
@@ -1709,7 +1709,7 @@ class SomSocioAPIView(APIView):
         # Update many-to-many relationships
         socio.last_occupation.set(request.data.get('lastOccupation',[]))
 
-        return Response({"message": "SocioEconomic details updated successfully"}, status=status.HTTP_200_OK)
+        return Response({"message": "SocioEconomic details updated successfully","id":socio.id}, status=status.HTTP_200_OK)
 
 class SomVictimSearchAPIView(APIView):
     def get(self, request, *args, **kwargs):
