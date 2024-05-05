@@ -12,25 +12,42 @@
         <div class="card-body">
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link {% if step is not None and step == '1' %}active {% elif  step is None %}active{% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "Victim Profile" %}</button>
-                    <button class="nav-link {% if step is not None and step == '2' %} active {% endif %}" id="nav-assistance-tab" data-bs-toggle="tab" data-bs-target="#nav-assistance" type="button" role="tab" aria-controls="nav-assistance" aria-selected="false">{% trans "Assistance Types" %}</button>  
-                    <button class="nav-link {% if step is not None and step == '3' %} active {% endif %}" id="nav-socio-tab" data-bs-toggle="tab" data-bs-target="#nav-socio" type="button" role="tab" aria-controls="nav-socio" aria-selected="false">{% trans "Socio Economic Before Smuggling" %}</button>
+                    <button class="nav-link {% if step is not None and step == '1' %}active {% elif  step is None %}active{% endif %}" id="nav-case-tab" data-bs-toggle="tab" data-bs-target="#nav-case" type="button" role="tab" aria-controls="nav-case" aria-selected="false">{% trans "Case Data" %}</button>
+                    <button class="nav-link {% if step is not None and step == '2' %}active {% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "Victim Profile" %}</button>
+                    <button class="nav-link {% if step is not None and step == '3' %} active {% endif %}" id="nav-assistance-tab" data-bs-toggle="tab" data-bs-target="#nav-assistance" type="button" role="tab" aria-controls="nav-assistance" aria-selected="false">{% trans "Assistance Types" %}</button>  
+                    <button class="nav-link {% if step is not None and step == '4' %} active {% endif %}" id="nav-socio-tab" data-bs-toggle="tab" data-bs-target="#nav-socio" type="button" role="tab" aria-controls="nav-socio" aria-selected="false">{% trans "Socio Economic Before Smuggling" %}</button>
                 </div>
             </nav>
             <div class="tab-content">
-                <div class="tab-pane fade {% if step is not None and step == '1' %} show active {% elif  step is None %}show active {% endif %}" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-                    {% if request.session.v_id %}
-                        {% include "components/victimprofile.html"%}
-                        <div class="container text-center">
-                            <a href="/{{request.LANGUAGE_CODE}}/som_assistance_form?step=2" class="btn btn-primary mt-3 text-warning">{% translate "NEXT" %}</a>
-                        </div>
-                    {% else %}
-                        {% include "components/single_victim_form_som.html"%}
-                    {% endif %}
+
+                <div class="tab-pane fade {% if step is not None and step == '1' %} show active {% elif  step is None %}show active {% endif %}" id="nav-case" role="tabpanel" aria-labelledby="nav-case-tab" tabindex="0">
+                    {% include "components/case_data_form.html"%}     
                 </div>
-                <div class="tab-pane fade {% if step is not None and step == '2' %} show active  {% endif %}" id="nav-assistance" role="tabpanel" aria-labelledby="nav-assistance-tab" tabindex="1">
+
+                <div class="tab-pane fade {% if step is not None and step == '2' %} show active {% endif %}" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                    <div class="nav nav-pills my-3" id="nav-tab2" role="tablist">
+                        <div class="nav-item">
+                            <button class="nav-link {% if request.session.agg is not None and request.session.agg == '1' %}active {% elif  agg is None %}active{% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-single" type="button" role="tab" aria-controls="nav-single" aria-selected="false">{% trans "Single victim" %}</button>
+                        </div>
+                        <div class="nav-item">
+                            <button class="nav-link {% if request.session.agg is not None and request.session.agg == '2' %} active {% endif %}" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-multi" type="button" role="tab" aria-controls="nav-multi" aria-selected="false">{% translate "Multiple victims" %}</button> 
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade {% if request.session.agg is not None and request.session.agg == '1' %} show active  {% endif %}" id="nav-single" role="tabpanel" aria-labelledby="nav-single-tab" tabindex="0">
+                            {% include "components/single_victim_form_som.html"%}
+                            
+                        </div>
+                        <div class="tab-pane fade {% if request.session.agg is not None and request.session.agg == '2' %} show active  {% endif %}" id="nav-multi" role="tabpanel" aria-labelledby="nav-multi-tab" tabindex="1">
+                            {% include "components/multiple_victim_form_som.html"%}
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade {% if step is not None and step == '3' %} show active  {% endif %}" id="nav-assistance" role="tabpanel" aria-labelledby="nav-assistance-tab" tabindex="1">
                     
-                    <form id="socio-economic-form" method="post" action="/{{request.LANGUAGE_CODE}}/save_assistance_types">
+                    <form id="assistance-form" method="post" action="/{{request.LANGUAGE_CODE}}/som_save_assistance_types">
                         {% csrf_token %}
                         <div class="row g-2 my-2 p-2 ">
 
@@ -40,12 +57,12 @@
                                         <p>{% trans "Social assistance" %}</p>
                                         <div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_1" value="1" {% if socio.violence_prior == 1 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','block'])">
-                                                <label class="form-check-label" for="violence_prior_1">Yes</label>
+                                                <input class="form-check-input" type="radio" name="social_assistance" id="social_assistance_1" value="1" {% if assistance.social_assistance == 1 %}selected{% endif %} >
+                                                <label class="form-check-label" for="social_assistance_1">Yes</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_0" value="0" {% if socio.violence_prior == 0 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','none'])">
-                                                <label class="form-check-label" for="violence_prior_0">No</label>
+                                                <input class="form-check-input" type="radio" name="social_assistance" id="social_assistance_0" value="0" {% if assistance.social_assistance == 0 %}selected{% endif %} >
+                                                <label class="form-check-label" for="social_assistance_0">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -54,6 +71,7 @@
                                         <div class="">
                                             <label for="social_assistance_provider" class="form-label">{% trans "Provided by:" %}</label>
                                             <select class="form-select" name="social_assistance_provider" id="social_assistance_provider" aria-label="Default select example"  >
+                                                <option></option>
                                                 {% for provider in providers %}
                                                     <option {% if provider in assistance.social_assistance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
                                                 {% endfor %}
@@ -69,12 +87,12 @@
                                         <p>{% trans "Medical rehabilitation assistance" %}</p>
                                         <div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_1" value="1" {% if socio.violence_prior == 1 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','block'])">
-                                                <label class="form-check-label" for="violence_prior_1">Yes</label>
+                                                <input class="form-check-input" type="radio" name="med_rehab" id="med_rehab_1" value="1" {% if assistance.med_rehab == 1 %}selected{% endif %} >
+                                                <label class="form-check-label" for="med_rehab_1">Yes</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_0" value="0" {% if socio.violence_prior == 0 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','none'])">
-                                                <label class="form-check-label" for="violence_prior_0">No</label>
+                                                <input class="form-check-input" type="radio" name="med_rehab" id="med_rehab_0" value="0" {% if assistance.med_rehab == 0 %}selected{% endif %} >
+                                                <label class="form-check-label" for="med_rehab_0">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -83,6 +101,7 @@
                                         <div class="">
                                             <label for="med_rehab_provider" class="form-label">{% trans "Provided by:" %}</label>
                                             <select class="form-select" name="med_rehab_provider" id="med_rehab_provider" aria-label="Default select example"  >
+                                                <option></option>
                                                 {% for provider in providers %}
                                                     <option {% if provider in assistance.med_rehab_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
                                                 {% endfor %}
@@ -98,12 +117,12 @@
                                         <p>{% trans "Housing allowance" %}</p>
                                         <div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_1" value="1" {% if socio.violence_prior == 1 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','block'])">
-                                                <label class="form-check-label" for="violence_prior_1">Yes</label>
+                                                <input class="form-check-input" type="radio" name="housing_allowance" id="housing_allowance_1" value="1" {% if assistance.housing_allowance == 1 %}selected{% endif %} >
+                                                <label class="form-check-label" for="housing_allowance_1">Yes</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_0" value="0" {% if socio.violence_prior == 0 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','none'])">
-                                                <label class="form-check-label" for="violence_prior_0">No</label>
+                                                <input class="form-check-input" type="radio" name="housing_allowance" id="housing_allowance_0" value="0" {% if assistance.housing_allowance == 0 %}selected{% endif %} >
+                                                <label class="form-check-label" for="housing_allowance_0">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -112,6 +131,7 @@
                                         <div class="">
                                             <label for="housing_allowance_provider" class="form-label">{% trans "Provided by:" %}</label>
                                             <select class="form-select" name="housing_allowance_provider" id="housing_allowance_provider" aria-label="Default select example"  >
+                                                <option></option>
                                                 {% for provider in providers %}
                                                     <option {% if provider in assistance.housing_allowance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
                                                 {% endfor %}
@@ -127,12 +147,12 @@
                                         <p>{% trans "Halfway house" %}</p>
                                         <div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_1" value="1" {% if socio.violence_prior == 1 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','block'])">
-                                                <label class="form-check-label" for="violence_prior_1">Yes</label>
+                                                <input class="form-check-input" type="radio" name="halfway_house" id="halfway_house_1" value="1" {% if assistance.halfway_house == 1 %}selected{% endif %} >
+                                                <label class="form-check-label" for="halfway_house_1">Yes</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_0" value="0" {% if socio.violence_prior == 0 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','none'])">
-                                                <label class="form-check-label" for="violence_prior_0">No</label>
+                                                <input class="form-check-input" type="radio" name="halfway_house" id="halfway_house_0" value="0" {% if assistance.halfway_house == 0 %}selected{% endif %} >
+                                                <label class="form-check-label" for="halfway_house_0">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -141,6 +161,7 @@
                                         <div class="">
                                             <label for="halfway_house_provider" class="form-label">{% trans "Provided by:" %}</label>
                                             <select class="form-select" name="halfway_house_provider" id="halfway_house_provider" aria-label="Default select example" >
+                                                <option></option>
                                                 {% for provider in providers %}
                                                     <option {% if provider in assistance.halfway_house_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
                                                 {% endfor %}
@@ -156,12 +177,12 @@
                                         <p>{% trans "Shelter" %}</p>
                                         <div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_1" value="1" {% if socio.violence_prior == 1 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','block'])">
-                                                <label class="form-check-label" for="violence_prior_1">Yes</label>
+                                                <input class="form-check-input" type="radio" name="shelter" id="shelter_1" value="1" {% if assistance.shelter == 1 %}selected{% endif %} >
+                                                <label class="form-check-label" for="shelter_1">Yes</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_0" value="0" {% if socio.violence_prior == 0 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','none'])">
-                                                <label class="form-check-label" for="violence_prior_0">No</label>
+                                                <input class="form-check-input" type="radio" name="shelter" id="shelter_0" value="0" {% if assistance.shelter == 0 %}selected{% endif %} >
+                                                <label class="form-check-label" for="shelter_0">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -170,6 +191,7 @@
                                         <div class="">
                                             <label for="shelter_provider" class="form-label">{% trans "Provided by:" %}</label>
                                             <select class="form-select" name="shelter_provider" id="shelter_provider" aria-label="Default select example"  >
+                                                <option></option>
                                                 {% for provider in providers %}
                                                     <option {% if provider.id in assistance.shelter_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
                                                 {% endfor %}
@@ -185,12 +207,12 @@
                                         <p>{% trans "Vocational training" %}</p>
                                         <div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_1" value="1" {% if socio.violence_prior == 1 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','block'])">
-                                                <label class="form-check-label" for="violence_prior_1">Yes</label>
+                                                <input class="form-check-input" type="radio" name="vocational_training" id="vocational_training_1" value="1" {% if assistance.vocational_training == 1 %}selected{% endif %} >
+                                                <label class="form-check-label" for="vocational_training_1">Yes</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_0" value="0" {% if socio.violence_prior == 0 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','none'])">
-                                                <label class="form-check-label" for="violence_prior_0">No</label>
+                                                <input class="form-check-input" type="radio" name="vocational_training" id="vocational_training_0" value="0" {% if assistance.vocational_training == 0 %}selected{% endif %} >
+                                                <label class="form-check-label" for="vocational_training_0">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -199,6 +221,7 @@
                                         <div class="">
                                             <label for="vocational_training_provider" class="form-label">{% trans "Provided by:" %}</label>
                                             <select class="form-select" name="vocational_training_provider" id="vocational_training_provider" aria-label="Default select example"  >
+                                                <option></option>
                                                 {% for provider in providers %}
                                                     <option {% if provider.id in assistance.vocational_training_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
                                                 {% endfor %}
@@ -214,12 +237,12 @@
                                         <p>{% trans "Micro-enterprise or income generating project" %}</p>
                                         <div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_1" value="1" {% if socio.violence_prior == 1 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','block'])">
-                                                <label class="form-check-label" for="violence_prior_1">Yes</label>
+                                                <input class="form-check-input" type="radio" name="micro_ent_income" id="micro_ent_income_1" value="1" {% if assistance.micro_ent_income == 1 %}selected{% endif %} >
+                                                <label class="form-check-label" for="micro_ent_income_1">Yes</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_0" value="0" {% if socio.violence_prior == 0 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','none'])">
-                                                <label class="form-check-label" for="violence_prior_0">No</label>
+                                                <input class="form-check-input" type="radio" name="micro_ent_income" id="micro_ent_income_0" value="0" {% if assistance.micro_ent_income == 0 %}selected{% endif %} >
+                                                <label class="form-check-label" for="micro_ent_income_0">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -228,6 +251,7 @@
                                         <div class="">
                                             <label for="micro_ent_income_provider" class="form-label">{% trans "Provided by:" %}</label>
                                             <select class="form-select" name="micro_ent_income_provider" id="micro_ent_income_provider" aria-label="Default select example"  >
+                                                <option></option>
                                                 {% for provider in providers %}
                                                     <option {% if provider in assistance.micro_ent_income_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
                                                 {% endfor %}
@@ -238,6 +262,7 @@
                                         <div class="">
                                             <label for="micro_ent_income_project" class="form-label">{% trans "What kind of business project is being developed?:" %}</label>
                                             <select class="form-select" name="micro_ent_income_project" id="micro_ent_income_project" aria-label="Default select example" >
+                                                <option></option>
                                                 {% for project in income_project_types %}
                                                     <option {% if project.id == assistance.micro_ent_income_project_id %}selected{% endif %} value="{{project.id}}">{% trans project.name %}</option>
                                                 {% endfor %}
@@ -253,12 +278,12 @@
                                         <p>{% trans "Legal assistance" %}</p>
                                         <div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_1" value="1" {% if socio.violence_prior == 1 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','block'])">
-                                                <label class="form-check-label" for="violence_prior_1">Yes</label>
+                                                <input class="form-check-input" type="radio" name="legal_assistance" id="legal_assistance_1" value="1" {% if assistance.legal_assistance == 1 %}selected{% endif %} >
+                                                <label class="form-check-label" for="legal_assistance_1">Yes</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_0" value="0" {% if socio.violence_prior == 0 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','none'])">
-                                                <label class="form-check-label" for="violence_prior_0">No</label>
+                                                <input class="form-check-input" type="radio" name="legal_assistance" id="legal_assistance_0" value="0" {% if assistance.legal_assistance == 0 %}selected{% endif %} >
+                                                <label class="form-check-label" for="legal_assistance_0">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -267,6 +292,7 @@
                                         <div class="">
                                             <label for="legal_assistance_provider" class="form-label">{% trans "Provided by:" %}</label>
                                             <select class="form-select" name="legal_assistance_provider" id="legal_assistance_provider" aria-label="Default select example"  >
+                                                <option></option>
                                                 {% for provider in providers %}
                                                     <option {% if provider in assistance.legal_assistance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
                                                 {% endfor %}
@@ -279,14 +305,15 @@
                             <div class="col-md-6 ">
                                 <div class="row g-1 px-2 py-2 bg-light border rounded">
                                     <div class="col-md-12">
-                                        <p>{% trans "Medical assistance" %}</p><div>
+                                        <p>{% trans "Medical assistance" %}</p>
+                                        <div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_1" value="1" {% if socio.violence_prior == 1 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','block'])">
-                                                <label class="form-check-label" for="violence_prior_1">Yes</label>
+                                                <input class="form-check-input" type="radio" name="medical_assistance" id="medical_assistance_1" value="1" {% if assistance.medical_assistance == 1 %}selected{% endif %} >
+                                                <label class="form-check-label" for="medical_assistance_1">Yes</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_0" value="0" {% if socio.violence_prior == 0 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','none'])">
-                                                <label class="form-check-label" for="violence_prior_0">No</label>
+                                                <input class="form-check-input" type="radio" name="medical_assistance" id="medical_assistance_0" value="0" {% if assistance.medical_assistance == 0 %}selected{% endif %} >
+                                                <label class="form-check-label" for="medical_assistance_0">No</label>
                                             </div>
                                         </div>
     
@@ -296,6 +323,7 @@
                                         <div class="">
                                             <label for="medical_assistance_provider" class="form-label">{% trans "Provided by:" %}</label>
                                             <select class="form-select" name="medical_assistance_provider" id="medical_assistance_provider" aria-label="Default select example"  >
+                                                <option></option>
                                                 {% for provider in providers %}
                                                     <option {% if provider in assistance.medical_assistance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
                                                 {% endfor %}
@@ -311,12 +339,12 @@
                                         <p>{% trans "Financial assistance" %}</p>
                                         <div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_1" value="1" {% if socio.violence_prior == 1 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','block'])">
-                                                <label class="form-check-label" for="violence_prior_1">Yes</label>
+                                                <input class="form-check-input" type="radio" name="financial_assistance" id="financial_assistance_1" value="1" {% if assistance.financial_assistance == 1 %}selected{% endif %} >
+                                                <label class="form-check-label" for="financial_assistance_1">Yes</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_0" value="0" {% if socio.violence_prior == 0 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','none'])">
-                                                <label class="form-check-label" for="violence_prior_0">No</label>
+                                                <input class="form-check-input" type="radio" name="financial_assistance" id="financial_assistance_0" value="0" {% if assistance.financial_assistance == 0 %}selected{% endif %} >
+                                                <label class="form-check-label" for="financial_assistance_0">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -324,6 +352,7 @@
                                         <div class="">
                                             <label for="financial_assistance_provider" class="form-label">{% trans "Provided by:" %}</label>
                                             <select class="form-select" name="financial_assistance_provider" id="financial_assistance_provider" aria-label="Default select example"  >
+                                                <option></option>
                                                 {% for provider in providers %}
                                                     <option {% if provider in assistance.financial_assistance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
                                                 {% endfor %}
@@ -339,12 +368,12 @@
                                         <p>{% trans "Educational assistance" %}</p>
                                         <div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_1" value="1" {% if socio.violence_prior == 1 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','block'])">
-                                                <label class="form-check-label" for="violence_prior_1">Yes</label>
+                                                <input class="form-check-input" type="radio" name="education_assistance" id="education_assistance_1" value="1" {% if assistance.education_assistance == 1 %}selected{% endif %} >
+                                                <label class="form-check-label" for="education_assistance_1">Yes</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_0" value="0" {% if socio.violence_prior == 0 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','none'])">
-                                                <label class="form-check-label" for="violence_prior_0">No</label>
+                                                <input class="form-check-input" type="radio" name="education_assistance" id="education_assistance_0" value="0" {% if assistance.education_assistance == 0 %}selected{% endif %} >
+                                                <label class="form-check-label" for="education_assistance_0">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -353,6 +382,7 @@
                                         <div class="">
                                             <label for="education_assistance_provider" class="form-label">{% trans "Provided by:" %}</label>
                                             <select class="form-select" name="education_assistance_provider" id="education_assistance_provider" aria-label="Default select example"  >
+                                                <option></option>
                                                 {% for provider in providers %}
                                                     <option {% if provider in assistance.education_assistance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
                                                 {% endfor %}
@@ -363,6 +393,7 @@
                                         <div class="">
                                             <label for="education_assistance_level" class="form-label">{% trans "please specify the education level to be commenced:" %}</label>
                                             <select class="form-select" name="education_assistance_level" id="education_assistance_level" aria-label="Default select example" >
+                                                <option></option>
                                                 {% for level in educational_levels %}
                                                     <option {% if level.id == assistance.education_assistance_level_id %}selected{% endif %} value="{{level.id}}">{% trans level.name %}</option>
                                                 {% endfor %}
@@ -378,12 +409,12 @@
                                         <p>{% trans "Immigration/Emigration  assistance" %}</p>
                                         <div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_1" value="1" {% if socio.violence_prior == 1 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','block'])">
-                                                <label class="form-check-label" for="violence_prior_1">Yes</label>
+                                                <input class="form-check-input" type="radio" name="im_emmigration_assistance" id="im_emmigration_assistance_1" value="1" {% if assistance.im_emmigration_assistance == 1 %}selected{% endif %} >
+                                                <label class="form-check-label" for="im_emmigration_assistance_1">Yes</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_0" value="0" {% if socio.violence_prior == 0 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','none'])">
-                                                <label class="form-check-label" for="violence_prior_0">No</label>
+                                                <input class="form-check-input" type="radio" name="im_emmigration_assistance" id="im_emmigration_assistance_0" value="0" {% if assistance.im_emmigration_assistance == 0 %}selected{% endif %} >
+                                                <label class="form-check-label" for="im_emmigration_assistance_0">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -392,6 +423,7 @@
                                         <div class="">
                                             <label for="im_emmigration_assistance_provider" class="form-label">{% trans "Provided by:" %}</label>
                                             <select class="form-select" name="im_emmigration_assistance_provider" id="im_emmigration_assistance_provider" aria-label="Default select example"  >
+                                                <option></option>
                                                 {% for provider in providers %}
                                                     <option {% if provider in assistance.im_emmigration_assistance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
                                                 {% endfor %}
@@ -402,6 +434,7 @@
                                         <div class="">
                                             <label for="im_emmigration_assistance_status" class="form-label">{% trans "please specify the education level to be commenced:" %}</label>
                                             <select class="form-select" name="im_emmigration_assistance_status" id="im_emmigration_assistance_status" aria-label="Default select example" >
+                                                <option></option>
                                                 {% for status in im_emmigration_statuses %}
                                                     <option {% if status.id == assistance.im_emmigration_assistance_status_id %}selected{% endif %} value="{{status.id}}">{% trans status.name %}</option>
                                                 {% endfor %}
@@ -417,12 +450,12 @@
                                     <p>{% trans "Other community-based assistance" %}</p>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_1" value="1" {% if socio.violence_prior == 1 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','block'])">
-                                            <label class="form-check-label" for="violence_prior_1">Yes</label>
+                                            <input class="form-check-input" type="radio" name="other_community_assistance" id="other_community_assistance_1" value="1" {% if assistance.other_community_assistance == 1 %}selected{% endif %} >
+                                            <label class="form-check-label" for="other_community_assistance_1">Yes</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="violence_prior" id="violence_prior_0" value="0" {% if socio.violence_prior == 0 %}selected{% endif %} onclick="togglesection_radio(['violence_type_sec','none'])">
-                                            <label class="form-check-label" for="violence_prior_0">No</label>
+                                            <input class="form-check-input" type="radio" name="other_community_assistance" id="other_community_assistance_0" value="0" {% if assistance.other_community_assistance == 0 %}selected{% endif %} >
+                                            <label class="form-check-label" for="other_community_assistance_0">No</label>
                                         </div>
                                     </div>
                                 </div>
@@ -431,6 +464,7 @@
                                     <div class="">
                                         <label for="other_community_assistance_provider" class="form-label">{% trans "Provided by:" %}</label>
                                         <select class="form-select" name="other_community_assistance_provider" id="other_community_assistance_provider" aria-label="Default select example"  >
+                                            <option ></option>
                                             {% for provider in providers %}
                                                 <option {% if provider in assistance.other_community_assistance_provider %}selected{% endif %} value="{{provider.id}}">{% trans provider.name %}</option>
                                             {% endfor %}
@@ -441,6 +475,7 @@
                                     <div class="">
                                         <label for="other_community_assistance_type" class="form-label">{% trans "please specify:" %}</label>
                                         <select class="form-select" name="other_community_assistance_type" id="other_community_assistance_type" aria-label="Default select example" >
+                                            <option></option>
                                             {% for type in community_assistance_types %}
                                                 <option {% if type.id == assistance.other_community_assistance_type_id %}selected{% endif %} value="{{type.id}}">{% trans type.name %}</option>
                                             {% endfor %}
@@ -470,14 +505,15 @@
                     </form>
                     
                 </div>
-                <div class="tab-pane fade {% if step is not None and step == '3' %} show active  {% endif %}" id="nav-socio" role="tabpanel" aria-labelledby="nav-socio-tab" tabindex="2">
-                    {% if victim %}
-                    <form id="socio-economic-form" method="post" action="/{{request.LANGUAGE_CODE}}/save_socio_economic">
+
+                <div class="tab-pane fade {% if step is not None and step == '4' %} show active  {% endif %}" id="nav-socio" role="tabpanel" aria-labelledby="nav-socio-tab" tabindex="2">
+                    {% if case %}
+                    <form id="socio-economic-form" method="post" action="/{{request.LANGUAGE_CODE}}/som_save_socio_economic">
                         {% csrf_token %}
                         <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
                             <div class="col-md-6">
                                 <div class="">
-                                    <label for="family_structure" class="form-label">{% trans "What was the structure of the family of origin at the time of the trafficking incident?:" %}</label>
+                                    <label for="family_structure" class="form-label">{% trans "What was the structure of the family of origin at the time of the smuggling incident?:" %}</label>
                                     <select class="form-select" name="family_structure" id="family_structure" aria-label="Default select example" value = "socio.family_structure_id">
                                         {% for structure in family_structures %}
                                             <option {% if structure.id == socio.family_structure_id %}selected{% endif %} value="{{structure.id}}">{% trans structure.name %}</option>
@@ -487,7 +523,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="">
-                                    <label for="living_with" class="form-label">{% trans "If the victim was not living with his/her family prior to entry into the trafficking process, who was he/she living with prior to departure?:" %}</label>
+                                    <label for="living_with" class="form-label">{% trans "If the migrant was not living with his/her family prior to entry into the smuggling process, who was he/she living with prior to departure?:" %}</label>
                                     <select class="form-select" name="living_with" id="living_with" aria-label="Default select example" value="{{socio.living_with_id}}">
                                         {% for living in living_withs %}
                                             <option {% if living.id == socio.living_with_id %}selected{% endif %} value="{{living.id}}">{% trans living.name %}</option>
@@ -529,7 +565,7 @@
 
                             <div class="col-md-6">
                                 <div class="">
-                                    <label for="last_occupation" class="form-label">{% trans "What was the last activity/occupation the victim was engaged in prior to departure from the place of origin?:" %}</label>
+                                    <label for="last_occupation" class="form-label">{% trans "What was the last activity/occupation the migrant was engaged in prior to departure from the place of origin?:" %}</label>
                                     <select class="form-select" name="last_occupation" id="last_occupation" aria-label="Default select example" value = "{{socio.last_occupation}}" multiple>
                                         {% for occupation in occupations %}
                                             <option {% if occupation in socio.last_occupation %}selected{% endif %} value="{{occupation.id}}">{% trans occupation.name %}</option>

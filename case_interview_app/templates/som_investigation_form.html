@@ -13,190 +13,17 @@
         <div class="card-body">
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link {% if step is not None and step == '1' %} active {% elif  step is None %}active {% endif %}" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false" >{% trans "Suspected Smuggler" %}</button>
-                    <button class="nav-link {% if step is not None and step == '2' %} active {% endif %}" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">{% trans "Investigations" %}</button>
-                    <button class="nav-link {% if step is not None and step == '3' %}active {% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "Victim Profile" %}</button>
+                    <button class="nav-link {% if step is not None and step == '1' %}active {% elif  step is None %}active{% endif %}" id="nav-case-tab" data-bs-toggle="tab" data-bs-target="#nav-case" type="button" role="tab" aria-controls="nav-case" aria-selected="false">{% trans "Case Data" %}</button>
+                    <button class="nav-link {% if step is not None and step == '2' %} active {% endif %}" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false" >{% trans "Suspected Smuggler" %}</button>
+                    <button class="nav-link {% if step is not None and step == '3' %} active {% endif %}" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">{% trans "Investigations" %}</button>
+                    <button class="nav-link {% if step is not None and step == '4' %}active {% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "Victim Profile" %}</button>
                 </div>
             </nav>
             <div class="tab-content">
-                <div class="tab-pane fade {% if step is not None and step == '3' %} show active {% endif %}" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-                    {% if request.session.v_id %}
-                        {% include "components/victimprofile.html"%}
-                        <div class="container text-center">
-                            <a href="/{{request.LANGUAGE_CODE}}/investigation_form?step=2" class="btn btn-primary mt-3 text-warning">{% translate "NEXT" %}</a>
-                        </div>
-                    {% else %}
-                        {% include "components/victim_form.html"%}
-                    {% endif %}
+                <div class="tab-pane fade {% if step is not None and step == '1' %} show active {% elif  step is None %}show active {% endif %}" id="nav-case" role="tabpanel" aria-labelledby="nav-case-tab" tabindex="0">
+                    {% include "components/case_data_form.html"%}     
                 </div>
-                <div class="tab-pane fade {% if step is not None and step == '2' %} show active {% endif %}" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
-                    
-                    <form id="arrests_form" method="POST" action="/{{request.LANGUAGE_CODE}}/save_arrest">
-                        {% csrf_token %}
-                        <input type="hidden" name="v_id" value="{{v_id}}"/>
-                        <input type="hidden" name="arrest_id" value="{{arrest.id}}"/>
-                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
-                            
-                                <div class="col-md-6">
-                                    <label for="trafficker" class="form-label">{% trans "Suspected trafficker:" %}</label>
-                                    <select class="form-select" name="trafficker_id" id="trafficker" aria-label="Default select example" required value="{{arrest.trafficker_id}}">
-                                        {% for trafficker in suspects %}
-                                            <option {% if trafficker.id == arrest.trafficker_id %}selected{% endif %} value="{{trafficker.id}}"> {{trafficker.first_name}} {{trafficker.last_name}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="suspects_arrested" class="form-label">{% trans "Has the suspect been arrested to date?:" %}</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="suspects_arrested" id="suspects_arrested_1" value="1" {% if arrest.suspects_arrested == 1 %}checked selected{% endif %} onclick="togglesection_radio(['why_no_arrest_sec','none'])">
-                                            <label class="form-check-label" for="suspects_arrested_1">Yes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="suspects_arrested" id="suspects_arrested_0" value="0" {% if arrest.suspects_arrested == 0 %}checked selected{% endif %} onclick="togglesection_radio(['why_no_arrest_sec','block'])">
-                                            <label class="form-check-label" for="suspects_arrested_0">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                            
-                            <div class="col-md-6" id="date_of_arrest_sec" >
-                                <div class="">
-                                    <label for="dateOfArrest" class="form-label">{% trans "Date of arrest:" %}</label>
-                                    <input type="date" name = "date_of_arrest" value = "{{arrest.date_of_arrest}}" class="form-control" id="dateOfArrest" aria-describedby="dateOfArrestHelp" >
-                                
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="role_in_trafficking" class="form-label">{% trans "Role in smuggling:" %}</label>
-                                <select class="form-select" name="role_in_trafficking" id="role_in_trafficking" aria-label="Default select example" required >
-                                    <option></option>
-                                    {% for role_in_trafficking in roles_in_trafficking %}
-                                        <option value="{{role_in_trafficking.id}}">{% trans role_in_trafficking.name %}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            
-                            <div class="col-md-6" id="why_no_arrest_sec"  {% if arrest.suspects_arrested == False %}{% else %}style="display:none"{% endif %}>
-                                <div class="">
-                                    <label for="whyNoArrest" class="form-label">{% trans "If NO, please explain why there have been no arrests?" %}</label>
-                                    <input type="text" name = "why_no_arrest" value = "{{arrest.why_no_arrest}}" class="form-control" id="whyNoArrest" aria-describedby="whyNoArrestHelp" >
-                                
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="suspects_arrested" class="form-label">{% trans "Have any facilitators been arrested to date?:" %}</label>
-                                <div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="suspects_arrested" id="suspects_arrested_1" value="1" {% if arrest.suspects_arrested == 1 %}checked selected{% endif %} onclick="togglesection_radio(['why_no_arrest_sec','none'])">
-                                        <label class="form-check-label" for="suspects_arrested_1">Yes</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="suspects_arrested" id="suspects_arrested_0" value="0" {% if arrest.suspects_arrested == 0 %}checked selected{% endif %} onclick="togglesection_radio(['why_no_arrest_sec','block'])">
-                                        <label class="form-check-label" for="suspects_arrested_0">No</label>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        
-                        <div class="col-md-6" id="date_of_arrest_sec" >
-                            <div class="">
-                                <label for="dateOfArrest" class="form-label">{% trans "Date of arrest:" %}</label>
-                                <input type="date" name = "date_of_arrest" value = "{{arrest.date_of_arrest}}" class="form-control" id="dateOfArrest" aria-describedby="dateOfArrestHelp" >
-                            
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="role_in_trafficking" class="form-label">{% trans "Role in smuggling:" %}</label>
-                            <select class="form-select" name="role_in_trafficking[]" id="role_in_trafficking" aria-label="Default select example" required >
-                                <option></option>
-                                {% for role_in_trafficking in roles_in_trafficking %}
-                                    <option value="{{role_in_trafficking.id}}">{% trans role_in_trafficking.name %}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="org_crime" class="form-label">{% trans "Does the suspected trafficker/smuggler have ties to organized crime?:" %}</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="org_crime" id="org_crime_1" value="1" {% if arrest.org_crime == 1 %}checked selected{% endif %}>
-                                            <label class="form-check-label" for="org_crime_1">Yes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="org_crime" id="org_crime_0" value="0" {% if arrest.org_crime == 0 %}checked selected{% endif %}>
-                                            <label class="form-check-label" for="org_crime_0">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="">
-                                    <label for="how_traffickers_org" class="form-label">{% trans "How is the smuggler(s) organized?:" %}</label>
-                                    <select class="form-select" name="how_traffickers_org[]" id="how_traffickers_org" aria-label="Default select example" required multiple>
-                                        {% for trafficker_org in trafficker_orgs %}
-                                            <option {% if trafficker_org in arrest.how_traffickers_org %}selected{% endif %} value="{{trafficker_org.id}}">{% trans trafficker_org.name %}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            
-                           
-                        
-                            <div class="col-md-6" id="why_no_investigation_sec" style="display:none">
-                                <div class="">
-                                    <label for="whyNoInvestigation" class="form-label">{% trans "If NO, please specify:" %}</label>
-                                    <input type="text" name = "why_no_investigation" value = "{{arrest.why_no_investigation}}" class="form-control" id="whyNoInvestigation" aria-describedby="whyNoInvestigationHelp" >
-                                </div>
-                            </div>
-                            <div class="col-md-6" id="investigation_status_sec" >
-                                <div class="">
-                                    <label for="investigation_status" class="form-label">{% trans "What is the status of the investigation?:" %}</label>
-                                    <select class="form-select" name="investigation_status" id="investigation_status" aria-label="Default select example" onchange="togglesection_select(this,[['why_pending_sec'],['4']],[['withdrawn_closed_reason'],['2','1']])" >
-                                        
-                                        <option value="">None</option>
-                                        <option value="">Ongoing</option>
-                                        <option value="">Proceeded to trial</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6" id="investigation_status_sec" >
-                                <div class="">
-                                    <label for="investigation_status" class="form-label">{% trans "Under which national legislation is the case being tried?:" %}</label>
-                                    <select class="form-select" name="investigation_status" id="investigation_status" aria-label="Default select example" onchange="togglesection_select(this,[['why_pending_sec'],['4']],[['withdrawn_closed_reason'],['2','1']])" >
-                                        
-                                        <option value="">Angola</option>
-                                        <option value="">Ongoing</option>
-                                        <option value="">Proceeded to trial</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6" id="why_pending_sec" style="display:none">
-                                <div class="">
-                                    <label for="whyPending" class="form-label">{% trans "If PENDING, Specify:" %}</label>
-                                    <input type="text" name = "why_pending" value = "{{arrest.why_pending}}" class="form-control" id="whyPending" aria-describedby="whyPendingHelp" >
-                                </div>
-                            </div>
-                            <div class="col-md-6" id="withdrawn_closed_reason" style="display:none">
-                                <div class="">
-                                    <label for="withdrawnClosedReason" class="form-label">{% trans "If WITHDRAWN or CASE FILE CLOSED, please specify:" %}</label>
-                                    <input type="text" name = "withdrawn_closed_reason" value = "{{arrest.withdrawn_closed_reason}}" class="form-control" id="withdrawnClosedReason" aria-describedby="withdrawnClosedReasonHelp" >
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div class="row text-center m-3 ">
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE AND PROCEED" %}</button>
-                            </div>
-                        
-                        </div>
-                    </form>
-                    
-                </div>
-                <div class="tab-pane fade {% if request.GET.step is not None and request.GET.step == '1' %}show active{% elif  step is None %}show active {% endif %}" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">
+                <div class="tab-pane fade {% if request.GET.step is not None and request.GET.step == '2' %} show active {% endif %}" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">
                     
                     <div class="container" id="suspect_holder">
                     {% for suspect in suspects %}
@@ -254,39 +81,15 @@
         
                                 
                                 </div>
-                                
-                                <div class="row g-3">
-                                    <div class="col-md-12 py-2 border-top border-bottom border-primary bg-light">
-                                        <h6>Case data</h6>
-                                    </div>
-                                    
-                                    <div class="col-md-6">
-                                        {% trans "Date of arrest:" %} {{suspect.date_of_arrest}}
-                                    </div>
-                                    <div class="col-md-6">
-                                        {% trans "Role in trafficking:" %} {% for role_in_trafficking in suspect.role_in_trafficking.all %}{{role_in_trafficking.name }} {% endfor %}
-                                        
-                                    </div>
-                                    <div class="col-md-12">
-                                        {% translate "From:" %} {{suspect.traffick_from_country.name}},{{suspect.traffick_from_place}}
-                                    </div>
-                                    
-                                    <div class="col-md-12">
-                                        {% translate "To:" %} {{suspect.traffick_to_country.name}},{{suspect.traffick_to_place}}
-                                    </div>
-                                    
-        
-                                </div>
+
                             </div>
                         </div>
                     {% endfor %}
                     </div>
                     {% if suspects|length < 1 %}
-                        {% if suspect_count == 1 %}
-                        {% include "components/suspect_form.html" %}
-                        {% else %}
+                        
                         {% include "components/som_suspect_form.html" %}
-                        {% endif %}
+                        
                     {% endif %}
                     {% if suspects|length > 0 %}
                         <div class="container" id="form_holder" style="display:none;">
@@ -294,7 +97,7 @@
                             <a href="javascript:;" onclick="toggleSuspects()">Toggle suspect view</a>
                             {% endif %}
 
-                            {% include "components/suspect_form.html" %}
+                            {% include "components/som_suspect_form.html" %}
                         </div>
                         <a href="javascript:;" id="sus_add" onclick="addSuspect()">Add suspect</a>
                     {% endif %}
@@ -306,7 +109,185 @@
                         </div>
                     
                     </div> {% endcomment %}
-                </div>          
+                </div>
+                
+                <div class="tab-pane fade {% if step is not None and step == '3' %} show active {% endif %}" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
+                    
+                    <form id="arrests_form" method="POST" action="/{{request.LANGUAGE_CODE}}/som_save_arrest">
+                        {% csrf_token %}
+                        <input type="hidden" name="c_id" value="{{c_id}}"/>
+                        <input type="hidden" name="arrest_id" value="{{arrest.id}}"/>
+                        <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+                            
+                                {% comment %} <div class="col-md-6">
+                                    <label for="trafficker" class="form-label">{% trans "Suspected trafficker:" %}</label>
+                                    <select class="form-select" name="trafficker_id" id="trafficker" aria-label="Default select example" required value="{{arrest.trafficker_id}}">
+                                        <option>-- </option>
+                                        {% for trafficker in suspects %}
+                                            <option {% if trafficker.id == arrest.trafficker_id %}selected{% endif %} value="{{trafficker.id}}"> {{trafficker.first_name}} {{trafficker.last_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div> {% endcomment %}
+                                {% comment %} <div class="col-md-6">
+                                    <label for="suspects_arrested" class="form-label">{% trans "Has the suspect been arrested to date?:" %}</label>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="suspects_arrested" id="suspects_arrested_1" value="1" {% if arrest.suspects_arrested == 1 %}checked selected{% endif %} onclick="togglesection_radio(['why_no_arrest_sec','none'])">
+                                            <label class="form-check-label" for="suspects_arrested_1">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="suspects_arrested" id="suspects_arrested_0" value="0" {% if arrest.suspects_arrested == 0 %}checked selected{% endif %} onclick="togglesection_radio(['why_no_arrest_sec','block'])">
+                                            <label class="form-check-label" for="suspects_arrested_0">No</label>
+                                        </div>
+                                    </div>
+                                </div> {% endcomment %}
+                                
+                            <div class="col-md-6">
+                                <label for="suspects_arrested" class="form-label">{% trans "Have any facilitators been arrested to date?:" %}</label>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="suspects_arrested" id="suspects_arrested_1" value="1" {% if arrest.suspects_arrested == 1 %}checked selected{% endif %} onclick="togglesection_radio(['why_no_arrest_sec','none'])">
+                                        <label class="form-check-label" for="suspects_arrested_1">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="suspects_arrested" id="suspects_arrested_0" value="0" {% if arrest.suspects_arrested == 0 %}checked selected{% endif %} onclick="togglesection_radio(['why_no_arrest_sec','block'])">
+                                        <label class="form-check-label" for="suspects_arrested_0">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="why_no_arrest_sec"  {% if arrest.suspects_arrested == False %}{% else %}style="display:none"{% endif %}>
+                                <div class="">
+                                    <label for="whyNoArrest" class="form-label">{% trans "If NO, please explain why there have been no arrests?" %}</label>
+                                    <input type="text" name = "why_no_arrest" value = "{{arrest.why_no_arrest}}" class="form-control" id="whyNoArrest" aria-describedby="whyNoArrestHelp" >
+                                
+                                </div>
+                            </div>
+                            {% comment %} <div class="col-md-6" id="date_of_arrest_sec" >
+                                <div class="">
+                                    <label for="dateOfArrest" class="form-label">{% trans "Date of arrest:" %}</label>
+                                    <input type="date" name = "date_of_arrest" value = "{{arrest.date_of_arrest}}" class="form-control" id="dateOfArrest" aria-describedby="dateOfArrestHelp" >
+                                
+                                </div>
+                            </div> {% endcomment %}
+                        
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="org_crime" class="form-label">{% trans "Does the suspected trafficker/smuggler have ties to organized crime?:" %}</label>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="org_crime" id="org_crime_1" value="1" {% if arrest.org_crime == 1 %}checked selected{% endif %}>
+                                            <label class="form-check-label" for="org_crime_1">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="org_crime" id="org_crime_0" value="0" {% if arrest.org_crime == 0 %}checked selected{% endif %}>
+                                            <label class="form-check-label" for="org_crime_0">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="">
+                                    <label for="how_traffickers_org" class="form-label">{% trans "How is the smuggler(s) organized?:" %}</label>
+                                    <select class="form-select" name="how_traffickers_org[]" id="how_traffickers_org" aria-label="Default select example" required multiple>
+                                        {% for trafficker_org in trafficker_orgs %}
+                                            <option {% if trafficker_org in arrest.how_traffickers_org %}selected{% endif %} value="{{trafficker_org.id}}">{% trans trafficker_org.name %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="investigation_done" class="form-label">{% trans "Have any investigations been done?:" %}</label>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="investigation_done" id="investigation_done_1" value="1" {% if arrest.investigation_done == 1 %}checked selected{% endif %} onclick="togglesection_radio(['why_no_investigation_sec','none'])">
+                                        <label class="form-check-label" for="investigation_done_1">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="investigation_done" id="investigation_done_0" value="0" {% if arrest.investigation_done == 0 %}checked selected{% endif %} onclick="togglesection_radio(['why_no_investigation_sec','block'])">
+                                        <label class="form-check-label" for="investigation_done_0">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        
+                            <div class="col-md-6" id="why_no_investigation_sec" style="display:none">
+                                <div class="">
+                                    <label for="whyNoInvestigation" class="form-label">{% trans "If NO, please specify:" %}</label>
+                                    <input type="text" name = "why_no_investigation" value = "{{arrest.why_no_investigation}}" class="form-control" id="whyNoInvestigation" aria-describedby="whyNoInvestigationHelp" >
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="investigation_status_sec" >
+                                <div class="">
+                                    <label for="investigation_status" class="form-label">{% trans "What is the status of the investigation?:" %}</label>
+                                    <select class="form-select" name="investigation_status" id="investigation_status" aria-label="Default select example" onchange="togglesection_select(this,[['why_pending_sec'],['4']],[['withdrawn_closed_reason'],['2','1']])" >
+                                        <option></option>
+                                        {% for status in investigation_statuses %}
+                                            <option {% if status.id == arrest.investigation_status_id %}selected{% endif %} value="{{status.id}}">{% trans status.name %}</option>
+                                        {% endfor %}
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="national_legislation_sec" >
+                                <div class="">
+                                    <label for="national_legislation" class="form-label">{% trans "Under which national legislation is the case being tried?:" %}</label>
+                                    <select class="form-select" name="national_legislation" id="national_legislation" aria-label="Default select example"  >
+                                        
+                                        <option></option>
+                                        {% for country in countries %}
+                                            <option {% if country.id == arrest.national_legislation_id %}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                                        {% endfor %}
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="why_pending_sec" style="display:none">
+                                <div class="">
+                                    <label for="whyPending" class="form-label">{% trans "If PENDING, Specify:" %}</label>
+                                    <input type="text" name = "why_pending" value = "{{arrest.why_pending}}" class="form-control" id="whyPending" aria-describedby="whyPendingHelp" >
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="withdrawn_closed_reason" style="display:none">
+                                <div class="">
+                                    <label for="withdrawnClosedReason" class="form-label">{% trans "If WITHDRAWN or CASE FILE CLOSED, please specify:" %}</label>
+                                    <input type="text" name = "withdrawn_closed_reason" value = "{{arrest.withdrawn_closed_reason}}" class="form-control" id="withdrawnClosedReason" aria-describedby="withdrawnClosedReasonHelp" >
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="row text-center m-3 ">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE AND PROCEED" %}</button>
+                            </div>
+                        
+                        </div>
+                    </form>
+                    
+                </div>
+
+                <div class="tab-pane fade {% if step is not None and step == '4' %} show active {% endif %}" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                    <div class="nav nav-pills my-3" id="nav-tab2" role="tablist">
+                        <div class="nav-item">
+                            <button class="nav-link {% if request.session.agg is not None and request.session.agg == '1' %}active {% elif  agg is None %}active{% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-single" type="button" role="tab" aria-controls="nav-single" aria-selected="false">{% trans "Single victim" %}</button>
+                        </div>
+                        <div class="nav-item">
+                            <button class="nav-link {% if request.session.agg is not None and request.session.agg == '2' %} active {% endif %}" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-multi" type="button" role="tab" aria-controls="nav-multi" aria-selected="false">{% translate "Multiple victims" %}</button> 
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade {% if request.session.agg is not None and request.session.agg == '1' %} show active  {% endif %}" id="nav-single" role="tabpanel" aria-labelledby="nav-single-tab" tabindex="0">
+                            {% include "components/single_victim_form_som.html"%}
+                            
+                        </div>
+                        <div class="tab-pane fade {% if request.session.agg is not None and request.session.agg == '2' %} show active  {% endif %}" id="nav-multi" role="tabpanel" aria-labelledby="nav-multi-tab" tabindex="1">
+                            {% include "components/multiple_victim_form_som.html"%}
+                            
+                        </div>
+                    </div>
+                </div>
+                         
             
             </div>
             </div>
@@ -332,7 +313,7 @@ const choices1 = new Choices(idtypes,{
     }
 });
 {% endif %}
-{% if request.session.v_id %}
+{% if request.session.c_id %}
 const how_traffickers_org = document.querySelector('#how_traffickers_org');
 const choices2 = new Choices(how_traffickers_org,{
     classNames: {

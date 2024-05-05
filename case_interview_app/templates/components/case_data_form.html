@@ -1,0 +1,85 @@
+{% load i18n %}
+<form id="suspect_form" method="post" action="/{{request.LANGUAGE_CODE}}/som_save_case">
+    {% csrf_token %}
+
+    
+    <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
+        <div class="col-md-12">
+            <h4>Case data</h4>
+        </div>
+        <div class="col-md-12">
+            <label for="date_of_arrest" class="form-label">{% trans "Date of arrest:" %}</label>
+            <input type="date" name = "date_of_arrest"  class="form-control" id="date_of_arrest" aria-describedby="date_of_arrestHelp" value = "{{case.date_of_arrest|date:'Y-m-d'}}" required>
+            
+        </div>
+        <div class="col-md-12">
+            From
+        </div>
+        <div class="col-md-6">
+            <label for="traffick_from_country" class="form-label">{% trans "Country:" %}</label>
+            <select class="form-select" name="traffick_from_country" id="traffick_from_country" aria-label="Default select example" required>
+                <option></option>
+                {% for country in countries %}
+                    {% if country.is_sadc %}
+                    <option {% if case.traffick_from_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                    {% endif %}
+                {% endfor %}
+                <option disabled style="background:#1860c3; color:white">NON-SADC</option>
+                {% for country in countries %}
+                    {% if country.is_sadc != True %}
+                    <option {% if case.traffick_from_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="traffick_from_place" class="form-label">{% trans "Place:" %}</label>
+            <input type="text" name = "traffick_from_place" value = "{{case.traffick_from_place}}" class="form-control" id="traffick_from_place" aria-describedby="traffick_from_placeHelp" required>
+            
+        </div>
+        <div class="col-md-12">
+            To
+        </div>
+        <div class="col-md-6">
+            <label for="traffick_to_country" class="form-label">{% trans "Country:" %}</label>
+            <select class="form-select" name="traffick_to_country" id="traffick_to_country" aria-label="Default select example" required>
+                <option></option>
+                {% for country in countries %}
+                    {% if country.is_sadc %}
+                    <option {% if case.traffick_to_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                    {% endif %}
+                {% endfor %}
+                <option disabled style="background:#1860c3; color:white">NON-SADC</option>
+                {% for country in countries %}
+                    {% if country.is_sadc != True %}
+                    <option {% if case.traffick_to_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="traffick_to_place" class="form-label">{% trans "Place:" %}</label>
+            <input type="text" name = "traffick_to_place" value = "{{case.traffick_to_place}}" class="form-control" id="traffick_to_place" aria-describedby="traffick_to_placeHelp" required>
+            
+        </div>
+
+    </div>
+    
+    
+    
+
+    {% comment %} <div class="mb-3">
+        <label for="confirmPassword" class="form-label">{% translate "Confirm password:" %}</label>
+        <input type="password" autocomplete="new-password" class="form-control" id="confirmPassword" aria-describedby="confirmPasswordHelp" required>
+        <div class="invalid-feedback">
+            Password not a match.
+        </div>
+    </div> {% endcomment %}
+
+    <div class="row text-center m-3 ">
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary text-warning">{% translate "SAVE CASE" %}</button>
+        </div>
+    
+    </div>
+</form>

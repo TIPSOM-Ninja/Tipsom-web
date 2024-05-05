@@ -1,5 +1,5 @@
 {% load i18n %}
-<form id="prosecution_form" method="post" action="/{{request.LANGUAGE_CODE}}/save_prosecution">
+<form id="prosecution_form" method="post" action="/{{request.LANGUAGE_CODE}}/som_save_prosecution">
     {% csrf_token %}
     <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
         <div class="col-md-6">
@@ -63,7 +63,7 @@
             <div class="">
                 <label for="verdict_id" class="form-label"><i class="fa-solid fa-square-minus text-warning"></i> {% trans "If applicable, what was the verdict?" %}</label>
                 <select class="form-select" name="verdict_id" id="verdict_id" aria-label="Default select example"  value="{{prosecution.verdict_id}}" onchange="togglesection_select(this,[['guilty_verdict_reason_sec'],['2']])">
-                    <option {% if  prosecution.verdict_id is None %}selected{% endif %} ></option>
+                    <option {% if  prosecution.verdict_id is None %}selected{% endif %} value=""></option>
                     
                     {% for verdict in verdicts %}
                         <option {% if verdict.id == prosecution.verdict_id %}selected{% endif %} value="{{verdict.id}}">{% trans verdict.name %}</option>
@@ -75,7 +75,7 @@
             <div class="">
                 <label for="guilty_verdict_reason_id" class="form-label"><i class="fa-solid fa-minus text-danger"></i> {% trans "If GUILTY, please specify:" %}</label>
                 <select class="form-select" name="guilty_verdict_reason_id" id="guilty_verdict_reason_id" aria-label="Default select example"  value="{{prosecution.guilty_verdict_reason_id}}">
-                    <option {% if  prosecution.guilty_verdict_reason_id is None %}selected{% endif %} value=""></option>
+                    <option {% if  prosecution.guilty_verdict_reason_id is None %}selected{% endif %} ></option>
                     
                     {% for reason in guilty_reasons %}
                         <option {% if reason.id == prosecution.guilty_verdict_reason_id %}selected{% endif %} value="{{reason.id}}">{% trans reason.name %}</option>

@@ -5,9 +5,34 @@
     <div class=" ">
         <a href="/{{request.LANGUAGE_CODE}}/som_cases"><< back to all cases</a>
         <div class="card-header text-center p-2" style="background-color: #1860c3;">
-            <h5 class="text-warning">{% trans "Case interview" %}: {{victim.victim_identifier}} - {{victim.interview_date}}</h5>
+            <h5 class="text-warning">{% trans "Case interview" %}:  {{victim.interview_date}}</h5>
         </div>
         <div class="card-body">
+            <div class="my-2">
+                <div class="card-header bg-light py-3 border-top border-bottom border-primary" ">
+                    <h6>Case Data: {{case.date_of_arrest}} <small class="text-danger"> </small></h6>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3 my-2">
+                        
+                       
+                        
+                        <div class="col-md-6">
+                            <strong>{% trans "Date of arrest:" %}</strong> {{case.date_of_arrest}}
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <strong>{% translate "From:" %}</strong> {{case.traffick_from_country.name}},{{case.traffick_from_place}}
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <strong>{% translate "To:" %}</strong> {{case.traffick_to_country.name}},{{case.traffick_to_place}}
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
             {% include "components/victimprofile.html" %}
             {% if user.is_staff %}
             {% if victim.approval_id is None or victim.approval_id < 2 %}
@@ -187,16 +212,20 @@
                     <div class="row g-3 my-2">
                         
                         <div class="col-md-12">  
-                            <strong>{% trans "Country of origin/recruitment:" %}</strong> {{destination.country_of_origin.name}}
+                            <strong>{% trans "Country of origin: " %}</strong> {{destination.country_of_origin.name}}
+                        </div>
+                        
+                        <div class="col-md-12">  
+                            <strong>{% trans "Country of destination: " %}</strong> {{destination.country_of_dest.name}}
                         </div>
                         <div class="col-md-12">  
-                            <strong>{% trans "Community of recruitment (village/city):" %}</strong> {{destination.city_village_of_origin}}
+                            <strong>{% trans "Country of interception: " %}</strong> {{destination.country_of_interception.name}}
                         </div>
                         <div class="col-md-12">  
-                            <strong>{% trans "Country of destination/exploitation)" %}</strong> {{destination.country_of_dest.name}}
-                        </div>
-                        <div class="col-md-12">  
-                            <strong>{% trans "Place of exploitation (village/city):" %}</strong> {{destination.city_village_of_dest}}
+                            <strong>{% trans "Countries of transit:" %}</strong>
+                            {% for country in destination.countries_of_transit.all %}
+                            {{country.name}}
+                            {% endfor %}
                         </div>
                         <div class="col-md-12">  
                             <strong>{% trans "Means of transportation:" %}</strong> 

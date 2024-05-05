@@ -1,5 +1,5 @@
 {% load i18n %}
-<form id="suspect_form" method="post" action="/{{request.LANGUAGE_CODE}}/save_suspect">
+<form id="suspect_form" method="post" action="/{{request.LANGUAGE_CODE}}/som_save_suspect">
     {% csrf_token %}
     <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
         <div class="col-md-12">
@@ -112,65 +112,28 @@
             </select>
         </div>
 
+        <div class="col-md-6">
+            <label for="role_in_trafficking" class="form-label">{% trans "Role in smuggling:" %}</label>
+            <select class="form-select" name="role_in_trafficking" id="role_in_trafficking" aria-label="Default select example" required >
+                <option></option>
+                {% for role_in_trafficking in roles_in_trafficking %}
+                    <option value="{{role_in_trafficking.id}}">{% trans role_in_trafficking.name %}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-6" id="date_of_arrest_sec" >
+            <div class="">
+                <label for="dateOfArrest" class="form-label">{% trans "Date of arrest:" %}</label>
+                <input type="date" name = "date_of_arrest" value = "{{arrest.date_of_arrest}}" class="form-control" id="dateOfArrest" aria-describedby="dateOfArrestHelp" >
+            
+            </div>
+        </div>
+
        
     </div>
     
-    <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
-        <div class="col-md-12">
-            <h4>Case data</h4>
-        </div>
-        <div class="col-md-12">
-            From
-        </div>
-        <div class="col-md-6">
-            <label for="traffick_from_country" class="form-label">{% trans "Country:" %}</label>
-            <select class="form-select" name="traffick_from_country" id="traffick_from_country" aria-label="Default select example" required>
-                <option></option>
-                {% for country in countries %}
-                    {% if country.is_sadc %}
-                    <option {% if suspect.traffick_from_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
-                    {% endif %}
-                {% endfor %}
-                <option disabled style="background:#1860c3; color:white">NON-SADC</option>
-                {% for country in countries %}
-                    {% if country.is_sadc != True %}
-                    <option {% if suspect.traffick_from_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-6">
-            <label for="traffick_from_place" class="form-label">{% trans "Place:" %}</label>
-            <input type="text" name = "traffick_from_place" value = "{{suspect.traffick_from_place}}" class="form-control" id="traffick_from_place" aria-describedby="traffick_from_placeHelp" required>
-            
-        </div>
-        <div class="col-md-12">
-            To
-        </div>
-        <div class="col-md-6">
-            <label for="traffick_to_country" class="form-label">{% trans "Country:" %}</label>
-            <select class="form-select" name="traffick_to_country" id="traffick_to_country" aria-label="Default select example" required>
-                <option></option>
-                {% for country in countries %}
-                    {% if country.is_sadc %}
-                    <option {% if suspect.traffick_to_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
-                    {% endif %}
-                {% endfor %}
-                <option disabled style="background:#1860c3; color:white">NON-SADC</option>
-                {% for country in countries %}
-                    {% if country.is_sadc != True %}
-                    <option {% if suspect.traffick_to_country_id == country.id%}selected{% endif %} value="{{country.id}}">{% trans country.name %}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-6">
-            <label for="traffick_to_place" class="form-label">{% trans "Place:" %}</label>
-            <input type="text" name = "traffick_to_place" value = "{{suspect.traffick_to_place}}" class="form-control" id="traffick_to_place" aria-describedby="traffick_to_placeHelp" required>
-            
-        </div>
-
-    </div>
+   
     
     
     

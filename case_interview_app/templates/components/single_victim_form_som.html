@@ -1,7 +1,7 @@
 {% load i18n %}
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
 <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
-<form id="victim_form" method="post" action="/{{request.LANGUAGE_CODE}}/save_victim">
+<form id="victim_form" method="post" action="/{{request.LANGUAGE_CODE}}/som_save_victim">
     {% csrf_token %}
     <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
         <div class="col-md-12">
@@ -58,12 +58,12 @@
             </div>
         </div>
         {% comment %} Deprecated {% endcomment %}
-        <div class="col-md-6" style="display:none;">
+        {% comment %} <div class="col-md-6" style="display:none;">
             <div class="">
                 <label for="emailAddress" class="form-label">{% trans "Email address:" %}</label>
                 <input type="text" name = "email_address" value = "{{victim.email_address}}" autocomplete="username" class="form-control" id="emailAddress" aria-describedby="emailAddressHelp" required>
             </div>
-        </div>
+        </div> {% endcomment %}
     </div>
     
     <div class="row g-3 my-2 px-2 py-2 bg-light border rounded">
@@ -102,19 +102,19 @@
             </div>
         </div>
         {% comment %} Deprecated {% endcomment %}
-        <div class="col-md-6" style="display:none;">
+        {% comment %} <div class="col-md-6" style="display:none;">
             <div class="">
                 <label for="idNumber" class="form-label">{% trans "ID number:" %}</label>
                 <input type="text" name = "id_number" value = "{{victim.identification_number}}"class="form-control" id="idNumber" aria-describedby="IdNumberHelp" required>
             </div>
-        </div>
+        </div> {% endcomment %}
         {% comment %} Deprecated {% endcomment %}
-        <div class="col-md-6" style="display:none;">
+        {% comment %} <div class="col-md-6" style="display:none;">
             <div class="">
                 <label for="address" class="form-label">{% trans "Address:" %}</label>
                 <input type="text" name = "address" value = "{{victim.address}}" class="form-control" id="address" aria-describedby="addressHelp" required>
             </div>
-        </div>
+        </div> {% endcomment %}
         <div class="col-md-6">
             <div class="">
                 <label for="lastPlaceOfResidence" class="form-label">{% trans "Last place of residence:" %}</label>
@@ -156,12 +156,12 @@
             </div>
         </div>
         {% comment %} Deprecated {% endcomment %}
-        <div class="col-md-6" style="display:none;">
+        {% comment %} <div class="col-md-6" style="display:none;">
             <div class="">
                 <label for="placeOfBirth" class="form-label">{% trans "Place of Birth:" %}</label>
                 <input type="text" name = "place_of_birth" value = "{{victim.place_of_birth}}" class="form-control" id="placeOfBirth" aria-describedby="placeOfBirthHelp" required>
             </div>
-        </div>
+        </div> {% endcomment %}
         
     </div>
     

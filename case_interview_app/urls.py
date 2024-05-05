@@ -82,7 +82,9 @@ urlpatterns = [
     path("som_assistance_form", som_views.assistance_form, name="som_assistance_form"),
 
     path("som_cases", som_views.cases, name="som_cases"),
+    path("som_save_case", som_views.save_case, name="som_save_case"),
     path("som_save_victim", som_views.save_victim, name="som_save_victim"),
+    path("som_save_multi_victim", som_views.save_multi_victim, name="som_save_multi_victim"),
     path("som_save_arrest", som_views.save_arrest, name="som_save_arrest"),
     path("som_save_suspect", som_views.save_suspect, name="som_save_suspect"),
     path("som_save_prosecution", som_views.save_prosecution, name="som_save_prosecution"),

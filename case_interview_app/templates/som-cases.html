@@ -47,10 +47,14 @@
             <div class="card text-bg-light mb-3">
                 
                 <div class="card-header">
-                    <h5 class="card-title">{{case.date_of_arrest}} - {{case.traffick_from_country.name}} to {{case.traffick_to_country.name}}</h5>
+                    <h5 class="card-title">{{case.date_of_arrest}}</h5>
                 </div>
                 <div class="card-body">
-                    {% if interviewer.data_entry_purpose_id == 1 or user.is_staff %}
+                    <p>{% trans "Country from:" %} {{case.traffick_from_country.name}}</p>
+                    <p>{% trans "Country to:" %} {{case.traffick_to_country.name}}</p>
+
+
+                    {% comment %} {% if interviewer.data_entry_purpose_id == 1 or user.is_staff %}
                     <p>{% trans "Transit route forms:" %} {{case.destinations__count}}</p>
 
                     {% elif interviewer.data_entry_purpose_id == 2 or user.is_staff %}
@@ -63,7 +67,7 @@
                     <p>{% trans "Assistance forms:" %} {{case.assistance__count}}</p>
                     
                     <p>{% trans "Socio-economic forms:" %} {{case.socio_economic__count}}</p>
-                    {% endif %}
+                    {% endif %} {% endcomment %}
                     
                     
                     

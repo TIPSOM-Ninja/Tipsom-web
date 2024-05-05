@@ -974,6 +974,9 @@ class SomArrestInvestigation(models.Model):
     investigation_status = models.ForeignKey(
         InvestigationStatus, related_name = "som_investigations", on_delete=models.CASCADE, null=True, blank=True
     )
+    national_legislation = models.ForeignKey(
+        Country, related_name = "som_investigations", on_delete=models.CASCADE, null=True, blank=True
+    )
     why_pending = models.TextField(null=True, blank=True)
     withdrawn_closed_reason = models.TextField(null=True, blank=True)
     interviewer = models.ForeignKey(Interviewer, related_name = "som_investigations", on_delete=models.CASCADE, null=True, blank=True)
