@@ -749,12 +749,22 @@ def cases(request):
     interviewer = Interviewer.objects.filter(email_address = request.user.email).first()
     if request.user.is_staff:
         if request.GET.get('pending') is None:
-            cases = SomCase.objects.filter(interviewer__id = interviewer.id).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_transit', distinct=True))|SomCase.objects.filter(interview_country_id = interviewer.country_id).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_transit', distinct=True))
+            cases = (SomCase.objects.filter(interviewer__id=interviewer.id) |
+                    SomCase.objects.filter(interview_country_id=interviewer.country_id))
         else:
-            cases = SomCase.objects.filter(interview_country_id = interviewer.country_id,approval_id = 1).order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_transit', distinct=True))
+            cases = SomCase.objects.filter(interview_country_id=interviewer.country_id, approval_id=1)
     else:
-        cases = interviewer.som_cases.order_by('id').annotate(Count('som_assistance', distinct=True),Count('som_investigations', distinct=True),Count('som_prosecutions', distinct=True),Count('som_socio_economic', distinct=True),Count('som_traffickers', distinct=True),Count('som_transit', distinct=True))
+        cases = interviewer.som_cases.all()
 
+    # Annotate after creating the complete QuerySet
+    cases = cases.order_by('id').annotate(
+        som_assistance_count=Count('som_assistance', distinct=True),
+        som_investigations_count=Count('som_investigations', distinct=True),
+        som_prosecutions_count=Count('som_prosecutions', distinct=True),
+        som_socio_economic_count=Count('som_socio_economic', distinct=True),
+        som_traffickers_count=Count('som_traffickers', distinct=True),
+        som_transit_count=Count('som_transit', distinct=True)
+    )
     
     paginator = Paginator(cases, per_page=12)
 
