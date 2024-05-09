@@ -16,7 +16,7 @@
         <div class="col-md-6">
             <div class="">
                 <label for="age" class="form-label">{% trans "Age:" %}</label>
-                <input type="number" name = "age" value = "{{victim.age}}" class="form-control" id="age" min=0 aria-describedby="ageHelp" required onchange="validateNumber(this,'victim_age_error',0,120)">
+                <input type="number" name = "age" value = "{{victim.age}}" class="form-control" id="age" min=0 aria-describedby="ageHelp" required onchange="validateNumber(this,'victim_age_error',1,120)">
                 <span id="victim_age_error"  style="display:none; color:red;"></span>
             </div>
         </div>
