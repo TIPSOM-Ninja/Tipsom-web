@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>502 - Bad Gateway</title>
+    <link rel="icon" href="{% static 'images/bad_gateway.png' %}">
+    <link rel="stylesheet" href="{% static 'css/error.css' %}">
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code">502</div>
+        <div class="error-message">Bad Gateway</div>
+        <div class="error-description">The server received an invalid response from the upstream server.</div>
+        <a href="/" class="home-link">Go Home</a>
+    </div>
+</body>
+</html>

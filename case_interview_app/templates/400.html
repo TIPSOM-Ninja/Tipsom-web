@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>400 - Bad Request</title>
+    <link rel="icon" href="{% static 'images/warning.png' %}">
+    <link rel="stylesheet" href="{% static 'css/error.css' %}">
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code">400</div>
+        <div class="error-message">Bad Request</div>
+        <div class="error-description">The server could not understand the request due to invalid syntax.</div>
+        <a href="/" class="home-link">Return to Home Page</a>
+    </div>
+</body>
+</html>

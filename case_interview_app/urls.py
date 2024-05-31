@@ -1,8 +1,18 @@
 from django.urls import path
-
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 from . import apis
 from . import som_views
+from django.conf.urls import handler400, handler403, handler404, handler500
+
+handler400 = 'case_interview_app.views.handler400'
+handler403 = 'case_interview_app.views.handler403'
+handler404 = 'case_interview_app.views.handler404'
+handler500 = 'case_interview_app.views.handler500'
+# Django does not support custom handlers for 502, 503, and 504 errors out of the box
+#You can handle these errors at the server level. For example, if you're using Nginx or Apache, 
+#you can configure these servers to show custom pages for these errors.
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -144,4 +154,5 @@ urlpatterns = [
 
 ]
     
-
+if settings.DEBUG is False:   # if DEBUG is True it will be served automatically
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

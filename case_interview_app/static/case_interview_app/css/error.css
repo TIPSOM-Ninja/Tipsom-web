@@ -1,0 +1,50 @@
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.error-container {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.error-code {
+    font-size: 6rem;
+    font-weight: bold;
+    color: #017b63; /* SADC green */
+}
+
+.error-message {
+    font-size: 1.5rem;
+    margin: 20px 0;
+}
+
+.error-description {
+    font-size: 1rem;
+    color: #666;
+}
+
+.home-link {
+    margin-top: 30px;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #005b9a; /* SADC blue */
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.home-link:hover {
+    background-color: #004080; /* Darker blue */
+}
