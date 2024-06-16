@@ -5,20 +5,20 @@
 ### Install Python and Git
 
 1. **Download and Install Python**
-   - Go to the [official Python website](https://www.python.org/downloads/).
+   - Go to the [Official Python website](https://www.python.org/downloads/).
    - Click on the download button for the latest version of Python.
    - Run the installer. Make sure to check the box that says "Add Python to PATH" during installation.
    - Follow the installation prompts to complete the setup.
 
 2. **Download and Install Git**
-   - Go to the [official Git website](https://git-scm.com/download/win).
+   - Go to the [Official Git website](https://git-scm.com/download/win).
    - Click on the download button to get the latest version of Git for Windows.
    - Run the installer and follow the installation prompts to complete the setup.
 
 ### Install PostgreSQL
 
 1. **Download and Install PostgreSQL**
-   - Go to the [official PostgreSQL website](https://www.postgresql.org/download/windows/).
+   - Go to the [Official PostgreSQL website](https://www.postgresql.org/download/windows/).
    - Click on the download link for Windows.
    - Run the installer. During installation, take note of the username (typically `postgres`) and password you set up. You will need these credentials later.
 
@@ -33,7 +33,7 @@
    - Open the Query Tool and run the following SQL commands:
      ```sql
      CREATE DATABASE tipnet;
-     CREATE USER tipnetuser WITH PASSWORD 'T1p50m@2024';
+     CREATE USER tipnetuser WITH PASSWORD 'request from sadc.tipsom@gmail.com';
      ALTER ROLE tipnetuser SET client_encoding TO 'utf8';
      ALTER ROLE tipnetuser SET default_transaction_isolation TO 'read committed';
      ALTER ROLE tipnetuser SET timezone TO 'UTC';
@@ -165,8 +165,9 @@
 ### Firewall/Antivirus Issues
 - Ensure your firewall or antivirus software is not blocking PostgreSQL or the Django development server.
 
-## Conclusion
+--
 
 By following this guide, you should be able to set up and run the Tipsom Web project on your local machine. If you encounter any issues, refer to the Django and PostgreSQL documentation or contact the project maintainers for assistance.
+
 
 ---
