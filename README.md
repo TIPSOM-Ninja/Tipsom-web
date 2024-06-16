@@ -1,7 +1,3 @@
-Certainly! Here's a detailed and step-by-step installation guide for your project to help even beginners get started smoothly.
-
----
-
 # Tipsom Web Installation Guide
 
 ## Step 1: Install Required Software
